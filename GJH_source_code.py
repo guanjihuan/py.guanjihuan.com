@@ -16,25 +16,78 @@ def test():
 
 # basic functions
 
+## Pauli matrices
+
 def sigma_0():
     return np.eye(2)
-
 
 def sigma_x():
     return np.array([[0, 1],[1, 0]])
 
-
 def sigma_y():
     return np.array([[0, -1j],[1j, 0]])
-
 
 def sigma_z():
     return np.array([[1, 0],[0, -1]])
 
 
+## Kronecker product of Pauli matrices
+
+def sigma_00():
+    return np.kron(sigma_0(), sigma_0())
+
+def sigma_0x():
+    return np.kron(sigma_0(), sigma_x())
+
+def sigma_0y():
+    return np.kron(sigma_0(), sigma_y())
+
+def sigma_0z():
+    return np.kron(sigma_0(), sigma_z())
 
 
-# hermitian hamiltonian of tight binding model 
+def sigma_x0():
+    return np.kron(sigma_x(), sigma_0())
+
+def sigma_xx():
+    return np.kron(sigma_x(), sigma_x())
+
+def sigma_xy():
+    return np.kron(sigma_x(), sigma_y())
+
+def sigma_xz():
+    return np.kron(sigma_x(), sigma_z())
+
+
+def sigma_y0():
+    return np.kron(sigma_y(), sigma_0())
+
+def sigma_yx():
+    return np.kron(sigma_y(), sigma_x())
+
+def sigma_yy():
+    return np.kron(sigma_y(), sigma_y())
+
+def sigma_yz():
+    return np.kron(sigma_y(), sigma_z())
+
+
+def sigma_z0():
+    return np.kron(sigma_z(), sigma_0())
+
+def sigma_zx():
+    return np.kron(sigma_z(), sigma_x())
+
+def sigma_zy():
+    return np.kron(sigma_z(), sigma_y())
+
+def sigma_zz():
+    return np.kron(sigma_z(), sigma_z())
+
+
+
+
+# Hermitian Hamiltonian of tight binding model 
 
 def finite_size_along_one_direction(N, on_site=0, hopping=1, period=0):
     on_site = np.array(on_site)
@@ -159,7 +212,7 @@ def three_dimensional_fourier_transform_for_cubic_lattice(k1, k2, k3, unit_cell,
 
 
 
-# hamiltonian of graphene lattice
+# Hamiltonian of graphene lattice
 
 def hopping_along_zigzag_direction_for_graphene(N):
     hopping = np.zeros((4*N, 4*N), dtype=complex)
@@ -251,7 +304,7 @@ def calculate_eigenvector(hamiltonian):
 
 
 
-# calculate green functions
+# calculate Green functions
 
 def green_function(fermi_energy, hamiltonian, broadening, self_energy=0):
     if np.array(hamiltonian).shape==():
@@ -658,7 +711,7 @@ def print_or_write_scattering_matrix(fermi_energy, h00, h01, length=100, on_prin
 
 
 
-# calculate chern number
+# calculate Chern number
 
 def calculate_chern_number_for_square_lattice(hamiltonian_function, precision=100):
     if np.array(hamiltonian_function(0, 0)).shape==():
@@ -694,7 +747,7 @@ def calculate_chern_number_for_square_lattice(hamiltonian_function, precision=10
 
 
 
-# calculate wilson loop
+# calculate Wilson loop
 
 def calculate_wilson_loop(hamiltonian_function, k_min=-pi, k_max=pi, precision=100):
     k_array = np.linspace(k_min, k_max, precision)
