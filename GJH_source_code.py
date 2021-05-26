@@ -856,7 +856,7 @@ def write_two_dimensional_data(x, y, matrix, filename='a'):
 
 # plot figures
 
-def plot(x, y, xlabel='x', ylabel='y', title='', filename='a', show=1, save=0, type=''): 
+def plot(x, y, xlabel='x', ylabel='y', title='', filename='a', show=1, save=0, type='', y_min=None, y_max=None): 
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots()
     plt.subplots_adjust(bottom=0.20, left=0.18) 
@@ -865,6 +865,12 @@ def plot(x, y, xlabel='x', ylabel='y', title='', filename='a', show=1, save=0, t
     ax.set_title(title, fontsize=20, fontfamily='Times New Roman')
     ax.set_xlabel(xlabel, fontsize=20, fontfamily='Times New Roman') 
     ax.set_ylabel(ylabel, fontsize=20, fontfamily='Times New Roman') 
+    if y_min!=None or y_max!=None:
+        if y_min==None:
+            y_min=min(y)
+        if y_max==None:
+            y_max=max(y)
+        ax.set_ylim(y_min, y_max)
     ax.tick_params(labelsize=20) 
     labels = ax.get_xticklabels() + ax.get_yticklabels()
     [label.set_fontname('Times New Roman') for label in labels]
@@ -875,10 +881,11 @@ def plot(x, y, xlabel='x', ylabel='y', title='', filename='a', show=1, save=0, t
     plt.close('all')
 
 
-def plot_3d_surface(x, y, matrix, xlabel='x', ylabel='y', zlabel='z', title='', filename='a', show=1, save=0): 
+def plot_3d_surface(x, y, matrix, xlabel='x', ylabel='y', zlabel='z', title='', filename='a', show=1, save=0, z_min=None, z_max=None): 
     import matplotlib.pyplot as plt
     from matplotlib import cm
     from matplotlib.ticker import LinearLocator
+    matrix = np.array(matrix)
     fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
     plt.subplots_adjust(bottom=0.1, right=0.65) 
     x, y = np.meshgrid(x, y)
@@ -892,7 +899,13 @@ def plot_3d_surface(x, y, matrix, xlabel='x', ylabel='y', zlabel='z', title='', 
     ax.set_ylabel(ylabel, fontsize=20, fontfamily='Times New Roman') 
     ax.set_zlabel(zlabel, fontsize=20, fontfamily='Times New Roman') 
     ax.zaxis.set_major_locator(LinearLocator(5)) 
-    ax.zaxis.set_major_formatter('{x:.2f}')   
+    ax.zaxis.set_major_formatter('{x:.2f}')  
+    if z_min!=None or z_max!=None:
+        if z_min==None:
+            z_min=matrix.min()
+        if z_max==None:
+            z_max=matrix.max()
+        ax.set_zlim(z_min, z_max)
     ax.tick_params(labelsize=15) 
     labels = ax.get_xticklabels() + ax.get_yticklabels() + ax.get_zticklabels()
     [label.set_fontname('Times New Roman') for label in labels] 
