@@ -1,3 +1,0 @@
-import gjh
-
-gjh.test()
