@@ -1,5 +1,6 @@
-### GJH project: an open source python package. The official website is https://py.guanjihuan.com
+### GUAN project: an open source python package. The official website is https://py.guanjihuan.com
 
-### Installation: pip install --upgrade gjh
+### Installation: pip install --upgrade guan
 
-### Usage: import gjh
+### Usage: import guan
+

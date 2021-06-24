@@ -9,7 +9,7 @@ import copy
 # test
 
 def test():
-    print('\nSuccess in the installation of GJH package!\n')
+    print('\nSuccess in the installation of GUAN package!\n')
 
 
 

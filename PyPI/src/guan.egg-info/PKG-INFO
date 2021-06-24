@@ -1,0 +1,19 @@
+Metadata-Version: 2.1
+Name: guan
+Version: 0.0.1
+Summary: An open source python package
+Home-page: https://py.guanjihuan.com
+Author: guanjihuan
+Author-email: guanjihuan@163.com
+License: UNKNOWN
+Project-URL: Bug Tracker, https://py.guanjihuan.com
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+GUAN is an open-source python package developed and maintained by https://www.guanjihuan.com. The primary location of this package is on website https://py.guanjihuan.com.
+

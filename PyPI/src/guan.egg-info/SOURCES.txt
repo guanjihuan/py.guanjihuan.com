@@ -1,0 +1,9 @@
+LICENSE
+README.md
+pyproject.toml
+setup.cfg
+src/guan/__init__.py
+src/guan.egg-info/PKG-INFO
+src/guan.egg-info/SOURCES.txt
+src/guan.egg-info/dependency_links.txt
+src/guan.egg-info/top_level.txt

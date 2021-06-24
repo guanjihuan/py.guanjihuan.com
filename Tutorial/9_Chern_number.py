@@ -1,4 +1,4 @@
-import gjh
+import guan
 import numpy as np
 from math import *
 
@@ -14,5 +14,5 @@ def hamiltonian_function(kx, ky):  # one QAH model with chern number 2
     hamiltonian[1, 1] = -(m+2*t3*sin(kx)+2*t3*sin(ky)+2*t2*cos(kx+ky))
     return hamiltonian
 
-chern_number = gjh.calculate_chern_number_for_square_lattice(hamiltonian_function, precision=100)
+chern_number = guan.calculate_chern_number_for_square_lattice(hamiltonian_function, precision=100)
 print(chern_number)

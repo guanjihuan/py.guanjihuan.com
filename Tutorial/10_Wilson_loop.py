@@ -1,4 +1,4 @@
-import gjh
+import guan
 import numpy as np
 import cmath
 from math import *
@@ -14,7 +14,7 @@ def hamiltonian_function(k): # SSH model
     hamiltonian[1,0] = gamma+lambda0*cmath.exp(1j*k)
     return hamiltonian
 
-wilson_loop_array = gjh.calculate_wilson_loop(hamiltonian_function)
+wilson_loop_array = guan.calculate_wilson_loop(hamiltonian_function)
 print('wilson loop =', wilson_loop_array)
 p = np.log(wilson_loop_array)/2/pi/1j
 print('p =', p, '\n')

@@ -1,5 +1,5 @@
-import gjh
+import guan
 
-gjh.download_with_scihub()
-# gjh.download_with_scihub('address')
-# gjh.download_with_scihub(num=3)
+guan.download_with_scihub()
+# guan.download_with_scihub('address')
+# guan.download_with_scihub(num=3)
