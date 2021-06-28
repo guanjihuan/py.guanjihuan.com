@@ -74,7 +74,7 @@ local_dos = guan.local_density_of_states_for_cubic_lattice_using_dyson_equation(
 
 # calculate conductance
 transfer = guan.transfer_matrix(fermi_energy, h00, h01)
-right_lead_surface, left_lead_surface = guan.surface_green_function_of_lead(fermi_energy, h00, h01
+right_lead_surface, left_lead_surface = guan.surface_green_function_of_lead(fermi_energy, h00, h01)
 right_self_energy, left_self_energy = guan.self_energy_of_lead(fermi_energy, h00, h01)
 conductance = guan.calculate_conductance(fermi_energy, h00, h01, length=100)
 conductance_array = guan.calculate_conductance_with_fermi_energy_array(fermi_energy_array, h00, h01, length=100)
