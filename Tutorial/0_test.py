@@ -1,3 +1,0 @@
-import guan
-
-guan.test()
