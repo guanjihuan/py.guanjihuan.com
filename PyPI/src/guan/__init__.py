@@ -2,6 +2,7 @@
 
 from .test import *
 from .basic_functions import *
+from .calculate_reciprocal_lattice_vectors import *
 from .Fourier_transform import *
 from .Hamiltonian_of_finite_size import *
 from .Hamiltonian_of_models_in_the_reciprocal_space import *

@@ -25,6 +25,14 @@ sigma_zx = guan.sigma_zx()
 sigma_zy = guan.sigma_zy()
 sigma_zz = guan.sigma_zz()
 
+# calculate reciprocal lattice vectors
+b1 = guan.calculate_one_dimensional_reciprocal_lattice_vector(a1)
+b1, b2 = guan.calculate_two_dimensional_reciprocal_lattice_vectors(a1, a2)
+b1, b2, b3 = guan.calculate_three_dimensional_reciprocal_lattice_vectors(a1, a2, a3)
+b1 = guan.calculate_one_dimensional_reciprocal_lattice_vector_with_sympy(a1)
+b1, b2 = guan.calculate_two_dimensional_reciprocal_lattice_vectors_with_sympy(a1, a2)
+b1, b2, b3 = guan.calculate_three_dimensional_reciprocal_lattice_vectors_with_sympy(a1, a2, a3)
+
 # Fourier transform
 hamiltonian = guan.one_dimensional_fourier_transform(k, unit_cell, hopping)
 hamiltonian = guan.two_dimensional_fourier_transform_for_square_lattice(k1, k2, unit_cell, hopping_1, hopping_2)
