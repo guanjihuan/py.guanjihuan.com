@@ -1,3 +1,5 @@
+# GUAN is an open-source python package developed and maintained by https://www.guanjihuan.com. The primary location of this package is on website https://py.guanjihuan.com.
+
 # read and write
 
 import numpy as np
