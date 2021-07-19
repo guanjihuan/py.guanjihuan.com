@@ -8,6 +8,7 @@ from .Hamiltonian_of_finite_size import *
 from .Hamiltonian_of_models_in_the_reciprocal_space import *
 from .calculate_band_structures import *
 from .calculate_wave_functions import *
+from .find_vector_with_the_same_gauge import *
 from .calculate_Green_functions import *
 from .calculate_density_of_states import *
 from .calculate_conductance import *
