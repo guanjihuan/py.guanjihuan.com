@@ -1,4 +1,4 @@
-# tutorial
+# tutorial (NOT for all functions)
 
 import guan
 import functools
