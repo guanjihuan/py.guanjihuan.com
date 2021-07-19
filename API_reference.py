@@ -65,7 +65,8 @@ eigenvalue_array = guan.calculate_eigenvalue_with_two_parameters(x, y, hamiltoni
 eigenvector = guan.calculate_eigenvector(hamiltonian)
 
 # find vector with the same gauge
-vector_target = find_vector_with_the_same_gauge_with_binary_search(vector_target, vector_ref, show_error=1, show_times=0, show_phase=0, n_test=10001, precision=1e-6)
+vector_target = guan.find_vector_with_the_same_gauge_with_binary_search(vector_target, vector_ref, show_error=1, show_times=0, show_phase=0, n_test=10001, precision=1e-6)
+vector = guan.find_vector_with_fixed_gauge_by_making_one_component_real(vector, precision=0.005)
 
 # calculate Green functions
 green = guan.green_function(fermi_energy, hamiltonian, broadening, self_energy=0)
