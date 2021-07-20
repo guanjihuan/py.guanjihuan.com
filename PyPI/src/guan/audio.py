@@ -55,7 +55,7 @@ def pdf_to_text(pdf_path):
 def pdf_to_audio(pdf_path, rate=125, voice=1, read=1, save=0, print_text=0):
     import pyttsx3
     text = pdf_to_text(pdf_path)
-    text = text.replace('\n', '')
+    text = text.replace('\n', ' ')
     if print_text==1:
         print(text)
     engine = pyttsx3.init()
