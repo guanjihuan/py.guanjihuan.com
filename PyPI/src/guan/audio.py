@@ -2,7 +2,7 @@
 
 # audio
 
-def txt_to_audio(txt_path, rate=125, voice_type_0_or_1=1, read=1, save=0, print_text=0):
+def txt_to_audio(txt_path, rate=125, voice=1, read=1, save=0, print_text=0):
     import pyttsx3
     f = open(txt_path, 'r', encoding ='utf-8')
     text = f.read()
@@ -10,7 +10,7 @@ def txt_to_audio(txt_path, rate=125, voice_type_0_or_1=1, read=1, save=0, print_
         print(text)
     engine = pyttsx3.init()
     voices = engine.getProperty('voices')  
-    engine.setProperty('voice', voices[voice_type_0_or_1].id)
+    engine.setProperty('voice', voices[voice].id)
     engine.setProperty("rate", rate)
     if save==1:
         import re
@@ -52,14 +52,14 @@ def pdf_to_text(pdf_path):
                     content  = content + x.get_text().strip()
     return content
 
-def pdf_to_audio(pdf_path, rate=125, voice_type_0_or_1=1, read=1, save=0, print_text=0):
+def pdf_to_audio(pdf_path, rate=125, voice=1, read=1, save=0, print_text=0):
     import pyttsx3
     text = pdf_to_text(pdf_path)
     if print_text==1:
         print(text)
     engine = pyttsx3.init()
     voices = engine.getProperty('voices')  
-    engine.setProperty('voice', voices[voice_type_0_or_1].id)
+    engine.setProperty('voice', voices[voice].id)
     engine.setProperty("rate", rate)
     if save==1:
         import re

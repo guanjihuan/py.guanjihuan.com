@@ -118,6 +118,6 @@ guan.plot_contour(x, y, matrix, xlabel='x', ylabel='y', title='', filename='a', 
 guan.download_with_scihub(address=None, num=1)
 
 # audio
-guan.txt_to_audio(txt_path, rate=125, voice_type_0_or_1=1, read=1, save=0, print_text=0)
+guan.txt_to_audio(txt_path, rate=125, voice=1, read=1, save=0, print_text=0)
 content = guan.pdf_to_text(pdf_path)
-guan.pdf_to_audio(pdf_path, rate=125, voice_type_0_or_1=1, read=1, save=0, print_text=0)
+guan.pdf_to_audio(pdf_path, rate=125, voice=1, read=1, save=0, print_text=0)
