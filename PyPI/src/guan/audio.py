@@ -2,6 +2,22 @@
 
 # audio
 
+def str_to_audio(str='hello world', rate=125, voice=1, read=1, save=0, print_text=0):
+    import pyttsx3
+    if print_text==1:
+        print(str)
+    engine = pyttsx3.init()
+    voices = engine.getProperty('voices')  
+    engine.setProperty('voice', voices[voice].id)
+    engine.setProperty("rate", rate)
+    if save==1:
+        engine.save_to_file(str, 'str.mp3')
+        engine.runAndWait()
+        print('MP3 file saved!')
+    if read==1:
+        engine.say(str)
+        engine.runAndWait()
+
 def txt_to_audio(txt_path, rate=125, voice=1, read=1, save=0, print_text=0):
     import pyttsx3
     f = open(txt_path, 'r', encoding ='utf-8')
