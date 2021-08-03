@@ -42,8 +42,9 @@ def find_vector_with_the_same_gauge_with_binary_search(vector_target, vector_ref
         print('Phase=', phase)   
     return vector_target
 
-def find_vector_with_fixed_gauge_by_making_one_component_real(vector, precision=0.005):
-    index = np.argmax(np.abs(vector))
+def find_vector_with_fixed_gauge_by_making_one_component_real(vector, precision=0.005, index=None):
+    if index == None:
+        index = np.argmax(np.abs(vector))
     sign_pre = np.sign(np.imag(vector[index]))
     for phase in np.arange(0, 2*pi, precision):
         sign =  np.sign(np.imag(vector[index]*cmath.exp(1j*phase)))
