@@ -4,20 +4,20 @@
 
 import numpy as np
 
-def plot(x, y, xlabel='x', ylabel='y', title='', filename='a', show=1, save=0, type='', y_min=None, y_max=None): 
+def plot(x_array, y_array, xlabel='x', ylabel='y', title='', filename='a', show=1, save=0, type='', y_min=None, y_max=None): 
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots()
     plt.subplots_adjust(bottom=0.20, left=0.18) 
-    ax.plot(x, y, type)
+    ax.plot(x_array, y_array, type)
     ax.grid()
     ax.set_title(title, fontsize=20, fontfamily='Times New Roman')
     ax.set_xlabel(xlabel, fontsize=20, fontfamily='Times New Roman') 
     ax.set_ylabel(ylabel, fontsize=20, fontfamily='Times New Roman') 
     if y_min!=None or y_max!=None:
         if y_min==None:
-            y_min=min(y)
+            y_min=min(y_array)
         if y_max==None:
-            y_max=max(y)
+            y_max=max(y_array)
         ax.set_ylim(y_min, y_max)
     ax.tick_params(labelsize=20) 
     labels = ax.get_xticklabels() + ax.get_yticklabels()
@@ -28,19 +28,19 @@ def plot(x, y, xlabel='x', ylabel='y', title='', filename='a', show=1, save=0, t
         plt.show()
     plt.close('all')
 
-def plot_3d_surface(x, y, matrix, xlabel='x', ylabel='y', zlabel='z', title='', filename='a', show=1, save=0, z_min=None, z_max=None): 
+def plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z', title='', filename='a', show=1, save=0, z_min=None, z_max=None): 
     import matplotlib.pyplot as plt
     from matplotlib import cm
     from matplotlib.ticker import LinearLocator
     matrix = np.array(matrix)
     fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
     plt.subplots_adjust(bottom=0.1, right=0.65) 
-    x, y = np.meshgrid(x, y)
+    x_array, y_array = np.meshgrid(x_array, y_array)
     if len(matrix.shape) == 2:
-        surf = ax.plot_surface(x, y, matrix, cmap=cm.coolwarm, linewidth=0, antialiased=False) 
+        surf = ax.plot_surface(x_array, y_array, matrix, cmap=cm.coolwarm, linewidth=0, antialiased=False) 
     elif len(matrix.shape) == 3:
         for i0 in range(matrix.shape[2]):
-            surf = ax.plot_surface(x, y, matrix[:,:,i0], cmap=cm.coolwarm, linewidth=0, antialiased=False) 
+            surf = ax.plot_surface(x_array, y_array, matrix[:,:,i0], cmap=cm.coolwarm, linewidth=0, antialiased=False) 
     ax.set_title(title, fontsize=20, fontfamily='Times New Roman')
     ax.set_xlabel(xlabel, fontsize=20, fontfamily='Times New Roman') 
     ax.set_ylabel(ylabel, fontsize=20, fontfamily='Times New Roman') 
@@ -67,12 +67,12 @@ def plot_3d_surface(x, y, matrix, xlabel='x', ylabel='y', zlabel='z', title='', 
         plt.show()
     plt.close('all')
 
-def plot_contour(x, y, matrix, xlabel='x', ylabel='y', title='', filename='a', show=1, save=0):  
+def plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', filename='a', show=1, save=0):  
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots()
     plt.subplots_adjust(bottom=0.2, right=0.75, left = 0.16) 
-    x, y = np.meshgrid(x, y)
-    contour = ax.contourf(x,y,matrix,cmap='jet') 
+    x_array, y_array = np.meshgrid(x_array, y_array)
+    contour = ax.contourf(x_array,y_array,matrix,cmap='jet') 
     ax.set_title(title, fontsize=20, fontfamily='Times New Roman')
     ax.set_xlabel(xlabel, fontsize=20, fontfamily='Times New Roman') 
     ax.set_ylabel(ylabel, fontsize=20, fontfamily='Times New Roman') 

@@ -52,30 +52,30 @@ def read_two_dimensional_data(filename='a'):
                 matrix = np.append(matrix, [matrix_row], axis=0)
     return x, y, matrix
 
-def write_one_dimensional_data(x, y, filename='a'): 
+def write_one_dimensional_data(x_array, y_array, filename='a'): 
     with open(filename+'.txt', 'w') as f:
         i0 = 0
-        for x0 in x:
+        for x0 in x_array:
             f.write(str(x0)+'   ')
-            if len(y.shape) == 1:
-                f.write(str(y[i0])+'\n')
-            elif len(y.shape) == 2:
-                for j0 in range(y.shape[1]):
-                    f.write(str(y[i0, j0])+'   ')
+            if len(y_array.shape) == 1:
+                f.write(str(y_array[i0])+'\n')
+            elif len(y_array.shape) == 2:
+                for j0 in range(y_array.shape[1]):
+                    f.write(str(y_array[i0, j0])+'   ')
                 f.write('\n')
             i0 += 1
 
-def write_two_dimensional_data(x, y, matrix, filename='a'): 
+def write_two_dimensional_data(x_array, y_array, matrix, filename='a'): 
     with open(filename+'.txt', 'w') as f:
         f.write('0   ')
-        for x0 in x:
+        for x0 in x_array:
             f.write(str(x0)+'   ')
         f.write('\n')
         i0 = 0
-        for y0 in y:
+        for y0 in y_array:
             f.write(str(y0))
             j0 = 0
-            for x0 in x:
+            for x0 in x_array:
                 f.write('   '+str(matrix[i0, j0])+'   ')
                 j0 += 1
             f.write('\n')

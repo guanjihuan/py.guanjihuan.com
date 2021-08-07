@@ -58,8 +58,8 @@ hamiltonian = guan.hamiltonian_of_haldane_model_in_quasi_one_dimension(k, N=10, 
 
 # calculate band structures  # Source code: https://py.guanjihuan.com/calculate_band_structures
 eigenvalue = guan.calculate_eigenvalue(hamiltonian)
-eigenvalue_array = guan.calculate_eigenvalue_with_one_parameter(x, hamiltonian_function):
-eigenvalue_array = guan.calculate_eigenvalue_with_two_parameters(x, y, hamiltonian_function)
+eigenvalue_array = guan.calculate_eigenvalue_with_one_parameter(x_array, hamiltonian_function):
+eigenvalue_array = guan.calculate_eigenvalue_with_two_parameters(x_array, y_array, hamiltonian_function)
 
 # calculate wave functions    # Source code: https://py.guanjihuan.com/calculate_wave_functions
 eigenvector = guan.calculate_eigenvector(hamiltonian)
@@ -106,13 +106,13 @@ wilson_loop_array = guan.calculate_wilson_loop(hamiltonian_function, k_min=-pi, 
 # read and write    # Source code: https://py.guanjihuan.com/read_and_write
 x, y = guan.read_one_dimensional_data(filename='a')
 x, y, matrix = guan.read_two_dimensional_data(filename='a')
-guan.write_one_dimensional_data(x, y, filename='a')
-guan.write_two_dimensional_data(x, y, matrix, filename='a')
+guan.write_one_dimensional_data(x_array, y_array, filename='a')
+guan.write_two_dimensional_data(x_array, y_array, matrix, filename='a')
 
 # plot figures    # Source code: https://py.guanjihuan.com/plot_figures
-guan.plot(x, y, xlabel='x', ylabel='y', title='', filename='a', show=1, save=0, type='', y_min=None, y_max=None)
-guan.plot_3d_surface(x, y, matrix, xlabel='x', ylabel='y', zlabel='z', title='', filename='a', show=1, save=0, z_min=None, z_max=None)
-guan.plot_contour(x, y, matrix, xlabel='x', ylabel='y', title='', filename='a', show=1, save=0)
+guan.plot(x_array, y_array, xlabel='x', ylabel='y', title='', filename='a', show=1, save=0, type='', y_min=None, y_max=None)
+guan.plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z', title='', filename='a', show=1, save=0, z_min=None, z_max=None)
+guan.plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', filename='a', show=1, save=0)
 
 # download    # Source code: https://py.guanjihuan.com/download
 guan.download_with_scihub(address=None, num=1)

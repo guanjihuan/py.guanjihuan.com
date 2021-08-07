@@ -18,10 +18,10 @@ print('sigma_y:\n', guan.sigma_y(), '\n')
 print('sigma_z:\n', guan.sigma_z(), '\n')
 
 ## Fourier transform / calculate band structures / plot figures
-x = np.linspace(-pi, pi, 100)
+x_array = np.linspace(-pi, pi, 100)
 hamiltonian_function = functools.partial(guan.one_dimensional_fourier_transform, unit_cell=0, hopping=1)
-eigenvalue_array = guan.calculate_eigenvalue_with_one_parameter(x, hamiltonian_function)
-guan.plot(x, eigenvalue_array, xlabel='k', ylabel='E', type='-k')
+eigenvalue_array = guan.calculate_eigenvalue_with_one_parameter(x_array, hamiltonian_function)
+guan.plot(x_array, eigenvalue_array, xlabel='k', ylabel='E', type='-k')
 
 ## Hamiltonian of finite size
 print(guan.finite_size_along_one_direction(3), '\n')
@@ -29,11 +29,11 @@ print(guan.finite_size_along_two_directions_for_square_lattice(2, 2), '\n')
 print(guan.finite_size_along_three_directions_for_cubic_lattice(2, 2, 2), '\n')
 
 ## Hamiltonian of models in the reciprocal space / calculate band structures / plot figures
-x = np.linspace(-pi, pi, 100)
-eigenvalue_array = guan.calculate_eigenvalue_with_one_parameter(x, guan.hamiltonian_of_square_lattice_in_quasi_one_dimension)
-guan.plot(x, eigenvalue_array, xlabel='k', ylabel='E', type='-k')
-eigenvalue_array = guan.calculate_eigenvalue_with_one_parameter(x, guan.hamiltonian_of_graphene_with_zigzag_in_quasi_one_dimension)
-guan.plot(x, eigenvalue_array, xlabel='k', ylabel='E', type='-k')
+x_array = np.linspace(-pi, pi, 100)
+eigenvalue_array = guan.calculate_eigenvalue_with_one_parameter(x_array, guan.hamiltonian_of_square_lattice_in_quasi_one_dimension)
+guan.plot(x_array, eigenvalue_array, xlabel='k', ylabel='E', type='-k')
+eigenvalue_array = guan.calculate_eigenvalue_with_one_parameter(x_array, guan.hamiltonian_of_graphene_with_zigzag_in_quasi_one_dimension)
+guan.plot(x_array, eigenvalue_array, xlabel='k', ylabel='E', type='-k')
 
 ## calculate density of states
 hamiltonian = guan.finite_size_along_two_directions_for_square_lattice(2,2)
@@ -109,12 +109,12 @@ p = np.log(wilson_loop_array)/2/pi/1j
 print('p =', p, '\n')
 
 ## read and write
-x = np.array([1, 2, 3])
-y = np.array([5, 6, 7])
-guan.write_one_dimensional_data(x, y, filename='one_dimensional_data')
+x_array = np.array([1, 2, 3])
+y_array = np.array([5, 6, 7])
+guan.write_one_dimensional_data(x_array, y_array, filename='one_dimensional_data')
 matrix = np.zeros((3, 3))
 matrix[0, 1] = 11
-guan.write_two_dimensional_data(x, y, matrix, filename='two_dimensional_data')
+guan.write_two_dimensional_data(x_array, y_array, matrix, filename='two_dimensional_data')
 x_read, y_read = guan.read_one_dimensional_data('one_dimensional_data')
 print(x_read, '\n')
 print(y_read, '\n\n')
