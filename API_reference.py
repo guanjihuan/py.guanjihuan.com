@@ -58,7 +58,7 @@ hamiltonian = guan.hamiltonian_of_haldane_model_in_quasi_one_dimension(k, N=10, 
 
 # calculate band structures  # Source code: https://py.guanjihuan.com/calculate_band_structures
 eigenvalue = guan.calculate_eigenvalue(hamiltonian)
-eigenvalue_array = guan.calculate_eigenvalue_with_one_parameter(x_array, hamiltonian_function):
+eigenvalue_array = guan.calculate_eigenvalue_with_one_parameter(x_array, hamiltonian_function)
 eigenvalue_array = guan.calculate_eigenvalue_with_two_parameters(x_array, y_array, hamiltonian_function)
 
 # calculate wave functions    # Source code: https://py.guanjihuan.com/calculate_wave_functions
