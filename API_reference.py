@@ -1,9 +1,7 @@
 import guan
 
-# test    # Source code: https://py.guanjihuan.com/test
-guan.test()
-
 # basic functions    # Source code: https://py.guanjihuan.com/basic_functions
+guan.test()
 sigma_0 = guan.sigma_0()
 sigma_x = guan.sigma_x()
 sigma_y = guan.sigma_y()
@@ -24,8 +22,6 @@ sigma_z0 = guan.sigma_z0()
 sigma_zx = guan.sigma_zx()
 sigma_zy = guan.sigma_zy()
 sigma_zz = guan.sigma_zz()
-
-# calculate reciprocal lattice vectors    # Source code: https://py.guanjihuan.com/calculate_reciprocal_lattice_vectors
 b1 = guan.calculate_one_dimensional_reciprocal_lattice_vector(a1)
 b1, b2 = guan.calculate_two_dimensional_reciprocal_lattice_vectors(a1, a2)
 b1, b2, b3 = guan.calculate_three_dimensional_reciprocal_lattice_vectors(a1, a2, a3)
@@ -56,15 +52,11 @@ hamiltonian = guan.hamiltonian_of_graphene_with_zigzag_in_quasi_one_dimension(k,
 hamiltonian = guan.hamiltonian_of_haldane_model(k1, k2, M=2/3, t1=1, t2=1/3, phi=pi/4, a=1/sqrt(3))
 hamiltonian = guan.hamiltonian_of_haldane_model_in_quasi_one_dimension(k, N=10, M=2/3, t1=1, t2=1/3, phi=pi/4)
 
-# calculate band structures  # Source code: https://py.guanjihuan.com/calculate_band_structures
+# calculate band structures  # Source code: https://py.guanjihuan.com/source-code/calculate_band_structures_and_wave_functions
 eigenvalue = guan.calculate_eigenvalue(hamiltonian)
 eigenvalue_array = guan.calculate_eigenvalue_with_one_parameter(x_array, hamiltonian_function)
 eigenvalue_array = guan.calculate_eigenvalue_with_two_parameters(x_array, y_array, hamiltonian_function)
-
-# calculate wave functions    # Source code: https://py.guanjihuan.com/calculate_wave_functions
 eigenvector = guan.calculate_eigenvector(hamiltonian)
-
-# find vector with the same gauge    # Source code: https://py.guanjihuan.com/find_vector_with_the_same_gauge
 vector_target = guan.find_vector_with_the_same_gauge_with_binary_search(vector_target, vector_ref, show_error=1, show_times=0, show_phase=0, n_test=10001, precision=1e-6)
 vector = guan.find_vector_with_fixed_gauge_by_making_one_component_real(vector, precision=0.005, index=None)
 
@@ -114,10 +106,8 @@ guan.plot(x_array, y_array, xlabel='x', ylabel='y', title='', filename='a', show
 guan.plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z', title='', filename='a', show=1, save=0, z_min=None, z_max=None)
 guan.plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', filename='a', show=1, save=0)
 
-# download    # Source code: https://py.guanjihuan.com/download
+# download    # Source code: https://py.guanjihuan.com/source-code/others
 guan.download_with_scihub(address=None, num=1)
-
-# audio    # Source code: https://py.guanjihuan.com/audio
 guan.str_to_audio(str='hello world', rate=125, voice=1, read=1, save=0, print_text=0)
 guan.txt_to_audio(txt_path, rate=125, voice=1, read=1, save=0, print_text=0)
 content = guan.pdf_to_text(pdf_path)
