@@ -11,8 +11,7 @@ from .calculate_Green_functions import *
 from .calculate_density_of_states import *
 from .calculate_conductance import *
 from .calculate_scattering_matrix import *
-from .calculate_Chern_number import *
-from .calculate_Wilson_loop import *
+from .calculate_topological_invariant import *
 from .read_and_write import *
 from .plot_figures import *
 from .others import *

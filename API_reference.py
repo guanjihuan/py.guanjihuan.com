@@ -89,10 +89,8 @@ k_right, k_left, velocity_right, velocity_left, f_right, f_left, u_right, u_left
 transmission_matrix, reflection_matrix, k_right, k_left, velocity_right, velocity_left, ind_right_active = guan.calculate_scattering_matrix(fermi_energy, h00, h01, length=100)
 guan.print_or_write_scattering_matrix(fermi_energy, h00, h01, length=100, on_print=1, on_write=0)
 
-# calculate Chern number    # Source code: https://py.guanjihuan.com/calculate_chern_number
+# calculate topological invariant     # Source code: https://py.guanjihuan.com/source-code/calculate_topological_invariant
 chern_number = guan.calculate_chern_number_for_square_lattice(hamiltonian_function, precision=100)
-
-# calculate Wilson loop    # Source code: https://py.guanjihuan.com/calculate_wilson_loop
 wilson_loop_array = guan.calculate_wilson_loop(hamiltonian_function, k_min=-pi, k_max=pi, precision=100)
 
 # read and write    # Source code: https://py.guanjihuan.com/read_and_write
