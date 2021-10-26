@@ -104,7 +104,7 @@ guan.plot(x_array, y_array, xlabel='x', ylabel='y', title='', filename='a', show
 guan.plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z', title='', filename='a', show=1, save=0, z_min=None, z_max=None)
 guan.plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', filename='a', show=1, save=0)
 
-# download    # Source code: https://py.guanjihuan.com/source-code/others
+# others    # Source code: https://py.guanjihuan.com/source-code/others
 guan.download_with_scihub(address=None, num=1)
 guan.str_to_audio(str='hello world', rate=125, voice=1, read=1, save=0, print_text=0)
 guan.txt_to_audio(txt_path, rate=125, voice=1, read=1, save=0, print_text=0)
