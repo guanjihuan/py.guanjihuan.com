@@ -74,6 +74,7 @@ local_dos = guan.local_density_of_states_for_square_lattice(fermi_energy, hamilt
 local_dos = guan.local_density_of_states_for_cubic_lattice(fermi_energy, hamiltonian, N1, N2, N3, internal_degree=1, broadening=0.01)
 local_dos = guan.local_density_of_states_for_square_lattice_using_dyson_equation(fermi_energy, h00, h01, N2, N1, internal_degree=1, broadening=0.01)
 local_dos = guan.local_density_of_states_for_cubic_lattice_using_dyson_equation(fermi_energy, h00, h01, N3, N2, N1, internal_degree=1, broadening=0.01)
+local_dos = local_density_of_states_for_square_lattice_with_self_energy_using_dyson_equation(fermi_energy, h00, h01, N2, N1, right_self_energy, left_self_energy, internal_degree=1, broadening=0.01)
 
 # calculate conductance    # Source code: https://py.guanjihuan.com/calculate_conductance
 transfer = guan.transfer_matrix(fermi_energy, h00, h01)

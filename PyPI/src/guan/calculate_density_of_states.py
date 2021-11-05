@@ -101,3 +101,39 @@ def local_density_of_states_for_cubic_lattice_using_dyson_equation(fermi_energy,
                 for i in range(internal_degree):
                     local_dos[i3, i2, i1] = local_dos[i3, i2, i1] -np.imag(green_ii_n_minus[i2*N3*internal_degree+i3*internal_degree+i, i2*N3*internal_degree+i3*internal_degree+i])/pi       
     return local_dos
+
+def local_density_of_states_for_square_lattice_with_self_energy_using_dyson_equation(fermi_energy, h00, h01, N2, N1, right_self_energy, left_self_energy, internal_degree=1, broadening=0.01):
+    # dim_h00 = N2*internal_degree
+    local_dos = np.zeros((N2, N1))
+    green_11_1 = green_function(fermi_energy, h00+left_self_energy, broadening)
+    for i1 in range(N1):
+        green_nn_n_minus = green_11_1
+        green_in_n_minus = green_11_1
+        green_ni_n_minus = green_11_1
+        green_ii_n_minus = green_11_1
+        for i2_0 in range(i1):
+            if i2_0 == N1-1-1:
+                green_nn_n = green_function_nn_n(fermi_energy, h00+right_self_energy, h01, green_nn_n_minus, broadening)
+            else:
+                green_nn_n = green_function_nn_n(fermi_energy, h00, h01, green_nn_n_minus, broadening)
+            green_nn_n_minus = green_nn_n
+        if i1!=0:
+            green_in_n_minus = green_nn_n
+            green_ni_n_minus = green_nn_n
+            green_ii_n_minus = green_nn_n
+        for size_0 in range(N1-1-i1):
+            if size_0 == N1-1-i1-1:
+                green_nn_n = green_function_nn_n(fermi_energy, h00+right_self_energy, h01, green_nn_n_minus, broadening)
+            else:
+                green_nn_n = green_function_nn_n(fermi_energy, h00, h01, green_nn_n_minus, broadening)
+            green_nn_n_minus = green_nn_n
+            green_ii_n = green_function_ii_n(green_ii_n_minus, green_in_n_minus, h01, green_nn_n, green_ni_n_minus)
+            green_ii_n_minus = green_ii_n
+            green_in_n = green_function_in_n(green_in_n_minus, h01, green_nn_n)
+            green_in_n_minus = green_in_n
+            green_ni_n = green_function_ni_n(green_nn_n, h01, green_ni_n_minus)
+            green_ni_n_minus = green_ni_n
+        for i2 in range(N2):
+            for i in range(internal_degree):
+                local_dos[i2, i1] = local_dos[i2, i1] - np.imag(green_ii_n_minus[i2*internal_degree+i, i2*internal_degree+i])/pi
+    return local_dos
