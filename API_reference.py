@@ -84,7 +84,7 @@ conductance = guan.calculate_conductance(fermi_energy, h00, h01, length=100)
 conductance_array = guan.calculate_conductance_with_fermi_energy_array(fermi_energy_array, h00, h01, length=100)
 conductance = guan.calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensity=2.0, disorder_concentration=1.0, length=100)
 conductance_array = guan.calculate_conductance_with_disorder_intensity_array(fermi_energy, h00, h01, disorder_intensity_array, disorder_concentration=1.0, length=100, calculation_times=1)
-conductance_array = guan.calculate_conductance_with_disorder_concentration_array(fermi_energy, h00, h01, disorder_concentration_array,disorder_intensity=2.0, length=100, calculation_times=1)
+conductance_array = guan.calculate_conductance_with_disorder_concentration_array(fermi_energy, h00, h01, disorder_concentration_array, disorder_intensity=2.0, length=100, calculation_times=1)
 conductance_array = guan.calculate_conductance_with_scattering_length_array(fermi_energy, h00, h01, length_array, disorder_intensity=2.0, disorder_concentration=1.0, calculation_times=1)
 
 # scattering matrix    #  Source code: https://py.guanjihuan.com/calculate_scattering_matrix
