@@ -108,7 +108,7 @@ def calculate_conductance_with_disorder_intensity_array(fermi_energy, h00, h01, 
     conductance_array = conductance_array/calculation_times
     return conductance_array
 
-def calculate_conductance_with_disorder_concentration_array(fermi_energy, h00, h01, disorder_concentration_array,disorder_intensity=2.0, length=100, calculation_times=1):
+def calculate_conductance_with_disorder_concentration_array(fermi_energy, h00, h01, disorder_concentration_array, disorder_intensity=2.0, length=100, calculation_times=1):
     dim = np.array(disorder_concentration_array).shape[0]
     conductance_array = np.zeros(dim)
     i0 = 0
