@@ -5,8 +5,6 @@
 import numpy as np
 import copy
 from .calculate_Green_functions import *
-from .calculate_conductance import *
-
 
 def if_active_channel(k_of_channel):
     if np.abs(np.imag(k_of_channel))<1e-6:

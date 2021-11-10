@@ -66,6 +66,11 @@ green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n_minus, 
 green_in_n = guan.green_function_in_n(green_in_n_minus, h01, green_nn_n)
 green_ni_n = guan.green_function_ni_n(green_nn_n, h01, green_ni_n_minus)
 green_ii_n = guan.green_function_ii_n(green_ii_n_minus, green_in_n_minus, h01, green_nn_n, green_ni_n_minus)
+transfer = guan.transfer_matrix(fermi_energy, h00, h01)
+right_lead_surface, left_lead_surface = guan.surface_green_function_of_lead(fermi_energy, h00, h01)
+right_self_energy, left_self_energy = guan.self_energy_of_lead(fermi_energy, h00, h01)
+right_self_energy, left_self_energy = self_energy_of_lead_with_h_LC_and_h_CR(fermi_energy, h00, h01, h_LC, h_CR)
+green, gamma_right, gamma_left = green_function_with_leads(fermi_energy, h00, h01, h_LC, h_CR, center_hamiltonian)
 
 # calculate density of states    # Source code: https://py.guanjihuan.com/calculate_density_of_states
 total_dos = guan.total_density_of_states(fermi_energy, hamiltonian, broadening=0.01)
@@ -77,9 +82,6 @@ local_dos = guan.local_density_of_states_for_cubic_lattice_using_dyson_equation(
 local_dos = guan.local_density_of_states_for_square_lattice_with_self_energy_using_dyson_equation(fermi_energy, h00, h01, N2, N1, right_self_energy, left_self_energy, internal_degree=1, broadening=0.01)
 
 # calculate conductance    # Source code: https://py.guanjihuan.com/calculate_conductance
-transfer = guan.transfer_matrix(fermi_energy, h00, h01)
-right_lead_surface, left_lead_surface = guan.surface_green_function_of_lead(fermi_energy, h00, h01)
-right_self_energy, left_self_energy = guan.self_energy_of_lead(fermi_energy, h00, h01)
 conductance = guan.calculate_conductance(fermi_energy, h00, h01, length=100)
 conductance_array = guan.calculate_conductance_with_fermi_energy_array(fermi_energy_array, h00, h01, length=100)
 conductance = guan.calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensity=2.0, disorder_concentration=1.0, length=100)
@@ -109,7 +111,7 @@ guan.plot(x_array, y_array, xlabel='x', ylabel='y', title='', filename='a', show
 guan.plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z', title='', filename='a', show=1, save=0, z_min=None, z_max=None)
 guan.plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', filename='a', show=1, save=0)
 
-# others    # Source code: https://py.guanjihuan.com/source-code/others
+# others   # Source code: https://py.guanjihuan.com/source-code/others
 guan.download_with_scihub(address=None, num=1)
 guan.str_to_audio(str='hello world', rate=125, voice=1, read=1, save=0, print_text=0)
 guan.txt_to_audio(txt_path, rate=125, voice=1, read=1, save=0, print_text=0)

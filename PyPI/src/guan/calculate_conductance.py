@@ -6,49 +6,6 @@ import numpy as np
 import copy
 from .calculate_Green_functions import *
 
-def transfer_matrix(fermi_energy, h00, h01):
-    h01 = np.array(h01)
-    if np.array(h00).shape==():
-        dim = 1
-    else:
-        dim = np.array(h00).shape[0]
-    transfer = np.zeros((2*dim, 2*dim), dtype=complex)
-    transfer[0:dim, 0:dim] = np.dot(np.linalg.inv(h01), fermi_energy*np.identity(dim)-h00)
-    transfer[0:dim, dim:2*dim] = np.dot(-1*np.linalg.inv(h01), h01.transpose().conj())
-    transfer[dim:2*dim, 0:dim] = np.identity(dim)
-    transfer[dim:2*dim, dim:2*dim] = 0
-    return transfer
-
-def surface_green_function_of_lead(fermi_energy, h00, h01):
-    h01 = np.array(h01)
-    if np.array(h00).shape==():
-        dim = 1
-    else:
-        dim = np.array(h00).shape[0]
-    fermi_energy = fermi_energy+1e-9*1j
-    transfer = transfer_matrix(fermi_energy, h00, h01)
-    eigenvalue, eigenvector = np.linalg.eig(transfer)
-    ind = np.argsort(np.abs(eigenvalue))
-    temp = np.zeros((2*dim, 2*dim), dtype=complex)
-    i0 = 0
-    for ind0 in ind:
-        temp[:, i0] = eigenvector[:, ind0]
-        i0 += 1
-    s1 = temp[dim:2*dim, 0:dim]
-    s2 = temp[0:dim, 0:dim]
-    s3 = temp[dim:2*dim, dim:2*dim]
-    s4 = temp[0:dim, dim:2*dim]
-    right_lead_surface = np.linalg.inv(fermi_energy*np.identity(dim)-h00-np.dot(np.dot(h01, s2), np.linalg.inv(s1)))
-    left_lead_surface = np.linalg.inv(fermi_energy*np.identity(dim)-h00-np.dot(np.dot(h01.transpose().conj(), s3), np.linalg.inv(s4)))
-    return right_lead_surface, left_lead_surface
-
-def self_energy_of_lead(fermi_energy, h00, h01):
-    h01 = np.array(h01)
-    right_lead_surface, left_lead_surface = surface_green_function_of_lead(fermi_energy, h00, h01)
-    right_self_energy = np.dot(np.dot(h01, right_lead_surface), h01.transpose().conj())
-    left_self_energy = np.dot(np.dot(h01.transpose().conj(), left_lead_surface), h01)
-    return right_self_energy, left_self_energy
-
 def calculate_conductance(fermi_energy, h00, h01, length=100):
     right_self_energy, left_self_energy = self_energy_of_lead(fermi_energy, h00, h01)
     for ix in range(length):

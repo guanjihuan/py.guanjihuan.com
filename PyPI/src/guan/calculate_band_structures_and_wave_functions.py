@@ -11,8 +11,7 @@ def calculate_eigenvalue(hamiltonian):
     if np.array(hamiltonian).shape==():
         eigenvalue = np.real(hamiltonian)
     else:
-        eigenvalue, eigenvector = np.linalg.eig(hamiltonian)
-        eigenvalue = np.sort(np.real(eigenvalue))
+        eigenvalue, eigenvector = np.linalg.eigh(hamiltonian)
     return eigenvalue
 
 def calculate_eigenvalue_with_one_parameter(x_array, hamiltonian_function):
@@ -64,8 +63,7 @@ def calculate_eigenvalue_with_two_parameters(x_array, y_array, hamiltonian_funct
 ## calculate wave functions
 
 def calculate_eigenvector(hamiltonian):
-    eigenvalue, eigenvector = np.linalg.eig(hamiltonian) 
-    eigenvector = eigenvector[:, np.argsort(np.real(eigenvalue))] 
+    eigenvalue, eigenvector = np.linalg.eigh(hamiltonian) 
     return eigenvector
 
 ## find vector with the same gauge
