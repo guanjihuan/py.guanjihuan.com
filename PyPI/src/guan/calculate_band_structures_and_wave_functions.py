@@ -28,8 +28,8 @@ def calculate_eigenvalue_with_one_parameter(x_array, hamiltonian_function):
         eigenvalue_array = np.zeros((dim_x, dim))
         for x0 in x_array:
             hamiltonian = hamiltonian_function(x0)
-            eigenvalue, eigenvector = np.linalg.eig(hamiltonian)
-            eigenvalue_array[i0, :] = np.sort(np.real(eigenvalue[:]))
+            eigenvalue, eigenvector = np.linalg.eigh(hamiltonian)
+            eigenvalue_array[i0, :] = eigenvalue
             i0 += 1
     return eigenvalue_array
 
@@ -54,8 +54,8 @@ def calculate_eigenvalue_with_two_parameters(x_array, y_array, hamiltonian_funct
             j0 = 0
             for x0 in x_array:
                 hamiltonian = hamiltonian_function(x0, y0)
-                eigenvalue, eigenvector = np.linalg.eig(hamiltonian)
-                eigenvalue_array[i0, j0, :] = np.sort(np.real(eigenvalue[:]))
+                eigenvalue, eigenvector = np.linalg.eigh(hamiltonian)
+                eigenvalue_array[i0, j0, :] = eigenvalue
                 j0 += 1
             i0 += 1
     return eigenvalue_array
