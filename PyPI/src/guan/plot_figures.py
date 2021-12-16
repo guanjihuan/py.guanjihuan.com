@@ -1,14 +1,14 @@
-# Guan is an open-source python package developed and maintained by https://www.guanjihuan.com. The primary location of this package is on website https://py.guanjihuan.com.
+# Guan is an open-source python package developed and maintained by https://www.guanjihuan.com/about. The primary location of this package is on website https://py.guanjihuan.com.
 
 # plot figures
 
 import numpy as np
 
-def plot(x_array, y_array, xlabel='x', ylabel='y', title='', filename='a', show=1, save=0, type='', y_min=None, y_max=None): 
+def plot(x_array, y_array, xlabel='x', ylabel='y', title='', filename='a', show=1, save=0, type='', y_min=None, y_max=None, linewidth=None, markersize=None): 
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots()
     plt.subplots_adjust(bottom=0.20, left=0.18) 
-    ax.plot(x_array, y_array, type)
+    ax.plot(x_array, y_array, type, linewidth=linewidth, markersize=markersize)
     ax.grid()
     ax.set_title(title, fontsize=20, fontfamily='Times New Roman')
     ax.set_xlabel(xlabel, fontsize=20, fontfamily='Times New Roman') 
