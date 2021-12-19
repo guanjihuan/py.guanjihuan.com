@@ -107,9 +107,9 @@ guan.write_one_dimensional_data(x_array, y_array, filename='a')
 guan.write_two_dimensional_data(x_array, y_array, matrix, filename='a')
 
 # plot figures    # Source code: https://py.guanjihuan.com/plot_figures
-guan.plot(x_array, y_array, xlabel='x', ylabel='y', title='', filename='a', show=1, save=0, type='', y_min=None, y_max=None, linewidth=None, markersize=None)
-guan.plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z', title='', filename='a', show=1, save=0, z_min=None, z_max=None)
-guan.plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', filename='a', show=1, save=0)
+guan.plot(x_array, y_array, xlabel='x', ylabel='y', title='', filename='a', show=1, save=0, format='jpg', dpi=300, type='', y_min=None, y_max=None, linewidth=None, markersize=None)
+guan.plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z', title='', filename='a', show=1, save=0, format='jpg', dpi=300, z_min=None, z_max=None)
+guan.plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', filename='a', show=1, save=0, format='jpg', dpi=300)
 
 # others   # Source code: https://py.guanjihuan.com/source-code/others
 guan.download_with_scihub(address=None, num=1)

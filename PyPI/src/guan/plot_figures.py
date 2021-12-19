@@ -4,7 +4,7 @@
 
 import numpy as np
 
-def plot(x_array, y_array, xlabel='x', ylabel='y', title='', filename='a', show=1, save=0, type='', y_min=None, y_max=None, linewidth=None, markersize=None): 
+def plot(x_array, y_array, xlabel='x', ylabel='y', title='', filename='a', show=1, save=0, format='jpg', dpi=300, type='', y_min=None, y_max=None, linewidth=None, markersize=None): 
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots()
     plt.subplots_adjust(bottom=0.20, left=0.18) 
@@ -23,12 +23,12 @@ def plot(x_array, y_array, xlabel='x', ylabel='y', title='', filename='a', show=
     labels = ax.get_xticklabels() + ax.get_yticklabels()
     [label.set_fontname('Times New Roman') for label in labels]
     if save == 1:
-        plt.savefig(filename+'.jpg', dpi=300) 
+        plt.savefig(filename+format, dpi=dpi) 
     if show == 1:
         plt.show()
     plt.close('all')
 
-def plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z', title='', filename='a', show=1, save=0, z_min=None, z_max=None): 
+def plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z', title='', filename='a', show=1, save=0, format='jpg', dpi=300, z_min=None, z_max=None): 
     import matplotlib.pyplot as plt
     from matplotlib import cm
     from matplotlib.ticker import LinearLocator
@@ -62,12 +62,12 @@ def plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z'
     for l in cbar.ax.yaxis.get_ticklabels():
         l.set_family('Times New Roman')
     if save == 1:
-        plt.savefig(filename+'.jpg', dpi=300) 
+        plt.savefig(filename+format, dpi=dpi) 
     if show == 1:
         plt.show()
     plt.close('all')
 
-def plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', filename='a', show=1, save=0):  
+def plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', filename='a', show=1, save=0, format='jpg', dpi=300):  
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots()
     plt.subplots_adjust(bottom=0.2, right=0.75, left = 0.16) 
@@ -85,7 +85,7 @@ def plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', fil
     for l in cbar.ax.yaxis.get_ticklabels():
         l.set_family('Times New Roman')
     if save == 1:
-        plt.savefig(filename+'.jpg', dpi=300) 
+        plt.savefig(filename+format, dpi=dpi) 
     if show == 1:
         plt.show()
     plt.close('all')
