@@ -23,7 +23,7 @@ def plot(x_array, y_array, xlabel='x', ylabel='y', title='', filename='a', show=
     labels = ax.get_xticklabels() + ax.get_yticklabels()
     [label.set_fontname('Times New Roman') for label in labels]
     if save == 1:
-        plt.savefig(filename+format, dpi=dpi) 
+        plt.savefig(filename+'.'+format, dpi=dpi) 
     if show == 1:
         plt.show()
     plt.close('all')
@@ -62,7 +62,7 @@ def plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z'
     for l in cbar.ax.yaxis.get_ticklabels():
         l.set_family('Times New Roman')
     if save == 1:
-        plt.savefig(filename+format, dpi=dpi) 
+        plt.savefig(filename+'.'+format, dpi=dpi) 
     if show == 1:
         plt.show()
     plt.close('all')
@@ -85,7 +85,7 @@ def plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', fil
     for l in cbar.ax.yaxis.get_ticklabels():
         l.set_family('Times New Roman')
     if save == 1:
-        plt.savefig(filename+format, dpi=dpi) 
+        plt.savefig(filename+'.'+format, dpi=dpi) 
     if show == 1:
         plt.show()
     plt.close('all')
