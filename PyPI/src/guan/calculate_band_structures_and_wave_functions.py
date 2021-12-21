@@ -14,7 +14,7 @@ def calculate_eigenvalue(hamiltonian):
         eigenvalue, eigenvector = np.linalg.eigh(hamiltonian)
     return eigenvalue
 
-def calculate_eigenvalue_with_one_parameter(x_array, hamiltonian_function):
+def calculate_eigenvalue_with_one_parameter(x_array, hamiltonian_function, print_show=0):
     dim_x = np.array(x_array).shape[0]
     i0 = 0
     if np.array(hamiltonian_function(0)).shape==():
@@ -27,13 +27,15 @@ def calculate_eigenvalue_with_one_parameter(x_array, hamiltonian_function):
         dim = np.array(hamiltonian_function(0)).shape[0]
         eigenvalue_array = np.zeros((dim_x, dim))
         for x0 in x_array:
+            if print_show==1:
+                print(x0)
             hamiltonian = hamiltonian_function(x0)
             eigenvalue, eigenvector = np.linalg.eigh(hamiltonian)
             eigenvalue_array[i0, :] = eigenvalue
             i0 += 1
     return eigenvalue_array
 
-def calculate_eigenvalue_with_two_parameters(x_array, y_array, hamiltonian_function):  
+def calculate_eigenvalue_with_two_parameters(x_array, y_array, hamiltonian_function, print_show=0, print_show_more=0):  
     dim_x = np.array(x_array).shape[0]
     dim_y = np.array(y_array).shape[0]
     if np.array(hamiltonian_function(0,0)).shape==():
@@ -52,7 +54,11 @@ def calculate_eigenvalue_with_two_parameters(x_array, y_array, hamiltonian_funct
         i0 = 0
         for y0 in y_array:
             j0 = 0
+            if print_show==1:
+                print(y0)
             for x0 in x_array:
+                if print_show_more==1:
+                    print(x0)
                 hamiltonian = hamiltonian_function(x0, y0)
                 eigenvalue, eigenvector = np.linalg.eigh(hamiltonian)
                 eigenvalue_array[i0, j0, :] = eigenvalue
