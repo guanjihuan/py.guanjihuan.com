@@ -28,7 +28,7 @@ def plot(x_array, y_array, xlabel='x', ylabel='y', title='', filename='a', show=
         plt.show()
     plt.close('all')
 
-def plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z', title='', filename='a', show=1, save=0, format='jpg', dpi=300, z_min=None, z_max=None): 
+def plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z', title='', filename='a', show=1, save=0, format='jpg', dpi=300, z_min=None, z_max=None, rcount=100, ccount=100): 
     import matplotlib.pyplot as plt
     from matplotlib import cm
     from matplotlib.ticker import LinearLocator
@@ -37,10 +37,10 @@ def plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z'
     plt.subplots_adjust(bottom=0.1, right=0.65) 
     x_array, y_array = np.meshgrid(x_array, y_array)
     if len(matrix.shape) == 2:
-        surf = ax.plot_surface(x_array, y_array, matrix, cmap=cm.coolwarm, linewidth=0, antialiased=False) 
+        surf = ax.plot_surface(x_array, y_array, matrix, rcount=rcount, ccount=ccount, cmap=cm.coolwarm, linewidth=0, antialiased=False) 
     elif len(matrix.shape) == 3:
         for i0 in range(matrix.shape[2]):
-            surf = ax.plot_surface(x_array, y_array, matrix[:,:,i0], cmap=cm.coolwarm, linewidth=0, antialiased=False) 
+            surf = ax.plot_surface(x_array, y_array, matrix[:,:,i0], rcount=rcount, ccount=ccount, cmap=cm.coolwarm, linewidth=0, antialiased=False) 
     ax.set_title(title, fontsize=20, fontfamily='Times New Roman')
     ax.set_xlabel(xlabel, fontsize=20, fontfamily='Times New Roman') 
     ax.set_ylabel(ylabel, fontsize=20, fontfamily='Times New Roman') 
