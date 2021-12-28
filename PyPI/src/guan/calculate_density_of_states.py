@@ -4,10 +4,10 @@
 
 import numpy as np
 from math import *
-from .calculate_Green_functions import *
+import guan
 
 def total_density_of_states(fermi_energy, hamiltonian, broadening=0.01):
-    green = green_function(fermi_energy, hamiltonian, broadening)
+    green = guan.green_function(fermi_energy, hamiltonian, broadening)
     total_dos = -np.trace(np.imag(green))/pi
     return total_dos
 
@@ -22,7 +22,7 @@ def total_density_of_states_with_fermi_energy_array(fermi_energy_array, hamilton
 
 def local_density_of_states_for_square_lattice(fermi_energy, hamiltonian, N1, N2, internal_degree=1, broadening=0.01):
     # dim_hamiltonian = N1*N2*internal_degree
-    green = green_function(fermi_energy, hamiltonian, broadening)
+    green = guan.green_function(fermi_energy, hamiltonian, broadening)
     local_dos = np.zeros((N2, N1))
     for i1 in range(N1):
         for i2 in range(N2):
@@ -32,7 +32,7 @@ def local_density_of_states_for_square_lattice(fermi_energy, hamiltonian, N1, N2
 
 def local_density_of_states_for_cubic_lattice(fermi_energy, hamiltonian, N1, N2, N3, internal_degree=1, broadening=0.01):
     # dim_hamiltonian = N1*N2*N3*internal_degree
-    green = green_function(fermi_energy, hamiltonian, broadening)
+    green = guan.green_function(fermi_energy, hamiltonian, broadening)
     local_dos = np.zeros((N3, N2, N1))
     for i1 in range(N1):
         for i2 in range(N2):
@@ -44,27 +44,27 @@ def local_density_of_states_for_cubic_lattice(fermi_energy, hamiltonian, N1, N2,
 def local_density_of_states_for_square_lattice_using_dyson_equation(fermi_energy, h00, h01, N2, N1, internal_degree=1, broadening=0.01):
     # dim_h00 = N2*internal_degree
     local_dos = np.zeros((N2, N1))
-    green_11_1 = green_function(fermi_energy, h00, broadening)
+    green_11_1 = guan.green_function(fermi_energy, h00, broadening)
     for i1 in range(N1):
         green_nn_n_minus = green_11_1
         green_in_n_minus = green_11_1
         green_ni_n_minus = green_11_1
         green_ii_n_minus = green_11_1
         for i2_0 in range(i1):
-            green_nn_n = green_function_nn_n(fermi_energy, h00, h01, green_nn_n_minus, broadening)
+            green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n_minus, broadening)
             green_nn_n_minus = green_nn_n
         if i1!=0:
             green_in_n_minus = green_nn_n
             green_ni_n_minus = green_nn_n
             green_ii_n_minus = green_nn_n
         for size_0 in range(N1-1-i1):
-            green_nn_n = green_function_nn_n(fermi_energy, h00, h01, green_nn_n_minus, broadening)
+            green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n_minus, broadening)
             green_nn_n_minus = green_nn_n
-            green_ii_n = green_function_ii_n(green_ii_n_minus, green_in_n_minus, h01, green_nn_n, green_ni_n_minus)
+            green_ii_n = guan.green_function_ii_n(green_ii_n_minus, green_in_n_minus, h01, green_nn_n, green_ni_n_minus)
             green_ii_n_minus = green_ii_n
-            green_in_n = green_function_in_n(green_in_n_minus, h01, green_nn_n)
+            green_in_n = guan.green_function_in_n(green_in_n_minus, h01, green_nn_n)
             green_in_n_minus = green_in_n
-            green_ni_n = green_function_ni_n(green_nn_n, h01, green_ni_n_minus)
+            green_ni_n = guan.green_function_ni_n(green_nn_n, h01, green_ni_n_minus)
             green_ni_n_minus = green_ni_n
         for i2 in range(N2):
             for i in range(internal_degree):
@@ -74,27 +74,27 @@ def local_density_of_states_for_square_lattice_using_dyson_equation(fermi_energy
 def local_density_of_states_for_cubic_lattice_using_dyson_equation(fermi_energy, h00, h01, N3, N2, N1, internal_degree=1, broadening=0.01):
     # dim_h00 = N2*N3*internal_degree
     local_dos = np.zeros((N3, N2, N1))
-    green_11_1 = green_function(fermi_energy, h00, broadening)
+    green_11_1 = guan.green_function(fermi_energy, h00, broadening)
     for i1 in range(N1):
         green_nn_n_minus = green_11_1
         green_in_n_minus = green_11_1
         green_ni_n_minus = green_11_1
         green_ii_n_minus = green_11_1
         for i1_0 in range(i1):
-            green_nn_n = green_function_nn_n(fermi_energy, h00, h01, green_nn_n_minus, broadening)
+            green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n_minus, broadening)
             green_nn_n_minus = green_nn_n
         if i1!=0:
             green_in_n_minus = green_nn_n
             green_ni_n_minus = green_nn_n
             green_ii_n_minus = green_nn_n
         for size_0 in range(N1-1-i1):
-            green_nn_n = green_function_nn_n(fermi_energy, h00, h01, green_nn_n_minus, broadening)
+            green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n_minus, broadening)
             green_nn_n_minus = green_nn_n
-            green_ii_n = green_function_ii_n(green_ii_n_minus, green_in_n_minus, h01, green_nn_n, green_ni_n_minus)
+            green_ii_n = guan.green_function_ii_n(green_ii_n_minus, green_in_n_minus, h01, green_nn_n, green_ni_n_minus)
             green_ii_n_minus = green_ii_n
-            green_in_n = green_function_in_n(green_in_n_minus, h01, green_nn_n)
+            green_in_n = guan.green_function_in_n(green_in_n_minus, h01, green_nn_n)
             green_in_n_minus = green_in_n
-            green_ni_n = green_function_ni_n(green_nn_n, h01, green_ni_n_minus)
+            green_ni_n = guan.green_function_ni_n(green_nn_n, h01, green_ni_n_minus)
             green_ni_n_minus = green_ni_n
         for i2 in range(N2):
             for i3 in range(N3):
@@ -105,7 +105,7 @@ def local_density_of_states_for_cubic_lattice_using_dyson_equation(fermi_energy,
 def local_density_of_states_for_square_lattice_with_self_energy_using_dyson_equation(fermi_energy, h00, h01, N2, N1, right_self_energy, left_self_energy, internal_degree=1, broadening=0.01):
     # dim_h00 = N2*internal_degree
     local_dos = np.zeros((N2, N1))
-    green_11_1 = green_function(fermi_energy, h00+left_self_energy, broadening)
+    green_11_1 = guan.green_function(fermi_energy, h00+left_self_energy, broadening)
     for i1 in range(N1):
         green_nn_n_minus = green_11_1
         green_in_n_minus = green_11_1
@@ -113,9 +113,9 @@ def local_density_of_states_for_square_lattice_with_self_energy_using_dyson_equa
         green_ii_n_minus = green_11_1
         for i2_0 in range(i1):
             if i2_0 == N1-1-1:
-                green_nn_n = green_function_nn_n(fermi_energy, h00+right_self_energy, h01, green_nn_n_minus, broadening)
+                green_nn_n = guan.green_function_nn_n(fermi_energy, h00+right_self_energy, h01, green_nn_n_minus, broadening)
             else:
-                green_nn_n = green_function_nn_n(fermi_energy, h00, h01, green_nn_n_minus, broadening)
+                green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n_minus, broadening)
             green_nn_n_minus = green_nn_n
         if i1!=0:
             green_in_n_minus = green_nn_n
@@ -123,15 +123,15 @@ def local_density_of_states_for_square_lattice_with_self_energy_using_dyson_equa
             green_ii_n_minus = green_nn_n
         for size_0 in range(N1-1-i1):
             if size_0 == N1-1-i1-1:
-                green_nn_n = green_function_nn_n(fermi_energy, h00+right_self_energy, h01, green_nn_n_minus, broadening)
+                green_nn_n = guan.green_function_nn_n(fermi_energy, h00+right_self_energy, h01, green_nn_n_minus, broadening)
             else:
-                green_nn_n = green_function_nn_n(fermi_energy, h00, h01, green_nn_n_minus, broadening)
+                green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n_minus, broadening)
             green_nn_n_minus = green_nn_n
-            green_ii_n = green_function_ii_n(green_ii_n_minus, green_in_n_minus, h01, green_nn_n, green_ni_n_minus)
+            green_ii_n = guan.green_function_ii_n(green_ii_n_minus, green_in_n_minus, h01, green_nn_n, green_ni_n_minus)
             green_ii_n_minus = green_ii_n
-            green_in_n = green_function_in_n(green_in_n_minus, h01, green_nn_n)
+            green_in_n = guan.green_function_in_n(green_in_n_minus, h01, green_nn_n)
             green_in_n_minus = green_in_n
-            green_ni_n = green_function_ni_n(green_nn_n, h01, green_ni_n_minus)
+            green_ni_n = guan.green_function_ni_n(green_nn_n, h01, green_ni_n_minus)
             green_ni_n_minus = green_ni_n
         for i2 in range(N2):
             for i in range(internal_degree):

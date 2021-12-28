@@ -5,14 +5,14 @@
 import numpy as np
 import cmath
 from math import *
-from .Fourier_transform import *
+import guan
 
 def hamiltonian_of_simple_chain(k):
-    hamiltonian = one_dimensional_fourier_transform(k, unit_cell=0, hopping=1)
+    hamiltonian = guan.one_dimensional_fourier_transform(k, unit_cell=0, hopping=1)
     return hamiltonian
 
 def hamiltonian_of_square_lattice(k1, k2):
-    hamiltonian = two_dimensional_fourier_transform_for_square_lattice(k1, k2, unit_cell=0, hopping_1=1, hopping_2=1)
+    hamiltonian = guan.two_dimensional_fourier_transform_for_square_lattice(k1, k2, unit_cell=0, hopping_1=1, hopping_2=1)
     return hamiltonian
 
 def hamiltonian_of_square_lattice_in_quasi_one_dimension(k, N=10):
@@ -23,11 +23,11 @@ def hamiltonian_of_square_lattice_in_quasi_one_dimension(k, N=10):
         h00[i+1, i] = 1
     for i in range(N):   
         h01[i, i] = 1
-    hamiltonian = one_dimensional_fourier_transform(k, unit_cell=h00, hopping=h01) 
+    hamiltonian = guan.one_dimensional_fourier_transform(k, unit_cell=h00, hopping=h01) 
     return hamiltonian
 
 def hamiltonian_of_cubic_lattice(k1, k2, k3):
-    hamiltonian = three_dimensional_fourier_transform_for_cubic_lattice(k1, k2, k3, unit_cell=0, hopping_1=1, hopping_2=1, hopping_3=1)
+    hamiltonian = guan.three_dimensional_fourier_transform_for_cubic_lattice(k1, k2, k3, unit_cell=0, hopping_1=1, hopping_2=1, hopping_3=1)
     return hamiltonian
 
 def hamiltonian_of_ssh_model(k, v=0.6, w=1):
@@ -66,7 +66,7 @@ def hamiltonian_of_graphene_with_zigzag_in_quasi_one_dimension(k, N=10, M=0, t=1
     for i in range(N):
         h01[i*4+1, i*4+0] = t
         h01[i*4+2, i*4+3] = t
-    hamiltonian = one_dimensional_fourier_transform(k, unit_cell=h00, hopping=h01) 
+    hamiltonian = guan.one_dimensional_fourier_transform(k, unit_cell=h00, hopping=h01) 
     return hamiltonian
 
 def hamiltonian_of_haldane_model(k1, k2, M=2/3, t1=1, t2=1/3, phi=pi/4, a=1/sqrt(3)):

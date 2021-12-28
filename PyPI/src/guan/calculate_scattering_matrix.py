@@ -4,7 +4,7 @@
 
 import numpy as np
 import copy
-from .calculate_Green_functions import *
+import guan
 
 def if_active_channel(k_of_channel):
     if np.abs(np.imag(k_of_channel))<1e-6:
@@ -18,7 +18,7 @@ def get_k_and_velocity_of_channel(fermi_energy, h00, h01):
         dim = 1
     else:
         dim = np.array(h00).shape[0]
-    transfer = transfer_matrix(fermi_energy, h00, h01)
+    transfer = guan.transfer_matrix(fermi_energy, h00, h01)
     eigenvalue, eigenvector = np.linalg.eig(transfer)
     k_of_channel = np.log(eigenvalue)/1j
     ind = np.argsort(np.real(k_of_channel))
@@ -104,17 +104,17 @@ def calculate_scattering_matrix(fermi_energy, h00, h01, length=100):
     left_self_energy = np.dot(h01.transpose().conj(), np.linalg.inv(f_left))
     for i0 in range(length):
         if i0 == 0:
-            green_nn_n = green_function(fermi_energy, h00, broadening=0, self_energy=left_self_energy)
+            green_nn_n = guan.green_function(fermi_energy, h00, broadening=0, self_energy=left_self_energy)
             green_00_n = copy.deepcopy(green_nn_n)
             green_0n_n = copy.deepcopy(green_nn_n)
             green_n0_n = copy.deepcopy(green_nn_n)
         elif i0 != length-1: 
-            green_nn_n = green_function_nn_n(fermi_energy, h00, h01, green_nn_n, broadening=0) 
+            green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n, broadening=0) 
         else:
-            green_nn_n = green_function_nn_n(fermi_energy, h00, h01, green_nn_n, broadening=0, self_energy=right_self_energy)
-        green_00_n = green_function_ii_n(green_00_n, green_0n_n, h01, green_nn_n, green_n0_n)
-        green_0n_n = green_function_in_n(green_0n_n, h01, green_nn_n)
-        green_n0_n = green_function_ni_n(green_nn_n, h01, green_n0_n)
+            green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n, broadening=0, self_energy=right_self_energy)
+        green_00_n = guan.green_function_ii_n(green_00_n, green_0n_n, h01, green_nn_n, green_n0_n)
+        green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
+        green_n0_n = guan.green_function_ni_n(green_nn_n, h01, green_n0_n)
     temp = np.dot(h01.transpose().conj(), np.linalg.inv(f_right)-np.linalg.inv(f_left))
     transmission_matrix = np.dot(np.dot(np.linalg.inv(u_right), np.dot(green_n0_n, temp)), u_right) 
     reflection_matrix = np.dot(np.dot(np.linalg.inv(u_left), np.dot(green_00_n, temp)-np.identity(dim)), u_right)

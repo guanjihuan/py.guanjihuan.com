@@ -5,7 +5,7 @@
 import numpy as np
 import cmath
 from math import *
-from .calculate_band_structures_and_wave_functions import *
+import guan
 
 def calculate_chern_number_for_square_lattice(hamiltonian_function, precision=100):
     if np.array(hamiltonian_function(0, 0)).shape==():
@@ -17,13 +17,13 @@ def calculate_chern_number_for_square_lattice(hamiltonian_function, precision=10
     for kx in np.arange(-pi, pi, delta):
         for ky in np.arange(-pi, pi, delta):
             H = hamiltonian_function(kx, ky)
-            vector = calculate_eigenvector(H)
+            vector = guan.calculate_eigenvector(H)
             H_delta_kx = hamiltonian_function(kx+delta, ky) 
-            vector_delta_kx = calculate_eigenvector(H_delta_kx)
+            vector_delta_kx = guan.calculate_eigenvector(H_delta_kx)
             H_delta_ky = hamiltonian_function(kx, ky+delta)
-            vector_delta_ky = calculate_eigenvector(H_delta_ky)
+            vector_delta_ky = guan.calculate_eigenvector(H_delta_ky)
             H_delta_kx_ky = hamiltonian_function(kx+delta, ky+delta)
-            vector_delta_kx_ky = calculate_eigenvector(H_delta_kx_ky)
+            vector_delta_kx_ky = guan.calculate_eigenvector(H_delta_kx_ky)
             for i in range(dim):
                 vector_i = vector[:, i]
                 vector_delta_kx_i = vector_delta_kx[:, i]
@@ -45,7 +45,7 @@ def calculate_wilson_loop(hamiltonian_function, k_min=-pi, k_max=pi, precision=1
     for i in range(dim):
         eigenvector_array = []
         for k in k_array:
-            eigenvector  = calculate_eigenvector(hamiltonian_function(k))  
+            eigenvector  = guan.calculate_eigenvector(hamiltonian_function(k))  
             if k != k_max:
                 eigenvector_array.append(eigenvector[:, i])
             else:
