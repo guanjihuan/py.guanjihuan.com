@@ -98,6 +98,7 @@ guan.print_or_write_scattering_matrix(fermi_energy, h00, h01, length=100, on_pri
 
 # calculate topological invariant     # Source code: https://py.guanjihuan.com/source-code/calculate_topological_invariant
 chern_number = guan.calculate_chern_number_for_square_lattice(hamiltonian_function, precision=100)
+chern_number = guan.calculate_chern_number_for_honeycomb_lattice(hamiltonian_function, a=1, precision=300)
 wilson_loop_array = guan.calculate_wilson_loop(hamiltonian_function, k_min=-pi, k_max=pi, precision=100)
 
 # read and write    # Source code: https://py.guanjihuan.com/read_and_write
