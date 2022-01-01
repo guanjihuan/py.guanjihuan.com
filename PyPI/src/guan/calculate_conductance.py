@@ -7,7 +7,7 @@ import copy
 import guan
 
 def calculate_conductance(fermi_energy, h00, h01, length=100):
-    right_self_energy, left_self_energy = guan.self_energy_of_lead(fermi_energy, h00, h01)
+    right_self_energy, left_self_energy, gamma_right, gamma_left = guan.self_energy_of_lead(fermi_energy, h00, h01)
     for ix in range(length):
         if ix == 0:
             green_nn_n = guan.green_function(fermi_energy, h00, broadening=0, self_energy=left_self_energy)
@@ -18,9 +18,7 @@ def calculate_conductance(fermi_energy, h00, h01, length=100):
         else:
             green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n, broadening=0, self_energy=right_self_energy)
             green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
-    right_self_energy = (right_self_energy - right_self_energy.transpose().conj())*1j
-    left_self_energy = (left_self_energy - left_self_energy.transpose().conj())*1j
-    conductance = np.trace(np.dot(np.dot(np.dot(left_self_energy, green_0n_n), right_self_energy), green_0n_n.transpose().conj()))
+    conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
     return conductance
 
 def calculate_conductance_with_fermi_energy_array(fermi_energy_array, h00, h01, length=100):
@@ -33,7 +31,7 @@ def calculate_conductance_with_fermi_energy_array(fermi_energy_array, h00, h01, 
     return conductance_array
 
 def calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensity=2.0, disorder_concentration=1.0, length=100):
-    right_self_energy, left_self_energy = guan.self_energy_of_lead(fermi_energy, h00, h01)
+    right_self_energy, left_self_energy, gamma_right, gamma_left = guan.self_energy_of_lead(fermi_energy, h00, h01)
     dim = np.array(h00).shape[0]
     for ix in range(length):
         disorder = np.zeros((dim, dim))
@@ -49,9 +47,7 @@ def calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensi
         else:
             green_nn_n = guan.green_function_nn_n(fermi_energy, h00+disorder, h01, green_nn_n, broadening=0, self_energy=right_self_energy)
             green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
-    right_self_energy = (right_self_energy - right_self_energy.transpose().conj())*1j
-    left_self_energy = (left_self_energy - left_self_energy.transpose().conj())*1j
-    conductance = np.trace(np.dot(np.dot(np.dot(left_self_energy, green_0n_n), right_self_energy), green_0n_n.transpose().conj()))
+    conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
     return conductance
 
 def calculate_conductance_with_disorder_intensity_array(fermi_energy, h00, h01, disorder_intensity_array, disorder_concentration=1.0, length=100, calculation_times=1):

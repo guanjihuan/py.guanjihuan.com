@@ -75,7 +75,9 @@ def self_energy_of_lead(fermi_energy, h00, h01):
     right_lead_surface, left_lead_surface = surface_green_function_of_lead(fermi_energy, h00, h01)
     right_self_energy = np.dot(np.dot(h01, right_lead_surface), h01.transpose().conj())
     left_self_energy = np.dot(np.dot(h01.transpose().conj(), left_lead_surface), h01)
-    return right_self_energy, left_self_energy
+    gamma_right = (right_self_energy - right_self_energy.transpose().conj())*1j
+    gamma_left = (left_self_energy - left_self_energy.transpose().conj())*1j
+    return right_self_energy, left_self_energy, gamma_right, gamma_left
 
 def self_energy_of_lead_with_h_LC_and_h_CR(fermi_energy, h00, h01, h_LC, h_CR):
     h_LC = np.array(h_LC)
@@ -83,12 +85,19 @@ def self_energy_of_lead_with_h_LC_and_h_CR(fermi_energy, h00, h01, h_LC, h_CR):
     right_lead_surface, left_lead_surface = surface_green_function_of_lead(fermi_energy, h00, h01)
     right_self_energy = np.dot(np.dot(h_CR, right_lead_surface), h_CR.transpose().conj())
     left_self_energy = np.dot(np.dot(h_LC.transpose().conj(), left_lead_surface), h_LC)
-    return right_self_energy, left_self_energy
+    gamma_right = (right_self_energy - right_self_energy.transpose().conj())*1j
+    gamma_left = (left_self_energy - left_self_energy.transpose().conj())*1j
+    return right_self_energy, left_self_energy, gamma_right, gamma_left
+
+def self_energy_of_lead_with_h_lead_to_center(fermi_energy, h00, h01, h_lead_to_center):
+    h_lead_to_center = np.array(h_lead_to_center)
+    right_lead_surface, left_lead_surface = surface_green_function_of_lead(fermi_energy, h00, h01)
+    self_energy = np.dot(np.dot(h_lead_to_center.transpose().conj(), right_lead_surface), h_lead_to_center)
+    gamma = (self_energy - self_energy.transpose().conj())*1j
+    return self_energy, gamma
 
 def green_function_with_leads(fermi_energy, h00, h01, h_LC, h_CR, center_hamiltonian):
     dim = np.array(center_hamiltonian).shape[0]
-    right_self_energy, left_self_energy = self_energy_of_lead_with_h_LC_and_h_CR(fermi_energy, h00, h01, h_LC, h_CR)
+    right_self_energy, left_self_energy, gamma_right, gamma_left = self_energy_of_lead_with_h_LC_and_h_CR(fermi_energy, h00, h01, h_LC, h_CR)
     green = np.linalg.inv(fermi_energy*np.identity(dim)-center_hamiltonian-left_self_energy-right_self_energy)
-    gamma_right = (right_self_energy - right_self_energy.transpose().conj())*1j
-    gamma_left = (left_self_energy - left_self_energy.transpose().conj())*1j
     return green, gamma_right, gamma_left

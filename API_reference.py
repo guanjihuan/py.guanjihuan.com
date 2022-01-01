@@ -68,8 +68,9 @@ green_ni_n = guan.green_function_ni_n(green_nn_n, h01, green_ni_n_minus)
 green_ii_n = guan.green_function_ii_n(green_ii_n_minus, green_in_n_minus, h01, green_nn_n, green_ni_n_minus)
 transfer = guan.transfer_matrix(fermi_energy, h00, h01)
 right_lead_surface, left_lead_surface = guan.surface_green_function_of_lead(fermi_energy, h00, h01)
-right_self_energy, left_self_energy = guan.self_energy_of_lead(fermi_energy, h00, h01)
-right_self_energy, left_self_energy = self_energy_of_lead_with_h_LC_and_h_CR(fermi_energy, h00, h01, h_LC, h_CR)
+right_self_energy, left_self_energy, gamma_right, gamma_left = guan.self_energy_of_lead(fermi_energy, h00, h01)
+right_self_energy, left_self_energy, gamma_right, gamma_left = self_energy_of_lead_with_h_LC_and_h_CR(fermi_energy, h00, h01, h_LC, h_CR)
+self_energy, gamma = guan.self_energy_of_lead_with_h_lead_to_center(fermi_energy, h00, h01, h_lead_to_center)
 green, gamma_right, gamma_left = green_function_with_leads(fermi_energy, h00, h01, h_LC, h_CR, center_hamiltonian)
 
 # calculate density of states    # Source code: https://py.guanjihuan.com/calculate_density_of_states
