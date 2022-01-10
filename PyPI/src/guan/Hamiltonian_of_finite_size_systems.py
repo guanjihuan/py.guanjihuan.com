@@ -3,6 +3,7 @@
 # Hamiltonian of finite size systems
 
 import numpy as np
+import guan
 
 def finite_size_along_one_direction(N, on_site=0, hopping=1, period=0):
     on_site = np.array(on_site)
@@ -106,9 +107,9 @@ def hopping_along_zigzag_direction_for_graphene(N):
     return hopping
 
 def finite_size_along_two_directions_for_graphene(N1, N2, period_1=0, period_2=0):
-    on_site = finite_size_along_one_direction(4)
-    hopping_1 = hopping_along_zigzag_direction_for_graphene(1)
+    on_site = guan.finite_size_along_one_direction(4)
+    hopping_1 = guan.hopping_along_zigzag_direction_for_graphene(1)
     hopping_2 = np.zeros((4, 4), dtype=complex)
     hopping_2[3, 0] = 1
-    hamiltonian = finite_size_along_two_directions_for_square_lattice(N1, N2, on_site, hopping_1, hopping_2, period_1, period_2)
+    hamiltonian = guan.finite_size_along_two_directions_for_square_lattice(N1, N2, on_site, hopping_1, hopping_2, period_1, period_2)
     return hamiltonian
