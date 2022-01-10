@@ -4,7 +4,7 @@
 
 from .basic_functions import *
 from .Fourier_transform import *
-from .Hamiltonian_of_finite_size import *
+from .Hamiltonian_of_finite_size_systems import *
 from .Hamiltonian_of_models_in_the_reciprocal_space import *
 from .calculate_band_structures_and_wave_functions import *
 from .calculate_Green_functions import *

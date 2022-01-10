@@ -34,7 +34,7 @@ hamiltonian = guan.one_dimensional_fourier_transform(k, unit_cell, hopping)
 hamiltonian = guan.two_dimensional_fourier_transform_for_square_lattice(k1, k2, unit_cell, hopping_1, hopping_2)
 hamiltonian = guan.three_dimensional_fourier_transform_for_cubic_lattice(k1, k2, k3, unit_cell, hopping_1, hopping_2, hopping_3)
 
-# Hamiltonian of finite size    # Source code: https://py.guanjihuan.com/hamiltonian_of_finite_size
+# Hamiltonian of finite size systems    # Source code: https://py.guanjihuan.com/hamiltonian_of_finite_size_systems
 hamiltonian = guan.finite_size_along_one_direction(N, on_site=0, hopping=1, period=0)
 hamiltonian = guan.finite_size_along_two_directions_for_square_lattice(N1, N2, on_site=0, hopping_1=1, hopping_2=1, period_1=0, period_2=0)
 hamiltonian = guan.finite_size_along_three_directions_for_cubic_lattice(N1, N2, N3, on_site=0, hopping_1=1, hopping_2=1, hopping_3=1, period_1=0, period_2=0, period_3=0)
