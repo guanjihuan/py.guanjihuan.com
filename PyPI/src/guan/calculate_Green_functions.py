@@ -3,6 +3,7 @@
 # calculate Green functions
 
 import numpy as np
+import guan
 
 def green_function(fermi_energy, hamiltonian, broadening, self_energy=0):
     if np.array(hamiltonian).shape==():
@@ -101,3 +102,9 @@ def green_function_with_leads(fermi_energy, h00, h01, h_LC, h_CR, center_hamilto
     right_self_energy, left_self_energy, gamma_right, gamma_left = self_energy_of_lead_with_h_LC_and_h_CR(fermi_energy, h00, h01, h_LC, h_CR)
     green = np.linalg.inv(fermi_energy*np.identity(dim)-center_hamiltonian-left_self_energy-right_self_energy)
     return green, gamma_right, gamma_left
+
+def electron_correlation_function_green_n_for_local_current(fermi_energy, h00, h01, h_LC, h_CR, center_hamiltonian):
+    right_self_energy, left_self_energy, gamma_right, gamma_left = guan.self_energy_of_lead_with_h_LC_and_h_CR(fermi_energy, h00, h01, h_LC, h_CR)
+    green = guan.green_function(fermi_energy, center_hamiltonian, broadening=0, self_energy=left_self_energy+right_self_energy)
+    G_n = np.imag(np.dot(np.dot(green, gamma_left), green.transpose().conj()))
+    return G_n

@@ -72,6 +72,7 @@ right_self_energy, left_self_energy, gamma_right, gamma_left = guan.self_energy_
 right_self_energy, left_self_energy, gamma_right, gamma_left = guan.self_energy_of_lead_with_h_LC_and_h_CR(fermi_energy, h00, h01, h_LC, h_CR)
 self_energy, gamma = guan.self_energy_of_lead_with_h_lead_to_center(fermi_energy, h00, h01, h_lead_to_center)
 green, gamma_right, gamma_left = guan.green_function_with_leads(fermi_energy, h00, h01, h_LC, h_CR, center_hamiltonian)
+G_n = guan.electron_correlation_function_green_n_for_local_current(fermi_energy, h00, h01, h_LC, h_CR, center_hamiltonian)
 
 # calculate density of states    # Source code: https://py.guanjihuan.com/calculate_density_of_states
 total_dos = guan.total_density_of_states(fermi_energy, hamiltonian, broadening=0.01)
