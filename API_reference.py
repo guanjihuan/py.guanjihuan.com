@@ -105,15 +105,15 @@ chern_number = guan.calculate_chern_number_for_honeycomb_lattice(hamiltonian_fun
 wilson_loop_array = guan.calculate_wilson_loop(hamiltonian_function, k_min=-pi, k_max=pi, precision=100)
 
 # read and write    # Source code: https://py.guanjihuan.com/read_and_write
-x, y = guan.read_one_dimensional_data(filename='a')
-x, y, matrix = guan.read_two_dimensional_data(filename='a')
-guan.write_one_dimensional_data(x_array, y_array, filename='a')
-guan.write_two_dimensional_data(x_array, y_array, matrix, filename='a')
+x_array, y_array = guan.read_one_dimensional_data(filename='a', format='txt')
+x_array, y_array, matrix = guan.read_two_dimensional_data(filename='a', format='txt')
+guan.write_one_dimensional_data(x_array, y_array, filename='a', format='txt')
+guan.write_two_dimensional_data(x_array, y_array, matrix, filename='a', format='txt')
 
 # plot figures    # Source code: https://py.guanjihuan.com/plot_figures
-guan.plot(x_array, y_array, xlabel='x', ylabel='y', title='', filename='a', show=1, save=0, format='jpg', dpi=300, type='', y_min=None, y_max=None, linewidth=None, markersize=None)
-guan.plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z', title='', filename='a', show=1, save=0, format='jpg', dpi=300, z_min=None, z_max=None, rcount=100, ccount=100)
-guan.plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', filename='a', show=1, save=0, format='jpg', dpi=300)
+guan.plot(x_array, y_array, xlabel='x', ylabel='y', title='', show=1, save=0, filename='a', format='jpg', dpi=300, type='', y_min=None, y_max=None, linewidth=None, markersize=None)
+guan.plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z', title='', show=1, save=0, filename='a', format='jpg', dpi=300, z_min=None, z_max=None, rcount=100, ccount=100)
+guan.plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', show=1, save=0, filename='a', format='jpg', dpi=300)
 
 # others   # Source code: https://py.guanjihuan.com/source-code/others
 guan.download_with_scihub(address=None, num=1)

@@ -4,7 +4,7 @@
 
 import numpy as np
 
-def plot(x_array, y_array, xlabel='x', ylabel='y', title='', filename='a', show=1, save=0, format='jpg', dpi=300, type='', y_min=None, y_max=None, linewidth=None, markersize=None): 
+def plot(x_array, y_array, xlabel='x', ylabel='y', title='', show=1, save=0, filename='a', format='jpg', dpi=300, type='', y_min=None, y_max=None, linewidth=None, markersize=None): 
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots()
     plt.subplots_adjust(bottom=0.20, left=0.18) 
@@ -28,7 +28,7 @@ def plot(x_array, y_array, xlabel='x', ylabel='y', title='', filename='a', show=
         plt.show()
     plt.close('all')
 
-def plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z', title='', filename='a', show=1, save=0, format='jpg', dpi=300, z_min=None, z_max=None, rcount=100, ccount=100): 
+def plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z', title='', show=1, save=0, filename='a', format='jpg', dpi=300, z_min=None, z_max=None, rcount=100, ccount=100): 
     import matplotlib.pyplot as plt
     from matplotlib import cm
     from matplotlib.ticker import LinearLocator
@@ -67,7 +67,7 @@ def plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z'
         plt.show()
     plt.close('all')
 
-def plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', filename='a', show=1, save=0, format='jpg', dpi=300):  
+def plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', show=1, save=0, filename='a', format='jpg', dpi=300):  
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots()
     plt.subplots_adjust(bottom=0.2, right=0.75, left = 0.16) 
