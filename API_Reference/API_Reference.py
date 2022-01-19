@@ -27,6 +27,9 @@ sigma_zz = guan.sigma_zz()
 hamiltonian = guan.one_dimensional_fourier_transform(k, unit_cell, hopping)
 hamiltonian = guan.two_dimensional_fourier_transform_for_square_lattice(k1, k2, unit_cell, hopping_1, hopping_2)
 hamiltonian = guan.three_dimensional_fourier_transform_for_cubic_lattice(k1, k2, k3, unit_cell, hopping_1, hopping_2, hopping_3)
+hamiltonian_function = guan.one_dimensional_fourier_transform_with_k(unit_cell, hopping)
+hamiltonian_function = guan.two_dimensional_fourier_transform_for_square_lattice_with_k1_k2(unit_cell, hopping_1, hopping_2)
+hamiltonian_function = guan.three_dimensional_fourier_transform_for_cubic_lattice_with_k1_k2_k3(unit_cell, hopping_1, hopping_2, hopping_3)
 b1 = guan.calculate_one_dimensional_reciprocal_lattice_vector(a1)
 b1, b2 = guan.calculate_two_dimensional_reciprocal_lattice_vectors(a1, a2)
 b1, b2, b3 = guan.calculate_three_dimensional_reciprocal_lattice_vectors(a1, a2, a3)
@@ -35,11 +38,11 @@ b1, b2 = guan.calculate_two_dimensional_reciprocal_lattice_vectors_with_sympy(a1
 b1, b2, b3 = guan.calculate_three_dimensional_reciprocal_lattice_vectors_with_sympy(a1, a2, a3)
 
 # Hamiltonian of finite size systems
-hamiltonian = guan.finite_size_along_one_direction(N, on_site=0, hopping=1, period=0)
-hamiltonian = guan.finite_size_along_two_directions_for_square_lattice(N1, N2, on_site=0, hopping_1=1, hopping_2=1, period_1=0, period_2=0)
-hamiltonian = guan.finite_size_along_three_directions_for_cubic_lattice(N1, N2, N3, on_site=0, hopping_1=1, hopping_2=1, hopping_3=1, period_1=0, period_2=0, period_3=0)
-hopping = guan.hopping_along_zigzag_direction_for_graphene(N)
-hamiltonian = guan.finite_size_along_two_directions_for_graphene(N1, N2, period_1=0, period_2=0)
+hamiltonian = guan.hamiltonian_of_finite_size_system_along_one_direction(N, on_site=0, hopping=1, period=0)
+hamiltonian = guan.hamiltonian_of_finite_size_system_along_two_directions_for_square_lattice(N1, N2, on_site=0, hopping_1=1, hopping_2=1, period_1=0, period_2=0)
+hamiltonian = guan.hamiltonian_of_finite_size_system_along_three_directions_for_cubic_lattice(N1, N2, N3, on_site=0, hopping_1=1, hopping_2=1, hopping_3=1, period_1=0, period_2=0, period_3=0)
+hopping = guan.hopping_matrix_along_zigzag_direction_for_graphene_ribbon(N)
+hamiltonian = guan.hamiltonian_of_finite_size_system_along_two_directions_for_graphene(N1, N2, period_1=0, period_2=0)
 
 # Hamiltonian of models in the reciprocal space
 hamiltonian = guan.hamiltonian_of_simple_chain(k)
@@ -51,6 +54,7 @@ hamiltonian = guan.hamiltonian_of_graphene(k1, k2, M=0, t=1, a=1/sqrt(3))
 hamiltonian = guan.hamiltonian_of_graphene_with_zigzag_in_quasi_one_dimension(k, N=10, M=0, t=1)
 hamiltonian = guan.hamiltonian_of_haldane_model(k1, k2, M=2/3, t1=1, t2=1/3, phi=pi/4, a=1/sqrt(3))
 hamiltonian = guan.hamiltonian_of_haldane_model_in_quasi_one_dimension(k, N=10, M=2/3, t1=1, t2=1/3, phi=pi/4)
+hamiltonian = guan.hamiltonian_of_one_QAH_model(k1, k2, t1=1, t2=1, t3=0.5, m=-1)
 
 # band structures and wave functions
 eigenvalue = guan.calculate_eigenvalue(hamiltonian)
