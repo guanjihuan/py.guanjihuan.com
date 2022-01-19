@@ -929,6 +929,73 @@ def calculate_conductance_with_scattering_length_array(fermi_energy, h00, h01, l
     conductance_array = conductance_array/calculation_times
     return conductance_array
 
+## multi-terminal transmission
+
+def calculate_six_terminal_transmission_matrix(fermi_energy, h00_for_lead_4, h01_for_lead_4, h00_for_lead_2, h01_for_lead_2, center_hamiltonian, width=10, length=50, internal_degree=1, moving_step_of_leads=10):
+    #   ---------------- Geometry ----------------
+    #               lead2         lead3
+    #   lead1(L)                          lead4(R)  
+    #               lead6         lead5 
+
+    # h00 and h01 in leads
+    h00_for_lead_1 = h00_for_lead_4
+    h00_for_lead_2 = h00_for_lead_2
+    h00_for_lead_3 = h00_for_lead_2
+    h00_for_lead_5 = h00_for_lead_2
+    h00_for_lead_6 = h00_for_lead_2
+    h00_for_lead_4 = h00_for_lead_4
+    h01_for_lead_1 = h01_for_lead_4.transpose().conj()
+    h01_for_lead_2 = h01_for_lead_2
+    h01_for_lead_3 = h01_for_lead_2
+    h01_for_lead_4 = h01_for_lead_4
+    h01_for_lead_5 = h01_for_lead_2.transpose().conj()
+    h01_for_lead_6 = h01_for_lead_2.transpose().conj()
+    # hopping matrix from lead to center
+    h_lead1_to_center = np.zeros((internal_degree*width, internal_degree*width*length), dtype=complex)
+    h_lead2_to_center = np.zeros((internal_degree*width, internal_degree*width*length), dtype=complex)
+    h_lead3_to_center = np.zeros((internal_degree*width, internal_degree*width*length), dtype=complex)
+    h_lead4_to_center = np.zeros((internal_degree*width, internal_degree*width*length), dtype=complex)
+    h_lead5_to_center = np.zeros((internal_degree*width, internal_degree*width*length), dtype=complex)
+    h_lead6_to_center = np.zeros((internal_degree*width, internal_degree*width*length), dtype=complex)
+    move = moving_step_of_leads # the step of leads 2,3,6,5 moving to center
+    h_lead1_to_center[0:internal_degree*width, 0:internal_degree*width] = h01_for_lead_1.transpose().conj()
+    h_lead4_to_center[0:internal_degree*width, internal_degree*width*(length-1):internal_degree*width*length] = h01_for_lead_4.transpose().conj()
+    for i0 in range(width):
+        begin_index = internal_degree*i0+0
+        end_index = internal_degree*i0+internal_degree
+        h_lead2_to_center[begin_index:end_index, internal_degree*(width*(move+i0)+(width-1))+0:internal_degree*(width*(move+i0)+(width-1))+internal_degree] = h01_for_lead_2.transpose().conj()[begin_index:end_index, begin_index:end_index]
+        h_lead3_to_center[begin_index:end_index, internal_degree*(width*(length-move-1-i0)+(width-1))+0:internal_degree*(width*(length-move-1-i0)+(width-1))+internal_degree] = h01_for_lead_3.transpose().conj()[begin_index:end_index, begin_index:end_index]
+        h_lead5_to_center[begin_index:end_index, internal_degree*(width*(length-move-1-i0)+0)+0:internal_degree*(width*(length-move-1-i0)+0)+internal_degree] = h01_for_lead_5.transpose().conj()[begin_index:end_index, begin_index:end_index]
+        h_lead6_to_center[begin_index:end_index, internal_degree*(width*(i0+move)+0)+0:internal_degree*(width*(i0+move)+0)+internal_degree] = h01_for_lead_6.transpose().conj()[begin_index:end_index, begin_index:end_index]
+    # self energy    
+    self_energy1, gamma1 = guan.self_energy_of_lead_with_h_lead_to_center(fermi_energy, h00_for_lead_1, h01_for_lead_1, h_lead1_to_center)
+    self_energy2, gamma2 = guan.self_energy_of_lead_with_h_lead_to_center(fermi_energy, h00_for_lead_2, h01_for_lead_1, h_lead2_to_center)
+    self_energy3, gamma3 = guan.self_energy_of_lead_with_h_lead_to_center(fermi_energy, h00_for_lead_3, h01_for_lead_1, h_lead3_to_center)
+    self_energy4, gamma4 = guan.self_energy_of_lead_with_h_lead_to_center(fermi_energy, h00_for_lead_4, h01_for_lead_1, h_lead4_to_center)
+    self_energy5, gamma5 = guan.self_energy_of_lead_with_h_lead_to_center(fermi_energy, h00_for_lead_5, h01_for_lead_1, h_lead5_to_center)
+    self_energy6, gamma6 = guan.self_energy_of_lead_with_h_lead_to_center(fermi_energy, h00_for_lead_6, h01_for_lead_1, h_lead6_to_center)
+    gamma_array = [gamma1, gamma2, gamma3, gamma4, gamma5, gamma6]
+    # Green function
+    green = np.linalg.inv(fermi_energy*np.eye(internal_degree*width*length)-center_hamiltonian-self_energy1-self_energy2-self_energy3-self_energy4-self_energy5-self_energy6)
+    # Transmission
+    transmission_matrix = np.zeros((6, 6), dtype=complex)
+    channel_lead_4 = guan.calculate_conductance(fermi_energy, h00_for_lead_4, h01_for_lead_4, length=3)
+    channel_lead_2 = guan.calculate_conductance(fermi_energy, h00_for_lead_2, h01_for_lead_2, length=3)
+    for i0 in range(6):
+        for j0 in range(6):
+            if j0!=i0:
+                transmission_matrix[i0, j0] = np.trace(np.dot(np.dot(np.dot(gamma_array[i0], green), gamma_array[j0]), green.transpose().conj()))
+    for i0 in range(6):
+        if i0 == 0 or i0 == 3:
+            transmission_matrix[i0, i0] = channel_lead_4
+        else:
+            transmission_matrix[i0, i0] = channel_lead_2
+    for i0 in range(6):
+        for j0 in range(6):
+            if j0!=i0:
+                transmission_matrix[i0, i0] = transmission_matrix[i0, i0]-transmission_matrix[i0, j0]
+    transmission_matrix = np.real(transmission_matrix)
+    return transmission_matrix
 
 ## scattering matrix
 
