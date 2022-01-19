@@ -1,6 +1,6 @@
 # Guan is an open-source python package developed and maintained by https://www.guanjihuan.com/about. The primary location of this package is on website https://py.guanjihuan.com.
 
-# calculate density of states
+# density of states
 
 import numpy as np
 from math import *

@@ -1,8 +1,8 @@
 # Guan is an open-source python package developed and maintained by https://www.guanjihuan.com/about. The primary location of this package is on website https://py.guanjihuan.com.
 
-# calculate_band_structures_and_wave_functions
+# band_structures_and_wave_functions
 
-## calculate band structures
+## band structures
 
 import numpy as np
 import cmath
@@ -66,7 +66,7 @@ def calculate_eigenvalue_with_two_parameters(x_array, y_array, hamiltonian_funct
             i0 += 1
     return eigenvalue_array
 
-## calculate wave functions
+## wave functions
 
 def calculate_eigenvector(hamiltonian):
     eigenvalue, eigenvector = np.linalg.eigh(hamiltonian) 

@@ -22,17 +22,17 @@ sigma_z0 = guan.sigma_z0()
 sigma_zx = guan.sigma_zx()
 sigma_zy = guan.sigma_zy()
 sigma_zz = guan.sigma_zz()
+
+# Fourier transform
+hamiltonian = guan.one_dimensional_fourier_transform(k, unit_cell, hopping)
+hamiltonian = guan.two_dimensional_fourier_transform_for_square_lattice(k1, k2, unit_cell, hopping_1, hopping_2)
+hamiltonian = guan.three_dimensional_fourier_transform_for_cubic_lattice(k1, k2, k3, unit_cell, hopping_1, hopping_2, hopping_3)
 b1 = guan.calculate_one_dimensional_reciprocal_lattice_vector(a1)
 b1, b2 = guan.calculate_two_dimensional_reciprocal_lattice_vectors(a1, a2)
 b1, b2, b3 = guan.calculate_three_dimensional_reciprocal_lattice_vectors(a1, a2, a3)
 b1 = guan.calculate_one_dimensional_reciprocal_lattice_vector_with_sympy(a1)
 b1, b2 = guan.calculate_two_dimensional_reciprocal_lattice_vectors_with_sympy(a1, a2)
 b1, b2, b3 = guan.calculate_three_dimensional_reciprocal_lattice_vectors_with_sympy(a1, a2, a3)
-
-# Fourier transform
-hamiltonian = guan.one_dimensional_fourier_transform(k, unit_cell, hopping)
-hamiltonian = guan.two_dimensional_fourier_transform_for_square_lattice(k1, k2, unit_cell, hopping_1, hopping_2)
-hamiltonian = guan.three_dimensional_fourier_transform_for_cubic_lattice(k1, k2, k3, unit_cell, hopping_1, hopping_2, hopping_3)
 
 # Hamiltonian of finite size systems
 hamiltonian = guan.finite_size_along_one_direction(N, on_site=0, hopping=1, period=0)
@@ -52,7 +52,7 @@ hamiltonian = guan.hamiltonian_of_graphene_with_zigzag_in_quasi_one_dimension(k,
 hamiltonian = guan.hamiltonian_of_haldane_model(k1, k2, M=2/3, t1=1, t2=1/3, phi=pi/4, a=1/sqrt(3))
 hamiltonian = guan.hamiltonian_of_haldane_model_in_quasi_one_dimension(k, N=10, M=2/3, t1=1, t2=1/3, phi=pi/4)
 
-# calculate band structures
+# band structures and wave functions
 eigenvalue = guan.calculate_eigenvalue(hamiltonian)
 eigenvalue_array = guan.calculate_eigenvalue_with_one_parameter(x_array, hamiltonian_function, print_show=0)
 eigenvalue_array = guan.calculate_eigenvalue_with_two_parameters(x_array, y_array, hamiltonian_function, print_show=0, print_show_more=0)
