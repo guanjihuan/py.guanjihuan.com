@@ -712,11 +712,13 @@ def total_density_of_states(fermi_energy, hamiltonian, broadening=0.01):
     total_dos = -np.trace(np.imag(green))/pi
     return total_dos
 
-def total_density_of_states_with_fermi_energy_array(fermi_energy_array, hamiltonian, broadening=0.01):
+def total_density_of_states_with_fermi_energy_array(fermi_energy_array, hamiltonian, broadening=0.01, print_show=0):
     dim = np.array(fermi_energy_array).shape[0]
     total_dos_array = np.zeros(dim)
     i0 = 0
     for fermi_energy in fermi_energy_array:
+        if print_show == 1:
+            print(fermi_energy)
         total_dos_array[i0] = total_density_of_states(fermi_energy, hamiltonian, broadening)
         i0 += 1
     return total_dos_array
@@ -867,12 +869,14 @@ def calculate_conductance(fermi_energy, h00, h01, length=100):
     conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
     return conductance
 
-def calculate_conductance_with_fermi_energy_array(fermi_energy_array, h00, h01, length=100):
+def calculate_conductance_with_fermi_energy_array(fermi_energy_array, h00, h01, length=100, print_show=0):
     dim = np.array(fermi_energy_array).shape[0]
     conductance_array = np.zeros(dim)
     i0 = 0
-    for fermi_energy_0 in fermi_energy_array:
-        conductance_array[i0] = np.real(calculate_conductance(fermi_energy_0, h00, h01, length))
+    for fermi_energy in fermi_energy_array:
+        if print_show == 1:
+            print(fermi_energy)
+        conductance_array[i0] = np.real(calculate_conductance(fermi_energy, h00, h01, length))
         i0 += 1
     return conductance_array
 
@@ -896,35 +900,41 @@ def calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensi
     conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
     return conductance
 
-def calculate_conductance_with_disorder_intensity_array(fermi_energy, h00, h01, disorder_intensity_array, disorder_concentration=1.0, length=100, calculation_times=1):
+def calculate_conductance_with_disorder_intensity_array(fermi_energy, h00, h01, disorder_intensity_array, disorder_concentration=1.0, length=100, calculation_times=1, print_show=0):
     dim = np.array(disorder_intensity_array).shape[0]
     conductance_array = np.zeros(dim)
     i0 = 0
-    for disorder_intensity_0 in disorder_intensity_array:
+    for disorder_intensity in disorder_intensity_array:
+        if print_show == 1:
+            print(disorder_intensity)
         for times in range(calculation_times):
-            conductance_array[i0] = conductance_array[i0]+np.real(calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensity=disorder_intensity_0, disorder_concentration=disorder_concentration, length=length))
+            conductance_array[i0] = conductance_array[i0]+np.real(calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensity=disorder_intensity, disorder_concentration=disorder_concentration, length=length))
         i0 += 1
     conductance_array = conductance_array/calculation_times
     return conductance_array
 
-def calculate_conductance_with_disorder_concentration_array(fermi_energy, h00, h01, disorder_concentration_array, disorder_intensity=2.0, length=100, calculation_times=1):
+def calculate_conductance_with_disorder_concentration_array(fermi_energy, h00, h01, disorder_concentration_array, disorder_intensity=2.0, length=100, calculation_times=1, print_show=0):
     dim = np.array(disorder_concentration_array).shape[0]
     conductance_array = np.zeros(dim)
     i0 = 0
-    for disorder_concentration_0 in disorder_concentration_array:
+    for disorder_concentration in disorder_concentration_array:
+        if print_show == 1:
+            print(disorder_concentration)
         for times in range(calculation_times):
-            conductance_array[i0] = conductance_array[i0]+np.real(calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensity=disorder_intensity, disorder_concentration=disorder_concentration_0, length=length))
+            conductance_array[i0] = conductance_array[i0]+np.real(calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensity=disorder_intensity, disorder_concentration=disorder_concentration, length=length))
         i0 += 1
     conductance_array = conductance_array/calculation_times
     return conductance_array
 
-def calculate_conductance_with_scattering_length_array(fermi_energy, h00, h01, length_array, disorder_intensity=2.0, disorder_concentration=1.0, calculation_times=1):
+def calculate_conductance_with_scattering_length_array(fermi_energy, h00, h01, length_array, disorder_intensity=2.0, disorder_concentration=1.0, calculation_times=1, print_show=0):
     dim = np.array(length_array).shape[0]
     conductance_array = np.zeros(dim)
     i0 = 0
-    for length_0 in length_array:
+    for length in length_array:
+        if print_show == 1:
+            print(length)
         for times in range(calculation_times):
-            conductance_array[i0] = conductance_array[i0]+np.real(calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensity=disorder_intensity, disorder_concentration=disorder_concentration, length=length_0))
+            conductance_array[i0] = conductance_array[i0]+np.real(calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensity=disorder_intensity, disorder_concentration=disorder_concentration, length=length))
         i0 += 1
     conductance_array = conductance_array/calculation_times
     return conductance_array
@@ -1126,13 +1136,13 @@ def calculate_scattering_matrix(fermi_energy, h00, h01, length=100):
             print('Error Alert: scattering matrix is not normalized!')
     return transmission_matrix, reflection_matrix, k_right, k_left, velocity_right, velocity_left, ind_right_active
 
-def print_or_write_scattering_matrix(fermi_energy, h00, h01, length=100, on_print=1, on_write=0):
+def print_or_write_scattering_matrix(fermi_energy, h00, h01, length=100, print_show=1, write_file=0, filename='a', format='txt'):
     if np.array(h00).shape==():
         dim = 1
     else:
         dim = np.array(h00).shape[0]
     transmission_matrix, reflection_matrix, k_right, k_left, velocity_right, velocity_left, ind_right_active = calculate_scattering_matrix(fermi_energy, h00, h01, length)
-    if on_print == 1:
+    if print_show == 1:
         print('\nActive channel (left or right) = ', ind_right_active)
         print('Evanescent channel (left or right) = ', dim-ind_right_active, '\n')
         print('K of right-moving active channels:\n', np.real(k_right[0:ind_right_active]))
@@ -1145,8 +1155,8 @@ def print_or_write_scattering_matrix(fermi_energy, h00, h01, length=100, on_prin
         print('Total reflection of channels:\n',np.sum(np.square(np.abs(reflection_matrix[0:ind_right_active, 0:ind_right_active])), axis=0))
         print('Sum of transmission and reflection of channels:\n', np.sum(np.square(np.abs(transmission_matrix[0:ind_right_active, 0:ind_right_active])), axis=0) + np.sum(np.square(np.abs(reflection_matrix[0:ind_right_active, 0:ind_right_active])), axis=0))
         print('Total conductance = ', np.sum(np.square(np.abs(transmission_matrix[0:ind_right_active, 0:ind_right_active]))), '\n')
-    if on_write == 1:
-        with open('a.txt', 'w') as f:
+    if write_file == 1:
+        with open(filename+'.'+format, 'w') as f:
             f.write('Active channel (left or right) = ' + str(ind_right_active) + '\n')
             f.write('Evanescent channel (left or right) = ' + str(dim - ind_right_active) + '\n\n')
             f.write('Channel               K                                     Velocity\n')
@@ -1185,7 +1195,7 @@ def print_or_write_scattering_matrix(fermi_energy, h00, h01, length=100, on_prin
 
 # Module 9: topological invariant
 
-def calculate_chern_number_for_square_lattice(hamiltonian_function, precision=100):
+def calculate_chern_number_for_square_lattice(hamiltonian_function, precision=100, print_show=0):
     if np.array(hamiltonian_function(0, 0)).shape==():
         dim = 1
     else:
@@ -1193,6 +1203,8 @@ def calculate_chern_number_for_square_lattice(hamiltonian_function, precision=10
     delta = 2*pi/precision
     chern_number = np.zeros(dim, dtype=complex)
     for kx in np.arange(-pi, pi, delta):
+        if print_show == 1:
+            print(kx)
         for ky in np.arange(-pi, pi, delta):
             H = hamiltonian_function(kx, ky)
             vector = guan.calculate_eigenvector(H)
@@ -1216,10 +1228,12 @@ def calculate_chern_number_for_square_lattice(hamiltonian_function, precision=10
     chern_number = chern_number/(2*pi*1j)
     return chern_number
 
-def calculate_chern_number_for_square_lattice_with_Wilson_loop(hamiltonian_function, precision_of_plaquettes=10, precision_of_Wilson_loop=100):
+def calculate_chern_number_for_square_lattice_with_Wilson_loop(hamiltonian_function, precision_of_plaquettes=10, precision_of_Wilson_loop=100, print_show=0):
     delta = 2*pi/precision_of_plaquettes
     chern_number = 0
     for kx in np.arange(-pi, pi, delta):
+        if print_show == 1:
+            print(kx)
         for ky in np.arange(-pi, pi, delta):
             vector_array = []
             # line_1
@@ -1255,7 +1269,7 @@ def calculate_chern_number_for_square_lattice_with_Wilson_loop(hamiltonian_funct
     chern_number = chern_number/(2*pi)
     return chern_number
 
-def calculate_chern_number_for_honeycomb_lattice(hamiltonian_function, a=1, precision=300):
+def calculate_chern_number_for_honeycomb_lattice(hamiltonian_function, a=1, precision=300, print_show=0):
     if np.array(hamiltonian_function(0, 0)).shape==():
         dim = 1
     else:
@@ -1267,6 +1281,8 @@ def calculate_chern_number_for_honeycomb_lattice(hamiltonian_function, a=1, prec
     delta1 = 2*L1/precision
     delta3 = 2*L3/precision
     for kx in np.arange(-L1, L1, delta1):
+        if print_show == 1:
+            print(kx)
         for ky in np.arange(-L3, L3, delta3):
             if (-L2<=kx<=L2) or (kx>L2 and -(L1-kx)*tan(pi/3)<=ky<=(L1-kx)*tan(pi/3)) or (kx<-L2 and  -(kx-(-L1))*tan(pi/3)<=ky<=(kx-(-L1))*tan(pi/3)):
                 H = hamiltonian_function(kx, ky)
@@ -1291,11 +1307,13 @@ def calculate_chern_number_for_honeycomb_lattice(hamiltonian_function, a=1, prec
     chern_number = chern_number/(2*pi*1j)
     return chern_number
 
-def calculate_wilson_loop(hamiltonian_function, k_min=-pi, k_max=pi, precision=100):
+def calculate_wilson_loop(hamiltonian_function, k_min=-pi, k_max=pi, precision=100, print_show=0):
     k_array = np.linspace(k_min, k_max, precision)
     dim = np.array(hamiltonian_function(0)).shape[0]
     wilson_loop_array = np.ones(dim, dtype=complex)
     for i in range(dim):
+        if print_show == 1:
+            print(i)
         eigenvector_array = []
         for k in k_array:
             eigenvector  = guan.calculate_eigenvector(hamiltonian_function(k))  

@@ -80,7 +80,7 @@ G_n = guan.electron_correlation_function_green_n_for_local_current(fermi_energy,
 
 # density of states
 total_dos = guan.total_density_of_states(fermi_energy, hamiltonian, broadening=0.01)
-total_dos_array = guan.total_density_of_states_with_fermi_energy_array(fermi_energy_array, hamiltonian, broadening=0.01)
+total_dos_array = guan.total_density_of_states_with_fermi_energy_array(fermi_energy_array, hamiltonian, broadening=0.01, print_show=0)
 local_dos = guan.local_density_of_states_for_square_lattice(fermi_energy, hamiltonian, N1, N2, internal_degree=1, broadening=0.01)
 local_dos = guan.local_density_of_states_for_cubic_lattice(fermi_energy, hamiltonian, N1, N2, N3, internal_degree=1, broadening=0.01)
 local_dos = guan.local_density_of_states_for_square_lattice_using_dyson_equation(fermi_energy, h00, h01, N2, N1, internal_degree=1, broadening=0.01)
@@ -89,23 +89,23 @@ local_dos = guan.local_density_of_states_for_square_lattice_with_self_energy_usi
 
 # quantum transport
 conductance = guan.calculate_conductance(fermi_energy, h00, h01, length=100)
-conductance_array = guan.calculate_conductance_with_fermi_energy_array(fermi_energy_array, h00, h01, length=100)
+conductance_array = guan.calculate_conductance_with_fermi_energy_array(fermi_energy_array, h00, h01, length=100, print_show=0)
 conductance = guan.calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensity=2.0, disorder_concentration=1.0, length=100)
-conductance_array = guan.calculate_conductance_with_disorder_intensity_array(fermi_energy, h00, h01, disorder_intensity_array, disorder_concentration=1.0, length=100, calculation_times=1)
-conductance_array = guan.calculate_conductance_with_disorder_concentration_array(fermi_energy, h00, h01, disorder_concentration_array, disorder_intensity=2.0, length=100, calculation_times=1)
-conductance_array = guan.calculate_conductance_with_scattering_length_array(fermi_energy, h00, h01, length_array, disorder_intensity=2.0, disorder_concentration=1.0, calculation_times=1)
+conductance_array = guan.calculate_conductance_with_disorder_intensity_array(fermi_energy, h00, h01, disorder_intensity_array, disorder_concentration=1.0, length=100, calculation_times=1, print_show=0)
+conductance_array = guan.calculate_conductance_with_disorder_concentration_array(fermi_energy, h00, h01, disorder_concentration_array, disorder_intensity=2.0, length=100, calculation_times=1, print_show=0)
+conductance_array = guan.calculate_conductance_with_scattering_length_array(fermi_energy, h00, h01, length_array, disorder_intensity=2.0, disorder_concentration=1.0, calculation_times=1, print_show=0)
 transmission_matrix = guan.calculate_six_terminal_transmission_matrix(fermi_energy, h00_for_lead_4, h01_for_lead_4, h00_for_lead_2, h01_for_lead_2, center_hamiltonian, width=10, length=50, internal_degree=1, moving_step_of_leads=10)
 if_active = guan.if_active_channel(k_of_channel)
 k_of_channel, velocity_of_channel, eigenvalue, eigenvector = guan.get_k_and_velocity_of_channel(fermi_energy, h00, h01)
 k_right, k_left, velocity_right, velocity_left, f_right, f_left, u_right, u_left, ind_right_active = guan.get_classified_k_velocity_u_and_f(fermi_energy, h00, h01)
 transmission_matrix, reflection_matrix, k_right, k_left, velocity_right, velocity_left, ind_right_active = guan.calculate_scattering_matrix(fermi_energy, h00, h01, length=100)
-guan.print_or_write_scattering_matrix(fermi_energy, h00, h01, length=100, on_print=1, on_write=0)
+guan.print_or_write_scattering_matrix(fermi_energy, h00, h01, length=100, print_show=1, write_file=0, filename='a', format='txt')
 
 # topological invariant
-chern_number = guan.calculate_chern_number_for_square_lattice(hamiltonian_function, precision=100)
-chern_number = guan.calculate_chern_number_for_square_lattice_with_Wilson_loop(hamiltonian_function, precision_of_plaquettes=10, precision_of_Wilson_loop=100)
-chern_number = guan.calculate_chern_number_for_honeycomb_lattice(hamiltonian_function, a=1, precision=300)
-wilson_loop_array = guan.calculate_wilson_loop(hamiltonian_function, k_min=-pi, k_max=pi, precision=100)
+chern_number = guan.calculate_chern_number_for_square_lattice(hamiltonian_function, precision=100, print_show=0)
+chern_number = guan.calculate_chern_number_for_square_lattice_with_Wilson_loop(hamiltonian_function, precision_of_plaquettes=10, precision_of_Wilson_loop=100, print_show=0)
+chern_number = guan.calculate_chern_number_for_honeycomb_lattice(hamiltonian_function, a=1, precision=300, print_show=0)
+wilson_loop_array = guan.calculate_wilson_loop(hamiltonian_function, k_min=-pi, k_max=pi, precision=100, print_show=0)
 
 # read and write
 x_array, y_array = guan.read_one_dimensional_data(filename='a', format='txt')
