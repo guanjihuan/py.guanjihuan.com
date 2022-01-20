@@ -131,6 +131,7 @@ vector = guan.find_vector_with_fixed_gauge_by_making_one_component_real(vector, 
 
 
 # Green functions
+
 green = guan.green_function(fermi_energy, hamiltonian, broadening, self_energy=0)
 
 green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n_minus, broadening, self_energy=0)
@@ -158,6 +159,7 @@ G_n = guan.electron_correlation_function_green_n_for_local_current(fermi_energy,
 
 
 # density of states
+
 total_dos = guan.total_density_of_states(fermi_energy, hamiltonian, broadening=0.01)
 
 total_dos_array = guan.total_density_of_states_with_fermi_energy_array(fermi_energy_array, hamiltonian, broadening=0.01, print_show=0)
@@ -175,6 +177,7 @@ local_dos = guan.local_density_of_states_for_square_lattice_with_self_energy_usi
 
 
 # quantum transport
+
 conductance = guan.calculate_conductance(fermi_energy, h00, h01, length=100)
 
 conductance_array = guan.calculate_conductance_with_fermi_energy_array(fermi_energy_array, h00, h01, length=100, print_show=0)
