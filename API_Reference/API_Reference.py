@@ -231,6 +231,11 @@ guan.write_one_dimensional_data(x_array, y_array, filename='a', format='txt')
 guan.write_two_dimensional_data(x_array, y_array, matrix, filename='a', format='txt')
 
 
+# preprocess
+
+parameter_array = guan.preprocess_for_parallel_calculations(parameter_array_all, cpus=1, task_index=0)
+
+
 
 # plot figures
 

@@ -12,8 +12,9 @@
 # # Module 8: quantum_transport
 # # Module 9: topological_invariant
 # # Module 10: read_and_write
-# # Module 11: plot_figures
-# # Module 12: others
+# # Module 11: preprocess
+# # Module 12: plot_figures
+# # Module 13: others
 
 # import packages
 
@@ -1442,7 +1443,31 @@ def write_two_dimensional_data(x_array, y_array, matrix, filename='a', format='t
 
 
 
-# Module 11: plot figures
+# Module 11: preprocess
+
+def preprocess_for_parallel_calculations(parameter_array_all, cpus=1, task_index=0):
+    num_all = np.array(parameter_array_all).shape[0]
+    if num_all%cpus == 0:
+        num_parameter = int(num_all/cpus) 
+        parameter_array = parameter_array_all[task_index*num_parameter:(task_index+1)*num_parameter]
+    else:
+        num_parameter = int(num_all/(cpus-1))
+        if task_index != cpus-1:
+            parameter_array = parameter_array_all[task_index*num_parameter:(task_index+1)*num_parameter]
+        else:
+            parameter_array = parameter_array_all[task_index*num_parameter:num_all]
+    return parameter_array
+
+
+
+
+
+
+
+
+
+
+# Module 12: plot figures
 
 def plot(x_array, y_array, xlabel='x', ylabel='y', title='', show=1, save=0, filename='a', format='jpg', dpi=300, type='', y_min=None, y_max=None, linewidth=None, markersize=None): 
     import matplotlib.pyplot as plt
@@ -1539,7 +1564,7 @@ def plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', sho
 
 
 
-# Module 12: others
+# Module 13: others
 
 ## download
 
