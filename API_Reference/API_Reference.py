@@ -243,13 +243,10 @@ guan.plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', sh
 
 
 
-# preprocessing
+# data processing
 
 parameter_array = guan.preprocess_for_parallel_calculations(parameter_array_all, cpus=1, task_index=0)
 
-
-
-# bach processing
 guan.bach_reading_and_plotting(directory, xlabel='x', ylabel='y')
 
 
@@ -265,3 +262,5 @@ guan.txt_to_audio(txt_path, rate=125, voice=1, read=1, save=0, print_text=0)
 content = guan.pdf_to_text(pdf_path)
 
 guan.pdf_to_audio(pdf_path, rate=125, voice=1, read=1, save=0, print_text=0)
+
+guan.play_academic_words(bre_or_ame='ame', random_on=0, show_chinese=1, show_link=1, chinese_time=2, rest_time=1)

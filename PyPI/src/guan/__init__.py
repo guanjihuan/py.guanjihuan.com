@@ -2,20 +2,19 @@
 
 # Modules
 
-# # Module 1: basic_functions
-# # Module 2: Fourier_transform
-# # Module 3: Hamiltonian_of_finite_size_systems
-# # Module 4: Hamiltonian_of_models_in_the_reciprocal_space
-# # Module 5: band_structures_and_wave_functions
-# # Module 6: Green_functions
-# # Module 7: density_of_states
-# # Module 8: quantum_transport
-# # Module 9: topological_invariant
-# # Module 10: read_and_write
-# # Module 11: plot_figures
-# # Module 12: preprocess
-# # Module 13: bach processing
-# # Module 14: others
+# # Module 1: basic functions
+# # Module 2: Fourier transform
+# # Module 3: Hamiltonian of finite size systems
+# # Module 4: Hamiltonian of models in the reciprocal space
+# # Module 5: band structures and wave functions
+# # Module 6: Green functions
+# # Module 7: density of states
+# # Module 8: quantum transport
+# # Module 9: topological invariant
+# # Module 10: read and write
+# # Module 11: plot figures
+# # Module 12: data processing
+# # Module 13: others
 
 # import packages
 
@@ -107,7 +106,7 @@ def sigma_zz():
 
 # Module 2: Fourier_transform
 
-# Fourier_transform for discrete lattices
+# Fourier transform for discrete lattices
 
 def one_dimensional_fourier_transform(k, unit_cell, hopping):
     unit_cell = np.array(unit_cell)
@@ -464,7 +463,7 @@ def hamiltonian_of_one_QAH_model(k1, k2, t1=1, t2=1, t3=0.5, m=-1):
 
 
 
-# Module 5: band_structures_and_wave_functions
+# Module 5: band structures and wave functions
 
 ## band structures
 
@@ -1545,7 +1544,7 @@ def plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', sho
 
 
 
-# Module 12: preprocessing
+# Module 12: data processing
 
 def preprocess_for_parallel_calculations(parameter_array_all, cpus=1, task_index=0):
     num_all = np.array(parameter_array_all).shape[0]
@@ -1559,17 +1558,6 @@ def preprocess_for_parallel_calculations(parameter_array_all, cpus=1, task_index
         else:
             parameter_array = parameter_array_all[task_index*num_parameter:num_all]
     return parameter_array
-
-
-
-
-
-
-
-
-
-
-# Module 13: bach processing
 
 def bach_reading_and_plotting(directory, xlabel='x', ylabel='y'):
     import re
@@ -1588,7 +1576,7 @@ def bach_reading_and_plotting(directory, xlabel='x', ylabel='y'):
 
 
 
-# Module 14: others
+# Module 13: others
 
 ## download
 
@@ -1714,3 +1702,60 @@ def pdf_to_audio(pdf_path, rate=125, voice=1, read=1, save=0, print_text=0):
     if read==1:
         engine.say(text)
         engine.runAndWait()
+
+def play_academic_words(bre_or_ame='ame', random_on=0, show_chinese=1, show_link=1, chinese_time=2, rest_time=1):
+    from bs4 import BeautifulSoup
+    import re
+    import urllib.request
+    import requests
+    import os
+    import pygame
+    import time
+    import ssl
+    import random
+    ssl._create_default_https_context = ssl._create_unverified_context
+    html = urllib.request.urlopen("https://www.guanjihuan.com/archives/4418").read().decode('utf-8')
+    if bre_or_ame == 'ame':
+        directory = 'words_mp3_ameProns/'
+    elif bre_or_ame == 'bre':
+        directory = 'words_mp3_breProns/'
+    exist_directory = os.path.exists(directory)
+    html_file = urllib.request.urlopen("https://file.guanjihuan.com/words/"+directory).read().decode('utf-8')
+    if exist_directory == 0:
+        os.makedirs(directory)
+    soup = BeautifulSoup(html, features='lxml')
+    contents = re.findall('<h2>.*?<h2>', html, re.S)
+    if random_on==1:
+        random.shuffle(contents)
+    for content in contents:
+        soup2 = BeautifulSoup(content, features='lxml')
+        all_h2 = soup2.find_all('h2')
+        for h2 in all_h2:
+            if re.search('\d*. ', h2.get_text()):
+                word = re.findall('[a-zA-Z].*', h2.get_text(), re.S)[0]
+                exist = os.path.exists(directory+word+'.mp3')
+                if not exist:
+                    try:
+                        if re.search(word, html_file):
+                            r = requests.get("https://file.guanjihuan.com/words/"+directory+word+".mp3", stream=True)
+                            with open(directory+word+'.mp3', 'wb') as f:
+                                for chunk in r.iter_content(chunk_size=32):
+                                    f.write(chunk)
+                    except:
+                        pass
+                print(h2.get_text())
+                if show_link==1:
+                    print('https://www.ldoceonline.com/dictionary/'+word)
+                try:
+                    pygame.mixer.init()
+                    track = pygame.mixer.music.load(directory+word+'.mp3')
+                    pygame.mixer.music.play()
+                    translation = re.findall('<p>.*?</p>', content, re.S)[0][3:-4]
+                    time.sleep(chinese_time)
+                    if show_chinese==1:
+                        print(translation)
+                        time.sleep(rest_time)
+                    pygame.mixer.music.stop()
+                except:
+                    pass
+                print()
