@@ -231,10 +231,6 @@ guan.write_one_dimensional_data(x_array, y_array, filename='a', format='txt')
 guan.write_two_dimensional_data(x_array, y_array, matrix, filename='a', format='txt')
 
 
-# preprocess
-
-parameter_array = guan.preprocess_for_parallel_calculations(parameter_array_all, cpus=1, task_index=0)
-
 
 
 # plot figures
@@ -244,6 +240,17 @@ guan.plot(x_array, y_array, xlabel='x', ylabel='y', title='', show=1, save=0, fi
 guan.plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z', title='', show=1, save=0, filename='a', format='jpg', dpi=300, z_min=None, z_max=None, rcount=100, ccount=100)
 
 guan.plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', show=1, save=0, filename='a', format='jpg', dpi=300)
+
+
+
+# preprocessing
+
+parameter_array = guan.preprocess_for_parallel_calculations(parameter_array_all, cpus=1, task_index=0)
+
+
+
+# bach processing
+guan.bach_reading_and_plotting(directory, xlabel='x', ylabel='y')
 
 
 

@@ -12,16 +12,16 @@
 # # Module 8: quantum_transport
 # # Module 9: topological_invariant
 # # Module 10: read_and_write
-# # Module 11: preprocess
-# # Module 12: plot_figures
-# # Module 13: others
+# # Module 11: plot_figures
+# # Module 12: preprocess
+# # Module 13: bach processing
+# # Module 14: others
 
 # import packages
 
 import numpy as np
 from math import *
 import cmath
-import functools
 import copy
 import guan
 
@@ -131,14 +131,17 @@ def three_dimensional_fourier_transform_for_cubic_lattice(k1, k2, k3, unit_cell,
     return hamiltonian
 
 def one_dimensional_fourier_transform_with_k(unit_cell, hopping):
+    import functools
     hamiltonian_function = functools.partial(guan.one_dimensional_fourier_transform, unit_cell=unit_cell, hopping=hopping)
     return hamiltonian_function
 
 def two_dimensional_fourier_transform_for_square_lattice_with_k1_k2(unit_cell, hopping_1, hopping_2):
+    import functools
     hamiltonian_function = functools.partial(guan.two_dimensional_fourier_transform_for_square_lattice, unit_cell=unit_cell, hopping_1=hopping_1, hopping_2=hopping_2)
     return hamiltonian_function
 
 def three_dimensional_fourier_transform_for_cubic_lattice_with_k1_k2_k3(unit_cell, hopping_1, hopping_2, hopping_3):
+    import functools
     hamiltonian_function = functools.partial(guan.three_dimensional_fourier_transform_for_cubic_lattice, unit_cell=unit_cell, hopping_1=hopping_1, hopping_2=hopping_2, hopping_3=hopping_3)
     return hamiltonian_function
 
@@ -1443,31 +1446,8 @@ def write_two_dimensional_data(x_array, y_array, matrix, filename='a', format='t
 
 
 
-# Module 11: preprocess
 
-def preprocess_for_parallel_calculations(parameter_array_all, cpus=1, task_index=0):
-    num_all = np.array(parameter_array_all).shape[0]
-    if num_all%cpus == 0:
-        num_parameter = int(num_all/cpus) 
-        parameter_array = parameter_array_all[task_index*num_parameter:(task_index+1)*num_parameter]
-    else:
-        num_parameter = int(num_all/(cpus-1))
-        if task_index != cpus-1:
-            parameter_array = parameter_array_all[task_index*num_parameter:(task_index+1)*num_parameter]
-        else:
-            parameter_array = parameter_array_all[task_index*num_parameter:num_all]
-    return parameter_array
-
-
-
-
-
-
-
-
-
-
-# Module 12: plot figures
+# Module 11: plot figures
 
 def plot(x_array, y_array, xlabel='x', ylabel='y', title='', show=1, save=0, filename='a', format='jpg', dpi=300, type='', y_min=None, y_max=None, linewidth=None, markersize=None): 
     import matplotlib.pyplot as plt
@@ -1564,7 +1544,51 @@ def plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', sho
 
 
 
-# Module 13: others
+
+# Module 12: preprocessing
+
+def preprocess_for_parallel_calculations(parameter_array_all, cpus=1, task_index=0):
+    num_all = np.array(parameter_array_all).shape[0]
+    if num_all%cpus == 0:
+        num_parameter = int(num_all/cpus) 
+        parameter_array = parameter_array_all[task_index*num_parameter:(task_index+1)*num_parameter]
+    else:
+        num_parameter = int(num_all/(cpus-1))
+        if task_index != cpus-1:
+            parameter_array = parameter_array_all[task_index*num_parameter:(task_index+1)*num_parameter]
+        else:
+            parameter_array = parameter_array_all[task_index*num_parameter:num_all]
+    return parameter_array
+
+
+
+
+
+
+
+
+
+
+# Module 13: bach processing
+
+def bach_reading_and_plotting(directory, xlabel='x', ylabel='y'):
+    import re
+    import os
+    for root, dirs, files in os.walk(directory):
+        for file in files:
+            if re.search('^txt.', file[::-1]):
+                filename = file[:-4]
+                x_array, y_array = guan.read_one_dimensional_data(filename=filename)
+                guan.plot(x_array, y_array, xlabel=xlabel, ylabel=ylabel, title=filename, show=0, save=1, filename=filename)
+
+
+
+
+
+
+
+
+# Module 14: others
 
 ## download
 
