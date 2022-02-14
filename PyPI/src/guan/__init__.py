@@ -1703,7 +1703,7 @@ def pdf_to_audio(pdf_path, rate=125, voice=1, read=1, save=0, print_text=0):
         engine.say(text)
         engine.runAndWait()
 
-def play_academic_words(bre_or_ame='ame', random_on=0, show_chinese=1, show_link=1, chinese_time=2, rest_time=1):
+def play_academic_words(bre_or_ame='ame', random_on=0, show_translation=1, show_link=1, translation_time=2, rest_time=1):
     from bs4 import BeautifulSoup
     import re
     import urllib.request
@@ -1751,10 +1751,10 @@ def play_academic_words(bre_or_ame='ame', random_on=0, show_chinese=1, show_link
                     track = pygame.mixer.music.load(directory+word+'.mp3')
                     pygame.mixer.music.play()
                     translation = re.findall('<p>.*?</p>', content, re.S)[0][3:-4]
-                    time.sleep(chinese_time)
-                    if show_chinese==1:
+                    if show_translation==1:
+                        time.sleep(translation_time)
                         print(translation)
-                        time.sleep(rest_time)
+                    time.sleep(rest_time)
                     pygame.mixer.music.stop()
                 except:
                     pass
