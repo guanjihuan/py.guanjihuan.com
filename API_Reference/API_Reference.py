@@ -247,7 +247,7 @@ guan.plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', sh
 
 parameter_array = guan.preprocess_for_parallel_calculations(parameter_array_all, cpus=1, task_index=0)
 
-guan.bach_reading_and_plotting(directory, xlabel='x', ylabel='y')
+guan.batch_reading_and_plotting(directory, xlabel='x', ylabel='y')
 
 
 

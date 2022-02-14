@@ -1559,7 +1559,7 @@ def preprocess_for_parallel_calculations(parameter_array_all, cpus=1, task_index
             parameter_array = parameter_array_all[task_index*num_parameter:num_all]
     return parameter_array
 
-def bach_reading_and_plotting(directory, xlabel='x', ylabel='y'):
+def batch_reading_and_plotting(directory, xlabel='x', ylabel='y'):
     import re
     import os
     for root, dirs, files in os.walk(directory):
