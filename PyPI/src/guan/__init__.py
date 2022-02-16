@@ -1559,6 +1559,15 @@ def preprocess_for_parallel_calculations(parameter_array_all, cpus=1, task_index
             parameter_array = parameter_array_all[task_index*num_parameter:num_all]
     return parameter_array
 
+def change_directory_by_replacement(current_key_word='codes', new_key_word='data'):
+    import os
+    code_path = os.getcwd()
+    data_path = code_path.replace('\\', '/') 
+    data_path = code_path.replace(current_key_word, new_key_word) 
+    if os.path.exists(data_path) == False:
+        os.makedirs(data_path)
+    os.chdir(data_path)
+
 def batch_reading_and_plotting(directory, xlabel='x', ylabel='y'):
     import re
     import os
