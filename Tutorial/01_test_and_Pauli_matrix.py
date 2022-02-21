@@ -1,9 +1,6 @@
 import guan
 
-# test
 guan.test()
-
-# Pauli matrix
 sigma_0 = guan.sigma_0()
 sigma_x = guan.sigma_x()
 sigma_y = guan.sigma_y()

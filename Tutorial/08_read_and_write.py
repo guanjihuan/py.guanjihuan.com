@@ -1,7 +1,6 @@
 import guan
 import numpy as np
 
-# read and write
 x_array = np.array([1, 2, 3])
 y_array = np.array([5, 6, 7])
 guan.write_one_dimensional_data(x_array, y_array, filename='one_dimensional_data')
