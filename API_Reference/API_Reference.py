@@ -124,9 +124,15 @@ eigenvalue_array = guan.calculate_eigenvalue_with_two_parameters(x_array, y_arra
 
 eigenvector = guan.calculate_eigenvector(hamiltonian)
 
-vector_target = guan.find_vector_with_the_same_gauge_with_binary_search(vector_target, vector_ref, show_error=1, show_times=0, show_phase=0, n_test=10001, precision=1e-6)
+vector_target = guan.find_vector_with_the_same_gauge_with_binary_search(vector_target, vector_ref, show_error=1, show_times=0, show_phase=0, n_test=1000, precision=1e-6)
 
 vector = guan.find_vector_with_fixed_gauge_by_making_one_component_real(vector, precision=0.005, index=None)
+
+vector_array = guan.find_vector_array_with_fixed_gauge_by_making_one_component_real(vector_array, precision=0.005)
+
+vector1, vector2 = guan.rotation_of_degenerate_vectors(vector1, vector2, index1, index2, precision=0.01, criterion=0.01, show_theta=0)
+
+vector1_array, vector2_array = guan.rotation_of_degenerate_vectors_array(vector1_array, vector2_array, index1, index2, precision=0.01, criterion=0.01, show_theta=0)
 
 
 

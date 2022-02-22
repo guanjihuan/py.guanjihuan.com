@@ -534,7 +534,7 @@ def calculate_eigenvector(hamiltonian):
 
 ## find vector with the same gauge
 
-def find_vector_with_the_same_gauge_with_binary_search(vector_target, vector_ref, show_error=1, show_times=0, show_phase=0, n_test=10001, precision=1e-6):
+def find_vector_with_the_same_gauge_with_binary_search(vector_target, vector_ref, show_error=1, show_times=0, show_phase=0, n_test=1000, precision=1e-6):
     phase_1_pre = 0
     phase_2_pre = np.pi
     for i0 in range(n_test):
@@ -584,8 +584,51 @@ def find_vector_with_fixed_gauge_by_making_one_component_real(vector, precision=
         vector = -vector
     return vector 
 
+def find_vector_array_with_fixed_gauge_by_making_one_component_real(vector_array, precision=0.005):
+    import guan
+    vector_sum = 0
+    Num_k = np.array(vector_array).shape[0]
+    for i0 in range(Num_k):
+        vector_sum += np.abs(vector_array[i0])
+    index = np.argmax(np.abs(vector_sum))
+    for i0 in range(Num_k):
+        vector_array[i0] = guan.find_vector_with_fixed_gauge_by_making_one_component_real(vector_array[i0], precision=precision, index=index)
+    return vector_array
 
+def rotation_of_degenerate_vectors(vector1, vector2, index1, index2, precision=0.01, criterion=0.01, show_theta=0):
+    import cmath
+    if np.abs(vector1[index2])>criterion or np.abs(vector2[index1])>criterion:
+        for theta in np.arange(0, 2*pi, precision):
+            if show_theta==1:
+                print(theta)
+            for phi1 in np.arange(0, 2*pi, precision):
+                for phi2 in np.arange(0, 2*pi, precision):
+                    vector1_test = cmath.exp(1j*phi1)*vector1*cos(theta)+cmath.exp(1j*phi2)*vector2*sin(theta)
+                    vector2_test = -cmath.exp(-1j*phi2)*vector1*sin(theta)+cmath.exp(-1j*phi1)*vector2*cos(theta)
+                    if np.abs(vector1_test[index2])<criterion and np.abs(vector2_test[index1])<criterion:
+                        vector1 = vector1_test
+                        vector2 = vector2_test
+                        break
+                if np.abs(vector1_test[index2])<criterion and np.abs(vector2_test[index1])<criterion:
+                    break
+            if np.abs(vector1_test[index2])<criterion and np.abs(vector2_test[index1])<criterion:
+                break
+    return vector1, vector2
 
+def rotation_of_degenerate_vectors_array(vector1_array, vector2_array, index1, index2, precision=0.01, criterion=0.01, show_theta=0):
+    import guan
+    Num_k = np.array(vector1_array).shape[0]
+    vector1_sum = 0
+    for i0 in range(Num_k):
+        vector1_sum += np.abs(vector1_array[i0])
+    index1 = np.argmax(np.abs(vector1_sum))
+    vector2_sum = 0
+    for i0 in range(Num_k):
+        vector1_sum += np.abs(vector2_array[i0])
+    index2 = np.argmax(np.abs(vector2_sum))
+    for i0 in range(Num_k):
+        vector1_array[i0], vector2_array[i0] = guan.rotation_of_degenerate_vectors(vector1=vector1_array[i0], vector2=vector2_array[i0], index1=index1, index2=index2, precision=precision, criterion=criterion, show_theta=show_theta)
+    return vector1_array, vector2_array
 
 
 
