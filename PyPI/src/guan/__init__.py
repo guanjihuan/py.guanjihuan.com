@@ -454,6 +454,21 @@ def hamiltonian_of_one_QAH_model(k1, k2, t1=1, t2=1, t3=0.5, m=-1):
     hamiltonian[1, 1] = -(m+2*t3*sin(k1)+2*t3*sin(k2)+2*t2*cos(k1+k2))
     return hamiltonian
 
+def hamiltonian_of_BBH_model(kx, ky, gamma_x=0.5, gamma_y=0.5, lambda_x=1, lambda_y=1):
+    # label of atoms in a unit cell
+    # (2) —— (0)
+    #  |      |
+    # (1) —— (3)   
+    hamiltonian = np.zeros((4, 4), dtype=complex)
+    hamiltonian[0, 2] = gamma_x+lambda_x*cmath.exp(1j*kx)
+    hamiltonian[1, 3] = gamma_x+lambda_x*cmath.exp(-1j*kx)
+    hamiltonian[0, 3] = gamma_y+lambda_y*cmath.exp(1j*ky)
+    hamiltonian[1, 2] = -gamma_y-lambda_y*cmath.exp(-1j*ky)
+    hamiltonian[2, 0] = np.conj(hamiltonian[0, 2])
+    hamiltonian[3, 1] = np.conj(hamiltonian[1, 3])
+    hamiltonian[3, 0] = np.conj(hamiltonian[0, 3])
+    hamiltonian[2, 1] = np.conj(hamiltonian[1, 2]) 
+    return hamiltonian
 
 
 

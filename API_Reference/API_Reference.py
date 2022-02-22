@@ -112,6 +112,8 @@ hamiltonian = guan.hamiltonian_of_haldane_model_in_quasi_one_dimension(k, N=10, 
 
 hamiltonian = guan.hamiltonian_of_one_QAH_model(k1, k2, t1=1, t2=1, t3=0.5, m=-1)
 
+hamiltonian = guan.hamiltonian_of_BBH_model(kx, ky, gamma_x=0.5, gamma_y=0.5, lambda_x=1, lambda_y=1)
+
 
 
 # band structures and wave functions
