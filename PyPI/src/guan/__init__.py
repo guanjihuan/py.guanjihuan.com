@@ -615,7 +615,7 @@ def rotation_of_degenerate_vectors(vector1, vector2, index1, index2, precision=0
                 break
     return vector1, vector2
 
-def rotation_of_degenerate_vectors_array(vector1_array, vector2_array, index1, index2, precision=0.01, criterion=0.01, show_theta=0):
+def rotation_of_degenerate_vectors_array(vector1_array, vector2_array, precision=0.01, criterion=0.01, show_theta=0):
     import guan
     Num_k = np.array(vector1_array).shape[0]
     vector1_sum = 0
