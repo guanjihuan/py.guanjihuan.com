@@ -571,6 +571,7 @@ def find_vector_with_the_same_gauge_with_binary_search(vector_target, vector_ref
     return vector_target
 
 def find_vector_with_fixed_gauge_by_making_one_component_real(vector, precision=0.005, index=None):
+    vector = np.array(vector)
     if index == None:
         index = np.argmax(np.abs(vector))
     sign_pre = np.sign(np.imag(vector[index]))
@@ -585,7 +586,6 @@ def find_vector_with_fixed_gauge_by_making_one_component_real(vector, precision=
     return vector 
 
 def find_vector_array_with_fixed_gauge_by_making_one_component_real(vector_array, precision=0.005):
-    import guan
     vector_sum = 0
     Num_k = np.array(vector_array).shape[0]
     for i0 in range(Num_k):
@@ -596,7 +596,8 @@ def find_vector_array_with_fixed_gauge_by_making_one_component_real(vector_array
     return vector_array
 
 def rotation_of_degenerate_vectors(vector1, vector2, index1, index2, precision=0.01, criterion=0.01, show_theta=0):
-    import cmath
+    vector1 = np.array(vector1)
+    vector2 = np.array(vector2)
     if np.abs(vector1[index2])>criterion or np.abs(vector2[index1])>criterion:
         for theta in np.arange(0, 2*pi, precision):
             if show_theta==1:
@@ -616,7 +617,6 @@ def rotation_of_degenerate_vectors(vector1, vector2, index1, index2, precision=0
     return vector1, vector2
 
 def rotation_of_degenerate_vectors_array(vector1_array, vector2_array, precision=0.01, criterion=0.01, show_theta=0):
-    import guan
     Num_k = np.array(vector1_array).shape[0]
     vector1_sum = 0
     for i0 in range(Num_k):
