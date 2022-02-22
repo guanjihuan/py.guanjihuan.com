@@ -624,7 +624,7 @@ def rotation_of_degenerate_vectors_array(vector1_array, vector2_array, precision
     index1 = np.argmax(np.abs(vector1_sum))
     vector2_sum = 0
     for i0 in range(Num_k):
-        vector1_sum += np.abs(vector2_array[i0])
+        vector2_sum += np.abs(vector2_array[i0])
     index2 = np.argmax(np.abs(vector2_sum))
     for i0 in range(Num_k):
         vector1_array[i0], vector2_array[i0] = guan.rotation_of_degenerate_vectors(vector1=vector1_array[i0], vector2=vector2_array[i0], index1=index1, index2=index2, precision=precision, criterion=criterion, show_theta=show_theta)
