@@ -1791,7 +1791,7 @@ def play_academic_words(bre_or_ame='ame', random_on=0, show_translation=1, show_
     if exist_directory == 0:
         os.makedirs(directory)
     soup = BeautifulSoup(html, features='lxml')
-    contents = re.findall('<h2>.*?<h2>', html, re.S)
+    contents = re.findall('<h2>.*?</a></p>', html, re.S)
     if random_on==1:
         random.shuffle(contents)
     for content in contents:
@@ -1817,12 +1817,12 @@ def play_academic_words(bre_or_ame='ame', random_on=0, show_translation=1, show_
                     pygame.mixer.init()
                     track = pygame.mixer.music.load(directory+word+'.mp3')
                     pygame.mixer.music.play()
-                    translation = re.findall('<p>.*?</p>', content, re.S)[0][3:-4]
-                    if show_translation==1:
-                        time.sleep(translation_time)
-                        print(translation)
-                    time.sleep(rest_time)
-                    pygame.mixer.music.stop()
                 except:
                     pass
+                translation = re.findall('<p>.*?</p>', content, re.S)[0][3:-4]
+                if show_translation==1:
+                    time.sleep(translation_time)
+                    print(translation)
+                time.sleep(rest_time)
+                pygame.mixer.music.stop()
                 print()
