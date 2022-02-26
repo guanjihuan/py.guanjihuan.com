@@ -19,7 +19,7 @@
 # import packages
 
 import numpy as np
-from math import *
+import math
 import cmath
 import copy
 import guan
@@ -359,12 +359,12 @@ def hamiltonian_of_ssh_model(k, v=0.6, w=1):
     hamiltonian[1,0] = v+w*cmath.exp(1j*k)
     return hamiltonian
 
-def hamiltonian_of_graphene(k1, k2, M=0, t=1, a=1/sqrt(3)):
+def hamiltonian_of_graphene(k1, k2, M=0, t=1, a=1/math.sqrt(3)):
     h0 = np.zeros((2, 2), dtype=complex)  # mass term
     h1 = np.zeros((2, 2), dtype=complex)  # nearest hopping
     h0[0, 0] = M     
     h0[1, 1] = -M
-    h1[1, 0] = t*(cmath.exp(1j*k2*a)+cmath.exp(1j*sqrt(3)/2*k1*a-1j/2*k2*a)+cmath.exp(-1j*sqrt(3)/2*k1*a-1j/2*k2*a))   
+    h1[1, 0] = t*(cmath.exp(1j*k2*a)+cmath.exp(1j*math.sqrt(3)/2*k1*a-1j/2*k2*a)+cmath.exp(-1j*math.sqrt(3)/2*k1*a-1j/2*k2*a))   
     h1[0, 1] = h1[1, 0].conj()
     hamiltonian = h0 + h1
     return hamiltonian
@@ -392,20 +392,20 @@ def hamiltonian_of_graphene_with_zigzag_in_quasi_one_dimension(k, N=10, M=0, t=1
     hamiltonian = guan.one_dimensional_fourier_transform(k, unit_cell=h00, hopping=h01) 
     return hamiltonian
 
-def hamiltonian_of_haldane_model(k1, k2, M=2/3, t1=1, t2=1/3, phi=pi/4, a=1/sqrt(3)):
+def hamiltonian_of_haldane_model(k1, k2, M=2/3, t1=1, t2=1/3, phi=math.pi/4, a=1/math.sqrt(3)):
     h0 = np.zeros((2, 2), dtype=complex)  # mass term
     h1 = np.zeros((2, 2), dtype=complex)  # nearest hopping
     h2 = np.zeros((2, 2), dtype=complex)  # next nearest hopping
     h0[0, 0] = M
     h0[1, 1] = -M
-    h1[1, 0] = t1*(cmath.exp(1j*k2*a)+cmath.exp(1j*sqrt(3)/2*k1*a-1j/2*k2*a)+cmath.exp(-1j*sqrt(3)/2*k1*a-1j/2*k2*a))
+    h1[1, 0] = t1*(cmath.exp(1j*k2*a)+cmath.exp(1j*math.sqrt(3)/2*k1*a-1j/2*k2*a)+cmath.exp(-1j*math.sqrt(3)/2*k1*a-1j/2*k2*a))
     h1[0, 1] = h1[1, 0].conj()
-    h2[0, 0] = t2*cmath.exp(-1j*phi)*(cmath.exp(1j*sqrt(3)*k1*a)+cmath.exp(-1j*sqrt(3)/2*k1*a+1j*3/2*k2*a)+cmath.exp(-1j*sqrt(3)/2*k1*a-1j*3/2*k2*a))
-    h2[1, 1] = t2*cmath.exp(1j*phi)*(cmath.exp(1j*sqrt(3)*k1*a)+cmath.exp(-1j*sqrt(3)/2*k1*a+1j*3/2*k2*a)+cmath.exp(-1j*sqrt(3)/2*k1*a-1j*3/2*k2*a))
+    h2[0, 0] = t2*cmath.exp(-1j*phi)*(cmath.exp(1j*math.sqrt(3)*k1*a)+cmath.exp(-1j*math.sqrt(3)/2*k1*a+1j*3/2*k2*a)+cmath.exp(-1j*math.sqrt(3)/2*k1*a-1j*3/2*k2*a))
+    h2[1, 1] = t2*cmath.exp(1j*phi)*(cmath.exp(1j*math.sqrt(3)*k1*a)+cmath.exp(-1j*math.sqrt(3)/2*k1*a+1j*3/2*k2*a)+cmath.exp(-1j*math.sqrt(3)/2*k1*a-1j*3/2*k2*a))
     hamiltonian = h0 + h1 + h2 + h2.transpose().conj()
     return hamiltonian
 
-def hamiltonian_of_haldane_model_in_quasi_one_dimension(k, N=10, M=2/3, t1=1, t2=1/3, phi=pi/4):
+def hamiltonian_of_haldane_model_in_quasi_one_dimension(k, N=10, M=2/3, t1=1, t2=1/3, phi=math.pi/4):
     h00 = np.zeros((4*N, 4*N), dtype=complex)  # hopping in a unit cell
     h01 = np.zeros((4*N, 4*N), dtype=complex)  # hopping between unit cells
     for i in range(N):
@@ -448,10 +448,10 @@ def hamiltonian_of_haldane_model_in_quasi_one_dimension(k, N=10, M=2/3, t1=1, t2
 
 def hamiltonian_of_one_QAH_model(k1, k2, t1=1, t2=1, t3=0.5, m=-1):
     hamiltonian = np.zeros((2, 2), dtype=complex)
-    hamiltonian[0, 1] = 2*t1*cos(k1)-1j*2*t1*cos(k2)
-    hamiltonian[1, 0] = 2*t1*cos(k1)+1j*2*t1*cos(k2)
-    hamiltonian[0, 0] = m+2*t3*sin(k1)+2*t3*sin(k2)+2*t2*cos(k1+k2)
-    hamiltonian[1, 1] = -(m+2*t3*sin(k1)+2*t3*sin(k2)+2*t2*cos(k1+k2))
+    hamiltonian[0, 1] = 2*t1*math.cos(k1)-1j*2*t1*math.cos(k2)
+    hamiltonian[1, 0] = 2*t1*math.cos(k1)+1j*2*t1*math.cos(k2)
+    hamiltonian[0, 0] = m+2*t3*math.sin(k1)+2*t3*math.sin(k2)+2*t2*math.cos(k1+k2)
+    hamiltonian[1, 1] = -(m+2*t3*math.sin(k1)+2*t3*math.sin(k2)+2*t2*math.cos(k1+k2))
     return hamiltonian
 
 def hamiltonian_of_BBH_model(kx, ky, gamma_x=0.5, gamma_y=0.5, lambda_x=1, lambda_y=1):
@@ -614,13 +614,13 @@ def rotation_of_degenerate_vectors(vector1, vector2, index1, index2, precision=0
     vector1 = np.array(vector1)
     vector2 = np.array(vector2)
     if np.abs(vector1[index2])>criterion or np.abs(vector2[index1])>criterion:
-        for theta in np.arange(0, 2*pi, precision):
+        for theta in np.arange(0, 2*math.pi, precision):
             if show_theta==1:
                 print(theta)
-            for phi1 in np.arange(0, 2*pi, precision):
-                for phi2 in np.arange(0, 2*pi, precision):
-                    vector1_test = cmath.exp(1j*phi1)*vector1*cos(theta)+cmath.exp(1j*phi2)*vector2*sin(theta)
-                    vector2_test = -cmath.exp(-1j*phi2)*vector1*sin(theta)+cmath.exp(-1j*phi1)*vector2*cos(theta)
+            for phi1 in np.arange(0, 2*math.pi, precision):
+                for phi2 in np.arange(0, 2*math.pi, precision):
+                    vector1_test = cmath.exp(1j*phi1)*vector1*math.cos(theta)+cmath.exp(1j*phi2)*vector2*math.sin(theta)
+                    vector2_test = -cmath.exp(-1j*phi2)*vector1*math.sin(theta)+cmath.exp(-1j*phi1)*vector2*math.cos(theta)
                     if np.abs(vector1_test[index2])<criterion and np.abs(vector2_test[index1])<criterion:
                         vector1 = vector1_test
                         vector2 = vector2_test
@@ -770,7 +770,7 @@ def electron_correlation_function_green_n_for_local_current(fermi_energy, h00, h
 
 def total_density_of_states(fermi_energy, hamiltonian, broadening=0.01):
     green = guan.green_function(fermi_energy, hamiltonian, broadening)
-    total_dos = -np.trace(np.imag(green))/pi
+    total_dos = -np.trace(np.imag(green))/math.pi
     return total_dos
 
 def total_density_of_states_with_fermi_energy_array(fermi_energy_array, hamiltonian, broadening=0.01, print_show=0):
@@ -791,7 +791,7 @@ def local_density_of_states_for_square_lattice(fermi_energy, hamiltonian, N1, N2
     for i1 in range(N1):
         for i2 in range(N2):
             for i in range(internal_degree): 
-                local_dos[i2, i1] = local_dos[i2, i1]-np.imag(green[i1*N2*internal_degree+i2*internal_degree+i, i1*N2*internal_degree+i2*internal_degree+i])/pi
+                local_dos[i2, i1] = local_dos[i2, i1]-np.imag(green[i1*N2*internal_degree+i2*internal_degree+i, i1*N2*internal_degree+i2*internal_degree+i])/math.pi
     return local_dos
 
 def local_density_of_states_for_cubic_lattice(fermi_energy, hamiltonian, N1, N2, N3, internal_degree=1, broadening=0.01):
@@ -802,7 +802,7 @@ def local_density_of_states_for_cubic_lattice(fermi_energy, hamiltonian, N1, N2,
         for i2 in range(N2):
             for i3 in range(N3):
                 for i in range(internal_degree): 
-                    local_dos[i3, i2, i1] = local_dos[i3, i2, i1]-np.imag(green[i1*N2*N3*internal_degree+i2*N3*internal_degree+i3*internal_degree+i, i1*N2*N3*internal_degree+i2*N3*internal_degree+i3*internal_degree+i])/pi
+                    local_dos[i3, i2, i1] = local_dos[i3, i2, i1]-np.imag(green[i1*N2*N3*internal_degree+i2*N3*internal_degree+i3*internal_degree+i, i1*N2*N3*internal_degree+i2*N3*internal_degree+i3*internal_degree+i])/math.pi
     return local_dos
 
 def local_density_of_states_for_square_lattice_using_dyson_equation(fermi_energy, h00, h01, N2, N1, internal_degree=1, broadening=0.01):
@@ -832,7 +832,7 @@ def local_density_of_states_for_square_lattice_using_dyson_equation(fermi_energy
             green_ni_n_minus = green_ni_n
         for i2 in range(N2):
             for i in range(internal_degree):
-                local_dos[i2, i1] = local_dos[i2, i1] - np.imag(green_ii_n_minus[i2*internal_degree+i, i2*internal_degree+i])/pi
+                local_dos[i2, i1] = local_dos[i2, i1] - np.imag(green_ii_n_minus[i2*internal_degree+i, i2*internal_degree+i])/math.pi
     return local_dos
 
 def local_density_of_states_for_cubic_lattice_using_dyson_equation(fermi_energy, h00, h01, N3, N2, N1, internal_degree=1, broadening=0.01):
@@ -863,7 +863,7 @@ def local_density_of_states_for_cubic_lattice_using_dyson_equation(fermi_energy,
         for i2 in range(N2):
             for i3 in range(N3):
                 for i in range(internal_degree):
-                    local_dos[i3, i2, i1] = local_dos[i3, i2, i1] -np.imag(green_ii_n_minus[i2*N3*internal_degree+i3*internal_degree+i, i2*N3*internal_degree+i3*internal_degree+i])/pi       
+                    local_dos[i3, i2, i1] = local_dos[i3, i2, i1] -np.imag(green_ii_n_minus[i2*N3*internal_degree+i3*internal_degree+i, i2*N3*internal_degree+i3*internal_degree+i])/math.pi       
     return local_dos
 
 def local_density_of_states_for_square_lattice_with_self_energy_using_dyson_equation(fermi_energy, h00, h01, N2, N1, right_self_energy, left_self_energy, internal_degree=1, broadening=0.01):
@@ -899,7 +899,7 @@ def local_density_of_states_for_square_lattice_with_self_energy_using_dyson_equa
             green_ni_n_minus = green_ni_n
         for i2 in range(N2):
             for i in range(internal_degree):
-                local_dos[i2, i1] = local_dos[i2, i1] - np.imag(green_ii_n_minus[i2*internal_degree+i, i2*internal_degree+i])/pi
+                local_dos[i2, i1] = local_dos[i2, i1] - np.imag(green_ii_n_minus[i2*internal_degree+i, i2*internal_degree+i])/math.pi
     return local_dos
 
 
@@ -1114,7 +1114,7 @@ def get_k_and_velocity_of_channel(fermi_energy, h00, h01):
     for dim0 in range(dim):
         factor = factor+np.square(np.abs(temp[dim0, :]))
     for dim0 in range(2*dim):
-        temp[:, dim0] = temp[:, dim0]/np.sqrt(factor[dim0])
+        temp[:, dim0] = temp[:, dim0]/math.sqrt(factor[dim0])
     velocity_of_channel = np.zeros((2*dim), dtype=complex)
     for dim0 in range(2*dim):
         velocity_of_channel[dim0] = eigenvalue[dim0]*np.dot(np.dot(temp[0:dim, :].transpose().conj(), h01),temp[0:dim, :])[dim0, dim0]
@@ -1200,8 +1200,8 @@ def calculate_scattering_matrix(fermi_energy, h00, h01, length=100):
         for dim1 in range(dim):
             if_active = if_active_channel(k_right[dim0])*if_active_channel(k_right[dim1])
             if if_active == 1:
-                transmission_matrix[dim0, dim1] = np.sqrt(np.abs(velocity_right[dim0]/velocity_right[dim1])) * transmission_matrix[dim0, dim1]
-                reflection_matrix[dim0, dim1] = np.sqrt(np.abs(velocity_left[dim0]/velocity_right[dim1]))*reflection_matrix[dim0, dim1]
+                transmission_matrix[dim0, dim1] = math.sqrt(np.abs(velocity_right[dim0]/velocity_right[dim1])) * transmission_matrix[dim0, dim1]
+                reflection_matrix[dim0, dim1] = math.sqrt(np.abs(velocity_left[dim0]/velocity_right[dim1]))*reflection_matrix[dim0, dim1]
             else:
                 transmission_matrix[dim0, dim1] = 0
                 reflection_matrix[dim0, dim1] = 0
@@ -1275,12 +1275,12 @@ def calculate_chern_number_for_square_lattice(hamiltonian_function, precision=10
         dim = 1
     else:
         dim = np.array(hamiltonian_function(0, 0)).shape[0]   
-    delta = 2*pi/precision
+    delta = 2*math.pi/precision
     chern_number = np.zeros(dim, dtype=complex)
-    for kx in np.arange(-pi, pi, delta):
+    for kx in np.arange(-math.pi, math.pi, delta):
         if print_show == 1:
             print(kx)
-        for ky in np.arange(-pi, pi, delta):
+        for ky in np.arange(-math.pi, math.pi, delta):
             H = hamiltonian_function(kx, ky)
             vector = guan.calculate_eigenvector(H)
             H_delta_kx = hamiltonian_function(kx+delta, ky) 
@@ -1300,16 +1300,16 @@ def calculate_chern_number_for_square_lattice(hamiltonian_function, precision=10
                 Uy_x = np.dot(np.conj(vector_delta_kx_i), vector_delta_kx_ky_i)/abs(np.dot(np.conj(vector_delta_kx_i), vector_delta_kx_ky_i))
                 F = cmath.log(Ux*Uy_x*(1/Ux_y)*(1/Uy))
                 chern_number[i] = chern_number[i] + F
-    chern_number = chern_number/(2*pi*1j)
+    chern_number = chern_number/(2*math.pi*1j)
     return chern_number
 
 def calculate_chern_number_for_square_lattice_with_Wilson_loop(hamiltonian_function, precision_of_plaquettes=10, precision_of_Wilson_loop=100, print_show=0):
-    delta = 2*pi/precision_of_plaquettes
+    delta = 2*math.pi/precision_of_plaquettes
     chern_number = 0
-    for kx in np.arange(-pi, pi, delta):
+    for kx in np.arange(-math.pi, math.pi, delta):
         if print_show == 1:
             print(kx)
-        for ky in np.arange(-pi, pi, delta):
+        for ky in np.arange(-math.pi, math.pi, delta):
             vector_array = []
             # line_1
             for i0 in range(precision_of_Wilson_loop+1):
@@ -1341,7 +1341,7 @@ def calculate_chern_number_for_square_lattice_with_Wilson_loop(hamiltonian_funct
             Wilson_loop = Wilson_loop*np.dot(vector_array[len(vector_array)-1].transpose().conj(), vector_array[0])
             arg = np.log(np.diagonal(Wilson_loop))/1j
             chern_number = chern_number + arg
-    chern_number = chern_number/(2*pi)
+    chern_number = chern_number/(2*math.pi)
     return chern_number
 
 def calculate_chern_number_for_honeycomb_lattice(hamiltonian_function, a=1, precision=300, print_show=0):
@@ -1350,16 +1350,16 @@ def calculate_chern_number_for_honeycomb_lattice(hamiltonian_function, a=1, prec
     else:
         dim = np.array(hamiltonian_function(0, 0)).shape[0]   
     chern_number = np.zeros(dim, dtype=complex)
-    L1 = 4*sqrt(3)*pi/9/a
-    L2 = 2*sqrt(3)*pi/9/a
-    L3 = 2*pi/3/a
+    L1 = 4*math.sqrt(3)*math.pi/9/a
+    L2 = 2*math.sqrt(3)*math.pi/9/a
+    L3 = 2*math.pi/3/a
     delta1 = 2*L1/precision
     delta3 = 2*L3/precision
     for kx in np.arange(-L1, L1, delta1):
         if print_show == 1:
             print(kx)
         for ky in np.arange(-L3, L3, delta3):
-            if (-L2<=kx<=L2) or (kx>L2 and -(L1-kx)*tan(pi/3)<=ky<=(L1-kx)*tan(pi/3)) or (kx<-L2 and  -(kx-(-L1))*tan(pi/3)<=ky<=(kx-(-L1))*tan(pi/3)):
+            if (-L2<=kx<=L2) or (kx>L2 and -(L1-kx)*math.tan(math.pi/3)<=ky<=(L1-kx)*math.tan(math.pi/3)) or (kx<-L2 and  -(kx-(-L1))*math.tan(math.pi/3)<=ky<=(kx-(-L1))*math.tan(math.pi/3)):
                 H = hamiltonian_function(kx, ky)
                 vector = guan.calculate_eigenvector(H)
                 H_delta_kx = hamiltonian_function(kx+delta1, ky) 
@@ -1379,10 +1379,10 @@ def calculate_chern_number_for_honeycomb_lattice(hamiltonian_function, a=1, prec
                     Uy_x = np.dot(np.conj(vector_delta_kx_i), vector_delta_kx_ky_i)/abs(np.dot(np.conj(vector_delta_kx_i), vector_delta_kx_ky_i))
                     F = cmath.log(Ux*Uy_x*(1/Ux_y)*(1/Uy))
                     chern_number[i] = chern_number[i] + F
-    chern_number = chern_number/(2*pi*1j)
+    chern_number = chern_number/(2*math.pi*1j)
     return chern_number
 
-def calculate_wilson_loop(hamiltonian_function, k_min=-pi, k_max=pi, precision=100, print_show=0):
+def calculate_wilson_loop(hamiltonian_function, k_min=-math.pi, k_max=math.pi, precision=100, print_show=0):
     k_array = np.linspace(k_min, k_max, precision)
     dim = np.array(hamiltonian_function(0)).shape[0]
     wilson_loop_array = np.ones(dim, dtype=complex)
