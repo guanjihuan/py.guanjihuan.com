@@ -1,6 +1,5 @@
 import guan
-
-
+import math
 
 # basic functions
 
@@ -102,13 +101,13 @@ hamiltonian = guan.hamiltonian_of_cubic_lattice(k1, k2, k3)
 
 hamiltonian = guan.hamiltonian_of_ssh_model(k, v=0.6, w=1)
 
-hamiltonian = guan.hamiltonian_of_graphene(k1, k2, M=0, t=1, a=1/sqrt(3))
+hamiltonian = guan.hamiltonian_of_graphene(k1, k2, M=0, t=1, a=1/math.sqrt(3))
 
 hamiltonian = guan.hamiltonian_of_graphene_with_zigzag_in_quasi_one_dimension(k, N=10, M=0, t=1)
 
-hamiltonian = guan.hamiltonian_of_haldane_model(k1, k2, M=2/3, t1=1, t2=1/3, phi=pi/4, a=1/sqrt(3))
+hamiltonian = guan.hamiltonian_of_haldane_model(k1, k2, M=2/3, t1=1, t2=1/3, phi=math.pi/4, a=1/math.sqrt(3))
 
-hamiltonian = guan.hamiltonian_of_haldane_model_in_quasi_one_dimension(k, N=10, M=2/3, t1=1, t2=1/3, phi=pi/4)
+hamiltonian = guan.hamiltonian_of_haldane_model_in_quasi_one_dimension(k, N=10, M=2/3, t1=1, t2=1/3, phi=math.pi/4)
 
 hamiltonian = guan.hamiltonian_of_one_QAH_model(k1, k2, t1=1, t2=1, t3=0.5, m=-1)
 
@@ -224,7 +223,7 @@ chern_number = guan.calculate_chern_number_for_square_lattice_with_Wilson_loop(h
 
 chern_number = guan.calculate_chern_number_for_honeycomb_lattice(hamiltonian_function, a=1, precision=300, print_show=0)
 
-wilson_loop_array = guan.calculate_wilson_loop(hamiltonian_function, k_min=-pi, k_max=pi, precision=100, print_show=0)
+wilson_loop_array = guan.calculate_wilson_loop(hamiltonian_function, k_min=-math.pi, k_max=math.pi, precision=100, print_show=0)
 
 
 
