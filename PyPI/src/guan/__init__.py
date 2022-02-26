@@ -1811,12 +1811,12 @@ def play_academic_words(bre_or_ame='ame', random_on=0, show_translation=1, show_
                     except:
                         pass
                 print(h2.get_text())
-                if show_link==1:
-                    print('https://www.ldoceonline.com/dictionary/'+word)
                 try:
                     pygame.mixer.init()
                     track = pygame.mixer.music.load(directory+word+'.mp3')
                     pygame.mixer.music.play()
+                    if show_link==1:
+                        print('https://www.ldoceonline.com/dictionary/'+word)
                 except:
                     pass
                 translation = re.findall('<p>.*?</p>', content, re.S)[0][3:-4]
