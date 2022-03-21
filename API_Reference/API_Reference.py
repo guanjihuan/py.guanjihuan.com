@@ -242,11 +242,11 @@ guan.write_two_dimensional_data(x_array, y_array, matrix, filename='a', format='
 
 # plot figures
 
-guan.plot(x_array, y_array, xlabel='x', ylabel='y', title='', show=1, save=0, filename='a', format='jpg', dpi=300, type='', y_min=None, y_max=None, linewidth=None, markersize=None)
+guan.plot(x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', format='jpg', dpi=300, type='', y_min=None, y_max=None, linewidth=None, markersize=None, adjust_bottom=0.2, adjust_left=0.2)
 
-guan.plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z', title='', show=1, save=0, filename='a', format='jpg', dpi=300, z_min=None, z_max=None, rcount=100, ccount=100)
+guan.plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z', title='', fontsize=20, labelsize=15, show=1, save=0, filename='a', format='jpg', dpi=300, z_min=None, z_max=None, rcount=100, ccount=100)
 
-guan.plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', show=1, save=0, filename='a', format='jpg', dpi=300)
+guan.plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=15, show=1, save=0, filename='a', format='jpg', dpi=300)
 
 
 
