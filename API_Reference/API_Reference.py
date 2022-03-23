@@ -273,3 +273,5 @@ content = guan.pdf_to_text(pdf_path)
 guan.pdf_to_audio(pdf_path, rate=125, voice=1, read=1, save=0, print_text=0)
 
 guan.play_academic_words(bre_or_ame='ame', random_on=0, show_translation=1, show_link=1, translation_time=2, rest_time=1)
+
+guan.play_element_words(random_on=0, show_translation=1, show_link=1, translation_time=2, rest_time=1)

@@ -1826,3 +1826,57 @@ def play_academic_words(bre_or_ame='ame', random_on=0, show_translation=1, show_
                 time.sleep(rest_time)
                 pygame.mixer.music.stop()
                 print()
+
+def play_element_words(random_on=0, show_translation=1, show_link=1, translation_time=2, rest_time=1):
+    from bs4 import BeautifulSoup
+    import re
+    import urllib.request
+    import requests
+    import os
+    import pygame
+    import time
+    import ssl
+    import random
+    ssl._create_default_https_context = ssl._create_unverified_context
+    html = urllib.request.urlopen("https://www.guanjihuan.com/archives/10897").read().decode('utf-8')
+    directory = 'prons/'
+    exist_directory = os.path.exists(directory)
+    html_file = urllib.request.urlopen("https://file.guanjihuan.com/words/periodic_table_of_elements/"+directory).read().decode('utf-8')
+    if exist_directory == 0:
+        os.makedirs(directory)
+    soup = BeautifulSoup(html, features='lxml')
+    contents = re.findall('<h2>.*?</a></p>', html, re.S)
+    if random_on==1:
+        random.shuffle(contents)
+    for content in contents:
+        soup2 = BeautifulSoup(content, features='lxml')
+        all_h2 = soup2.find_all('h2')
+        for h2 in all_h2:
+            if re.search('\d*. ', h2.get_text()):
+                word = re.findall('[a-zA-Z].* \(', h2.get_text(), re.S)[0][:-2]
+                exist = os.path.exists(directory+word+'.mp3')
+                if not exist:
+                    try:
+                        if re.search(word, html_file):
+                            r = requests.get("https://file.guanjihuan.com/words/periodic_table_of_elements/prons/"+word+".mp3", stream=True)
+                            with open(directory+word+'.mp3', 'wb') as f:
+                                for chunk in r.iter_content(chunk_size=32):
+                                    f.write(chunk)
+                    except:
+                        pass
+                print(h2.get_text())
+                try:
+                    pygame.mixer.init()
+                    track = pygame.mixer.music.load(directory+word+'.mp3')
+                    pygame.mixer.music.play()
+                    if show_link==1:
+                        print('https://www.merriam-webster.com/dictionary/'+word)
+                except:
+                    pass
+                translation = re.findall('<p>.*?</p>', content, re.S)[0][3:-4]
+                if show_translation==1:
+                    time.sleep(translation_time)
+                    print(translation)
+                time.sleep(rest_time)
+                pygame.mixer.music.stop()
+                print()
