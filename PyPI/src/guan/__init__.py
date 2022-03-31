@@ -1592,6 +1592,86 @@ def plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', fon
         plt.show()
     plt.close('all')
 
+def combine_two_images(image_path_array, figsize=(16,8), show=0, save=1, save_name='a', save_format='jpg', dpi=300):
+    num = np.array(image_path_array).shape[0]
+    if num != 2:
+        print('Error: The number of images should be two!')
+    else:
+        import matplotlib.pyplot as plt
+        import matplotlib.image as mpimg
+        fig = plt.figure(figsize=figsize)
+        plt.subplots_adjust(left=0, right=1, bottom=0, top=1, wspace=0, hspace=0) 
+        ax1 = fig.add_subplot(121)
+        ax2 = fig.add_subplot(122)
+        image_1 = mpimg.imread(image_path_array[0])
+        image_2 = mpimg.imread(image_path_array[1])
+        ax1.imshow(image_1)
+        ax2.imshow(image_2)
+        ax1.axis('off')
+        ax2.axis('off')
+        if show == 1:
+            plt.show()
+        if save == 1:
+            plt.savefig(save_name+'.'+save_format, dpi=dpi)
+        plt.close('all')
+
+def combine_three_images(image_path_array, figsize=(16,5), show=0, save=1, save_name='a', save_format='jpg', dpi=300):
+    num = np.array(image_path_array).shape[0]
+    if num != 3:
+        print('Error: The number of images should be three!')
+    else:
+        import matplotlib.pyplot as plt
+        import matplotlib.image as mpimg
+        fig = plt.figure(figsize=figsize)
+        plt.subplots_adjust(left=0, right=1, bottom=0, top=1, wspace=0, hspace=0) 
+        ax1 = fig.add_subplot(131)
+        ax2 = fig.add_subplot(132)
+        ax3 = fig.add_subplot(133)
+        image_1 = mpimg.imread(image_path_array[0])
+        image_2 = mpimg.imread(image_path_array[1])
+        image_3 = mpimg.imread(image_path_array[2])
+        ax1.imshow(image_1)
+        ax2.imshow(image_2)
+        ax3.imshow(image_3)
+        ax1.axis('off')
+        ax2.axis('off')
+        ax3.axis('off')
+        if show == 1:
+            plt.show()
+        if save == 1:
+            plt.savefig(save_name+'.'+save_format, dpi=dpi)
+        plt.close('all')
+
+def combine_four_images(image_path_array, figsize=(16,16), show=0, save=1, save_name='a', save_format='jpg', dpi=300):
+    num = np.array(image_path_array).shape[0]
+    if num != 4:
+        print('Error: The number of images should be four!')
+    else:
+        import matplotlib.pyplot as plt
+        import matplotlib.image as mpimg
+        fig = plt.figure(figsize=figsize)
+        plt.subplots_adjust(left=0, right=1, bottom=0, top=1, wspace=0, hspace=0) 
+        ax1 = fig.add_subplot(221)
+        ax2 = fig.add_subplot(222)
+        ax3 = fig.add_subplot(223)
+        ax4 = fig.add_subplot(224)
+        image_1 = mpimg.imread(image_path_array[0])
+        image_2 = mpimg.imread(image_path_array[1])
+        image_3 = mpimg.imread(image_path_array[2])
+        image_4 = mpimg.imread(image_path_array[3])
+        ax1.imshow(image_1)
+        ax2.imshow(image_2)
+        ax3.imshow(image_3)
+        ax4.imshow(image_4)
+        ax1.axis('off')
+        ax2.axis('off')
+        ax3.axis('off')
+        ax4.axis('off')
+        if show == 1:
+            plt.show()
+        if save == 1:
+            plt.savefig(save_name+'.'+save_format, dpi=dpi)
+        plt.close('all')
 
 
 
