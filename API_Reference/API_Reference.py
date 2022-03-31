@@ -247,11 +247,13 @@ guan.plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z
 
 guan.plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=15, show=1, save=0, filename='a', format='jpg', dpi=300)
 
-guan.combine_two_images(image_path_array, figsize=(16,8), show=0, save=1, save_name='a', save_format='jpg', dpi=300)
+guan.combine_two_images(image_path_array, figsize=(16,8), show=0, save=1, filename='a', format='jpg', dpi=300)
 
-guan.combine_three_images(image_path_array, figsize=(16,5), show=0, save=1, save_name='a', save_format='jpg', dpi=300)
+guan.combine_three_images(image_path_array, figsize=(16,5), show=0, save=1, filename='a', format='jpg', dpi=300)
 
-guan.combine_four_images(image_path_array, figsize=(16,16), show=0, save=1, save_name='a', save_format='jpg', dpi=300)
+guan.combine_four_images(image_path_array, figsize=(16,16), show=0, save=1, filename='a', format='jpg', dpi=300)
+
+guan.make_gif(image_path_array, filename='a', duration=0.1)
 
 
 

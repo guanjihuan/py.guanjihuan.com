@@ -1592,7 +1592,7 @@ def plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', fon
         plt.show()
     plt.close('all')
 
-def combine_two_images(image_path_array, figsize=(16,8), show=0, save=1, save_name='a', save_format='jpg', dpi=300):
+def combine_two_images(image_path_array, figsize=(16,8), show=0, save=1, filename='a', format='jpg', dpi=300):
     num = np.array(image_path_array).shape[0]
     if num != 2:
         print('Error: The number of images should be two!')
@@ -1612,10 +1612,10 @@ def combine_two_images(image_path_array, figsize=(16,8), show=0, save=1, save_na
         if show == 1:
             plt.show()
         if save == 1:
-            plt.savefig(save_name+'.'+save_format, dpi=dpi)
+            plt.savefig(filename+'.'+format, dpi=dpi)
         plt.close('all')
 
-def combine_three_images(image_path_array, figsize=(16,5), show=0, save=1, save_name='a', save_format='jpg', dpi=300):
+def combine_three_images(image_path_array, figsize=(16,5), show=0, save=1, filename='a', format='jpg', dpi=300):
     num = np.array(image_path_array).shape[0]
     if num != 3:
         print('Error: The number of images should be three!')
@@ -1639,10 +1639,10 @@ def combine_three_images(image_path_array, figsize=(16,5), show=0, save=1, save_
         if show == 1:
             plt.show()
         if save == 1:
-            plt.savefig(save_name+'.'+save_format, dpi=dpi)
+            plt.savefig(filename+'.'+format, dpi=dpi)
         plt.close('all')
 
-def combine_four_images(image_path_array, figsize=(16,16), show=0, save=1, save_name='a', save_format='jpg', dpi=300):
+def combine_four_images(image_path_array, figsize=(16,16), show=0, save=1, filename='a', format='jpg', dpi=300):
     num = np.array(image_path_array).shape[0]
     if num != 4:
         print('Error: The number of images should be four!')
@@ -1670,8 +1670,16 @@ def combine_four_images(image_path_array, figsize=(16,16), show=0, save=1, save_
         if show == 1:
             plt.show()
         if save == 1:
-            plt.savefig(save_name+'.'+save_format, dpi=dpi)
+            plt.savefig(filename+'.'+format, dpi=dpi)
         plt.close('all')
+
+def make_gif(image_path_array, filename='a', duration=0.1):
+    import imageio
+    images = []
+    for image_path in image_path_array:
+        im = imageio.imread(image_path)
+        images.append(im)
+    imageio.mimsave(filename+'.gif', images, 'GIF', duration=duration)
 
 
 
