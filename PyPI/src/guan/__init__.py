@@ -1506,11 +1506,11 @@ def write_two_dimensional_data(x_array, y_array, matrix, filename='a', format='t
 
 # Module 11: plot figures
 
-def plot(x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', format='jpg', dpi=300, type='', y_min=None, y_max=None, linewidth=None, markersize=None, adjust_bottom=0.2, adjust_left=0.2): 
+def plot(x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', format='jpg', dpi=300, style='', y_min=None, y_max=None, linewidth=None, markersize=None, adjust_bottom=0.2, adjust_left=0.2): 
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots()
     plt.subplots_adjust(bottom=adjust_bottom, left=adjust_left) 
-    ax.plot(x_array, y_array, type, linewidth=linewidth, markersize=markersize)
+    ax.plot(x_array, y_array, style, linewidth=linewidth, markersize=markersize)
     ax.grid()
     ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
     ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman') 
@@ -1591,6 +1591,31 @@ def plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', fon
     if show == 1:
         plt.show()
     plt.close('all')
+
+def draw_dots_and_lines(coordinate_array, draw_dots=1, draw_lines=1, max_distance=1.5, line_style='-k', linewidth=1, dot_style='ro', markersize=3, show=0, save=1, filename='a', format='eps', dpi=300):
+    import matplotlib.pyplot as plt
+    coordinate_array = np.array(coordinate_array)
+    print(coordinate_array.shape)
+    x_range = max(coordinate_array[:, 0])-min(coordinate_array[:, 0])
+    y_range = max(coordinate_array[:, 1])-min(coordinate_array[:, 1])
+    fig, ax = plt.subplots(figsize=(6*x_range/y_range,6))
+    plt.subplots_adjust(left=0, bottom=0, right=1, top=1)
+    plt.axis('off')
+    if draw_lines==1:
+        for i1 in range(coordinate_array.shape[0]):
+            for i2 in range(coordinate_array.shape[0]):
+                if np.sqrt((coordinate_array[i1, 0] - coordinate_array[i2, 0])**2+(coordinate_array[i1, 1] - coordinate_array[i2, 1])**2) < max_distance:
+                    ax.plot([coordinate_array[i1, 0], coordinate_array[i2, 0]], [coordinate_array[i1, 1], coordinate_array[i2, 1]], line_style, linewidth=linewidth)
+    if draw_dots==1:
+        for i in range(coordinate_array.shape[0]):
+            ax.plot(coordinate_array[i, 0], coordinate_array[i, 1], dot_style, markersize=markersize)
+    if show==1:
+        plt.show()
+    if save==1:
+        if format=='eps':
+            plt.savefig(filename+'.'+format)
+        else:
+            plt.savefig(filename+'.'+format, dpi=dpi)
 
 def combine_two_images(image_path_array, figsize=(16,8), show=0, save=1, filename='a', format='jpg', dpi=300):
     num = np.array(image_path_array).shape[0]
@@ -1680,6 +1705,7 @@ def make_gif(image_path_array, filename='a', duration=0.1):
         im = imageio.imread(image_path)
         images.append(im)
     imageio.mimsave(filename+'.gif', images, 'GIF', duration=duration)
+
 
 
 
