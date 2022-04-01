@@ -247,7 +247,7 @@ guan.plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z
 
 guan.plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=15, show=1, save=0, filename='a', format='jpg', dpi=300)
 
-guan.draw_dots_and_lines(coordinate_array, draw_dots=1, draw_lines=1, max_distance=1.1, line_style='-k', linewidth=1, dot_style='ro', markersize=3, show=0, save=1, filename='a', format='eps', dpi=300)
+guan.draw_dots_and_lines(coordinate_array, draw_dots=1, draw_lines=1, max_distance=1.1, line_style='-k', linewidth=1, dot_style='ro', markersize=3, show=1, save=0, filename='a', format='eps', dpi=300)
 
 guan.combine_two_images(image_path_array, figsize=(16,8), show=0, save=1, filename='a', format='jpg', dpi=300)
 
