@@ -1592,7 +1592,7 @@ def plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', fon
         plt.show()
     plt.close('all')
 
-def draw_dots_and_lines(coordinate_array, draw_dots=1, draw_lines=1, max_distance=1.5, line_style='-k', linewidth=1, dot_style='ro', markersize=3, show=0, save=1, filename='a', format='eps', dpi=300):
+def draw_dots_and_lines(coordinate_array, draw_dots=1, draw_lines=1, max_distance=1.1, line_style='-k', linewidth=1, dot_style='ro', markersize=3, show=0, save=1, filename='a', format='eps', dpi=300):
     import matplotlib.pyplot as plt
     coordinate_array = np.array(coordinate_array)
     print(coordinate_array.shape)
