@@ -6,7 +6,7 @@ Guan is an open source python package, dealing with tight-binding models by calc
 
 pip install --upgrade guan
 
-## Usage:
+## Usage
 
 import guan
 
