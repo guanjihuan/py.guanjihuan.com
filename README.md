@@ -1,6 +1,6 @@
 ## Guan package
 
-Guan is an open-source python package developed and maintained by https://www.guanjihuan.com/about (Ji-Huan Guan, 关济寰). With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing, etc.
+Guan is an open-source python package developed and maintained by https://www.guanjihuan.com/about (Ji-Huan Guan, 关济寰). With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
 The primary location of this package is on website https://py.guanjihuan.com. 
 
