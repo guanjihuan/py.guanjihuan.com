@@ -109,7 +109,9 @@ hamiltonian = guan.hamiltonian_of_finite_size_system_along_two_directions_for_sq
 
 hamiltonian = guan.hamiltonian_of_finite_size_system_along_three_directions_for_cubic_lattice(N1, N2, N3, on_site=0, hopping_1=1, hopping_2=1, hopping_3=1, period_1=0, period_2=0, period_3=0)
 
-hopping = guan.hopping_matrix_along_zigzag_direction_for_graphene_ribbon(N)
+hamiltonian = guan.hamiltonian_of_finite_size_SSH_model(N, v=0.6, w=1, onsite_1=0, onsite_2=0, period=1)
+
+hopping = guan.hopping_matrix_along_zigzag_direction_for_graphene_ribbon(N, eta=0)
 
 hamiltonian = guan.hamiltonian_of_finite_size_system_along_two_directions_for_graphene(N1, N2, period_1=0, period_2=0)
 
@@ -609,9 +611,28 @@ def hamiltonian_of_finite_size_system_along_three_directions_for_cubic_lattice(N
                 hamiltonian[i1*N2*N3*dim+i2*N3*dim+0:i1*N2*N3*dim+i2*N3*dim+dim, i1*N2*N3*dim+i2*N3*dim+(N3-1)*dim+0:i1*N2*N3*dim+i2*N3*dim+(N3-1)*dim+dim] = hopping_3.transpose().conj()
     return hamiltonian
 
-def hopping_matrix_along_zigzag_direction_for_graphene_ribbon(N):
+def hamiltonian_of_finite_size_SSH_model(N, v=0.6, w=1, onsite_1=0, onsite_2=0, period=1):
+    hamiltonian = np.zeros((2*N, 2*N))
+    for i in range(N):
+        hamiltonian[i*2+0, i*2+0] = onsite_1
+        hamiltonian[i*2+1, i*2+1] = onsite_2
+        hamiltonian[i*2+0, i*2+1] = v
+        hamiltonian[i*2+1, i*2+0] = v
+    for i in range(N-1):
+        hamiltonian[i*2+1, (i+1)*2+0] = w
+        hamiltonian[(i+1)*2+0, i*2+1] = w
+    if period==1:
+        hamiltonian[0, 2*N-1] = w
+        hamiltonian[2*N-1, 0] = w
+    return hamiltonian
+
+def hopping_matrix_along_zigzag_direction_for_graphene_ribbon(N, eta=0):
     hopping = np.zeros((4*N, 4*N), dtype=complex)
     for i0 in range(N):
+        hopping[4*i0+0, 4*i0+0] = eta
+        hopping[4*i0+1, 4*i0+1] = eta
+        hopping[4*i0+2, 4*i0+2] = eta
+        hopping[4*i0+3, 4*i0+3] = eta
         hopping[4*i0+1, 4*i0+0] = 1
         hopping[4*i0+2, 4*i0+3] = 1
     return hopping
