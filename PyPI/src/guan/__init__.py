@@ -111,9 +111,11 @@ hamiltonian = guan.hamiltonian_of_finite_size_system_along_three_directions_for_
 
 hamiltonian = guan.hamiltonian_of_finite_size_SSH_model(N, v=0.6, w=1, onsite_1=0, onsite_2=0, period=1)
 
-hopping = guan.hopping_matrix_along_zigzag_direction_for_graphene_ribbon(N, eta=0)
+hopping = guan.get_hopping_term_of_graphene_ribbon_along_zigzag_direction(N, eta=0)
 
 hamiltonian = guan.hamiltonian_of_finite_size_system_along_two_directions_for_graphene(N1, N2, period_1=0, period_2=0)
+
+H0, H1, H2 = get_onsite_and_hopping_terms_of_BHZ_model(A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01, a=1)
 
 
 
@@ -138,6 +140,10 @@ hamiltonian = guan.hamiltonian_of_haldane_model(k1, k2, M=2/3, t1=1, t2=1/3, phi
 hamiltonian = guan.hamiltonian_of_haldane_model_in_quasi_one_dimension(k, N=10, M=2/3, t1=1, t2=1/3, phi=math.pi/4)
 
 hamiltonian = guan.hamiltonian_of_one_QAH_model(k1, k2, t1=1, t2=1, t3=0.5, m=-1)
+
+hamiltonian = guan.hamiltonian_of_half_BHZ_model_for_spin_up(kx, ky, A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01)
+
+hamiltonian = guan.hamiltonian_of_half_BHZ_model_for_spin_down(kx, ky, A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01)
 
 hamiltonian = guan.hamiltonian_of_BBH_model(kx, ky, gamma_x=0.5, gamma_y=0.5, lambda_x=1, lambda_y=1)
 
@@ -626,7 +632,7 @@ def hamiltonian_of_finite_size_SSH_model(N, v=0.6, w=1, onsite_1=0, onsite_2=0, 
         hamiltonian[2*N-1, 0] = w
     return hamiltonian
 
-def hopping_matrix_along_zigzag_direction_for_graphene_ribbon(N, eta=0):
+def get_hopping_term_of_graphene_ribbon_along_zigzag_direction(N, eta=0):
     hopping = np.zeros((4*N, 4*N), dtype=complex)
     for i0 in range(N):
         hopping[4*i0+0, 4*i0+0] = eta
@@ -639,11 +645,42 @@ def hopping_matrix_along_zigzag_direction_for_graphene_ribbon(N, eta=0):
 
 def hamiltonian_of_finite_size_system_along_two_directions_for_graphene(N1, N2, period_1=0, period_2=0):
     on_site = guan.hamiltonian_of_finite_size_system_along_one_direction(4)
-    hopping_1 = guan.hopping_matrix_along_zigzag_direction_for_graphene_ribbon(1)
+    hopping_1 = guan.get_hopping_term_of_graphene_ribbon_along_zigzag_direction(1)
     hopping_2 = np.zeros((4, 4), dtype=complex)
     hopping_2[3, 0] = 1
     hamiltonian = guan.finite_size_along_two_directions_for_square_lattice(N1, N2, on_site, hopping_1, hopping_2, period_1, period_2)
     return hamiltonian
+
+def get_onsite_and_hopping_terms_of_BHZ_model(A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01, a=1):
+    E_s = C+M-4*(D+B)/(a**2)
+    E_p = C-M-4*(D-B)/(a**2)
+    V_ss = (D+B)/(a**2)
+    V_pp = (D-B)/(a**2)
+    V_sp = -1j*A/(2*a)
+    H0 = np.zeros((4, 4), dtype=complex)
+    H1 = np.zeros((4, 4), dtype=complex)
+    H2 = np.zeros((4, 4), dtype=complex)
+    H0[0, 0] = E_s
+    H0[1, 1] = E_p
+    H0[2, 2] = E_s
+    H0[3, 3] = E_p
+    H1[0, 0] = V_ss
+    H1[1, 1] = V_pp
+    H1[2, 2] = V_ss
+    H1[3, 3] = V_pp
+    H1[0, 1] = V_sp
+    H1[1, 0] = -np.conj(V_sp)
+    H1[2, 3] = np.conj(V_sp)
+    H1[3, 2] = -V_sp
+    H2[0, 0] = V_ss
+    H2[1, 1] = V_pp
+    H2[2, 2] = V_ss
+    H2[3, 3] = V_pp
+    H2[0, 1] = 1j*V_sp
+    H2[1, 0] = 1j*np.conj(V_sp)
+    H2[2, 3] = -1j*np.conj(V_sp)
+    H2[3, 2] = -1j*V_sp
+    return H0, H1, H2
 
 
 
@@ -778,6 +815,28 @@ def hamiltonian_of_one_QAH_model(k1, k2, t1=1, t2=1, t3=0.5, m=-1):
     hamiltonian[1, 0] = 2*t1*math.cos(k1)+1j*2*t1*math.cos(k2)
     hamiltonian[0, 0] = m+2*t3*math.sin(k1)+2*t3*math.sin(k2)+2*t2*math.cos(k1+k2)
     hamiltonian[1, 1] = -(m+2*t3*math.sin(k1)+2*t3*math.sin(k2)+2*t2*math.cos(k1+k2))
+    return hamiltonian
+
+def hamiltonian_of_half_BHZ_model_for_spin_up(kx, ky, A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01):
+    hamiltonian = np.zeros((2, 2), dtype=complex)
+    varepsilon = C-2*D*(2-math.cos(kx)-math.cos(ky))
+    d3 = -2*B*(2-(M/2/B)-math.cos(kx)-math.cos(ky))
+    d1_d2 = A*(math.sin(kx)+1j*math.sin(ky))
+    hamiltonian[0, 0] = varepsilon+d3
+    hamiltonian[1, 1] = varepsilon-d3
+    hamiltonian[0, 1] = np.conj(d1_d2)
+    hamiltonian[1, 0] = d1_d2 
+    return hamiltonian
+
+def hamiltonian_of_half_BHZ_model_for_spin_down(kx, ky, A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01):
+    hamiltonian = np.zeros((2, 2), dtype=complex)
+    varepsilon = C-2*D*(2-math.cos(kx)-math.cos(ky))
+    d3 = -2*B*(2-(M/2/B)-math.cos(kx)-math.cos(ky))
+    d1_d2 = A*(math.sin(kx)+1j*math.sin(ky))
+    hamiltonian[0, 0] = varepsilon+d3
+    hamiltonian[1, 1] = varepsilon-d3
+    hamiltonian[0, 1] = -d1_d2 
+    hamiltonian[1, 0] = -np.conj(d1_d2)
     return hamiltonian
 
 def hamiltonian_of_BBH_model(kx, ky, gamma_x=0.5, gamma_y=0.5, lambda_x=1, lambda_y=1):
