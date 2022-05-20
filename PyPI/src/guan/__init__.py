@@ -303,7 +303,7 @@ guan.make_gif(image_path_array, filename='a', duration=0.1)
 
 parameter_array = guan.preprocess_for_parallel_calculations(parameter_array_all, cpus=1, task_index=0)
 
-guan.change_directory_by_replacement(current_key_word='codes', new_key_word='data')
+guan.change_directory_by_replacement(current_key_word='code', new_key_word='data')
 
 guan.batch_reading_and_plotting(directory, xlabel='x', ylabel='y')
 
@@ -2181,7 +2181,7 @@ def preprocess_for_parallel_calculations(parameter_array_all, cpus=1, task_index
             parameter_array = parameter_array_all[task_index*num_parameter:num_all]
     return parameter_array
 
-def change_directory_by_replacement(current_key_word='codes', new_key_word='data'):
+def change_directory_by_replacement(current_key_word='code', new_key_word='data'):
     import os
     code_path = os.getcwd()
     data_path = code_path.replace('\\', '/') 
