@@ -321,7 +321,7 @@ content = guan.pdf_to_text(pdf_path)
 
 guan.pdf_to_audio(pdf_path, rate=125, voice=1, read=1, save=0, print_text=0)
 
-guan.play_academic_words(bre_or_ame='ame', random_on=0, show_translation=1, show_link=1, translation_time=2, rest_time=1)
+guan.play_academic_words(reverse=0, random_on=0, bre_or_ame='ame', show_translation=1, show_link=1, translation_time=2, rest_time=1)
 
 guan.play_element_words(random_on=0, show_translation=1, show_link=1, translation_time=2, rest_time=1)
 
@@ -2334,7 +2334,7 @@ def pdf_to_audio(pdf_path, rate=125, voice=1, read=1, save=0, print_text=0):
         engine.say(text)
         engine.runAndWait()
 
-def play_academic_words(bre_or_ame='ame', random_on=0, show_translation=1, show_link=1, translation_time=2, rest_time=1):
+def play_academic_words(reverse=0, random_on=0, bre_or_ame='ame', show_translation=1, show_link=1, translation_time=2, rest_time=1):
     from bs4 import BeautifulSoup
     import re
     import urllib.request
@@ -2358,6 +2358,8 @@ def play_academic_words(bre_or_ame='ame', random_on=0, show_translation=1, show_
     contents = re.findall('<h2>.*?</a></p>', html, re.S)
     if random_on==1:
         random.shuffle(contents)
+    if reverse==1:
+        contents.reverse()
     for content in contents:
         soup2 = BeautifulSoup(content, features='lxml')
         all_h2 = soup2.find_all('h2')
