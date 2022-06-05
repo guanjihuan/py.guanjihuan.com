@@ -367,52 +367,52 @@ def sigma_z():
 ## Kronecker product of Pauli matrices
 
 def sigma_00():
-    return np.kron(sigma_0(), sigma_0())
+    return np.kron(guan.sigma_0(), guan.sigma_0())
 
 def sigma_0x():
-    return np.kron(sigma_0(), sigma_x())
+    return np.kron(guan.sigma_0(), guan.sigma_x())
 
 def sigma_0y():
-    return np.kron(sigma_0(), sigma_y())
+    return np.kron(guan.sigma_0(), guan.sigma_y())
 
 def sigma_0z():
-    return np.kron(sigma_0(), sigma_z())
+    return np.kron(guan.sigma_0(), guan.sigma_z())
 
 def sigma_x0():
-    return np.kron(sigma_x(), sigma_0())
+    return np.kron(guan.sigma_x(), guan.sigma_0())
 
 def sigma_xx():
-    return np.kron(sigma_x(), sigma_x())
+    return np.kron(guan.sigma_x(), guan.sigma_x())
 
 def sigma_xy():
-    return np.kron(sigma_x(), sigma_y())
+    return np.kron(guan.sigma_x(), guan.sigma_y())
 
 def sigma_xz():
-    return np.kron(sigma_x(), sigma_z())
+    return np.kron(guan.sigma_x(), guan.sigma_z())
 
 def sigma_y0():
-    return np.kron(sigma_y(), sigma_0())
+    return np.kron(guan.sigma_y(), guan.sigma_0())
 
 def sigma_yx():
-    return np.kron(sigma_y(), sigma_x())
+    return np.kron(guan.sigma_y(), guan.sigma_x())
 
 def sigma_yy():
-    return np.kron(sigma_y(), sigma_y())
+    return np.kron(guan.sigma_y(), guan.sigma_y())
 
 def sigma_yz():
-    return np.kron(sigma_y(), sigma_z())
+    return np.kron(guan.sigma_y(), guan.sigma_z())
 
 def sigma_z0():
-    return np.kron(sigma_z(), sigma_0())
+    return np.kron(guan.sigma_z(), guan.sigma_0())
 
 def sigma_zx():
-    return np.kron(sigma_z(), sigma_x())
+    return np.kron(guan.sigma_z(), guan.sigma_x())
 
 def sigma_zy():
-    return np.kron(sigma_z(), sigma_y())
+    return np.kron(guan.sigma_z(), guan.sigma_y())
 
 def sigma_zz():
-    return np.kron(sigma_z(), sigma_z())
+    return np.kron(guan.sigma_z(), guan.sigma_z())
 
 
 
@@ -1387,7 +1387,7 @@ def calculate_conductance_with_fermi_energy_array(fermi_energy_array, h00, h01, 
     for fermi_energy in fermi_energy_array:
         if print_show == 1:
             print(fermi_energy)
-        conductance_array[i0] = np.real(calculate_conductance(fermi_energy, h00, h01, length))
+        conductance_array[i0] = np.real(guan.calculate_conductance(fermi_energy, h00, h01, length))
         i0 += 1
     return conductance_array
 
@@ -1419,7 +1419,7 @@ def calculate_conductance_with_disorder_intensity_array(fermi_energy, h00, h01, 
         if print_show == 1:
             print(disorder_intensity)
         for times in range(calculation_times):
-            conductance_array[i0] = conductance_array[i0]+np.real(calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensity=disorder_intensity, disorder_concentration=disorder_concentration, length=length))
+            conductance_array[i0] = conductance_array[i0]+np.real(guan.calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensity=disorder_intensity, disorder_concentration=disorder_concentration, length=length))
         i0 += 1
     conductance_array = conductance_array/calculation_times
     return conductance_array
@@ -1432,7 +1432,7 @@ def calculate_conductance_with_disorder_concentration_array(fermi_energy, h00, h
         if print_show == 1:
             print(disorder_concentration)
         for times in range(calculation_times):
-            conductance_array[i0] = conductance_array[i0]+np.real(calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensity=disorder_intensity, disorder_concentration=disorder_concentration, length=length))
+            conductance_array[i0] = conductance_array[i0]+np.real(guan.calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensity=disorder_intensity, disorder_concentration=disorder_concentration, length=length))
         i0 += 1
     conductance_array = conductance_array/calculation_times
     return conductance_array
@@ -1445,7 +1445,7 @@ def calculate_conductance_with_scattering_length_array(fermi_energy, h00, h01, l
         if print_show == 1:
             print(length)
         for times in range(calculation_times):
-            conductance_array[i0] = conductance_array[i0]+np.real(calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensity=disorder_intensity, disorder_concentration=disorder_concentration, length=length))
+            conductance_array[i0] = conductance_array[i0]+np.real(guan.calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensity=disorder_intensity, disorder_concentration=disorder_concentration, length=length))
         i0 += 1
     conductance_array = conductance_array/calculation_times
     return conductance_array
@@ -1584,8 +1584,8 @@ def get_classified_k_velocity_u_and_f(fermi_energy, h00, h01):
     lambda_right = np.zeros(dim, dtype=complex); lambda_left = np.zeros(dim, dtype=complex)
     u_right = np.zeros((dim, dim), dtype=complex); u_left = np.zeros((dim, dim), dtype=complex)
     for dim0 in range(2*dim):
-        if_active = if_active_channel(k_of_channel[dim0])
-        if if_active_channel(k_of_channel[dim0]) == 1:
+        if_active = guan.if_active_channel(k_of_channel[dim0])
+        if guan.if_active_channel(k_of_channel[dim0]) == 1:
             direction = np.sign(velocity_of_channel[dim0])
         else:
             direction = np.sign(np.imag(k_of_channel[dim0]))
@@ -1648,7 +1648,7 @@ def calculate_scattering_matrix(fermi_energy, h00, h01, length=100):
     reflection_matrix = np.dot(np.dot(np.linalg.inv(u_left), np.dot(green_00_n, temp)-np.identity(dim)), u_right)
     for dim0 in range(dim):
         for dim1 in range(dim):
-            if_active = if_active_channel(k_right[dim0])*if_active_channel(k_right[dim1])
+            if_active = guan.if_active_channel(k_right[dim0])*guan.if_active_channel(k_right[dim1])
             if if_active == 1:
                 transmission_matrix[dim0, dim1] = math.sqrt(np.abs(velocity_right[dim0]/velocity_right[dim1])) * transmission_matrix[dim0, dim1]
                 reflection_matrix[dim0, dim1] = math.sqrt(np.abs(velocity_left[dim0]/velocity_right[dim1]))*reflection_matrix[dim0, dim1]
