@@ -277,6 +277,10 @@ guan.write_one_dimensional_data(x_array, y_array, filename='a', format='txt')
 
 guan.write_two_dimensional_data(x_array, y_array, matrix, filename='a', format='txt')
 
+hex = guan.rgb_to_hex(rgb, pound=1)
+
+rgb = guan.hex_to_rgb(hex)
+
 
 
 # Module 11: plot figures
@@ -2200,7 +2204,16 @@ def batch_reading_and_plotting(directory, xlabel='x', ylabel='y'):
                 x_array, y_array = guan.read_one_dimensional_data(filename=filename)
                 guan.plot(x_array, y_array, xlabel=xlabel, ylabel=ylabel, title=filename, show=0, save=1, filename=filename)
 
+def rgb_to_hex(rgb, pound=1):
+    if pound==0:
+        return '%02x%02x%02x' % rgb
+    else:
+        return '#%02x%02x%02x' % rgb
 
+def hex_to_rgb(hex):
+    hex = hex.lstrip('#')
+    length = len(hex)
+    return tuple(int(hex[i:i+length//3], 16) for i in range(0, length, length//3))
 
 
 
