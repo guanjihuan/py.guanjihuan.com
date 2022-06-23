@@ -2,6 +2,8 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
+# The current version is guan-0.0.93, updated on June 13, 2022.
+
 # Installation: pip install --upgrade guan
 
 # Modules:
@@ -1564,7 +1566,7 @@ def get_k_and_velocity_of_channel(fermi_energy, h00, h01):
         i0 += 1
     eigenvalue = copy.deepcopy(temp2)
     temp = temp[0:dim, :]
-    factor = np.zeros(2*dim, dtype=complex)
+    factor = np.zeros(2*dim)
     for dim0 in range(dim):
         factor = factor+np.square(np.abs(temp[dim0, :]))
     for dim0 in range(2*dim):
@@ -1581,7 +1583,7 @@ def get_classified_k_velocity_u_and_f(fermi_energy, h00, h01):
         dim = 1
     else:
         dim = np.array(h00).shape[0]
-    k_of_channel, velocity_of_channel, eigenvalue, eigenvector = get_k_and_velocity_of_channel(fermi_energy, h00, h01)
+    k_of_channel, velocity_of_channel, eigenvalue, eigenvector = guan.get_k_and_velocity_of_channel(fermi_energy, h00, h01)
     ind_right_active = 0; ind_right_evanescent = 0; ind_left_active = 0; ind_left_evanescent = 0
     k_right = np.zeros(dim, dtype=complex); k_left = np.zeros(dim, dtype=complex)
     velocity_right = np.zeros(dim, dtype=complex); velocity_left = np.zeros(dim, dtype=complex)
@@ -1631,7 +1633,7 @@ def calculate_scattering_matrix(fermi_energy, h00, h01, length=100):
         dim = 1
     else:
         dim = np.array(h00).shape[0]
-    k_right, k_left, velocity_right, velocity_left, f_right, f_left, u_right, u_left, ind_right_active = get_classified_k_velocity_u_and_f(fermi_energy, h00, h01)
+    k_right, k_left, velocity_right, velocity_left, f_right, f_left, u_right, u_left, ind_right_active = guan.get_classified_k_velocity_u_and_f(fermi_energy, h00, h01)
     right_self_energy = np.dot(h01, f_right)
     left_self_energy = np.dot(h01.transpose().conj(), np.linalg.inv(f_left))
     for i0 in range(length):
@@ -1670,7 +1672,7 @@ def print_or_write_scattering_matrix(fermi_energy, h00, h01, length=100, print_s
         dim = 1
     else:
         dim = np.array(h00).shape[0]
-    transmission_matrix, reflection_matrix, k_right, k_left, velocity_right, velocity_left, ind_right_active = calculate_scattering_matrix(fermi_energy, h00, h01, length)
+    transmission_matrix, reflection_matrix, k_right, k_left, velocity_right, velocity_left, ind_right_active = guan.calculate_scattering_matrix(fermi_energy, h00, h01, length)
     if print_show == 1:
         print('\nActive channel (left or right) = ', ind_right_active)
         print('Evanescent channel (left or right) = ', dim-ind_right_active, '\n')
