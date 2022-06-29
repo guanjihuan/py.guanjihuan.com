@@ -2,11 +2,12 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.94, updated on June 24, 2022.
+# The current version is guan-0.0.95, updated on June 29, 2022.
 
 # Installation: pip install --upgrade guan
 
 # Modules:
+
 # # Module 1: basic functions
 # # Module 2: Fourier transform
 # # Module 3: Hamiltonian of finite size systems
@@ -20,8 +21,6 @@
 # # Module 11: plot figures
 # # Module 12: data processing
 # # Module 13: others
-
-
 
 
 '''
@@ -281,9 +280,8 @@ guan.write_one_dimensional_data(x_array, y_array, filename='a', format='txt')
 
 guan.write_two_dimensional_data(x_array, y_array, matrix, filename='a', format='txt')
 
-hex = guan.rgb_to_hex(rgb, pound=1)
+guan.print_array(array, show_index=0, index_type=0)
 
-rgb = guan.hex_to_rgb(hex)
 
 
 
@@ -315,17 +313,23 @@ guan.change_directory_by_replacement(current_key_word='code', new_key_word='data
 
 guan.batch_reading_and_plotting(directory, xlabel='x', ylabel='y')
 
+hex = guan.rgb_to_hex(rgb, pound=1)
+
+rgb = guan.hex_to_rgb(hex)
+
 
 
 # Module 13: others
 
 guan.download_with_scihub(address=None, num=1)
 
+links = guan.get_links_from_pdf(pdf_path, link_starting_form='')
+
+content = guan.pdf_to_text(pdf_path)
+
 guan.str_to_audio(str='hello world', rate=125, voice=1, read=1, save=0, print_text=0)
 
 guan.txt_to_audio(txt_path, rate=125, voice=1, read=1, save=0, print_text=0)
-
-content = guan.pdf_to_text(pdf_path)
 
 guan.pdf_to_audio(pdf_path, rate=125, voice=1, read=1, save=0, print_text=0)
 
@@ -1968,7 +1972,21 @@ def write_two_dimensional_data(x_array, y_array, matrix, filename='a', format='t
             f.write('\n')
             i0 += 1
 
-
+def print_array(array, show_index=0, index_type=0):
+    if show_index==0:
+        for i0 in array:
+            print(i0)
+    else:
+        if index_type==0:
+            index = 0
+            for i0 in array:
+                print(index, i0)
+                index += 1
+        else:
+            index = 0
+            for i0 in array:
+                index += 1
+                print(index, i0)
 
 
 
@@ -2279,6 +2297,62 @@ def download_with_scihub(address=None, num=1):
     if num != 1:
         print('All completed!\n')
 
+# PDF
+
+def get_links_from_pdf(pdf_path, link_starting_form=''):
+    # Example: link_starting_form='https://doi.org'
+    import PyPDF2
+    import re
+    pdfReader = PyPDF2.PdfFileReader(pdf_path)
+    pages = pdfReader.getNumPages()
+    i0 = 0
+    links = []
+    for page in range(pages):
+        pageSliced = pdfReader.getPage(page)
+        pageObject = pageSliced.getObject()
+        if '/Annots' in pageObject.keys():
+            ann = pageObject['/Annots']
+            old = ''
+            for a in ann:
+                u = a.getObject()
+                if '/A' in u.keys():
+                    if re.search(re.compile('^'+link_starting_form), u['/A']['/URI']):
+                        if u['/A']['/URI'] != old:
+                            links.append(u['/A']['/URI']) 
+                            i0 += 1
+                            old = u['/A']['/URI']        
+    return links
+
+def pdf_to_text(pdf_path):
+    from pdfminer.pdfparser import PDFParser, PDFDocument
+    from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
+    from pdfminer.converter import PDFPageAggregator
+    from pdfminer.layout import LAParams, LTTextBox
+    from pdfminer.pdfinterp import PDFTextExtractionNotAllowed
+    import logging 
+    logging.Logger.propagate = False 
+    logging.getLogger().setLevel(logging.ERROR) 
+    praser = PDFParser(open(pdf_path, 'rb'))
+    doc = PDFDocument()
+    praser.set_document(doc)
+    doc.set_parser(praser)
+    doc.initialize()
+    if not doc.is_extractable:
+        raise PDFTextExtractionNotAllowed
+    else:
+        rsrcmgr = PDFResourceManager()
+        laparams = LAParams()
+        device = PDFPageAggregator(rsrcmgr, laparams=laparams)
+        interpreter = PDFPageInterpreter(rsrcmgr, device)
+        content = ''
+        for page in doc.get_pages():
+            interpreter.process_page(page)                        
+            layout = device.get_result()                     
+            for x in layout:
+                if isinstance(x, LTTextBox):
+                    content  = content + x.get_text().strip()
+    return content
+
 ## audio
 
 def str_to_audio(str='hello world', rate=125, voice=1, read=1, save=0, print_text=0):
@@ -2317,36 +2391,6 @@ def txt_to_audio(txt_path, rate=125, voice=1, read=1, save=0, print_text=0):
         engine.say(text)
         engine.runAndWait()
 
-def pdf_to_text(pdf_path):
-    from pdfminer.pdfparser import PDFParser, PDFDocument
-    from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
-    from pdfminer.converter import PDFPageAggregator
-    from pdfminer.layout import LAParams, LTTextBox
-    from pdfminer.pdfinterp import PDFTextExtractionNotAllowed
-    import logging 
-    logging.Logger.propagate = False 
-    logging.getLogger().setLevel(logging.ERROR) 
-    praser = PDFParser(open(pdf_path, 'rb'))
-    doc = PDFDocument()
-    praser.set_document(doc)
-    doc.set_parser(praser)
-    doc.initialize()
-    if not doc.is_extractable:
-        raise PDFTextExtractionNotAllowed
-    else:
-        rsrcmgr = PDFResourceManager()
-        laparams = LAParams()
-        device = PDFPageAggregator(rsrcmgr, laparams=laparams)
-        interpreter = PDFPageInterpreter(rsrcmgr, device)
-        content = ''
-        for page in doc.get_pages():
-            interpreter.process_page(page)                        
-            layout = device.get_result()                     
-            for x in layout:
-                if isinstance(x, LTTextBox):
-                    content  = content + x.get_text().strip()
-    return content
-
 def pdf_to_audio(pdf_path, rate=125, voice=1, read=1, save=0, print_text=0):
     import pyttsx3
     text = guan.pdf_to_text(pdf_path)
@@ -2366,6 +2410,8 @@ def pdf_to_audio(pdf_path, rate=125, voice=1, read=1, save=0, print_text=0):
     if read==1:
         engine.say(text)
         engine.runAndWait()
+
+## words
 
 def play_academic_words(reverse=0, random_on=0, bre_or_ame='ame', show_translation=1, show_link=1, translation_time=2, rest_time=1):
     from bs4 import BeautifulSoup
