@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.95, updated on June 29, 2022.
+# The current version is guan-0.0.96, updated on June 29, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -2279,7 +2279,8 @@ def download_with_scihub(address=None, num=1):
         print('\nResponse：', r)
         print('Address：', r.url)
         soup = BeautifulSoup(r.text, features='lxml')
-        pdf_URL = soup.iframe['src']
+        pdf_URL = soup.embed['src']
+        # pdf_URL = soup.iframe['src'] # This is a code line of history version which fails to get pdf URL.
         if re.search(re.compile('^https:'), pdf_URL):
             pass
         else:
