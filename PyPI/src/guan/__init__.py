@@ -2298,7 +2298,7 @@ def download_with_scihub(address=None, num=1):
     if num != 1:
         print('All completed!\n')
 
-# PDF
+## PDF
 
 def get_links_from_pdf(pdf_path, link_starting_form=''):
     # Example: link_starting_form='https://doi.org'
