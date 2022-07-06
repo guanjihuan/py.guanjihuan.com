@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.99, updated on July 06, 2022.
+# The current version is guan-0.0.101, updated on July 06, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -327,11 +327,11 @@ links = guan.get_links_from_pdf(pdf_path, link_starting_form='')
 
 content = guan.pdf_to_text(pdf_path)
 
-guan.str_to_audio(str='hello world', rate=125, voice=1, read=1, save=0, print_text=0)
+guan.str_to_audio(str='hello world', filename='str', rate=125, voice=1, read=1, save=0, compress=0, bitrate='16k', print_text=0)
 
-guan.txt_to_audio(txt_path, rate=125, voice=1, read=1, save=0, print_text=0)
+guan.txt_to_audio(txt_path, rate=125, voice=1, read=1, save=0, compress=0, bitrate='16k', print_text=0)
 
-guan.pdf_to_audio(pdf_path, rate=125, voice=1, read=1, save=0, print_text=0)
+guan.pdf_to_audio(pdf_path, rate=125, voice=1, read=1, save=0, compress=0, bitrate='16k', print_text=0)
 
 guan.compress_mp3(mp3_path, output_filename='a.mp3', bitrate='16k')
 
