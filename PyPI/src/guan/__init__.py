@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.98, updated on June 29, 2022.
+# The current version is guan-0.0.99, updated on July 06, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -332,6 +332,8 @@ guan.str_to_audio(str='hello world', rate=125, voice=1, read=1, save=0, print_te
 guan.txt_to_audio(txt_path, rate=125, voice=1, read=1, save=0, print_text=0)
 
 guan.pdf_to_audio(pdf_path, rate=125, voice=1, read=1, save=0, print_text=0)
+
+guan.compress_mp3(mp3_path, output_filename='a.mp3', bitrate='16k')
 
 guan.play_academic_words(reverse=0, random_on=0, bre_or_ame='ame', show_translation=1, show_link=1, translation_time=2, rest_time=1)
 
@@ -2356,7 +2358,7 @@ def pdf_to_text(pdf_path):
 
 ## audio
 
-def str_to_audio(str='hello world', rate=125, voice=1, read=1, save=0, print_text=0):
+def str_to_audio(str='hello world', filename='str', rate=125, voice=1, read=1, save=0, compress=0, bitrate='16k', print_text=0):
     import pyttsx3
     if print_text==1:
         print(str)
@@ -2365,14 +2367,19 @@ def str_to_audio(str='hello world', rate=125, voice=1, read=1, save=0, print_tex
     engine.setProperty('voice', voices[voice].id)
     engine.setProperty("rate", rate)
     if save==1:
-        engine.save_to_file(str, 'str.mp3')
+        engine.save_to_file(str, filename+'.mp3')
         engine.runAndWait()
         print('MP3 file saved!')
+        if compress==1:
+            import os
+            os.rename(filename+'.mp3', 'temp.mp3')
+            compress_mp3('temp.mp3', output_filename=filename+'.mp3', bitrate=bitrate)
+            os.remove('temp.mp3')
     if read==1:
         engine.say(str)
         engine.runAndWait()
 
-def txt_to_audio(txt_path, rate=125, voice=1, read=1, save=0, print_text=0):
+def txt_to_audio(txt_path, rate=125, voice=1, read=1, save=0, compress=0, bitrate='16k', print_text=0):
     import pyttsx3
     f = open(txt_path, 'r', encoding ='utf-8')
     text = f.read()
@@ -2384,15 +2391,20 @@ def txt_to_audio(txt_path, rate=125, voice=1, read=1, save=0, print_text=0):
     engine.setProperty("rate", rate)
     if save==1:
         import re
-        file_name = re.split('[/,\\\]', txt_path)[-1][:-4]
-        engine.save_to_file(text, file_name+'.mp3')
+        filename = re.split('[/,\\\]', txt_path)[-1][:-4]
+        engine.save_to_file(text, filename+'.mp3')
         engine.runAndWait()
         print('MP3 file saved!')
+        if compress==1:
+            import os
+            os.rename(filename+'.mp3', 'temp.mp3')
+            compress_mp3('temp.mp3', output_filename=filename+'.mp3', bitrate=bitrate)
+            os.remove('temp.mp3')
     if read==1:
         engine.say(text)
         engine.runAndWait()
 
-def pdf_to_audio(pdf_path, rate=125, voice=1, read=1, save=0, print_text=0):
+def pdf_to_audio(pdf_path, rate=125, voice=1, read=1, save=0, compress=0, bitrate='16k', print_text=0):
     import pyttsx3
     text = guan.pdf_to_text(pdf_path)
     text = text.replace('\n', ' ')
@@ -2404,13 +2416,24 @@ def pdf_to_audio(pdf_path, rate=125, voice=1, read=1, save=0, print_text=0):
     engine.setProperty("rate", rate)
     if save==1:
         import re
-        file_name = re.split('[/,\\\]', pdf_path)[-1][:-4]
-        engine.save_to_file(text, file_name+'.mp3')
+        filename = re.split('[/,\\\]', pdf_path)[-1][:-4]
+        engine.save_to_file(text, filename+'.mp3')
         engine.runAndWait()
         print('MP3 file saved!')
+        if compress==1:
+            import os
+            os.rename(filename+'.mp3', 'temp.mp3')
+            compress_mp3('temp.mp3', output_filename=filename+'.mp3', bitrate=bitrate)
+            os.remove('temp.mp3')
     if read==1:
         engine.say(text)
         engine.runAndWait()
+
+def compress_mp3(mp3_path, output_filename='a.mp3', bitrate='16k'):
+    # Note: Beside the installation of pydub, you may also need download FFmpeg on http://www.ffmpeg.org/download.html and add the bin path to the environment variable.
+    from pydub import AudioSegment
+    sound = AudioSegment.from_mp3(mp3_path)
+    sound.export(output_filename,format="mp3",bitrate=bitrate)
 
 ## words
 
