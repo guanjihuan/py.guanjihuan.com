@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.105, updated on July 12, 2022.
+# The current version is guan-0.0.106, updated on July 12, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -751,9 +751,13 @@ def find_vector_array_with_fixed_gauge_by_making_one_component_real(vector_array
         vector_array[i0] = guan.find_vector_with_fixed_gauge_by_making_one_component_real(vector_array[i0], precision=precision, index=index)
     return vector_array
 
-def rotation_of_degenerate_vectors(vector1, vector2, index1, index2, precision=0.01, criterion=0.01, show_theta=0):
+def rotation_of_degenerate_vectors(vector1, vector2, index1=None, index2=None, precision=0.01, criterion=0.01, show_theta=0):
     vector1 = np.array(vector1)
     vector2 = np.array(vector2)
+    if index1 == None:
+        index1 = np.argmax(np.abs(vector1))
+    if index2 == None:
+        index2 = np.argmax(np.abs(vector2))
     if np.abs(vector1[index2])>criterion or np.abs(vector2[index1])>criterion:
         for theta in np.arange(0, 2*math.pi, precision):
             if show_theta==1:

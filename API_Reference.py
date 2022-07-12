@@ -145,7 +145,7 @@ vector = guan.find_vector_with_fixed_gauge_by_making_one_component_real(vector, 
 
 vector_array = guan.find_vector_array_with_fixed_gauge_by_making_one_component_real(vector_array, precision=0.005)
 
-vector1, vector2 = guan.rotation_of_degenerate_vectors(vector1, vector2, index1, index2, precision=0.01, criterion=0.01, show_theta=0)
+vector1, vector2 = guan.rotation_of_degenerate_vectors(vector1, vector2, index1=None, index2=None, precision=0.01, criterion=0.01, show_theta=0)
 
 vector1_array, vector2_array = guan.rotation_of_degenerate_vectors_array(vector1_array, vector2_array, precision=0.01, criterion=0.01, show_theta=0)
 
