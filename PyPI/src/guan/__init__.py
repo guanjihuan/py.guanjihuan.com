@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.106, updated on July 12, 2022.
+# The current version is guan-0.0.107, updated on July 13, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -442,12 +442,15 @@ def hamiltonian_of_square_lattice(k1, k2):
     hamiltonian = guan.two_dimensional_fourier_transform_for_square_lattice(k1, k2, unit_cell=0, hopping_1=1, hopping_2=1)
     return hamiltonian
 
-def hamiltonian_of_square_lattice_in_quasi_one_dimension(k, N=10):
+def hamiltonian_of_square_lattice_in_quasi_one_dimension(k, N=10, period=0):
     h00 = np.zeros((N, N), dtype=complex)  # hopping in a unit cell
     h01 = np.zeros((N, N), dtype=complex)  # hopping between unit cells
     for i in range(N-1):   
         h00[i, i+1] = 1
         h00[i+1, i] = 1
+    if period == 1:
+        h00[N-1, 0] = 1
+        h00[0, N-1] = 1
     for i in range(N):   
         h01[i, i] = 1
     hamiltonian = guan.one_dimensional_fourier_transform(k, unit_cell=h00, hopping=h01) 
@@ -473,7 +476,7 @@ def hamiltonian_of_graphene(k1, k2, M=0, t=1, a=1/math.sqrt(3)):
     hamiltonian = h0 + h1
     return hamiltonian
 
-def hamiltonian_of_graphene_with_zigzag_in_quasi_one_dimension(k, N=10, M=0, t=1):
+def hamiltonian_of_graphene_with_zigzag_in_quasi_one_dimension(k, N=10, M=0, t=1, period=0):
     h00 = np.zeros((4*N, 4*N), dtype=complex)  # hopping in a unit cell
     h01 = np.zeros((4*N, 4*N), dtype=complex)  # hopping between unit cells
     for i in range(N):
@@ -490,6 +493,9 @@ def hamiltonian_of_graphene_with_zigzag_in_quasi_one_dimension(k, N=10, M=0, t=1
     for i in range(N-1):
         h00[i*4+3, (i+1)*4+0] = t
         h00[(i+1)*4+0, i*4+3] = t
+    if period == 1:
+        h00[(N-1)*4+3, 0] = t
+        h00[0, (N-1)*4+3] = t
     for i in range(N):
         h01[i*4+1, i*4+0] = t
         h01[i*4+2, i*4+3] = t
@@ -509,7 +515,7 @@ def hamiltonian_of_haldane_model(k1, k2, M=2/3, t1=1, t2=1/3, phi=math.pi/4, a=1
     hamiltonian = h0 + h1 + h2 + h2.transpose().conj()
     return hamiltonian
 
-def hamiltonian_of_haldane_model_in_quasi_one_dimension(k, N=10, M=2/3, t1=1, t2=1/3, phi=math.pi/4):
+def hamiltonian_of_haldane_model_in_quasi_one_dimension(k, N=10, M=2/3, t1=1, t2=1/3, phi=math.pi/4, period=0):
     h00 = np.zeros((4*N, 4*N), dtype=complex)  # hopping in a unit cell
     h01 = np.zeros((4*N, 4*N), dtype=complex)  # hopping between unit cells
     for i in range(N):
@@ -534,6 +540,13 @@ def hamiltonian_of_haldane_model_in_quasi_one_dimension(k, N=10, M=2/3, t1=1, t2
         h00[(i+1)*4+0, i*4+2] = h00[i*4+2, (i+1)*4+0].conj()
         h00[i*4+3, (i+1)*4+1] = t2*cmath.exp(1j*phi)
         h00[(i+1)*4+1, i*4+3] = h00[i*4+3, (i+1)*4+1].conj()
+    if period == 1:
+        h00[(N-1)*4+3, 0] = t1
+        h00[0, (N-1)*4+3] = t1
+        h00[(N-1)*4+2, 0] = t2*cmath.exp(1j*phi)
+        h00[0, (N-1)*4+2] = h00[(N-1)*4+2, 0].conj()
+        h00[(N-1)*4+3, 1] = t2*cmath.exp(1j*phi)
+        h00[1, (N-1)*4+3] = h00[(N-1)*4+3, 1].conj()
     for i in range(N):
         h01[i*4+1, i*4+0] = t1
         h01[i*4+2, i*4+3] = t1

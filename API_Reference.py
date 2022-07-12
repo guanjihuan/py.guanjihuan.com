@@ -103,7 +103,7 @@ hamiltonian = guan.hamiltonian_of_simple_chain(k)
 
 hamiltonian = guan.hamiltonian_of_square_lattice(k1, k2)
 
-hamiltonian = guan.hamiltonian_of_square_lattice_in_quasi_one_dimension(k, N=10)
+hamiltonian = guan.hamiltonian_of_square_lattice_in_quasi_one_dimension(k, N=10, period=0)
 
 hamiltonian = guan.hamiltonian_of_cubic_lattice(k1, k2, k3)
 
@@ -111,11 +111,11 @@ hamiltonian = guan.hamiltonian_of_ssh_model(k, v=0.6, w=1)
 
 hamiltonian = guan.hamiltonian_of_graphene(k1, k2, M=0, t=1, a=1/math.sqrt(3))
 
-hamiltonian = guan.hamiltonian_of_graphene_with_zigzag_in_quasi_one_dimension(k, N=10, M=0, t=1)
+hamiltonian = guan.hamiltonian_of_graphene_with_zigzag_in_quasi_one_dimension(k, N=10, M=0, t=1, period=0)
 
 hamiltonian = guan.hamiltonian_of_haldane_model(k1, k2, M=2/3, t1=1, t2=1/3, phi=math.pi/4, a=1/math.sqrt(3))
 
-hamiltonian = guan.hamiltonian_of_haldane_model_in_quasi_one_dimension(k, N=10, M=2/3, t1=1, t2=1/3, phi=math.pi/4)
+hamiltonian = guan.hamiltonian_of_haldane_model_in_quasi_one_dimension(k, N=10, M=2/3, t1=1, t2=1/3, phi=math.pi/4, period=0)
 
 hamiltonian = guan.hamiltonian_of_one_QAH_model(k1, k2, t1=1, t2=1, t3=0.5, m=-1)
 
