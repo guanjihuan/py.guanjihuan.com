@@ -282,6 +282,10 @@ guan.make_gif(image_path_array, filename='a', duration=0.1)
 
 parameter_array = guan.preprocess_for_parallel_calculations(parameter_array_all, cpus=1, task_index=0)
 
+new_array = guan.find_close_values_in_one_array(array, precision=1e-2)
+
+degenerate_k_array, degenerate_eigenvalue_array = guan.find_degenerate_points(k_array, eigenvalue_array, precision=1e-2)
+
 guan.change_directory_by_replacement(current_key_word='code', new_key_word='data')
 
 guan.batch_reading_and_plotting(directory, xlabel='x', ylabel='y')

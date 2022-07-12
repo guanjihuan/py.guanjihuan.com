@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.103, updated on July 06, 2022.
+# The current version is guan-0.0.105, updated on July 12, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -1901,6 +1901,30 @@ def preprocess_for_parallel_calculations(parameter_array_all, cpus=1, task_index
         else:
             parameter_array = parameter_array_all[task_index*num_parameter:num_all]
     return parameter_array
+
+def find_close_values_in_one_array(array, precision=1e-2):
+    new_array = []
+    i0 = 0
+    for a1 in array:
+        j0 = 0
+        for a2 in array:
+            if j0>i0 and abs(a1-a2)<precision: 
+                new_array.append([a1, a2])
+            j0 +=1
+        i0 += 1
+    return new_array
+
+def find_degenerate_points(k_array, eigenvalue_array, precision=1e-2):
+    degenerate_k_array = []
+    degenerate_eigenvalue_array = []
+    i0 = 0
+    for k in k_array:
+        degenerate_points = find_close_values_in_one_array(eigenvalue_array[i0], precision=precision)
+        if len(degenerate_points) != 0:
+            degenerate_k_array.append(k)
+            degenerate_eigenvalue_array.append(degenerate_points)
+        i0 += 1
+    return degenerate_k_array, degenerate_eigenvalue_array
 
 def change_directory_by_replacement(current_key_word='code', new_key_word='data'):
     import os
