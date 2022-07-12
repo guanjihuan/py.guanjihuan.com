@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.107, updated on July 13, 2022.
+# The current version is guan-0.0.108, updated on July 13, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -1708,6 +1708,35 @@ def plot(x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, labels
             y_min=min(y_array)
         if y_max==None:
             y_max=max(y_array)
+        ax.set_ylim(y_min, y_max)
+    ax.tick_params(labelsize=labelsize) 
+    labels = ax.get_xticklabels() + ax.get_yticklabels()
+    [label.set_fontname('Times New Roman') for label in labels]
+    if save == 1:
+        plt.savefig(filename+'.'+format, dpi=dpi) 
+    if show == 1:
+        plt.show()
+    plt.close('all')
+
+def plot_two_array(x_array, y1_array, y2_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', format='jpg', dpi=300, style_1='', style_2='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, markersize_1=None, markersize_2=None, adjust_bottom=0.2, adjust_left=0.2): 
+    import matplotlib.pyplot as plt
+    fig, ax = plt.subplots()
+    plt.subplots_adjust(bottom=adjust_bottom, left=adjust_left) 
+    ax.plot(x_array, y1_array, style_1, linewidth=linewidth_1, markersize=markersize_1)
+    ax.plot(x_array, y2_array, style_2, linewidth=linewidth_2, markersize=markersize_2)
+    ax.grid()
+    ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
+    ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman') 
+    ax.set_ylabel(ylabel, fontsize=fontsize, fontfamily='Times New Roman') 
+    if y_min!=None or y_max!=None:
+        if y_min==None:
+            y1_min=min(y1_array)
+            y2_min=min(y1_array)
+            y_min=min([y1_min, y2_min])
+        if y_max==None:
+            y1_max=max(y1_array)
+            y2_max=max(y2_array)
+            y_max=max([y1_max, y2_max])
         ax.set_ylim(y_min, y_max)
     ax.tick_params(labelsize=labelsize) 
     labels = ax.get_xticklabels() + ax.get_yticklabels()
