@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.109, updated on July 13, 2022.
+# The current version is guan-0.0.110, updated on July 14, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -314,7 +314,7 @@ def hamiltonian_of_finite_size_system_along_three_directions_for_cubic_lattice(N
                 hamiltonian[i1*N2*N3*dim+i2*N3*dim+0:i1*N2*N3*dim+i2*N3*dim+dim, i1*N2*N3*dim+i2*N3*dim+(N3-1)*dim+0:i1*N2*N3*dim+i2*N3*dim+(N3-1)*dim+dim] = hopping_3.transpose().conj()
     return hamiltonian
 
-def hamiltonian_of_finite_size_SSH_model(N, v=0.6, w=1, onsite_1=0, onsite_2=0, period=1):
+def hamiltonian_of_finite_size_ssh_model(N, v=0.6, w=1, onsite_1=0, onsite_2=0, period=1):
     hamiltonian = np.zeros((2*N, 2*N))
     for i in range(N):
         hamiltonian[i*2+0, i*2+0] = onsite_1
@@ -348,7 +348,7 @@ def hamiltonian_of_finite_size_system_along_two_directions_for_graphene(N1, N2, 
     hamiltonian = guan.finite_size_along_two_directions_for_square_lattice(N1, N2, on_site, hopping_1, hopping_2, period_1, period_2)
     return hamiltonian
 
-def get_onsite_and_hopping_terms_of_BHZ_model(A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01, a=1):
+def get_onsite_and_hopping_terms_of_bhz_model(A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01, a=1):
     E_s = C+M-4*(D+B)/(a**2)
     E_p = C-M-4*(D-B)/(a**2)
     V_ss = (D+B)/(a**2)
@@ -379,7 +379,7 @@ def get_onsite_and_hopping_terms_of_BHZ_model(A=0.3645/5, B=-0.686/25, C=0, D=-0
     H2[3, 2] = -1j*V_sp
     return H0, H1, H2
 
-def get_onsite_and_hopping_terms_of_half_BHZ_model_for_spin_up(A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01, a=1):
+def get_onsite_and_hopping_terms_of_half_bhz_model_for_spin_up(A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01, a=1):
     E_s = C+M-4*(D+B)/(a**2)
     E_p = C-M-4*(D-B)/(a**2)
     V_ss = (D+B)/(a**2)
@@ -400,7 +400,7 @@ def get_onsite_and_hopping_terms_of_half_BHZ_model_for_spin_up(A=0.3645/5, B=-0.
     H2[1, 0] = 1j*np.conj(V_sp)
     return H0, H1, H2
 
-def get_onsite_and_hopping_terms_of_half_BHZ_model_for_spin_down(A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01, a=1):
+def get_onsite_and_hopping_terms_of_half_bhz_model_for_spin_down(A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01, a=1):
     E_s = C+M-4*(D+B)/(a**2)
     E_p = C-M-4*(D-B)/(a**2)
     V_ss = (D+B)/(a**2)
@@ -571,7 +571,7 @@ def hamiltonian_of_one_QAH_model(k1, k2, t1=1, t2=1, t3=0.5, m=-1):
     hamiltonian[1, 1] = -(m+2*t3*math.sin(k1)+2*t3*math.sin(k2)+2*t2*math.cos(k1+k2))
     return hamiltonian
 
-def hamiltonian_of_BHZ_model(kx, ky, A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01):
+def hamiltonian_of_bhz_model(kx, ky, A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01):
     hamiltonian = np.zeros((4, 4), dtype=complex)
     varepsilon = C-2*D*(2-math.cos(kx)-math.cos(ky))
     d3 = -2*B*(2-(M/2/B)-math.cos(kx)-math.cos(ky))
@@ -586,7 +586,7 @@ def hamiltonian_of_BHZ_model(kx, ky, A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, 
     hamiltonian[3, 2] = -np.conj(d1_d2)
     return hamiltonian
 
-def hamiltonian_of_half_BHZ_model_for_spin_up(kx, ky, A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01):
+def hamiltonian_of_half_bhz_model_for_spin_up(kx, ky, A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01):
     hamiltonian = np.zeros((2, 2), dtype=complex)
     varepsilon = C-2*D*(2-math.cos(kx)-math.cos(ky))
     d3 = -2*B*(2-(M/2/B)-math.cos(kx)-math.cos(ky))
@@ -597,7 +597,7 @@ def hamiltonian_of_half_BHZ_model_for_spin_up(kx, ky, A=0.3645/5, B=-0.686/25, C
     hamiltonian[1, 0] = d1_d2
     return hamiltonian
 
-def hamiltonian_of_half_BHZ_model_for_spin_down(kx, ky, A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01):
+def hamiltonian_of_half_bhz_model_for_spin_down(kx, ky, A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01):
     hamiltonian = np.zeros((2, 2), dtype=complex)
     varepsilon = C-2*D*(2-math.cos(kx)-math.cos(ky))
     d3 = -2*B*(2-(M/2/B)-math.cos(kx)-math.cos(ky))
@@ -608,7 +608,7 @@ def hamiltonian_of_half_BHZ_model_for_spin_down(kx, ky, A=0.3645/5, B=-0.686/25,
     hamiltonian[1, 0] = -np.conj(d1_d2)
     return hamiltonian
 
-def hamiltonian_of_BBH_model(kx, ky, gamma_x=0.5, gamma_y=0.5, lambda_x=1, lambda_y=1):
+def hamiltonian_of_bbh_model(kx, ky, gamma_x=0.5, gamma_y=0.5, lambda_x=1, lambda_y=1):
     # label of atoms in a unit cell
     # (2) —— (0)
     #  |      |
@@ -622,6 +622,18 @@ def hamiltonian_of_BBH_model(kx, ky, gamma_x=0.5, gamma_y=0.5, lambda_x=1, lambd
     hamiltonian[3, 1] = np.conj(hamiltonian[1, 3])
     hamiltonian[3, 0] = np.conj(hamiltonian[0, 3])
     hamiltonian[2, 1] = np.conj(hamiltonian[1, 2]) 
+    return hamiltonian
+
+def hamiltonian_of_kagome_lattice(kx, ky, t=1):
+    k1_dot_a1 = kx
+    k2_dot_a2 = kx/2+ky*math.sqrt(3)/2
+    k3_dot_a3 = -kx/2+ky*math.sqrt(3)/2
+    hamiltonian = np.zeros((3, 3), dtype=complex)
+    hamiltonian[0, 1] = 2*math.cos(k1_dot_a1)
+    hamiltonian[0, 2] = 2*math.cos(k2_dot_a2)
+    hamiltonian[1, 2] = 2*math.cos(k3_dot_a3)
+    hamiltonian = hamiltonian + hamiltonian.transpose().conj()
+    hamiltonian = -t*hamiltonian
     return hamiltonian
 
 

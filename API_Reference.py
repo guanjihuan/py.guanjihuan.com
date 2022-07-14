@@ -83,17 +83,17 @@ hamiltonian = guan.hamiltonian_of_finite_size_system_along_two_directions_for_sq
 
 hamiltonian = guan.hamiltonian_of_finite_size_system_along_three_directions_for_cubic_lattice(N1, N2, N3, on_site=0, hopping_1=1, hopping_2=1, hopping_3=1, period_1=0, period_2=0, period_3=0)
 
-hamiltonian = guan.hamiltonian_of_finite_size_SSH_model(N, v=0.6, w=1, onsite_1=0, onsite_2=0, period=1)
+hamiltonian = guan.hamiltonian_of_finite_size_ssh_model(N, v=0.6, w=1, onsite_1=0, onsite_2=0, period=1)
 
 hopping = guan.get_hopping_term_of_graphene_ribbon_along_zigzag_direction(N, eta=0)
 
 hamiltonian = guan.hamiltonian_of_finite_size_system_along_two_directions_for_graphene(N1, N2, period_1=0, period_2=0)
 
-H0, H1, H2 = guan.get_onsite_and_hopping_terms_of_BHZ_model(A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01, a=1)
+H0, H1, H2 = guan.get_onsite_and_hopping_terms_of_bhz_model(A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01, a=1)
 
-H0, H1, H2 = guan.get_onsite_and_hopping_terms_of_half_BHZ_model_for_spin_up(A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01, a=1)
+H0, H1, H2 = guan.get_onsite_and_hopping_terms_of_half_bhz_model_for_spin_up(A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01, a=1)
 
-H0, H1, H2 = guan.get_onsite_and_hopping_terms_of_half_BHZ_model_for_spin_down(A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01, a=1)
+H0, H1, H2 = guan.get_onsite_and_hopping_terms_of_half_bhz_model_for_spin_down(A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01, a=1)
 
 
 
@@ -119,13 +119,15 @@ hamiltonian = guan.hamiltonian_of_haldane_model_in_quasi_one_dimension(k, N=10, 
 
 hamiltonian = guan.hamiltonian_of_one_QAH_model(k1, k2, t1=1, t2=1, t3=0.5, m=-1)
 
-hamiltonian = guan.hamiltonian_of_BHZ_model(kx, ky, A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01)
+hamiltonian = guan.hamiltonian_of_bhz_model(kx, ky, A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01)
 
-hamiltonian = guan.hamiltonian_of_half_BHZ_model_for_spin_up(kx, ky, A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01)
+hamiltonian = guan.hamiltonian_of_half_bhz_model_for_spin_up(kx, ky, A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01)
 
-hamiltonian = guan.hamiltonian_of_half_BHZ_model_for_spin_down(kx, ky, A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01)
+hamiltonian = guan.hamiltonian_of_half_bhz_model_for_spin_down(kx, ky, A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01)
 
-hamiltonian = guan.hamiltonian_of_BBH_model(kx, ky, gamma_x=0.5, gamma_y=0.5, lambda_x=1, lambda_y=1)
+hamiltonian = guan.hamiltonian_of_bbh_model(kx, ky, gamma_x=0.5, gamma_y=0.5, lambda_x=1, lambda_y=1)
+
+hamiltonian = guan.hamiltonian_of_kagome_lattice(kx, ky, t=1)
 
 
 
