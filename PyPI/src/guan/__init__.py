@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.110, updated on July 14, 2022.
+# The current version is guan-0.0.111, updated on July 19, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -1381,12 +1381,11 @@ def calculate_scattering_matrix(fermi_energy, h00, h01, length=100):
             print('Error Alert: scattering matrix is not normalized!')
     return transmission_matrix, reflection_matrix, k_right, k_left, velocity_right, velocity_left, ind_right_active
 
-def information_of_scattering_matrix(fermi_energy, h00, h01, length=100):
-    if np.array(h00).shape==():
+def information_of_scattering_matrix(transmission_matrix, reflection_matrix, k_right, k_left, velocity_right, velocity_left, ind_right_active):
+    if np.array(transmission_matrix).shape==():
         dim = 1
     else:
-        dim = np.array(h00).shape[0]
-    transmission_matrix, reflection_matrix, k_right, k_left, velocity_right, velocity_left, ind_right_active = guan.calculate_scattering_matrix(fermi_energy, h00, h01, length)
+        dim = np.array(transmission_matrix).shape[0]
     number_of_active_channels = ind_right_active
     number_of_evanescent_channels = dim-ind_right_active
     k_of_right_moving_active_channels = np.real(k_right[0:ind_right_active])
