@@ -89,6 +89,8 @@ hopping = guan.get_hopping_term_of_graphene_ribbon_along_zigzag_direction(N, eta
 
 hamiltonian = guan.hamiltonian_of_finite_size_system_along_two_directions_for_graphene(N1, N2, period_1=0, period_2=0)
 
+h00, h01 = guan.get_onsite_and_hopping_terms_of_2d_effective_graphene_along_one_direction(qy, t=1, staggered_potential=0, eta=0, valley_index=0)
+
 H0, H1, H2 = guan.get_onsite_and_hopping_terms_of_bhz_model(A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01, a=1)
 
 H0, H1, H2 = guan.get_onsite_and_hopping_terms_of_half_bhz_model_for_spin_up(A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01, a=1)
@@ -109,7 +111,7 @@ hamiltonian = guan.hamiltonian_of_cubic_lattice(k1, k2, k3)
 
 hamiltonian = guan.hamiltonian_of_ssh_model(k, v=0.6, w=1)
 
-hamiltonian = guan.hamiltonian_of_graphene(k1, k2, M=0, t=1, a=1/math.sqrt(3))
+hamiltonian = guan.hamiltonian_of_graphene(k1, k2, staggered_potential=0, t=1, a=1/math.sqrt(3))
 
 hamiltonian = guan.effective_hamiltonian_of_graphene(qx, qy, t=1, staggered_potential=0, valley_index=0)
 

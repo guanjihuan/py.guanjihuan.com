@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.113, updated on July 20, 2022.
+# The current version is guan-0.0.114, updated on July 20, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -345,8 +345,26 @@ def hamiltonian_of_finite_size_system_along_two_directions_for_graphene(N1, N2, 
     hopping_1 = guan.get_hopping_term_of_graphene_ribbon_along_zigzag_direction(1)
     hopping_2 = np.zeros((4, 4), dtype=complex)
     hopping_2[3, 0] = 1
-    hamiltonian = guan.finite_size_along_two_directions_for_square_lattice(N1, N2, on_site, hopping_1, hopping_2, period_1, period_2)
+    hamiltonian = guan.hamiltonian_of_finite_size_system_along_two_directions_for_square_lattice(N1, N2, on_site, hopping_1, hopping_2, period_1, period_2)
     return hamiltonian
+
+def get_onsite_and_hopping_terms_of_2d_effective_graphene_along_one_direction(qy, t=1, staggered_potential=0, eta=0, valley_index=0):
+    constant = -np.sqrt(3)/2
+    h00 = np.zeros((2, 2), dtype=complex)
+    h00[0, 0] = staggered_potential
+    h00[1, 1] = -staggered_potential
+    h00[0, 1] = -1j*constant*t*np.sin(qy)
+    h00[1, 0] = 1j*constant*t*np.sin(qy)
+    h01 = np.zeros((2, 2), dtype=complex)
+    h01[0, 0] = eta
+    h01[1, 1] = eta
+    if valley_index == 0:
+        h01[0, 1] = constant*t*(-1j/2)
+        h01[1, 0] = constant*t*(-1j/2)
+    else:
+        h01[0, 1] = constant*t*(1j/2)
+        h01[1, 0] = constant*t*(1j/2)
+    return h00, h01
 
 def get_onsite_and_hopping_terms_of_bhz_model(A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01, a=1):
     E_s = C+M-4*(D+B)/(a**2)
@@ -466,11 +484,11 @@ def hamiltonian_of_ssh_model(k, v=0.6, w=1):
     hamiltonian[1,0] = v+w*cmath.exp(1j*k)
     return hamiltonian
 
-def hamiltonian_of_graphene(k1, k2, M=0, t=1, a=1/math.sqrt(3)):
+def hamiltonian_of_graphene(k1, k2, staggered_potential=0, t=1, a=1/math.sqrt(3)):
     h0 = np.zeros((2, 2), dtype=complex)  # mass term
     h1 = np.zeros((2, 2), dtype=complex)  # nearest hopping
-    h0[0, 0] = M     
-    h0[1, 1] = -M
+    h0[0, 0] = staggered_potential     
+    h0[1, 1] = -staggered_potential
     h1[1, 0] = t*(cmath.exp(1j*k2*a)+cmath.exp(1j*math.sqrt(3)/2*k1*a-1j/2*k2*a)+cmath.exp(-1j*math.sqrt(3)/2*k1*a-1j/2*k2*a))   
     h1[0, 1] = h1[1, 0].conj()
     hamiltonian = h0 + h1
