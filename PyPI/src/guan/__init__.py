@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.111, updated on July 19, 2022.
+# The current version is guan-0.0.112, updated on July 20, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -474,6 +474,32 @@ def hamiltonian_of_graphene(k1, k2, M=0, t=1, a=1/math.sqrt(3)):
     h1[1, 0] = t*(cmath.exp(1j*k2*a)+cmath.exp(1j*math.sqrt(3)/2*k1*a-1j/2*k2*a)+cmath.exp(-1j*math.sqrt(3)/2*k1*a-1j/2*k2*a))   
     h1[0, 1] = h1[1, 0].conj()
     hamiltonian = h0 + h1
+    return hamiltonian
+
+def effective_hamiltonian_of_graphene(qx, qy, t=1, staggered_potential=0, valley_index=0):
+    hamiltonian = np.zeros((2, 2), dtype=complex)
+    hamiltonian[0, 0] = staggered_potential
+    hamiltonian[1, 1] = -staggered_potential
+    constant = -np.sqrt(3)/2
+    if valley_index == 0:
+        hamiltonian[0, 1] = constant*t*(qx-1j*qy)
+        hamiltonian[1, 0] = constant*t*(qx+1j*qy)
+    else:
+        hamiltonian[0, 1] = constant*t*(-qx-1j*qy)
+        hamiltonian[1, 0] = constant*t*(-qx+1j*qy)
+    return hamiltonian
+
+def effective_hamiltonian_of_graphene_after_discretization(qx, qy, t=1, staggered_potential=0, valley_index=0):
+    hamiltonian = np.zeros((2, 2), dtype=complex)
+    hamiltonian[0, 0] = staggered_potential
+    hamiltonian[1, 1] = -staggered_potential
+    constant = -np.sqrt(3)/2
+    if valley_index == 0:
+        hamiltonian[0, 1] = constant*t*(np.sin(qx)-1j*np.sin(qy))
+        hamiltonian[1, 0] = constant*t*(np.sin(qx)+1j*np.sin(qy))
+    else:
+        hamiltonian[0, 1] = constant*t*(-np.sin(qx)-1j*np.sin(qy))
+        hamiltonian[1, 0] = constant*t*(-np.sin(qx)+1j*np.sin(qy))
     return hamiltonian
 
 def hamiltonian_of_graphene_with_zigzag_in_quasi_one_dimension(k, N=10, M=0, t=1, period=0):

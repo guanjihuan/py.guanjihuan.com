@@ -111,6 +111,10 @@ hamiltonian = guan.hamiltonian_of_ssh_model(k, v=0.6, w=1)
 
 hamiltonian = guan.hamiltonian_of_graphene(k1, k2, M=0, t=1, a=1/math.sqrt(3))
 
+hamiltonian = guan.effective_hamiltonian_of_graphene(qx, qy, t=1, staggered_potential=0, valley_index=0)
+
+hamiltonian = guan.effective_hamiltonian_of_graphene_after_discretization(qx, qy, t=1, staggered_potential=0, valley_index=0)
+
 hamiltonian = guan.hamiltonian_of_graphene_with_zigzag_in_quasi_one_dimension(k, N=10, M=0, t=1, period=0)
 
 hamiltonian = guan.hamiltonian_of_haldane_model(k1, k2, M=2/3, t1=1, t2=1/3, phi=math.pi/4, a=1/math.sqrt(3))
