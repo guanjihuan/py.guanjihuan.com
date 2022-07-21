@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.115, updated on July 20, 2022.
+# The current version is guan-0.0.116, updated on July 21, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -1768,12 +1768,18 @@ def print_array(array, show_index=0, index_type=0):
 
 # Module 11: plot figures
 
-def plot(x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', format='jpg', dpi=300, style='', y_min=None, y_max=None, linewidth=None, markersize=None, adjust_bottom=0.2, adjust_left=0.2): 
+def import_plt_and_start_fig_ax(adjust_bottom=0.2, adjust_left=0.2, labelsize=20):
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots()
-    plt.subplots_adjust(bottom=adjust_bottom, left=adjust_left) 
-    ax.plot(x_array, y_array, style, linewidth=linewidth, markersize=markersize)
+    plt.subplots_adjust(bottom=adjust_bottom, left=adjust_left)
     ax.grid()
+    ax.tick_params(labelsize=labelsize) 
+    labels = ax.get_xticklabels() + ax.get_yticklabels()
+    [label.set_fontname('Times New Roman') for label in labels]
+    return plt, fig, ax
+
+def plot_without_starting_fig(x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, style='', y_min=None, y_max=None, linewidth=None, markersize=None): 
+    ax.plot(x_array, y_array, style, linewidth=linewidth, markersize=markersize)
     ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
     ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman') 
     ax.set_ylabel(ylabel, fontsize=fontsize, fontfamily='Times New Roman') 
@@ -1783,9 +1789,19 @@ def plot(x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, labels
         if y_max==None:
             y_max=max(y_array)
         ax.set_ylim(y_min, y_max)
-    ax.tick_params(labelsize=labelsize) 
-    labels = ax.get_xticklabels() + ax.get_yticklabels()
-    [label.set_fontname('Times New Roman') for label in labels]
+
+def plot(x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', format='jpg', dpi=300, style='', y_min=None, y_max=None, linewidth=None, markersize=None, adjust_bottom=0.2, adjust_left=0.2): 
+    plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize)
+    ax.plot(x_array, y_array, style, linewidth=linewidth, markersize=markersize)
+    ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
+    ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman') 
+    ax.set_ylabel(ylabel, fontsize=fontsize, fontfamily='Times New Roman') 
+    if y_min!=None or y_max!=None:
+        if y_min==None:
+            y_min=min(y_array)
+        if y_max==None:
+            y_max=max(y_array)
+        ax.set_ylim(y_min, y_max)
     if save == 1:
         plt.savefig(filename+'.'+format, dpi=dpi) 
     if show == 1:
@@ -1793,12 +1809,9 @@ def plot(x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, labels
     plt.close('all')
 
 def plot_two_array(x_array, y1_array, y2_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', format='jpg', dpi=300, style_1='', style_2='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, markersize_1=None, markersize_2=None, adjust_bottom=0.2, adjust_left=0.2): 
-    import matplotlib.pyplot as plt
-    fig, ax = plt.subplots()
-    plt.subplots_adjust(bottom=adjust_bottom, left=adjust_left) 
+    plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize) 
     ax.plot(x_array, y1_array, style_1, linewidth=linewidth_1, markersize=markersize_1)
     ax.plot(x_array, y2_array, style_2, linewidth=linewidth_2, markersize=markersize_2)
-    ax.grid()
     ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
     ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman') 
     ax.set_ylabel(ylabel, fontsize=fontsize, fontfamily='Times New Roman') 
@@ -1812,9 +1825,6 @@ def plot_two_array(x_array, y1_array, y2_array, xlabel='x', ylabel='y', title=''
             y2_max=max(y2_array)
             y_max=max([y1_max, y2_max])
         ax.set_ylim(y_min, y_max)
-    ax.tick_params(labelsize=labelsize) 
-    labels = ax.get_xticklabels() + ax.get_yticklabels()
-    [label.set_fontname('Times New Roman') for label in labels]
     if save == 1:
         plt.savefig(filename+'.'+format, dpi=dpi) 
     if show == 1:
@@ -1822,12 +1832,9 @@ def plot_two_array(x_array, y1_array, y2_array, xlabel='x', ylabel='y', title=''
     plt.close('all')
 
 def plot_two_array_with_two_horizontal_array(x1_array, x2_array, y1_array, y2_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', format='jpg', dpi=300, style_1='', style_2='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, markersize_1=None, markersize_2=None, adjust_bottom=0.2, adjust_left=0.2): 
-    import matplotlib.pyplot as plt
-    fig, ax = plt.subplots()
-    plt.subplots_adjust(bottom=adjust_bottom, left=adjust_left) 
+    plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize) 
     ax.plot(x1_array, y1_array, style_1, linewidth=linewidth_1, markersize=markersize_1)
     ax.plot(x2_array, y2_array, style_2, linewidth=linewidth_2, markersize=markersize_2)
-    ax.grid()
     ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
     ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman') 
     ax.set_ylabel(ylabel, fontsize=fontsize, fontfamily='Times New Roman') 
@@ -1841,9 +1848,6 @@ def plot_two_array_with_two_horizontal_array(x1_array, x2_array, y1_array, y2_ar
             y2_max=max(y2_array)
             y_max=max([y1_max, y2_max])
         ax.set_ylim(y_min, y_max)
-    ax.tick_params(labelsize=labelsize) 
-    labels = ax.get_xticklabels() + ax.get_yticklabels()
-    [label.set_fontname('Times New Roman') for label in labels]
     if save == 1:
         plt.savefig(filename+'.'+format, dpi=dpi) 
     if show == 1:
@@ -1851,13 +1855,10 @@ def plot_two_array_with_two_horizontal_array(x1_array, x2_array, y1_array, y2_ar
     plt.close('all')
 
 def plot_three_array(x_array, y1_array, y2_array, y3_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', format='jpg', dpi=300, style_1='', style_2='', style_3='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, linewidth_3=None,markersize_1=None, markersize_2=None, markersize_3=None, adjust_bottom=0.2, adjust_left=0.2): 
-    import matplotlib.pyplot as plt
-    fig, ax = plt.subplots()
-    plt.subplots_adjust(bottom=adjust_bottom, left=adjust_left) 
+    plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize) 
     ax.plot(x_array, y1_array, style_1, linewidth=linewidth_1, markersize=markersize_1)
     ax.plot(x_array, y2_array, style_2, linewidth=linewidth_2, markersize=markersize_2)
     ax.plot(x_array, y3_array, style_3, linewidth=linewidth_3, markersize=markersize_3)
-    ax.grid()
     ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
     ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman') 
     ax.set_ylabel(ylabel, fontsize=fontsize, fontfamily='Times New Roman') 
@@ -1873,9 +1874,6 @@ def plot_three_array(x_array, y1_array, y2_array, y3_array, xlabel='x', ylabel='
             y3_max=max(y3_array)
             y_max=max([y1_max, y2_max, y3_max])
         ax.set_ylim(y_min, y_max)
-    ax.tick_params(labelsize=labelsize) 
-    labels = ax.get_xticklabels() + ax.get_yticklabels()
-    [label.set_fontname('Times New Roman') for label in labels]
     if save == 1:
         plt.savefig(filename+'.'+format, dpi=dpi) 
     if show == 1:
@@ -1883,13 +1881,10 @@ def plot_three_array(x_array, y1_array, y2_array, y3_array, xlabel='x', ylabel='
     plt.close('all')
 
 def plot_three_array_with_three_horizontal_array(x1_array, x2_array, x3_array, y1_array, y2_array, y3_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', format='jpg', dpi=300, style_1='', style_2='', style_3='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, linewidth_3=None,markersize_1=None, markersize_2=None, markersize_3=None, adjust_bottom=0.2, adjust_left=0.2): 
-    import matplotlib.pyplot as plt
-    fig, ax = plt.subplots()
-    plt.subplots_adjust(bottom=adjust_bottom, left=adjust_left) 
+    plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize) 
     ax.plot(x1_array, y1_array, style_1, linewidth=linewidth_1, markersize=markersize_1)
     ax.plot(x2_array, y2_array, style_2, linewidth=linewidth_2, markersize=markersize_2)
     ax.plot(x3_array, y3_array, style_3, linewidth=linewidth_3, markersize=markersize_3)
-    ax.grid()
     ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
     ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman') 
     ax.set_ylabel(ylabel, fontsize=fontsize, fontfamily='Times New Roman') 
@@ -1905,9 +1900,6 @@ def plot_three_array_with_three_horizontal_array(x1_array, x2_array, x3_array, y
             y3_max=max(y3_array)
             y_max=max([y1_max, y2_max, y3_max])
         ax.set_ylim(y_min, y_max)
-    ax.tick_params(labelsize=labelsize) 
-    labels = ax.get_xticklabels() + ax.get_yticklabels()
-    [label.set_fontname('Times New Roman') for label in labels]
     if save == 1:
         plt.savefig(filename+'.'+format, dpi=dpi) 
     if show == 1:
