@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.116, updated on July 21, 2022.
+# The current version is guan-0.0.117, updated on July 21, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -1778,7 +1778,7 @@ def import_plt_and_start_fig_ax(adjust_bottom=0.2, adjust_left=0.2, labelsize=20
     [label.set_fontname('Times New Roman') for label in labels]
     return plt, fig, ax
 
-def plot_without_starting_fig(x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, style='', y_min=None, y_max=None, linewidth=None, markersize=None): 
+def plot_without_starting_fig(plt, fig, ax, x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, style='', y_min=None, y_max=None, linewidth=None, markersize=None): 
     ax.plot(x_array, y_array, style, linewidth=linewidth, markersize=markersize)
     ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
     ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman') 
