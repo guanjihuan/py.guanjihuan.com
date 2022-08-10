@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.117, updated on July 21, 2022.
+# The current version is guan-0.0.118, updated on August 10, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -1560,26 +1560,26 @@ def calculate_chern_number_for_square_lattice_with_Wilson_loop(hamiltonian_funct
         for ky in np.arange(-math.pi, math.pi, delta):
             vector_array = []
             # line_1
-            for i0 in range(precision_of_Wilson_loop+1):
+            for i0 in range(precision_of_Wilson_loop):
                 H_delta = hamiltonian_function(kx+delta/precision_of_Wilson_loop*i0, ky) 
                 eigenvalue, eigenvector = np.linalg.eig(H_delta)
                 vector_delta = eigenvector[:, np.argsort(np.real(eigenvalue))]
                 vector_array.append(vector_delta)
             # line_2
             for i0 in range(precision_of_Wilson_loop):
-                H_delta = hamiltonian_function(kx+delta, ky+delta/precision_of_Wilson_loop*(i0+1))  
+                H_delta = hamiltonian_function(kx+delta, ky+delta/precision_of_Wilson_loop*i0)  
                 eigenvalue, eigenvector = np.linalg.eig(H_delta)
                 vector_delta = eigenvector[:, np.argsort(np.real(eigenvalue))]
                 vector_array.append(vector_delta)
             # line_3
             for i0 in range(precision_of_Wilson_loop):
-                H_delta = hamiltonian_function(kx+delta-delta/precision_of_Wilson_loop*(i0+1), ky+delta)  
+                H_delta = hamiltonian_function(kx+delta-delta/precision_of_Wilson_loop*i0, ky+delta)  
                 eigenvalue, eigenvector = np.linalg.eig(H_delta)
                 vector_delta = eigenvector[:, np.argsort(np.real(eigenvalue))]
                 vector_array.append(vector_delta)
             # line_4
-            for i0 in range(precision_of_Wilson_loop-1):
-                H_delta = hamiltonian_function(kx, ky+delta-delta/precision_of_Wilson_loop*(i0+1))  
+            for i0 in range(precision_of_Wilson_loop):
+                H_delta = hamiltonian_function(kx, ky+delta-delta/precision_of_Wilson_loop*i0)  
                 eigenvalue, eigenvector = np.linalg.eig(H_delta)
                 vector_delta = eigenvector[:, np.argsort(np.real(eigenvalue))]
                 vector_array.append(vector_delta)
