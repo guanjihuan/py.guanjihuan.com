@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.122, updated on August 13, 2022.
+# The current version is guan-0.0.123, updated on August 13, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -1518,7 +1518,7 @@ def print_or_write_scattering_matrix(fermi_energy, h00, h01, length=100, print_s
 
 # Module 9: topological invariant
 
-def calculate_chern_number_for_square_lattice(hamiltonian_function, precision=100, print_show=0):
+def calculate_chern_number_for_square_lattice_efficient_method(hamiltonian_function, precision=100, print_show=0):
     if np.array(hamiltonian_function(0, 0)).shape==():
         dim = 1
     else:
@@ -1652,6 +1652,157 @@ def calculate_chern_number_for_square_lattice_with_wilson_loop_for_degenerate_ca
     chern_number = chern_number/(2*math.pi)
     return chern_number
 
+
+def calculate_berry_curvature_with_efficient_method(hamiltonian_function, k_min=-math.pi, k_max=math.pi, precision=100, print_show=0):
+    if np.array(hamiltonian_function(0, 0)).shape==():
+        dim = 1
+    else:
+        dim = np.array(hamiltonian_function(0, 0)).shape[0]   
+    delta = (k_max-k_min)/precision
+    k_array = np.arange(k_min, k_max, delta)
+    berry_curvature_array = np.zeros((k_array.shape[0], k_array.shape[0], dim), dtype=complex)
+    i0 = 0
+    for kx in k_array:
+        if print_show == 1:
+            print(kx)
+        j0 = 0
+        for ky in k_array:
+            H = hamiltonian_function(kx, ky)
+            vector = guan.calculate_eigenvector(H)
+            H_delta_kx = hamiltonian_function(kx+delta, ky) 
+            vector_delta_kx = guan.calculate_eigenvector(H_delta_kx)
+            H_delta_ky = hamiltonian_function(kx, ky+delta)
+            vector_delta_ky = guan.calculate_eigenvector(H_delta_ky)
+            H_delta_kx_ky = hamiltonian_function(kx+delta, ky+delta)
+            vector_delta_kx_ky = guan.calculate_eigenvector(H_delta_kx_ky)
+            for i in range(dim):
+                vector_i = vector[:, i]
+                vector_delta_kx_i = vector_delta_kx[:, i]
+                vector_delta_ky_i = vector_delta_ky[:, i]
+                vector_delta_kx_ky_i = vector_delta_kx_ky[:, i]
+                Ux = np.dot(np.conj(vector_i), vector_delta_kx_i)/abs(np.dot(np.conj(vector_i), vector_delta_kx_i))
+                Uy = np.dot(np.conj(vector_i), vector_delta_ky_i)/abs(np.dot(np.conj(vector_i), vector_delta_ky_i))
+                Ux_y = np.dot(np.conj(vector_delta_ky_i), vector_delta_kx_ky_i)/abs(np.dot(np.conj(vector_delta_ky_i), vector_delta_kx_ky_i))
+                Uy_x = np.dot(np.conj(vector_delta_kx_i), vector_delta_kx_ky_i)/abs(np.dot(np.conj(vector_delta_kx_i), vector_delta_kx_ky_i))
+                berry_curvature = cmath.log(Ux*Uy_x*(1/Ux_y)*(1/Uy))/delta/delta*1j
+                berry_curvature_array[j0, i0, i] = berry_curvature
+            j0 += 1
+        i0 += 1
+    return k_array, berry_curvature_array
+
+def calculate_berry_curvature_with_wilson_loop(hamiltonian_function, k_min=-math.pi, k_max=math.pi, precision_of_plaquettes=20, precision_of_wilson_loop=5, print_show=0):
+    if np.array(hamiltonian_function(0, 0)).shape==():
+        dim = 1
+    else:
+        dim = np.array(hamiltonian_function(0, 0)).shape[0]   
+    delta = (k_max-k_min)/precision_of_plaquettes
+    k_array = np.arange(k_min, k_max, delta)
+    berry_curvature_array = np.zeros((k_array.shape[0], k_array.shape[0], dim), dtype=complex)
+    i00 = 0
+    for kx in k_array:
+        if print_show == 1:
+            print(kx)
+        j00 = 0
+        for ky in k_array:
+            vector_array = []
+            # line_1
+            for i0 in range(precision_of_wilson_loop):
+                H_delta = hamiltonian_function(kx+delta/precision_of_wilson_loop*i0, ky) 
+                eigenvalue, eigenvector = np.linalg.eig(H_delta)
+                vector_delta = eigenvector[:, np.argsort(np.real(eigenvalue))]
+                vector_array.append(vector_delta)
+            # line_2
+            for i0 in range(precision_of_wilson_loop):
+                H_delta = hamiltonian_function(kx+delta, ky+delta/precision_of_wilson_loop*i0)  
+                eigenvalue, eigenvector = np.linalg.eig(H_delta)
+                vector_delta = eigenvector[:, np.argsort(np.real(eigenvalue))]
+                vector_array.append(vector_delta)
+            # line_3
+            for i0 in range(precision_of_wilson_loop):
+                H_delta = hamiltonian_function(kx+delta-delta/precision_of_wilson_loop*i0, ky+delta)  
+                eigenvalue, eigenvector = np.linalg.eig(H_delta)
+                vector_delta = eigenvector[:, np.argsort(np.real(eigenvalue))]
+                vector_array.append(vector_delta)
+            # line_4
+            for i0 in range(precision_of_wilson_loop):
+                H_delta = hamiltonian_function(kx, ky+delta-delta/precision_of_wilson_loop*i0)  
+                eigenvalue, eigenvector = np.linalg.eig(H_delta)
+                vector_delta = eigenvector[:, np.argsort(np.real(eigenvalue))]
+                vector_array.append(vector_delta)
+            wilson_loop = 1
+            for i0 in range(len(vector_array)-1):
+                wilson_loop = wilson_loop*np.dot(vector_array[i0].transpose().conj(), vector_array[i0+1])
+            wilson_loop = wilson_loop*np.dot(vector_array[len(vector_array)-1].transpose().conj(), vector_array[0])
+            berry_curvature = np.log(np.diagonal(wilson_loop))/delta/delta*1j
+            berry_curvature_array[j00, i00, :]=berry_curvature
+            j00 += 1
+        i00 += 1
+    return k_array, berry_curvature_array
+
+def calculate_berry_curvature_with_wilson_loop_for_degenerate_case(hamiltonian_function, index_of_bands=[0, 1], k_min=-math.pi, k_max=math.pi, precision_of_plaquettes=20, precision_of_wilson_loop=5, print_show=0):
+    delta = (k_max-k_min)/precision_of_plaquettes
+    k_array = np.arange(k_min, k_max, delta)
+    berry_curvature_array = np.zeros((k_array.shape[0], k_array.shape[0]), dtype=complex)
+    i000 = 0
+    for kx in k_array:
+        if print_show == 1:
+            print(kx)
+        j000 = 0
+        for ky in k_array:
+            vector_array = []
+            # line_1
+            for i0 in range(precision_of_wilson_loop):
+                H_delta = hamiltonian_function(kx+delta/precision_of_wilson_loop*i0, ky) 
+                eigenvalue, eigenvector = np.linalg.eig(H_delta)
+                vector_delta = eigenvector[:, np.argsort(np.real(eigenvalue))]
+                vector_array.append(vector_delta)
+            # line_2
+            for i0 in range(precision_of_wilson_loop):
+                H_delta = hamiltonian_function(kx+delta, ky+delta/precision_of_wilson_loop*i0)  
+                eigenvalue, eigenvector = np.linalg.eig(H_delta)
+                vector_delta = eigenvector[:, np.argsort(np.real(eigenvalue))]
+                vector_array.append(vector_delta)
+            # line_3
+            for i0 in range(precision_of_wilson_loop):
+                H_delta = hamiltonian_function(kx+delta-delta/precision_of_wilson_loop*i0, ky+delta)  
+                eigenvalue, eigenvector = np.linalg.eig(H_delta)
+                vector_delta = eigenvector[:, np.argsort(np.real(eigenvalue))]
+                vector_array.append(vector_delta)
+            # line_4
+            for i0 in range(precision_of_wilson_loop):
+                H_delta = hamiltonian_function(kx, ky+delta-delta/precision_of_wilson_loop*i0)  
+                eigenvalue, eigenvector = np.linalg.eig(H_delta)
+                vector_delta = eigenvector[:, np.argsort(np.real(eigenvalue))]
+                vector_array.append(vector_delta)           
+            wilson_loop = 1
+            dim = len(index_of_bands)
+            for i0 in range(len(vector_array)-1):
+                dot_matrix = np.zeros((dim , dim), dtype=complex)
+                i01 = 0
+                for dim1 in index_of_bands:
+                    i02 = 0
+                    for dim2 in index_of_bands:
+                        dot_matrix[i01, i02] = np.dot(vector_array[i0][:, dim1].transpose().conj(), vector_array[i0+1][:, dim2])
+                        i02 += 1
+                    i01 += 1
+                det_value = np.linalg.det(dot_matrix)
+                wilson_loop = wilson_loop*det_value
+            dot_matrix_plus = np.zeros((dim , dim), dtype=complex)
+            i01 = 0
+            for dim1 in index_of_bands:
+                i02 = 0
+                for dim2 in index_of_bands:
+                    dot_matrix_plus[i01, i02] = np.dot(vector_array[len(vector_array)-1][:, dim1].transpose().conj(), vector_array[0][:, dim2])
+                    i02 += 1
+                i01 += 1
+            det_value = np.linalg.det(dot_matrix_plus)
+            wilson_loop = wilson_loop*det_value
+            berry_curvature = np.log(wilson_loop)/delta/delta*1j
+            berry_curvature_array[j000, i000]=berry_curvature
+            j000 += 1
+        i000 += 1
+    return k_array, berry_curvature_array
+
 def calculate_chern_number_for_honeycomb_lattice(hamiltonian_function, a=1, precision=300, print_show=0):
     if np.array(hamiltonian_function(0, 0)).shape==():
         dim = 1
@@ -1708,9 +1859,6 @@ def calculate_wilson_loop(hamiltonian_function, k_min=-math.pi, k_max=math.pi, p
             F = np.dot(eigenvector_array[i0+1].transpose().conj(), eigenvector_array[i0])
             wilson_loop_array[i] = np.dot(F, wilson_loop_array[i])
     return wilson_loop_array
-
-
-
 
 
 

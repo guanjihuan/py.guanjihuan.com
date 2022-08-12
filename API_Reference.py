@@ -244,11 +244,17 @@ guan.print_or_write_scattering_matrix(fermi_energy, h00, h01, length=100, print_
 
 # Module 9: topological invariant
 
-chern_number = guan.calculate_chern_number_for_square_lattice(hamiltonian_function, precision=100, print_show=0)
+chern_number = guan.calculate_chern_number_for_square_lattice_efficient_method(hamiltonian_function, precision=100, print_show=0)
 
 chern_number = guan.calculate_chern_number_for_square_lattice_with_wilson_loop(hamiltonian_function, precision_of_plaquettes=20, precision_of_wilson_loop=5, print_show=0)
 
 chern_number = guan.calculate_chern_number_for_square_lattice_with_wilson_loop_for_degenerate_case(hamiltonian_function, index_of_bands=[0, 1], precision_of_plaquettes=20, precision_of_wilson_loop=5, print_show=0)
+
+k_array, berry_curvature_array = guan.calculate_berry_curvature_with_efficient_method(hamiltonian_function, k_min=-math.pi, k_max=math.pi, precision=100, print_show=0)
+
+k_array, berry_curvature_array = guan.calculate_berry_curvature_with_wilson_loop(hamiltonian_function, k_min=-math.pi, k_max=math.pi, precision_of_plaquettes=20, precision_of_wilson_loop=5, print_show=0)
+
+k_array, berry_curvature_array = guan.calculate_berry_curvature_with_wilson_loop_for_degenerate_case(hamiltonian_function, index_of_bands=[0, 1], k_min=-math.pi, k_max=math.pi, precision_of_plaquettes=20, precision_of_wilson_loop=5, print_show=0)
 
 chern_number = guan.calculate_chern_number_for_honeycomb_lattice(hamiltonian_function, a=1, precision=300, print_show=0)
 
