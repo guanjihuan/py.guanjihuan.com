@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.123, updated on August 13, 2022.
+# The current version is guan-0.0.124, updated on August 13, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -1518,7 +1518,7 @@ def print_or_write_scattering_matrix(fermi_energy, h00, h01, length=100, print_s
 
 # Module 9: topological invariant
 
-def calculate_chern_number_for_square_lattice_efficient_method(hamiltonian_function, precision=100, print_show=0):
+def calculate_chern_number_for_square_lattice_with_efficient_method(hamiltonian_function, precision=100, print_show=0):
     if np.array(hamiltonian_function(0, 0)).shape==():
         dim = 1
     else:
