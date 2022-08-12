@@ -248,7 +248,7 @@ chern_number = guan.calculate_chern_number_for_square_lattice(hamiltonian_functi
 
 chern_number = guan.calculate_chern_number_for_square_lattice_with_Wilson_loop(hamiltonian_function, precision_of_plaquettes=20, precision_of_Wilson_loop=5, print_show=0)
 
-chern_number = guan.calculate_chern_number_for_square_lattice_with_Wilson_loop_for_degenerate_case(hamiltonian_function, num_of_bands=[0, 1], precision_of_plaquettes=20, precision_of_Wilson_loop=5, print_show=0)
+chern_number = guan.calculate_chern_number_for_square_lattice_with_Wilson_loop_for_degenerate_case(hamiltonian_function, index_of_bands=[0, 1], precision_of_plaquettes=20, precision_of_Wilson_loop=5, print_show=0)
 
 chern_number = guan.calculate_chern_number_for_honeycomb_lattice(hamiltonian_function, a=1, precision=300, print_show=0)
 
