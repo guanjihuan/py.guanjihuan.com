@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.119, updated on August 10, 2022.
+# The current version is guan-0.0.120, updated on August 12, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -1551,7 +1551,7 @@ def calculate_chern_number_for_square_lattice(hamiltonian_function, precision=10
     chern_number = chern_number/(2*math.pi*1j)
     return chern_number
 
-def calculate_chern_number_for_square_lattice_with_Wilson_loop(hamiltonian_function, precision_of_plaquettes=10, precision_of_Wilson_loop=100, print_show=0):
+def calculate_chern_number_for_square_lattice_with_Wilson_loop(hamiltonian_function, precision_of_plaquettes=20, precision_of_Wilson_loop=5, print_show=0):
     delta = 2*math.pi/precision_of_plaquettes
     chern_number = 0
     for kx in np.arange(-math.pi, math.pi, delta):
@@ -1588,6 +1588,66 @@ def calculate_chern_number_for_square_lattice_with_Wilson_loop(hamiltonian_funct
                 Wilson_loop = Wilson_loop*np.dot(vector_array[i0].transpose().conj(), vector_array[i0+1])
             Wilson_loop = Wilson_loop*np.dot(vector_array[len(vector_array)-1].transpose().conj(), vector_array[0])
             arg = np.log(np.diagonal(Wilson_loop))/1j
+            chern_number = chern_number + arg
+    chern_number = chern_number/(2*math.pi)
+    return chern_number
+
+def calculate_chern_number_for_square_lattice_with_Wilson_loop_for_degenerate_case(hamiltonian_function, num_of_bands=[0, 1], precision_of_plaquettes=20, precision_of_Wilson_loop=5, print_show=0):
+    delta = 2*math.pi/precision_of_plaquettes
+    chern_number = 0
+    for kx in np.arange(-math.pi, math.pi, delta):
+        if print_show == 1:
+            print(kx)
+        for ky in np.arange(-math.pi, math.pi, delta):
+            vector_array = []
+            # line_1
+            for i0 in range(precision_of_Wilson_loop):
+                H_delta = hamiltonian_function(kx+delta/precision_of_Wilson_loop*i0, ky) 
+                eigenvalue, eigenvector = np.linalg.eig(H_delta)
+                vector_delta = eigenvector[:, np.argsort(np.real(eigenvalue))]
+                vector_array.append(vector_delta)
+            # line_2
+            for i0 in range(precision_of_Wilson_loop):
+                H_delta = hamiltonian_function(kx+delta, ky+delta/precision_of_Wilson_loop*i0)  
+                eigenvalue, eigenvector = np.linalg.eig(H_delta)
+                vector_delta = eigenvector[:, np.argsort(np.real(eigenvalue))]
+                vector_array.append(vector_delta)
+            # line_3
+            for i0 in range(precision_of_Wilson_loop):
+                H_delta = hamiltonian_function(kx+delta-delta/precision_of_Wilson_loop*i0, ky+delta)  
+                eigenvalue, eigenvector = np.linalg.eig(H_delta)
+                vector_delta = eigenvector[:, np.argsort(np.real(eigenvalue))]
+                vector_array.append(vector_delta)
+            # line_4
+            for i0 in range(precision_of_Wilson_loop):
+                H_delta = hamiltonian_function(kx, ky+delta-delta/precision_of_Wilson_loop*i0)  
+                eigenvalue, eigenvector = np.linalg.eig(H_delta)
+                vector_delta = eigenvector[:, np.argsort(np.real(eigenvalue))]
+                vector_array.append(vector_delta)           
+            Wilson_loop = 1
+            dim = len(num_of_bands)
+            for i0 in range(len(vector_array)-1):
+                dot_matrix = np.zeros((dim , dim), dtype=complex)
+                i01 = 0
+                for dim1 in num_of_bands:
+                    i02 = 0
+                    for dim2 in num_of_bands:
+                        dot_matrix[i01, i02] = np.dot(vector_array[i0][:, dim1].transpose().conj(), vector_array[i0+1][:, dim2])
+                        i02 += 1
+                    i01 += 1
+                det_value = np.linalg.det(dot_matrix)
+                Wilson_loop = Wilson_loop*det_value
+            dot_matrix_plus = np.zeros((dim , dim), dtype=complex)
+            i01 = 0
+            for dim1 in num_of_bands:
+                i02 = 0
+                for dim2 in num_of_bands:
+                    dot_matrix_plus[i01, i02] = np.dot(vector_array[len(vector_array)-1][:, dim1].transpose().conj(), vector_array[0][:, dim2])
+                    i02 += 1
+                i01 += 1
+            det_value = np.linalg.det(dot_matrix_plus)
+            Wilson_loop = Wilson_loop*det_value
+            arg = np.log(Wilson_loop)/1j
             chern_number = chern_number + arg
     chern_number = chern_number/(2*math.pi)
     return chern_number
