@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.121, updated on August 12, 2022.
+# The current version is guan-0.0.122, updated on August 13, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -1551,7 +1551,7 @@ def calculate_chern_number_for_square_lattice(hamiltonian_function, precision=10
     chern_number = chern_number/(2*math.pi*1j)
     return chern_number
 
-def calculate_chern_number_for_square_lattice_with_Wilson_loop(hamiltonian_function, precision_of_plaquettes=20, precision_of_Wilson_loop=5, print_show=0):
+def calculate_chern_number_for_square_lattice_with_wilson_loop(hamiltonian_function, precision_of_plaquettes=20, precision_of_wilson_loop=5, print_show=0):
     delta = 2*math.pi/precision_of_plaquettes
     chern_number = 0
     for kx in np.arange(-math.pi, math.pi, delta):
@@ -1560,39 +1560,39 @@ def calculate_chern_number_for_square_lattice_with_Wilson_loop(hamiltonian_funct
         for ky in np.arange(-math.pi, math.pi, delta):
             vector_array = []
             # line_1
-            for i0 in range(precision_of_Wilson_loop):
-                H_delta = hamiltonian_function(kx+delta/precision_of_Wilson_loop*i0, ky) 
+            for i0 in range(precision_of_wilson_loop):
+                H_delta = hamiltonian_function(kx+delta/precision_of_wilson_loop*i0, ky) 
                 eigenvalue, eigenvector = np.linalg.eig(H_delta)
                 vector_delta = eigenvector[:, np.argsort(np.real(eigenvalue))]
                 vector_array.append(vector_delta)
             # line_2
-            for i0 in range(precision_of_Wilson_loop):
-                H_delta = hamiltonian_function(kx+delta, ky+delta/precision_of_Wilson_loop*i0)  
+            for i0 in range(precision_of_wilson_loop):
+                H_delta = hamiltonian_function(kx+delta, ky+delta/precision_of_wilson_loop*i0)  
                 eigenvalue, eigenvector = np.linalg.eig(H_delta)
                 vector_delta = eigenvector[:, np.argsort(np.real(eigenvalue))]
                 vector_array.append(vector_delta)
             # line_3
-            for i0 in range(precision_of_Wilson_loop):
-                H_delta = hamiltonian_function(kx+delta-delta/precision_of_Wilson_loop*i0, ky+delta)  
+            for i0 in range(precision_of_wilson_loop):
+                H_delta = hamiltonian_function(kx+delta-delta/precision_of_wilson_loop*i0, ky+delta)  
                 eigenvalue, eigenvector = np.linalg.eig(H_delta)
                 vector_delta = eigenvector[:, np.argsort(np.real(eigenvalue))]
                 vector_array.append(vector_delta)
             # line_4
-            for i0 in range(precision_of_Wilson_loop):
-                H_delta = hamiltonian_function(kx, ky+delta-delta/precision_of_Wilson_loop*i0)  
+            for i0 in range(precision_of_wilson_loop):
+                H_delta = hamiltonian_function(kx, ky+delta-delta/precision_of_wilson_loop*i0)  
                 eigenvalue, eigenvector = np.linalg.eig(H_delta)
                 vector_delta = eigenvector[:, np.argsort(np.real(eigenvalue))]
                 vector_array.append(vector_delta)
-            Wilson_loop = 1
+            wilson_loop = 1
             for i0 in range(len(vector_array)-1):
-                Wilson_loop = Wilson_loop*np.dot(vector_array[i0].transpose().conj(), vector_array[i0+1])
-            Wilson_loop = Wilson_loop*np.dot(vector_array[len(vector_array)-1].transpose().conj(), vector_array[0])
-            arg = np.log(np.diagonal(Wilson_loop))/1j
+                wilson_loop = wilson_loop*np.dot(vector_array[i0].transpose().conj(), vector_array[i0+1])
+            wilson_loop = wilson_loop*np.dot(vector_array[len(vector_array)-1].transpose().conj(), vector_array[0])
+            arg = np.log(np.diagonal(wilson_loop))/1j
             chern_number = chern_number + arg
     chern_number = chern_number/(2*math.pi)
     return chern_number
 
-def calculate_chern_number_for_square_lattice_with_Wilson_loop_for_degenerate_case(hamiltonian_function, index_of_bands=[0, 1], precision_of_plaquettes=20, precision_of_Wilson_loop=5, print_show=0):
+def calculate_chern_number_for_square_lattice_with_wilson_loop_for_degenerate_case(hamiltonian_function, index_of_bands=[0, 1], precision_of_plaquettes=20, precision_of_wilson_loop=5, print_show=0):
     delta = 2*math.pi/precision_of_plaquettes
     chern_number = 0
     for kx in np.arange(-math.pi, math.pi, delta):
@@ -1601,30 +1601,30 @@ def calculate_chern_number_for_square_lattice_with_Wilson_loop_for_degenerate_ca
         for ky in np.arange(-math.pi, math.pi, delta):
             vector_array = []
             # line_1
-            for i0 in range(precision_of_Wilson_loop):
-                H_delta = hamiltonian_function(kx+delta/precision_of_Wilson_loop*i0, ky) 
+            for i0 in range(precision_of_wilson_loop):
+                H_delta = hamiltonian_function(kx+delta/precision_of_wilson_loop*i0, ky) 
                 eigenvalue, eigenvector = np.linalg.eig(H_delta)
                 vector_delta = eigenvector[:, np.argsort(np.real(eigenvalue))]
                 vector_array.append(vector_delta)
             # line_2
-            for i0 in range(precision_of_Wilson_loop):
-                H_delta = hamiltonian_function(kx+delta, ky+delta/precision_of_Wilson_loop*i0)  
+            for i0 in range(precision_of_wilson_loop):
+                H_delta = hamiltonian_function(kx+delta, ky+delta/precision_of_wilson_loop*i0)  
                 eigenvalue, eigenvector = np.linalg.eig(H_delta)
                 vector_delta = eigenvector[:, np.argsort(np.real(eigenvalue))]
                 vector_array.append(vector_delta)
             # line_3
-            for i0 in range(precision_of_Wilson_loop):
-                H_delta = hamiltonian_function(kx+delta-delta/precision_of_Wilson_loop*i0, ky+delta)  
+            for i0 in range(precision_of_wilson_loop):
+                H_delta = hamiltonian_function(kx+delta-delta/precision_of_wilson_loop*i0, ky+delta)  
                 eigenvalue, eigenvector = np.linalg.eig(H_delta)
                 vector_delta = eigenvector[:, np.argsort(np.real(eigenvalue))]
                 vector_array.append(vector_delta)
             # line_4
-            for i0 in range(precision_of_Wilson_loop):
-                H_delta = hamiltonian_function(kx, ky+delta-delta/precision_of_Wilson_loop*i0)  
+            for i0 in range(precision_of_wilson_loop):
+                H_delta = hamiltonian_function(kx, ky+delta-delta/precision_of_wilson_loop*i0)  
                 eigenvalue, eigenvector = np.linalg.eig(H_delta)
                 vector_delta = eigenvector[:, np.argsort(np.real(eigenvalue))]
                 vector_array.append(vector_delta)           
-            Wilson_loop = 1
+            wilson_loop = 1
             dim = len(index_of_bands)
             for i0 in range(len(vector_array)-1):
                 dot_matrix = np.zeros((dim , dim), dtype=complex)
@@ -1636,7 +1636,7 @@ def calculate_chern_number_for_square_lattice_with_Wilson_loop_for_degenerate_ca
                         i02 += 1
                     i01 += 1
                 det_value = np.linalg.det(dot_matrix)
-                Wilson_loop = Wilson_loop*det_value
+                wilson_loop = wilson_loop*det_value
             dot_matrix_plus = np.zeros((dim , dim), dtype=complex)
             i01 = 0
             for dim1 in index_of_bands:
@@ -1646,8 +1646,8 @@ def calculate_chern_number_for_square_lattice_with_Wilson_loop_for_degenerate_ca
                     i02 += 1
                 i01 += 1
             det_value = np.linalg.det(dot_matrix_plus)
-            Wilson_loop = Wilson_loop*det_value
-            arg = np.log(Wilson_loop)/1j
+            wilson_loop = wilson_loop*det_value
+            arg = np.log(wilson_loop)/1j
             chern_number = chern_number + arg
     chern_number = chern_number/(2*math.pi)
     return chern_number
