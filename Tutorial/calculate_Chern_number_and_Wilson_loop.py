@@ -2,7 +2,7 @@ import guan
 import numpy as np
 from math import *
 
-chern_number = guan.calculate_chern_number_for_square_lattice(guan.hamiltonian_of_one_QAH_model, precision=100)
+chern_number = guan.calculate_chern_number_for_square_lattice_with_efficient_method(guan.hamiltonian_of_one_QAH_model, precision=100)
 print('\nChern number=', chern_number, '\n')
 
 wilson_loop_array = guan.calculate_wilson_loop(guan.hamiltonian_of_ssh_model)
