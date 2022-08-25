@@ -353,4 +353,6 @@ guan.compress_wav_to_mp3(wav_path, output_filename='a.mp3', bitrate='16k')
 
 guan.play_academic_words(reverse=0, random_on=0, bre_or_ame='ame', show_translation=1, show_link=1, translation_time=2, rest_time=1)
 
+guan.play_selected_academic_words(reverse=0, random_on=0, bre_or_ame='ame', show_link=1, rest_time=3)
+
 guan.play_element_words(random_on=0, show_translation=1, show_link=1, translation_time=2, rest_time=1)

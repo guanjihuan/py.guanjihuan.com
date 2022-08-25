@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.124, updated on August 13, 2022.
+# The current version is guan-0.0.125, updated on August 25, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -2660,6 +2660,61 @@ def play_academic_words(reverse=0, random_on=0, bre_or_ame='ame', show_translati
                 if show_translation==1:
                     time.sleep(translation_time)
                     print(translation)
+                time.sleep(rest_time)
+                pygame.mixer.music.stop()
+                print()
+
+def play_selected_academic_words(reverse=0, random_on=0, bre_or_ame='ame', show_link=1, rest_time=3):
+    from bs4 import BeautifulSoup
+    import re
+    import urllib.request
+    import requests
+    import os
+    import pygame
+    import time
+    import ssl
+    import random
+    ssl._create_default_https_context = ssl._create_unverified_context
+    html = urllib.request.urlopen("https://www.guanjihuan.com/archives/24732").read().decode('utf-8')
+    if bre_or_ame == 'ame':
+        directory = 'words_mp3_ameProns/'
+    elif bre_or_ame == 'bre':
+        directory = 'words_mp3_breProns/'
+    exist_directory = os.path.exists(directory)
+    html_file = urllib.request.urlopen("https://file.guanjihuan.com/words/"+directory).read().decode('utf-8')
+    if exist_directory == 0:
+        os.makedirs(directory)
+    soup = BeautifulSoup(html, features='lxml')
+    contents = re.findall('<li>\d.*?</li>', html, re.S)
+    if random_on==1:
+        random.shuffle(contents)
+    if reverse==1:
+        contents.reverse()
+    for content in contents:
+        soup2 = BeautifulSoup(content, features='lxml')
+        all_li = soup2.find_all('li')
+        for li in all_li:
+            if re.search('\d*. ', li.get_text()):
+                word = re.findall('\s[a-zA-Z].*?\s', li.get_text(), re.S)[0][1:-1]
+                exist = os.path.exists(directory+word+'.mp3')
+                if not exist:
+                    try:
+                        if re.search(word, html_file):
+                            r = requests.get("https://file.guanjihuan.com/words/"+directory+word+".mp3", stream=True)
+                            with open(directory+word+'.mp3', 'wb') as f:
+                                for chunk in r.iter_content(chunk_size=32):
+                                    f.write(chunk)
+                    except:
+                        pass
+                print(li.get_text())
+                try:
+                    pygame.mixer.init()
+                    track = pygame.mixer.music.load(directory+word+'.mp3')
+                    pygame.mixer.music.play()
+                    if show_link==1:
+                        print('https://www.ldoceonline.com/dictionary/'+word)
+                except:
+                    pass
                 time.sleep(rest_time)
                 pygame.mixer.music.stop()
                 print()
