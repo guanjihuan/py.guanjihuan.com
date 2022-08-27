@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.126, updated on August 28, 2022.
+# The current version is guan-0.0.127, updated on August 28, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -1753,6 +1753,76 @@ def calculate_berry_curvature_with_efficient_method(hamiltonian_function, k_min=
                 berry_curvature_array[j0, i0, i] = berry_curvature
             j0 += 1
         i0 += 1
+    return k_array, berry_curvature_array
+
+def calculate_berry_curvature_with_efficient_method_for_degenerate_case(hamiltonian_function, index_of_bands=[0, 1], k_min=-math.pi, k_max=math.pi, precision=100, print_show=0):
+    delta = (k_max-k_min)/precision
+    k_array = np.arange(k_min, k_max, delta)
+    berry_curvature_array = np.zeros((k_array.shape[0], k_array.shape[0]), dtype=complex)
+    i00 = 0
+    for kx in np.arange(k_min, k_max, delta):
+        if print_show == 1:
+            print(kx)
+        j00 = 0
+        for ky in np.arange(k_min, k_max, delta):
+            H = hamiltonian_function(kx, ky)
+            eigenvalue, vector = np.linalg.eigh(H) 
+            H_delta_kx = hamiltonian_function(kx+delta, ky) 
+            eigenvalue, vector_delta_kx = np.linalg.eigh(H_delta_kx) 
+            H_delta_ky = hamiltonian_function(kx, ky+delta)
+            eigenvalue, vector_delta_ky = np.linalg.eigh(H_delta_ky) 
+            H_delta_kx_ky = hamiltonian_function(kx+delta, ky+delta)
+            eigenvalue, vector_delta_kx_ky = np.linalg.eigh(H_delta_kx_ky)
+            dim = len(index_of_bands)
+            det_value = 1
+            # first dot
+            dot_matrix = np.zeros((dim , dim), dtype=complex)
+            i0 = 0
+            for dim1 in index_of_bands:
+                j0 = 0
+                for dim2 in index_of_bands:
+                    dot_matrix[dim1, dim2] = np.dot(np.conj(vector[:, dim1]), vector_delta_kx[:, dim2])
+                    j0 += 1
+                i0 += 1
+            dot_matrix = np.linalg.det(dot_matrix)/abs(np.linalg.det(dot_matrix))
+            det_value = det_value*dot_matrix
+            # second dot
+            dot_matrix = np.zeros((dim , dim), dtype=complex)
+            i0 = 0
+            for dim1 in index_of_bands:
+                j0 = 0
+                for dim2 in index_of_bands:
+                    dot_matrix[dim1, dim2] = np.dot(np.conj(vector_delta_kx[:, dim1]), vector_delta_kx_ky[:, dim2])
+                    j0 += 1
+                i0 += 1
+            dot_matrix = np.linalg.det(dot_matrix)/abs(np.linalg.det(dot_matrix))
+            det_value = det_value*dot_matrix
+            # third dot
+            dot_matrix = np.zeros((dim , dim), dtype=complex)
+            i0 = 0
+            for dim1 in index_of_bands:
+                j0 = 0
+                for dim2 in index_of_bands:
+                    dot_matrix[dim1, dim2] = np.dot(np.conj(vector_delta_kx_ky[:, dim1]), vector_delta_ky[:, dim2])
+                    j0 += 1
+                i0 += 1
+            dot_matrix = np.linalg.det(dot_matrix)/abs(np.linalg.det(dot_matrix))
+            det_value = det_value*dot_matrix
+            # four dot
+            dot_matrix = np.zeros((dim , dim), dtype=complex)
+            i0 = 0
+            for dim1 in index_of_bands:
+                j0 = 0
+                for dim2 in index_of_bands:
+                    dot_matrix[dim1, dim2] = np.dot(np.conj(vector_delta_ky[:, dim1]), vector[:, dim2])
+                    j0 += 1
+                i0 += 1
+            dot_matrix = np.linalg.det(dot_matrix)/abs(np.linalg.det(dot_matrix))
+            det_value= det_value*dot_matrix
+            berry_curvature = cmath.log(det_value)/delta/delta*1j
+            berry_curvature_array[j00, i00] = berry_curvature
+            j00 += 1
+        i00 += 1
     return k_array, berry_curvature_array
 
 def calculate_berry_curvature_with_wilson_loop(hamiltonian_function, k_min=-math.pi, k_max=math.pi, precision_of_plaquettes=20, precision_of_wilson_loop=5, print_show=0):
