@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.125, updated on August 25, 2022.
+# The current version is guan-0.0.126, updated on August 28, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -1548,6 +1548,71 @@ def calculate_chern_number_for_square_lattice_with_efficient_method(hamiltonian_
                 Uy_x = np.dot(np.conj(vector_delta_kx_i), vector_delta_kx_ky_i)/abs(np.dot(np.conj(vector_delta_kx_i), vector_delta_kx_ky_i))
                 F = cmath.log(Ux*Uy_x*(1/Ux_y)*(1/Uy))
                 chern_number[i] = chern_number[i] + F
+    chern_number = chern_number/(2*math.pi*1j)
+    return chern_number
+
+def calculate_chern_number_for_square_lattice_with_efficient_method_for_degenerate_case(hamiltonian_function, index_of_bands=[0, 1], precision=100, print_show=0): 
+    delta = 2*math.pi/precision
+    chern_number = 0
+    for kx in np.arange(-math.pi, math.pi, delta):
+        if print_show == 1:
+            print(kx)
+        for ky in np.arange(-math.pi, math.pi, delta):
+            H = hamiltonian_function(kx, ky)
+            eigenvalue, vector = np.linalg.eigh(H) 
+            H_delta_kx = hamiltonian_function(kx+delta, ky) 
+            eigenvalue, vector_delta_kx = np.linalg.eigh(H_delta_kx) 
+            H_delta_ky = hamiltonian_function(kx, ky+delta)
+            eigenvalue, vector_delta_ky = np.linalg.eigh(H_delta_ky) 
+            H_delta_kx_ky = hamiltonian_function(kx+delta, ky+delta)
+            eigenvalue, vector_delta_kx_ky = np.linalg.eigh(H_delta_kx_ky)
+            dim = len(index_of_bands)
+            det_value = 1
+            # first dot
+            dot_matrix = np.zeros((dim , dim), dtype=complex)
+            i0 = 0
+            for dim1 in index_of_bands:
+                j0 = 0
+                for dim2 in index_of_bands:
+                    dot_matrix[dim1, dim2] = np.dot(np.conj(vector[:, dim1]), vector_delta_kx[:, dim2])
+                    j0 += 1
+                i0 += 1
+            dot_matrix = np.linalg.det(dot_matrix)/abs(np.linalg.det(dot_matrix))
+            det_value = det_value*dot_matrix
+            # second dot
+            dot_matrix = np.zeros((dim , dim), dtype=complex)
+            i0 = 0
+            for dim1 in index_of_bands:
+                j0 = 0
+                for dim2 in index_of_bands:
+                    dot_matrix[dim1, dim2] = np.dot(np.conj(vector_delta_kx[:, dim1]), vector_delta_kx_ky[:, dim2])
+                    j0 += 1
+                i0 += 1
+            dot_matrix = np.linalg.det(dot_matrix)/abs(np.linalg.det(dot_matrix))
+            det_value = det_value*dot_matrix
+            # third dot
+            dot_matrix = np.zeros((dim , dim), dtype=complex)
+            i0 = 0
+            for dim1 in index_of_bands:
+                j0 = 0
+                for dim2 in index_of_bands:
+                    dot_matrix[dim1, dim2] = np.dot(np.conj(vector_delta_kx_ky[:, dim1]), vector_delta_ky[:, dim2])
+                    j0 += 1
+                i0 += 1
+            dot_matrix = np.linalg.det(dot_matrix)/abs(np.linalg.det(dot_matrix))
+            det_value = det_value*dot_matrix
+            # four dot
+            dot_matrix = np.zeros((dim , dim), dtype=complex)
+            i0 = 0
+            for dim1 in index_of_bands:
+                j0 = 0
+                for dim2 in index_of_bands:
+                    dot_matrix[dim1, dim2] = np.dot(np.conj(vector_delta_ky[:, dim1]), vector[:, dim2])
+                    j0 += 1
+                i0 += 1
+            dot_matrix = np.linalg.det(dot_matrix)/abs(np.linalg.det(dot_matrix))
+            det_value= det_value*dot_matrix
+            chern_number += cmath.log(det_value)
     chern_number = chern_number/(2*math.pi*1j)
     return chern_number
 

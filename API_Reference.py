@@ -246,6 +246,8 @@ guan.print_or_write_scattering_matrix(fermi_energy, h00, h01, length=100, print_
 
 chern_number = guan.calculate_chern_number_for_square_lattice_with_efficient_method(hamiltonian_function, precision=100, print_show=0)
 
+chern_number = guan.calculate_chern_number_for_square_lattice_with_efficient_method_for_degenerate_case(hamiltonian_function, index_of_bands=[0, 1], precision=100, print_show=0)
+
 chern_number = guan.calculate_chern_number_for_square_lattice_with_wilson_loop(hamiltonian_function, precision_of_plaquettes=20, precision_of_wilson_loop=5, print_show=0)
 
 chern_number = guan.calculate_chern_number_for_square_lattice_with_wilson_loop_for_degenerate_case(hamiltonian_function, index_of_bands=[0, 1], precision_of_plaquettes=20, precision_of_wilson_loop=5, print_show=0)
