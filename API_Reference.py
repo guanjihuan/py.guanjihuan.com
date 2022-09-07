@@ -329,9 +329,11 @@ new_array = guan.find_close_values_in_one_array(array, precision=1e-2)
 
 degenerate_k_array, degenerate_eigenvalue_array = guan.find_degenerate_points(k_array, eigenvalue_array, precision=1e-2)
 
-guan.change_directory_by_replacement(current_key_word='code', new_key_word='data')
-
 guan.batch_reading_and_plotting(directory, xlabel='x', ylabel='y')
+
+guan.move_all_files_to_root_directory(directory)
+
+guan.change_directory_by_replacement(current_key_word='code', new_key_word='data')
 
 hex = guan.rgb_to_hex(rgb, pound=1)
 

@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.127, updated on August 28, 2022.
+# The current version is guan-0.0.128, updated on September 07, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -2528,15 +2528,6 @@ def find_degenerate_points(k_array, eigenvalue_array, precision=1e-2):
         i0 += 1
     return degenerate_k_array, degenerate_eigenvalue_array
 
-def change_directory_by_replacement(current_key_word='code', new_key_word='data'):
-    import os
-    code_path = os.getcwd()
-    data_path = code_path.replace('\\', '/') 
-    data_path = data_path.replace(current_key_word, new_key_word) 
-    if os.path.exists(data_path) == False:
-        os.makedirs(data_path)
-    os.chdir(data_path)
-
 def batch_reading_and_plotting(directory, xlabel='x', ylabel='y'):
     import re
     import os
@@ -2546,6 +2537,28 @@ def batch_reading_and_plotting(directory, xlabel='x', ylabel='y'):
                 filename = file[:-4]
                 x_array, y_array = guan.read_one_dimensional_data(filename=filename)
                 guan.plot(x_array, y_array, xlabel=xlabel, ylabel=ylabel, title=filename, show=0, save=1, filename=filename)
+
+def move_all_files_to_root_directory(directory):
+    import os
+    import shutil
+    for root, dirs, files in os.walk(directory):
+        for i0 in range(len(files)):
+            shutil.move(root+'/'+files[i0], directory+'/'+files[i0])
+    for i0 in range(100):
+        for root, dirs, files in os.walk(directory):
+            try:
+                os.rmdir(root) 
+            except:
+                pass
+
+def change_directory_by_replacement(current_key_word='code', new_key_word='data'):
+    import os
+    code_path = os.getcwd()
+    data_path = code_path.replace('\\', '/') 
+    data_path = data_path.replace(current_key_word, new_key_word) 
+    if os.path.exists(data_path) == False:
+        os.makedirs(data_path)
+    os.chdir(data_path)
 
 def rgb_to_hex(rgb, pound=1):
     if pound==0:
