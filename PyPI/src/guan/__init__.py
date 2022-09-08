@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.129, updated on September 08, 2022.
+# The current version is guan-0.0.130, updated on September 08, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -2538,7 +2538,7 @@ def batch_reading_and_plotting(directory, xlabel='x', ylabel='y'):
                 x_array, y_array = guan.read_one_dimensional_data(filename=filename)
                 guan.plot(x_array, y_array, xlabel=xlabel, ylabel=ylabel, title=filename, show=0, save=1, filename=filename)
 
-def write_file_list_in_markdown(directory, filename='a', reverse_positive_or_negative=1, starting_from_h1=None, banned_type=[], divided_line=None, show_second_number=None, show_third_number=None): 
+def write_file_list_in_markdown(directory, filename='a', reverse_positive_or_negative=1, starting_from_h1=None, banned_type=[], hide_file_type=None, divided_line=None, show_second_number=None, show_third_number=None): 
     import os
     f = open(filename+'.md', 'w', encoding="utf-8")
     filenames1 = os.listdir(directory)
@@ -2547,7 +2547,10 @@ def write_file_list_in_markdown(directory, filename='a', reverse_positive_or_neg
         filename1_with_path = os.path.join(directory,filename1) 
         if os.path.isfile(filename1_with_path):
             if os.path.splitext(filename1)[1] not in banned_type:
-                f.write('+ '+str(os.path.splitext(filename1)[0])+'\n')
+                if hide_file_type == None:
+                    f.write('+ '+str(filename1)+'\n')
+                else:
+                    f.write('+ '+str(os.path.splitext(filename1)[0])+'\n')
         else:
             u0 += 1
             if divided_line != None and u0 != 1:
@@ -2561,7 +2564,10 @@ def write_file_list_in_markdown(directory, filename='a', reverse_positive_or_neg
             for filename2 in filenames2[::reverse_positive_or_negative]:
                 filename2_with_path = os.path.join(directory, filename1, filename2) 
                 if os.path.isfile(filename2_with_path):
-                    f.write('+ '+str(os.path.splitext(filename2)[0])+'\n')
+                    if hide_file_type == None:
+                        f.write('+ '+str(filename2)+'\n')
+                    else:
+                        f.write('+ '+str(os.path.splitext(filename2)[0])+'\n')
                 else: 
                     i0 += 1
                     if starting_from_h1 == None:
@@ -2576,7 +2582,10 @@ def write_file_list_in_markdown(directory, filename='a', reverse_positive_or_neg
                     for filename3 in filenames3[::reverse_positive_or_negative]:
                         filename3_with_path = os.path.join(directory, filename1, filename2, filename3) 
                         if os.path.isfile(filename3_with_path): 
-                            f.write('+ '+str(os.path.splitext(filename3)[0])+'\n')
+                            if hide_file_type == None:
+                                f.write('+ '+str(filename3)+'\n')
+                            else:
+                                f.write('+ '+str(os.path.splitext(filename3)[0])+'\n')
                         else:
                             j0 += 1
                             if starting_from_h1 == None:
@@ -2590,7 +2599,10 @@ def write_file_list_in_markdown(directory, filename='a', reverse_positive_or_neg
                             for filename4 in filenames4[::reverse_positive_or_negative]:
                                 filename4_with_path = os.path.join(directory, filename1, filename2, filename3, filename4) 
                                 if os.path.isfile(filename4_with_path):
-                                    f.write('+ '+str(os.path.splitext(filename4)[0])+'\n')
+                                    if hide_file_type == None:
+                                        f.write('+ '+str(filename4)+'\n')
+                                    else:
+                                        f.write('+ '+str(os.path.splitext(filename4)[0])+'\n')
                                 else: 
                                     if starting_from_h1 == None:
                                         f.write('#')
@@ -2600,7 +2612,10 @@ def write_file_list_in_markdown(directory, filename='a', reverse_positive_or_neg
                                     for filename5 in filenames5[::reverse_positive_or_negative]:
                                         filename5_with_path = os.path.join(directory, filename1, filename2, filename3, filename4, filename5) 
                                         if os.path.isfile(filename5_with_path): 
-                                            f.write('+ '+str(os.path.splitext(filename5)[0])+'\n')
+                                            if hide_file_type == None:
+                                                f.write('+ '+str(filename5)+'\n')
+                                            else:
+                                                f.write('+ '+str(os.path.splitext(filename5)[0])+'\n')
                                         else:
                                             if starting_from_h1 == None:
                                                 f.write('#')
