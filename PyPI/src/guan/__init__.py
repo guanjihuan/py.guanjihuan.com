@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.131, updated on September 08, 2022.
+# The current version is guan-0.0.132, updated on September 08, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -2624,6 +2624,20 @@ def write_file_list_in_markdown(directory, filename='a', reverse_positive_or_neg
                                             if starting_from_h1 == None:
                                                 f.write('#')
                                             f.write('##### '+str(filename5)+'\n')
+
+                                            filenames6 = os.listdir(filename5_with_path)
+                                            for filename6 in filenames6[::reverse_positive_or_negative]:
+                                                filename6_with_path = os.path.join(directory, filename1, filename2, filename3, filename4, filename5, filename6) 
+                                                if os.path.isfile(filename6_with_path): 
+                                                    if os.path.splitext(filename6)[1] not in banned_type:
+                                                        if hide_file_type == None:
+                                                            f.write('+ '+str(filename6)+'\n')
+                                                        else:
+                                                            f.write('+ '+str(os.path.splitext(filename6)[0])+'\n')
+                                                else:
+                                                    if starting_from_h1 == None:
+                                                        f.write('#')
+                                                    f.write('###### '+str(filename6)+'\n')
     f.close()
 
 def move_all_files_to_root_directory(directory):
