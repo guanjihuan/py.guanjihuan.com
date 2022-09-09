@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.133, updated on September 09, 2022.
+# The current version is guan-0.0.134, updated on September 09, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -2554,7 +2554,7 @@ def write_file_list_in_markdown(directory, filename='a', reverse_positive_or_neg
         else:
             u0 += 1
             if divided_line != None and u0 != 1:
-                f.write('\n--------\n\n')
+                f.write('--------\n\n')
             if starting_from_h1 == None:
                 f.write('#')
             f.write('# '+str(filename1)+'\n\n')
