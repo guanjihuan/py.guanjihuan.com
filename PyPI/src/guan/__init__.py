@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.134, updated on September 09, 2022.
+# The current version is guan-0.0.135, updated on September 12, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -1463,7 +1463,7 @@ def information_of_scattering_matrix(transmission_matrix, reflection_matrix, k_r
     sum_of_transmission_and_reflection_of_channels = np.sum(np.square(np.abs(transmission_matrix[0:ind_right_active, 0:ind_right_active])), axis=0) + np.sum(np.square(np.abs(reflection_matrix[0:ind_right_active, 0:ind_right_active])), axis=0)
     return number_of_active_channels, number_of_evanescent_channels, k_of_right_moving_active_channels, k_of_left_moving_active_channels, velocity_of_right_moving_active_channels, velocity_of_left_moving_active_channels, transmission_matrix_for_active_channels, reflection_matrix_for_active_channels, total_transmission_of_channels, total_conductance, total_reflection_of_channels, sum_of_transmission_and_reflection_of_channels
 
-def print_or_write_scattering_matrix(fermi_energy, h00, h01, length=100, print_show=1, write_file=0, filename='a', format='txt'):
+def print_or_write_scattering_matrix(fermi_energy, h00, h01, length=100, print_show=1, write_file=0, filename='a', file_format='.txt'):
     number_of_active_channels, number_of_evanescent_channels, k_of_right_moving_active_channels, k_of_left_moving_active_channels, velocity_of_right_moving_active_channels, velocity_of_left_moving_active_channels, transmission_matrix_for_active_channels, reflection_matrix_for_active_channels, total_transmission_of_channels, total_conductance, total_reflection_of_channels, sum_of_transmission_and_reflection_of_channels = guan.information_of_scattering_matrix(fermi_energy, h00, h01, length)
     if print_show == 1:
         print('\nActive channel (left or right) = ', number_of_active_channels)
@@ -1479,7 +1479,7 @@ def print_or_write_scattering_matrix(fermi_energy, h00, h01, length=100, print_s
         print('Total reflection of channels:\n', total_reflection_of_channels)
         print('Sum of transmission and reflection of channels:\n', sum_of_transmission_and_reflection_of_channels, '\n')
     if write_file == 1:
-        with open(filename+'.'+format, 'w') as f:
+        with open(filename+file_format, 'w') as f:
             f.write('Active channel (left or right) = ' + str(number_of_active_channels) + '\n')
             f.write('Evanescent channel (left or right) = ' + str(number_of_evanescent_channels) + '\n\n')
             f.write('Channel               K                                     Velocity\n')
@@ -2003,8 +2003,8 @@ def calculate_wilson_loop(hamiltonian_function, k_min=-math.pi, k_max=math.pi, p
 
 # Module 10: read and write
 
-def read_one_dimensional_data(filename='a', format='txt'): 
-    f = open(filename+'.'+format, 'r')
+def read_one_dimensional_data(filename='a', file_format='.txt'): 
+    f = open(filename+file_format, 'r')
     text = f.read()
     f.close()
     row_list = np.array(text.split('\n')) 
@@ -2024,8 +2024,8 @@ def read_one_dimensional_data(filename='a', format='txt'):
                 y_array = np.append(y_array, [y_row], axis=0)
     return x_array, y_array
 
-def read_one_dimensional_complex_data(filename='a', format='txt'): 
-    f = open(filename+'.'+format, 'r')
+def read_one_dimensional_complex_data(filename='a', file_format='.txt'): 
+    f = open(filename+file_format, 'r')
     text = f.read()
     f.close()
     row_list = np.array(text.split('\n')) 
@@ -2045,8 +2045,8 @@ def read_one_dimensional_complex_data(filename='a', format='txt'):
                 y_array = np.append(y_array, [y_row], axis=0)
     return x_array, y_array
 
-def read_two_dimensional_data(filename='a', format='txt'): 
-    f = open(filename+'.'+format, 'r')
+def read_two_dimensional_data(filename='a', file_format='.txt'): 
+    f = open(filename+file_format, 'r')
     text = f.read()
     f.close()
     row_list = np.array(text.split('\n')) 
@@ -2072,8 +2072,8 @@ def read_two_dimensional_data(filename='a', format='txt'):
                 matrix = np.append(matrix, [matrix_row], axis=0)
     return x_array, y_array, matrix
 
-def read_two_dimensional_complex_data(filename='a', format='txt'): 
-    f = open(filename+'.'+format, 'r')
+def read_two_dimensional_complex_data(filename='a', file_format='.txt'): 
+    f = open(filename+file_format, 'r')
     text = f.read()
     f.close()
     row_list = np.array(text.split('\n')) 
@@ -2099,8 +2099,8 @@ def read_two_dimensional_complex_data(filename='a', format='txt'):
                 matrix = np.append(matrix, [matrix_row], axis=0)
     return x_array, y_array, matrix
 
-def write_one_dimensional_data(x_array, y_array, filename='a', format='txt'): 
-    with open(filename+'.'+format, 'w') as file:
+def write_one_dimensional_data(x_array, y_array, filename='a', file_format='.txt'): 
+    with open(filename+file_format, 'w') as file:
         guan.write_one_dimensional_data_without_opening_file(x_array, y_array, file)
 
 def write_one_dimensional_data_without_opening_file(x_array, y_array, file): 
@@ -2117,8 +2117,8 @@ def write_one_dimensional_data_without_opening_file(x_array, y_array, file):
             file.write('\n')
         i0 += 1
 
-def write_two_dimensional_data(x_array, y_array, matrix, filename='a', format='txt'): 
-    with open(filename+'.'+format, 'w') as file:
+def write_two_dimensional_data(x_array, y_array, matrix, filename='a', file_format='.txt'): 
+    with open(filename+file_format, 'w') as file:
         guan.write_two_dimensional_data_without_opening_file(x_array, y_array, matrix, file)
 
 def write_two_dimensional_data_without_opening_file(x_array, y_array, matrix, file): 
@@ -2187,7 +2187,7 @@ def plot_without_starting_fig(plt, fig, ax, x_array, y_array, xlabel='x', ylabel
             y_max=max(y_array)
         ax.set_ylim(y_min, y_max)
 
-def plot(x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', format='jpg', dpi=300, style='', y_min=None, y_max=None, linewidth=None, markersize=None, adjust_bottom=0.2, adjust_left=0.2): 
+def plot(x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style='', y_min=None, y_max=None, linewidth=None, markersize=None, adjust_bottom=0.2, adjust_left=0.2): 
     plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize)
     ax.plot(x_array, y_array, style, linewidth=linewidth, markersize=markersize)
     ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
@@ -2200,12 +2200,12 @@ def plot(x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, labels
             y_max=max(y_array)
         ax.set_ylim(y_min, y_max)
     if save == 1:
-        plt.savefig(filename+'.'+format, dpi=dpi) 
+        plt.savefig(filename+file_format, dpi=dpi) 
     if show == 1:
         plt.show()
     plt.close('all')
 
-def plot_two_array(x_array, y1_array, y2_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', format='jpg', dpi=300, style_1='', style_2='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, markersize_1=None, markersize_2=None, adjust_bottom=0.2, adjust_left=0.2): 
+def plot_two_array(x_array, y1_array, y2_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style_1='', style_2='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, markersize_1=None, markersize_2=None, adjust_bottom=0.2, adjust_left=0.2): 
     plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize) 
     ax.plot(x_array, y1_array, style_1, linewidth=linewidth_1, markersize=markersize_1)
     ax.plot(x_array, y2_array, style_2, linewidth=linewidth_2, markersize=markersize_2)
@@ -2223,12 +2223,12 @@ def plot_two_array(x_array, y1_array, y2_array, xlabel='x', ylabel='y', title=''
             y_max=max([y1_max, y2_max])
         ax.set_ylim(y_min, y_max)
     if save == 1:
-        plt.savefig(filename+'.'+format, dpi=dpi) 
+        plt.savefig(filename+file_format, dpi=dpi) 
     if show == 1:
         plt.show()
     plt.close('all')
 
-def plot_two_array_with_two_horizontal_array(x1_array, x2_array, y1_array, y2_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', format='jpg', dpi=300, style_1='', style_2='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, markersize_1=None, markersize_2=None, adjust_bottom=0.2, adjust_left=0.2): 
+def plot_two_array_with_two_horizontal_array(x1_array, x2_array, y1_array, y2_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style_1='', style_2='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, markersize_1=None, markersize_2=None, adjust_bottom=0.2, adjust_left=0.2): 
     plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize) 
     ax.plot(x1_array, y1_array, style_1, linewidth=linewidth_1, markersize=markersize_1)
     ax.plot(x2_array, y2_array, style_2, linewidth=linewidth_2, markersize=markersize_2)
@@ -2246,12 +2246,12 @@ def plot_two_array_with_two_horizontal_array(x1_array, x2_array, y1_array, y2_ar
             y_max=max([y1_max, y2_max])
         ax.set_ylim(y_min, y_max)
     if save == 1:
-        plt.savefig(filename+'.'+format, dpi=dpi) 
+        plt.savefig(filename+file_format, dpi=dpi) 
     if show == 1:
         plt.show()
     plt.close('all')
 
-def plot_three_array(x_array, y1_array, y2_array, y3_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', format='jpg', dpi=300, style_1='', style_2='', style_3='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, linewidth_3=None,markersize_1=None, markersize_2=None, markersize_3=None, adjust_bottom=0.2, adjust_left=0.2): 
+def plot_three_array(x_array, y1_array, y2_array, y3_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style_1='', style_2='', style_3='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, linewidth_3=None,markersize_1=None, markersize_2=None, markersize_3=None, adjust_bottom=0.2, adjust_left=0.2): 
     plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize) 
     ax.plot(x_array, y1_array, style_1, linewidth=linewidth_1, markersize=markersize_1)
     ax.plot(x_array, y2_array, style_2, linewidth=linewidth_2, markersize=markersize_2)
@@ -2272,12 +2272,12 @@ def plot_three_array(x_array, y1_array, y2_array, y3_array, xlabel='x', ylabel='
             y_max=max([y1_max, y2_max, y3_max])
         ax.set_ylim(y_min, y_max)
     if save == 1:
-        plt.savefig(filename+'.'+format, dpi=dpi) 
+        plt.savefig(filename+file_format, dpi=dpi) 
     if show == 1:
         plt.show()
     plt.close('all')
 
-def plot_three_array_with_three_horizontal_array(x1_array, x2_array, x3_array, y1_array, y2_array, y3_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', format='jpg', dpi=300, style_1='', style_2='', style_3='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, linewidth_3=None,markersize_1=None, markersize_2=None, markersize_3=None, adjust_bottom=0.2, adjust_left=0.2): 
+def plot_three_array_with_three_horizontal_array(x1_array, x2_array, x3_array, y1_array, y2_array, y3_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style_1='', style_2='', style_3='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, linewidth_3=None,markersize_1=None, markersize_2=None, markersize_3=None, adjust_bottom=0.2, adjust_left=0.2): 
     plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize) 
     ax.plot(x1_array, y1_array, style_1, linewidth=linewidth_1, markersize=markersize_1)
     ax.plot(x2_array, y2_array, style_2, linewidth=linewidth_2, markersize=markersize_2)
@@ -2298,12 +2298,12 @@ def plot_three_array_with_three_horizontal_array(x1_array, x2_array, x3_array, y
             y_max=max([y1_max, y2_max, y3_max])
         ax.set_ylim(y_min, y_max)
     if save == 1:
-        plt.savefig(filename+'.'+format, dpi=dpi) 
+        plt.savefig(filename+file_format, dpi=dpi) 
     if show == 1:
         plt.show()
     plt.close('all')
 
-def plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z', title='', fontsize=20, labelsize=15, show=1, save=0, filename='a', format='jpg', dpi=300, z_min=None, z_max=None, rcount=100, ccount=100): 
+def plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z', title='', fontsize=20, labelsize=15, show=1, save=0, filename='a', file_format='.jpg', dpi=300, z_min=None, z_max=None, rcount=100, ccount=100): 
     import matplotlib.pyplot as plt
     from matplotlib import cm
     from matplotlib.ticker import LinearLocator
@@ -2337,12 +2337,12 @@ def plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z'
     for l in cbar.ax.yaxis.get_ticklabels():
         l.set_family('Times New Roman')
     if save == 1:
-        plt.savefig(filename+'.'+format, dpi=dpi) 
+        plt.savefig(filename+file_format, dpi=dpi) 
     if show == 1:
         plt.show()
     plt.close('all')
 
-def plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=15, show=1, save=0, filename='a', format='jpg', dpi=300):  
+def plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=15, show=1, save=0, filename='a', file_format='.jpg', dpi=300):  
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots()
     plt.subplots_adjust(bottom=0.2, right=0.75, left=0.2) 
@@ -2360,12 +2360,12 @@ def plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', fon
     for l in cbar.ax.yaxis.get_ticklabels():
         l.set_family('Times New Roman')
     if save == 1:
-        plt.savefig(filename+'.'+format, dpi=dpi) 
+        plt.savefig(filename+file_format, dpi=dpi) 
     if show == 1:
         plt.show()
     plt.close('all')
 
-def draw_dots_and_lines(coordinate_array, draw_dots=1, draw_lines=1, max_distance=1.1, line_style='-k', linewidth=1, dot_style='ro', markersize=3, show=1, save=0, filename='a', format='eps', dpi=300):
+def draw_dots_and_lines(coordinate_array, draw_dots=1, draw_lines=1, max_distance=1.1, line_style='-k', linewidth=1, dot_style='ro', markersize=3, show=1, save=0, filename='a', file_format='.eps', dpi=300):
     import matplotlib.pyplot as plt
     coordinate_array = np.array(coordinate_array)
     print(coordinate_array.shape)
@@ -2385,12 +2385,12 @@ def draw_dots_and_lines(coordinate_array, draw_dots=1, draw_lines=1, max_distanc
     if show==1:
         plt.show()
     if save==1:
-        if format=='eps':
-            plt.savefig(filename+'.'+format)
+        if file_format=='.eps':
+            plt.savefig(filename+file_format)
         else:
-            plt.savefig(filename+'.'+format, dpi=dpi)
+            plt.savefig(filename+file_format, dpi=dpi)
 
-def combine_two_images(image_path_array, figsize=(16,8), show=0, save=1, filename='a', format='jpg', dpi=300):
+def combine_two_images(image_path_array, figsize=(16,8), show=0, save=1, filename='a', file_format='.jpg', dpi=300):
     num = np.array(image_path_array).shape[0]
     if num != 2:
         print('Error: The number of images should be two!')
@@ -2410,10 +2410,10 @@ def combine_two_images(image_path_array, figsize=(16,8), show=0, save=1, filenam
         if show == 1:
             plt.show()
         if save == 1:
-            plt.savefig(filename+'.'+format, dpi=dpi)
+            plt.savefig(filename+file_format, dpi=dpi)
         plt.close('all')
 
-def combine_three_images(image_path_array, figsize=(16,5), show=0, save=1, filename='a', format='jpg', dpi=300):
+def combine_three_images(image_path_array, figsize=(16,5), show=0, save=1, filename='a', file_format='.jpg', dpi=300):
     num = np.array(image_path_array).shape[0]
     if num != 3:
         print('Error: The number of images should be three!')
@@ -2437,10 +2437,10 @@ def combine_three_images(image_path_array, figsize=(16,5), show=0, save=1, filen
         if show == 1:
             plt.show()
         if save == 1:
-            plt.savefig(filename+'.'+format, dpi=dpi)
+            plt.savefig(filename+file_format, dpi=dpi)
         plt.close('all')
 
-def combine_four_images(image_path_array, figsize=(16,16), show=0, save=1, filename='a', format='jpg', dpi=300):
+def combine_four_images(image_path_array, figsize=(16,16), show=0, save=1, filename='a', file_format='.jpg', dpi=300):
     num = np.array(image_path_array).shape[0]
     if num != 4:
         print('Error: The number of images should be four!')
@@ -2468,7 +2468,7 @@ def combine_four_images(image_path_array, figsize=(16,16), show=0, save=1, filen
         if show == 1:
             plt.show()
         if save == 1:
-            plt.savefig(filename+'.'+format, dpi=dpi)
+            plt.savefig(filename+file_format, dpi=dpi)
         plt.close('all')
 
 def make_gif(image_path_array, filename='a', duration=0.1):
@@ -2639,6 +2639,26 @@ def write_file_list_in_markdown(directory, filename='a', reverse_positive_or_neg
                                                         f.write('#')
                                                     f.write('###### '+str(filename6)+'\n\n')
     f.close()
+
+def creat_necessary_file(directory, filename='readme', file_format='.md', content=''):
+    import os
+    directory_with_file = []
+    for root, dirs, files in os.walk(directory):
+        for i0 in range(len(files)):
+            if root not in directory_with_file:
+                directory_with_file.append(root)
+    for root in directory_with_file:
+        os.chdir(root)
+        f = open(filename+file_format, 'w', encoding="utf-8")
+        f.write(content)
+        f.close()
+
+def delete_file_with_specific_name(directory, filename='readme', file_format='.md'):
+      import os
+      for root, dirs, files in os.walk(directory):
+        for i0 in range(len(files)):
+            if files[i0] == filename+file_format:
+                os.remove(root+'/'+files[i0])
 
 def move_all_files_to_root_directory(directory):
     import os
