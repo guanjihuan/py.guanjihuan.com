@@ -331,7 +331,7 @@ degenerate_k_array, degenerate_eigenvalue_array = guan.find_degenerate_points(k_
 
 guan.batch_reading_and_plotting(directory, xlabel='x', ylabel='y')
 
-guan.write_file_list_in_markdown(directory, filename='a', reverse_positive_or_negative=1, starting_from_h1=None, banned_type=[], hide_file_type=None, divided_line=None, show_second_number=None, show_third_number=None)
+guan.write_file_list_in_markdown(directory, filename='a', reverse_positive_or_negative=1, starting_from_h1=None, banned_file_format=[], hide_file_format=None, divided_line=None, show_second_number=None, show_third_number=None)
 
 guan.move_all_files_to_root_directory(directory)
 
