@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.136, updated on September 13, 2022.
+# The current version is guan-0.0.137, updated on September 14, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -20,7 +20,8 @@
 # # Module 10: read and write
 # # Module 11: plot figures
 # # Module 12: data processing
-# # Module 13: others
+# # Module 13: file processing
+# # Module 14: others
 
 
 
@@ -2538,6 +2539,30 @@ def batch_reading_and_plotting(directory, xlabel='x', ylabel='y'):
                 x_array, y_array = guan.read_one_dimensional_data(filename=filename)
                 guan.plot(x_array, y_array, xlabel=xlabel, ylabel=ylabel, title=filename, show=0, save=1, filename=filename)
 
+def rgb_to_hex(rgb, pound=1):
+    if pound==0:
+        return '%02x%02x%02x' % rgb
+    else:
+        return '#%02x%02x%02x' % rgb
+
+def hex_to_rgb(hex):
+    hex = hex.lstrip('#')
+    length = len(hex)
+    return tuple(int(hex[i:i+length//3], 16) for i in range(0, length, length//3))
+
+
+
+
+
+
+
+
+
+
+
+
+# # Module 13: file processing
+
 def write_file_list_in_markdown(directory, filename='a', reverse_positive_or_negative=1, starting_from_h1=None, banned_file_format=[], hide_file_format=None, divided_line=None, show_second_number=None, show_third_number=None): 
     import os
     f = open(filename+'.md', 'w', encoding="utf-8")
@@ -2640,6 +2665,20 @@ def write_file_list_in_markdown(directory, filename='a', reverse_positive_or_neg
                                                     f.write('###### '+str(filename6)+'\n\n')
     f.close()
 
+def find_repeated_file_with_same_filename(directory, num=1000):
+    import os
+    from collections import Counter
+    file_list = []
+    for root, dirs, files in os.walk(directory):
+        for i0 in range(len(files)):
+            file_list.append(files[i0])
+    count_file = Counter(file_list).most_common(num)
+    repeated_file = []
+    for item in count_file:
+        if item[1]>1:
+            repeated_file.append(item)
+    return repeated_file
+
 def creat_necessary_file(directory, filename='readme', file_format='.md', content=''):
     import os
     directory_with_file = []
@@ -2682,23 +2721,17 @@ def change_directory_by_replacement(current_key_word='code', new_key_word='data'
         os.makedirs(data_path)
     os.chdir(data_path)
 
-def rgb_to_hex(rgb, pound=1):
-    if pound==0:
-        return '%02x%02x%02x' % rgb
-    else:
-        return '#%02x%02x%02x' % rgb
-
-def hex_to_rgb(hex):
-    hex = hex.lstrip('#')
-    length = len(hex)
-    return tuple(int(hex[i:i+length//3], 16) for i in range(0, length, length//3))
 
 
 
 
 
 
-# Module 13: others
+
+
+
+
+# Module 14: others
 
 ## download
 

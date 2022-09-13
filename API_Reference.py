@@ -331,19 +331,25 @@ degenerate_k_array, degenerate_eigenvalue_array = guan.find_degenerate_points(k_
 
 guan.batch_reading_and_plotting(directory, xlabel='x', ylabel='y')
 
-guan.write_file_list_in_markdown(directory, filename='a', reverse_positive_or_negative=1, starting_from_h1=None, banned_file_format=[], hide_file_format=None, divided_line=None, show_second_number=None, show_third_number=None)
-
-guan.move_all_files_to_root_directory(directory)
-
-guan.change_directory_by_replacement(current_key_word='code', new_key_word='data')
-
 hex = guan.rgb_to_hex(rgb, pound=1)
 
 rgb = guan.hex_to_rgb(hex)
 
 
 
-# Module 13: others
+# # Module 13: file processing
+
+guan.write_file_list_in_markdown(directory, filename='a', reverse_positive_or_negative=1, starting_from_h1=None, banned_file_format=[], hide_file_format=None, divided_line=None, show_second_number=None, show_third_number=None)
+
+guan.find_repeated_file_with_same_filename(directory, num=1000)
+
+guan.move_all_files_to_root_directory(directory)
+
+guan.change_directory_by_replacement(current_key_word='code', new_key_word='data')
+
+
+
+# Module 14: others
 
 guan.download_with_scihub(address=None, num=1)
 
