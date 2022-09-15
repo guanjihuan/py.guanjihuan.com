@@ -343,6 +343,10 @@ guan.write_file_list_in_markdown(directory, filename='a', reverse_positive_or_ne
 
 repeated_file = guan.find_repeated_file_with_same_filename(directory, num=1000)
 
+guan.creat_necessary_file(directory, filename='readme', file_format='.md', content='', overwrite=None)
+
+guan.delete_file_with_specific_name(directory, filename='readme', file_format='.md')
+
 guan.move_all_files_to_root_directory(directory)
 
 guan.change_directory_by_replacement(current_key_word='code', new_key_word='data')
