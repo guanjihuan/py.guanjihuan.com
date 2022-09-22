@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.138, updated on September 15, 2022.
+# The current version is guan-0.0.139, updated on September 23, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -2563,7 +2563,7 @@ def hex_to_rgb(hex):
 
 # # Module 13: file processing
 
-def write_file_list_in_markdown(directory, filename='a', reverse_positive_or_negative=1, starting_from_h1=None, banned_file_format=[], hide_file_format=None, divided_line=None, show_second_number=None, show_third_number=None): 
+def write_file_list_in_markdown(directory='./', filename='a', reverse_positive_or_negative=1, starting_from_h1=None, banned_file_format=[], hide_file_format=None, divided_line=None, show_second_number=None, show_third_number=None): 
     import os
     f = open(filename+'.md', 'w', encoding="utf-8")
     filenames1 = os.listdir(directory)
@@ -2665,13 +2665,14 @@ def write_file_list_in_markdown(directory, filename='a', reverse_positive_or_neg
                                                     f.write('###### '+str(filename6)+'\n\n')
     f.close()
 
-def find_repeated_file_with_same_filename(directory, num=1000):
+def find_repeated_file_with_same_filename(directory='./', missed_directory='./missed_directory', num=1000):
     import os
     from collections import Counter
     file_list = []
     for root, dirs, files in os.walk(directory):
         for i0 in range(len(files)):
-            file_list.append(files[i0])
+            if missed_directory not in root:
+                file_list.append(files[i0])
     count_file = Counter(file_list).most_common(num)
     repeated_file = []
     for item in count_file:

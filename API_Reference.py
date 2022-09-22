@@ -339,9 +339,9 @@ rgb = guan.hex_to_rgb(hex)
 
 # # Module 13: file processing
 
-guan.write_file_list_in_markdown(directory, filename='a', reverse_positive_or_negative=1, starting_from_h1=None, banned_file_format=[], hide_file_format=None, divided_line=None, show_second_number=None, show_third_number=None)
+guan.write_file_list_in_markdown(directory='./', filename='a', reverse_positive_or_negative=1, starting_from_h1=None, banned_file_format=[], hide_file_format=None, divided_line=None, show_second_number=None, show_third_number=None)
 
-repeated_file = guan.find_repeated_file_with_same_filename(directory, num=1000)
+repeated_file = guan.find_repeated_file_with_same_filename(directory='./', missed_directory='./missed_directory', num=1000)
 
 guan.creat_necessary_file(directory, filename='readme', file_format='.md', content='', overwrite=None)
 
