@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.139, updated on September 23, 2022.
+# The current version is guan-0.0.140, updated on September 30, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -2679,6 +2679,30 @@ def find_repeated_file_with_same_filename(directory='./', missed_directory='./mi
         if item[1]>1:
             repeated_file.append(item)
     return repeated_file
+
+def count_file_in_sub_directory(directory='./', smaller_than_num=None):
+    import os
+    from collections import Counter
+    dirs_list = []
+    for root, dirs, files in os.walk(directory):
+        if dirs != []:
+            for i0 in range(len(dirs)):
+                dirs_list.append(root+'/'+dirs[i0])
+    for sub_dir in dirs_list:
+        file_list = []
+        for root, dirs, files in os.walk(sub_dir):
+            for i0 in range(len(files)):
+                file_list.append(files[i0])
+        count_file = len(file_list)
+        if smaller_than_num == None:
+            print(sub_dir)
+            print(count_file)
+            print()
+        else:
+            if count_file<smaller_than_num:
+                print(sub_dir)
+                print(count_file)
+                print()
 
 def creat_necessary_file(directory, filename='readme', file_format='.md', content='', overwrite=None):
     import os

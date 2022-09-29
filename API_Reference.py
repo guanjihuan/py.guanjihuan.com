@@ -343,6 +343,8 @@ guan.write_file_list_in_markdown(directory='./', filename='a', reverse_positive_
 
 repeated_file = guan.find_repeated_file_with_same_filename(directory='./', missed_directory='./missed_directory', num=1000)
 
+guan.count_file_in_sub_directory(directory='./', smaller_than_num=None)
+
 guan.creat_necessary_file(directory, filename='readme', file_format='.md', content='', overwrite=None)
 
 guan.delete_file_with_specific_name(directory, filename='readme', file_format='.md')
