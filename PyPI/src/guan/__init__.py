@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.140, updated on September 30, 2022.
+# The current version is guan-0.0.141, updated on December 09, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -2343,18 +2343,18 @@ def plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z'
         plt.show()
     plt.close('all')
 
-def plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=15, show=1, save=0, filename='a', file_format='.jpg', dpi=300):  
+def plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=15, cmap='jet', levels=None, show=1, save=0, filename='a', file_format='.jpg', dpi=300):  
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots()
     plt.subplots_adjust(bottom=0.2, right=0.75, left=0.2) 
     x_array, y_array = np.meshgrid(x_array, y_array)
-    contour = ax.contourf(x_array,y_array,matrix,cmap='jet') 
+    contour = ax.contourf(x_array,y_array,matrix,cmap=cmap, levels=levels) 
     ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
     ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman') 
     ax.set_ylabel(ylabel, fontsize=fontsize, fontfamily='Times New Roman') 
     ax.tick_params(labelsize=labelsize) 
     labels = ax.get_xticklabels() + ax.get_yticklabels()
-    [label.set_fontname('Times New Roman') for label in labels] 
+    [label.set_fontname('Times New Roman') for label in labels]
     cax = plt.axes([0.8, 0.2, 0.05, 0.68])
     cbar = fig.colorbar(contour, cax=cax) 
     cbar.ax.tick_params(labelsize=labelsize) 
