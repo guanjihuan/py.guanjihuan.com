@@ -270,7 +270,7 @@ wilson_loop_array = guan.calculate_wilson_loop(hamiltonian_function, k_min=-math
 
 x_array, y_array = guan.read_one_dimensional_data(filename='a', file_format='.txt')
 
-x_array, y_array = guan.read_one_dimensional_complex_data(filename='a', file.format='txt')
+x_array, y_array = guan.read_one_dimensional_complex_data(filename='a', file_format='txt')
 
 x_array, y_array, matrix = guan.read_two_dimensional_data(filename='a', file_format='.txt')
 
@@ -293,7 +293,7 @@ guan.print_array(array, show_index=0, index_type=0)
 
 plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=0.2, adjust_left=0.2, labelsize=20)
 
-guan.plot_without_starting_fig(plt, fig, ax, x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, style='', y_min=None, y_max=None, linewidth=None, markersize=None)
+guan.plot_without_starting_fig(plt, fig, ax, x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, style='', y_min=None, y_max=None, linewidth=None, markersize=None, color=None)
 
 guan.plot(x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style='', y_min=None, y_max=None, linewidth=None, markersize=None, adjust_bottom=0.2, adjust_left=0.2)
 
