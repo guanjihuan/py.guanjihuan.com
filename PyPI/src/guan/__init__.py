@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.146, updated on December 17, 2022.
+# The current version is guan-0.0.147, updated on December 17, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -1150,11 +1150,9 @@ def calculate_conductance_with_fermi_energy_array(fermi_energy_array, h00, h01, 
     conductance_array = np.zeros(dim)
     i0 = 0
     for fermi_energy in fermi_energy_array:
-        if print_show == 1:
-            print(fermi_energy)
         conductance_array[i0] = np.real(guan.calculate_conductance(fermi_energy, h00, h01, length))
         if print_show == 1:
-            print(conductance_array[i0])
+            print(fermi_energy, conductance_array[i0])
         i0 += 1
     return conductance_array
 
@@ -1202,12 +1200,10 @@ def calculate_conductance_with_disorder_intensity_array(fermi_energy, h00, h01, 
     conductance_array = np.zeros(dim)
     i0 = 0
     for disorder_intensity in disorder_intensity_array:
-        if print_show == 1:
-            print(disorder_intensity)
         for times in range(calculation_times):
             conductance_array[i0] = conductance_array[i0]+np.real(guan.calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensity=disorder_intensity, disorder_concentration=disorder_concentration, length=length))
         if print_show == 1:
-            print(conductance_array[i0]/calculation_times)
+            print(disorder_intensity, conductance_array[i0]/calculation_times)
         i0 += 1
     conductance_array = conductance_array/calculation_times
     return conductance_array
@@ -1217,12 +1213,10 @@ def calculate_conductance_with_disorder_concentration_array(fermi_energy, h00, h
     conductance_array = np.zeros(dim)
     i0 = 0
     for disorder_concentration in disorder_concentration_array:
-        if print_show == 1:
-            print(disorder_concentration)
         for times in range(calculation_times):
             conductance_array[i0] = conductance_array[i0]+np.real(guan.calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensity=disorder_intensity, disorder_concentration=disorder_concentration, length=length))
         if print_show == 1:
-            print(conductance_array[i0]/calculation_times)
+            print(disorder_concentration, conductance_array[i0]/calculation_times)
         i0 += 1
     conductance_array = conductance_array/calculation_times
     return conductance_array
@@ -1232,12 +1226,10 @@ def calculate_conductance_with_scattering_length_array(fermi_energy, h00, h01, l
     conductance_array = np.zeros(dim)
     i0 = 0
     for length in length_array:
-        if print_show == 1:
-            print(length)
         for times in range(calculation_times):
             conductance_array[i0] = conductance_array[i0]+np.real(guan.calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensity=disorder_intensity, disorder_concentration=disorder_concentration, length=length))
         if print_show == 1:
-            print(conductance_array[i0]/calculation_times)
+            print(length, conductance_array[i0]/calculation_times)
         i0 += 1
     conductance_array = conductance_array/calculation_times
     return conductance_array
