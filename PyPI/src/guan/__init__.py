@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.148, updated on December 21, 2022.
+# The current version is guan-0.0.149, updated on December 21, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -1199,6 +1199,7 @@ def calculate_conductance_with_slice_disorder(fermi_energy, h00, h01, disorder_i
     right_self_energy, left_self_energy, gamma_right, gamma_left = guan.self_energy_of_lead(fermi_energy, h00, h01)
     dim = np.array(h00).shape[0]
     for ix in range(length):
+        disorder = np.zeros((dim, dim))
         if np.random.uniform(0, 1)<=disorder_concentration:
             disorder = np.random.uniform(-disorder_intensity, disorder_intensity)*np.eye(dim)
         if ix == 0:
