@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.147, updated on December 17, 2022.
+# The current version is guan-0.0.148, updated on December 21, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -1183,6 +1183,24 @@ def calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensi
         for dim0 in range(dim):
             if np.random.uniform(0, 1)<=disorder_concentration:
                 disorder[dim0, dim0] = np.random.uniform(-disorder_intensity, disorder_intensity)
+        if ix == 0:
+            green_nn_n = guan.green_function(fermi_energy, h00+disorder, broadening=0, self_energy=left_self_energy)
+            green_0n_n = copy.deepcopy(green_nn_n)
+        elif ix != length-1:
+            green_nn_n = guan.green_function_nn_n(fermi_energy, h00+disorder, h01, green_nn_n, broadening=0)
+            green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
+        else:
+            green_nn_n = guan.green_function_nn_n(fermi_energy, h00+disorder, h01, green_nn_n, broadening=0, self_energy=right_self_energy)
+            green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
+    conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
+    return conductance
+
+def calculate_conductance_with_slice_disorder(fermi_energy, h00, h01, disorder_intensity=2.0, disorder_concentration=1.0, length=100):
+    right_self_energy, left_self_energy, gamma_right, gamma_left = guan.self_energy_of_lead(fermi_energy, h00, h01)
+    dim = np.array(h00).shape[0]
+    for ix in range(length):
+        if np.random.uniform(0, 1)<=disorder_concentration:
+            disorder = np.random.uniform(-disorder_intensity, disorder_intensity)*np.eye(dim)
         if ix == 0:
             green_nn_n = guan.green_function(fermi_energy, h00+disorder, broadening=0, self_energy=left_self_energy)
             green_0n_n = copy.deepcopy(green_nn_n)
