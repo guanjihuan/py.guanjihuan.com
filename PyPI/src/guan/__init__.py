@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.152, updated on November 17, 2022.
+# The current version is guan-0.0.153, updated on November 17, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -1522,6 +1522,49 @@ def information_of_scattering_matrix(transmission_matrix, reflection_matrix, k_r
     total_reflection_of_channels = np.sum(np.square(np.abs(reflection_matrix[0:ind_right_active, 0:ind_right_active])), axis=0)
     sum_of_transmission_and_reflection_of_channels = np.sum(np.square(np.abs(transmission_matrix[0:ind_right_active, 0:ind_right_active])), axis=0) + np.sum(np.square(np.abs(reflection_matrix[0:ind_right_active, 0:ind_right_active])), axis=0)
     return number_of_active_channels, number_of_evanescent_channels, k_of_right_moving_active_channels, k_of_left_moving_active_channels, velocity_of_right_moving_active_channels, velocity_of_left_moving_active_channels, transmission_matrix_for_active_channels, reflection_matrix_for_active_channels, total_transmission_of_channels, total_conductance, total_reflection_of_channels, sum_of_transmission_and_reflection_of_channels
+
+def print_or_write_scattering_matrix_with_information_of_scattering_matrix(number_of_active_channels, number_of_evanescent_channels, k_of_right_moving_active_channels, k_of_left_moving_active_channels, velocity_of_right_moving_active_channels, velocity_of_left_moving_active_channels, transmission_matrix_for_active_channels, reflection_matrix_for_active_channels, total_transmission_of_channels, total_conductance, total_reflection_of_channels, sum_of_transmission_and_reflection_of_channels, print_show=1, write_file=0, filename='a', file_format='.txt'):
+    if print_show == 1:
+        print('\nActive channel (left or right) = ', number_of_active_channels)
+        print('Evanescent channel (left or right) = ', number_of_evanescent_channels, '\n')
+        print('K of right-moving active channels:\n', k_of_right_moving_active_channels)
+        print('K of left-moving active channels:\n', k_of_left_moving_active_channels, '\n')
+        print('Velocity of right-moving active channels:\n', velocity_of_right_moving_active_channels)
+        print('Velocity of left-moving active channels:\n', velocity_of_left_moving_active_channels, '\n')
+        print('Transmission matrix:\n', transmission_matrix_for_active_channels)
+        print('Reflection matrix:\n', reflection_matrix_for_active_channels, '\n')
+        print('Total transmission of channels:\n', total_transmission_of_channels)
+        print('Total conductance = ', total_conductance, '\n')
+        print('Total reflection of channels:\n', total_reflection_of_channels)
+        print('Sum of transmission and reflection of channels:\n', sum_of_transmission_and_reflection_of_channels, '\n')
+    if write_file == 1:
+        with open(filename+file_format, 'w') as f:
+            f.write('Active channel (left or right) = ' + str(number_of_active_channels) + '\n')
+            f.write('Evanescent channel (left or right) = ' + str(number_of_evanescent_channels) + '\n\n')
+            f.write('Channel               K                                     Velocity\n')
+            for ind0 in range(number_of_active_channels):
+                f.write('   '+str(ind0 + 1) + '   |    '+str(k_of_right_moving_active_channels[ind0])+'            ' + str(velocity_of_right_moving_active_channels[ind0])+'\n')
+            f.write('\n')
+            for ind0 in range(number_of_active_channels):
+                f.write('  -' + str(ind0 + 1) + '   |    ' + str(k_of_left_moving_active_channels[ind0]) + '            ' + str(velocity_of_left_moving_active_channels[ind0]) + '\n')
+            f.write('\nScattering matrix:\n              ')
+            for ind0 in range(number_of_active_channels):
+                f.write(str(ind0+1)+'               ')
+            f.write('\n')
+            for ind1 in range(number_of_active_channels):
+                f.write('  '+str(ind1+1)+'    ')
+                for ind2 in range(number_of_active_channels):
+                    f.write('%f' % transmission_matrix_for_active_channels[ind1, ind2]+'    ')
+                f.write('\n')
+            f.write('\n')
+            for ind1 in range(number_of_active_channels):
+                f.write(' -'+str(ind1+1)+'    ')
+                for ind2 in range(number_of_active_channels):
+                    f.write('%f' % reflection_matrix_for_active_channels[ind1, ind2]+'    ')
+                f.write('\n')
+            f.write('\n')
+            f.write('Total transmission of channels:\n'+str(total_transmission_of_channels)+'\n')
+            f.write('Total conductance = '+str(total_conductance)+'\n')
 
 def print_or_write_scattering_matrix(fermi_energy, h00, h01, length=100, print_show=1, write_file=0, filename='a', file_format='.txt'):
     transmission_matrix, reflection_matrix, k_right, k_left, velocity_right, velocity_left, ind_right_active = guan.calculate_scattering_matrix(fermi_energy, h00, h01, length=length)
