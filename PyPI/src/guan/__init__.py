@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.153, updated on November 17, 2022.
+# The current version is guan-0.0.154, updated on November 24, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -1178,16 +1178,16 @@ def calculate_conductance_with_barrier(fermi_energy, h00, h01, length=100, barri
 def calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensity=2.0, disorder_concentration=1.0, length=100):
     right_self_energy, left_self_energy, gamma_right, gamma_left = guan.self_energy_of_lead(fermi_energy, h00, h01)
     dim = np.array(h00).shape[0]
-    for ix in range(length):
+    for ix in range(length+2):
         disorder = np.zeros((dim, dim))
         for dim0 in range(dim):
             if np.random.uniform(0, 1)<=disorder_concentration:
                 disorder[dim0, dim0] = np.random.uniform(-disorder_intensity, disorder_intensity)
         if ix == 0:
-            green_nn_n = guan.green_function(fermi_energy, h00+disorder, broadening=0, self_energy=left_self_energy)
+            green_nn_n = guan.green_function(fermi_energy, h00, broadening=0, self_energy=left_self_energy)
             green_0n_n = copy.deepcopy(green_nn_n)
-        elif ix != length-1:
-            green_nn_n = guan.green_function_nn_n(fermi_energy, h00+disorder, h01, green_nn_n, broadening=0)
+        elif ix != length+1:
+            green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n, broadening=0)
             green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
         else:
             green_nn_n = guan.green_function_nn_n(fermi_energy, h00+disorder, h01, green_nn_n, broadening=0, self_energy=right_self_energy)
@@ -1198,15 +1198,15 @@ def calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensi
 def calculate_conductance_with_slice_disorder(fermi_energy, h00, h01, disorder_intensity=2.0, disorder_concentration=1.0, length=100):
     right_self_energy, left_self_energy, gamma_right, gamma_left = guan.self_energy_of_lead(fermi_energy, h00, h01)
     dim = np.array(h00).shape[0]
-    for ix in range(length):
+    for ix in range(length+2):
         disorder = np.zeros((dim, dim))
         if np.random.uniform(0, 1)<=disorder_concentration:
             disorder = np.random.uniform(-disorder_intensity, disorder_intensity)*np.eye(dim)
         if ix == 0:
-            green_nn_n = guan.green_function(fermi_energy, h00+disorder, broadening=0, self_energy=left_self_energy)
+            green_nn_n = guan.green_function(fermi_energy, h00, broadening=0, self_energy=left_self_energy)
             green_0n_n = copy.deepcopy(green_nn_n)
-        elif ix != length-1:
-            green_nn_n = guan.green_function_nn_n(fermi_energy, h00+disorder, h01, green_nn_n, broadening=0)
+        elif ix != length+1:
+            green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n, broadening=0)
             green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
         else:
             green_nn_n = guan.green_function_nn_n(fermi_energy, h00+disorder, h01, green_nn_n, broadening=0, self_energy=right_self_energy)
@@ -1221,12 +1221,12 @@ def calculate_conductance_with_disorder_inside_unit_cell_which_keeps_translation
     for dim0 in range(dim):
         if np.random.uniform(0, 1)<=disorder_concentration:
             disorder[dim0, dim0] = np.random.uniform(-disorder_intensity, disorder_intensity)
-    for ix in range(length):
+    for ix in range(length+2):
         if ix == 0:
-            green_nn_n = guan.green_function(fermi_energy, h00+disorder, broadening=0, self_energy=left_self_energy)
+            green_nn_n = guan.green_function(fermi_energy, h00, broadening=0, self_energy=left_self_energy)
             green_0n_n = copy.deepcopy(green_nn_n)
-        elif ix != length-1:
-            green_nn_n = guan.green_function_nn_n(fermi_energy, h00+disorder, h01, green_nn_n, broadening=0)
+        elif ix != length+1:
+            green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n, broadening=0)
             green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
         else:
             green_nn_n = guan.green_function_nn_n(fermi_energy, h00+disorder, h01, green_nn_n, broadening=0, self_energy=right_self_energy)
@@ -1237,16 +1237,16 @@ def calculate_conductance_with_disorder_inside_unit_cell_which_keeps_translation
 def calculate_conductance_with_random_vacancy(fermi_energy, h00, h01, vacancy_concentration=0.5, vacancy_potential=1e9, length=100):
     right_self_energy, left_self_energy, gamma_right, gamma_left = guan.self_energy_of_lead(fermi_energy, h00, h01)
     dim = np.array(h00).shape[0]
-    for ix in range(length):
+    for ix in range(length+2):
         random_vacancy = np.zeros((dim, dim))
         for dim0 in range(dim):
             if np.random.uniform(0, 1)<=vacancy_concentration:
                 random_vacancy[dim0, dim0] = vacancy_potential
         if ix == 0:
-            green_nn_n = guan.green_function(fermi_energy, h00+random_vacancy, broadening=0, self_energy=left_self_energy)
+            green_nn_n = guan.green_function(fermi_energy, h00, broadening=0, self_energy=left_self_energy)
             green_0n_n = copy.deepcopy(green_nn_n)
-        elif ix != length-1:
-            green_nn_n = guan.green_function_nn_n(fermi_energy, h00+random_vacancy, h01, green_nn_n, broadening=0)
+        elif ix != length+1:
+            green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n, broadening=0)
             green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
         else:
             green_nn_n = guan.green_function_nn_n(fermi_energy, h00+random_vacancy, h01, green_nn_n, broadening=0, self_energy=right_self_energy)
