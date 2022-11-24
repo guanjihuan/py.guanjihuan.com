@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.154, updated on November 24, 2022.
+# The current version is guan-0.0.155, updated on November 24, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -1187,10 +1187,10 @@ def calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensi
             green_nn_n = guan.green_function(fermi_energy, h00, broadening=0, self_energy=left_self_energy)
             green_0n_n = copy.deepcopy(green_nn_n)
         elif ix != length+1:
-            green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n, broadening=0)
+            green_nn_n = guan.green_function_nn_n(fermi_energy, h00+disorder, h01, green_nn_n, broadening=0)
             green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
         else:
-            green_nn_n = guan.green_function_nn_n(fermi_energy, h00+disorder, h01, green_nn_n, broadening=0, self_energy=right_self_energy)
+            green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n, broadening=0, self_energy=right_self_energy)
             green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
     conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
     return conductance
@@ -1206,10 +1206,10 @@ def calculate_conductance_with_slice_disorder(fermi_energy, h00, h01, disorder_i
             green_nn_n = guan.green_function(fermi_energy, h00, broadening=0, self_energy=left_self_energy)
             green_0n_n = copy.deepcopy(green_nn_n)
         elif ix != length+1:
-            green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n, broadening=0)
+            green_nn_n = guan.green_function_nn_n(fermi_energy, h00+disorder, h01, green_nn_n, broadening=0)
             green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
         else:
-            green_nn_n = guan.green_function_nn_n(fermi_energy, h00+disorder, h01, green_nn_n, broadening=0, self_energy=right_self_energy)
+            green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n, broadening=0, self_energy=right_self_energy)
             green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
     conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
     return conductance
@@ -1226,10 +1226,10 @@ def calculate_conductance_with_disorder_inside_unit_cell_which_keeps_translation
             green_nn_n = guan.green_function(fermi_energy, h00, broadening=0, self_energy=left_self_energy)
             green_0n_n = copy.deepcopy(green_nn_n)
         elif ix != length+1:
-            green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n, broadening=0)
+            green_nn_n = guan.green_function_nn_n(fermi_energy, h00+disorder, h01, green_nn_n, broadening=0)
             green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
         else:
-            green_nn_n = guan.green_function_nn_n(fermi_energy, h00+disorder, h01, green_nn_n, broadening=0, self_energy=right_self_energy)
+            green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n, broadening=0, self_energy=right_self_energy)
             green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
     conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
     return conductance
@@ -1246,10 +1246,10 @@ def calculate_conductance_with_random_vacancy(fermi_energy, h00, h01, vacancy_co
             green_nn_n = guan.green_function(fermi_energy, h00, broadening=0, self_energy=left_self_energy)
             green_0n_n = copy.deepcopy(green_nn_n)
         elif ix != length+1:
-            green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n, broadening=0)
+            green_nn_n = guan.green_function_nn_n(fermi_energy, h00+random_vacancy, h01, green_nn_n, broadening=0)
             green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
         else:
-            green_nn_n = guan.green_function_nn_n(fermi_energy, h00+random_vacancy, h01, green_nn_n, broadening=0, self_energy=right_self_energy)
+            green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n, broadening=0, self_energy=right_self_energy)
             green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
     conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
     return conductance
