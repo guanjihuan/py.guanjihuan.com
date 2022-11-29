@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.155, updated on November 24, 2022.
+# The current version is guan-0.0.156, updated on November 29, 2022.
 
 # Installation: pip install --upgrade guan
 
@@ -1175,24 +1175,28 @@ def calculate_conductance_with_barrier(fermi_energy, h00, h01, length=100, barri
     conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
     return conductance
 
-def calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensity=2.0, disorder_concentration=1.0, length=100):
+def calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensity=2.0, disorder_concentration=1.0, length=100, calculation_times=1):
     right_self_energy, left_self_energy, gamma_right, gamma_left = guan.self_energy_of_lead(fermi_energy, h00, h01)
     dim = np.array(h00).shape[0]
-    for ix in range(length+2):
-        disorder = np.zeros((dim, dim))
-        for dim0 in range(dim):
-            if np.random.uniform(0, 1)<=disorder_concentration:
-                disorder[dim0, dim0] = np.random.uniform(-disorder_intensity, disorder_intensity)
-        if ix == 0:
-            green_nn_n = guan.green_function(fermi_energy, h00, broadening=0, self_energy=left_self_energy)
-            green_0n_n = copy.deepcopy(green_nn_n)
-        elif ix != length+1:
-            green_nn_n = guan.green_function_nn_n(fermi_energy, h00+disorder, h01, green_nn_n, broadening=0)
-            green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
-        else:
-            green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n, broadening=0, self_energy=right_self_energy)
-            green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
-    conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
+    conductance_averaged = 0
+    for times in range(calculation_times):
+        for ix in range(length+2):
+            disorder = np.zeros((dim, dim))
+            for dim0 in range(dim):
+                if np.random.uniform(0, 1)<=disorder_concentration:
+                    disorder[dim0, dim0] = np.random.uniform(-disorder_intensity, disorder_intensity)
+            if ix == 0:
+                green_nn_n = guan.green_function(fermi_energy, h00, broadening=0, self_energy=left_self_energy)
+                green_0n_n = copy.deepcopy(green_nn_n)
+            elif ix != length+1:
+                green_nn_n = guan.green_function_nn_n(fermi_energy, h00+disorder, h01, green_nn_n, broadening=0)
+                green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
+            else:
+                green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n, broadening=0, self_energy=right_self_energy)
+                green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
+        conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
+        conductance_averaged += conductance
+    conductance_averaged = conductance_averaged/calculation_times
     return conductance
 
 def calculate_conductance_with_slice_disorder(fermi_energy, h00, h01, disorder_intensity=2.0, disorder_concentration=1.0, length=100):
@@ -2455,6 +2459,29 @@ def plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', fon
     plt.subplots_adjust(bottom=0.2, right=0.75, left=0.2) 
     x_array, y_array = np.meshgrid(x_array, y_array)
     contour = ax.contourf(x_array,y_array,matrix,cmap=cmap, levels=levels) 
+    ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
+    ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman') 
+    ax.set_ylabel(ylabel, fontsize=fontsize, fontfamily='Times New Roman') 
+    ax.tick_params(labelsize=labelsize) 
+    labels = ax.get_xticklabels() + ax.get_yticklabels()
+    [label.set_fontname('Times New Roman') for label in labels]
+    cax = plt.axes([0.8, 0.2, 0.05, 0.68])
+    cbar = fig.colorbar(contour, cax=cax) 
+    cbar.ax.tick_params(labelsize=labelsize) 
+    for l in cbar.ax.yaxis.get_ticklabels():
+        l.set_family('Times New Roman')
+    if save == 1:
+        plt.savefig(filename+file_format, dpi=dpi) 
+    if show == 1:
+        plt.show()
+    plt.close('all')
+
+def plot_pcolor(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=15, cmap='jet', levels=None, show=1, save=0, filename='a', file_format='.jpg', dpi=300):  
+    import matplotlib.pyplot as plt
+    fig, ax = plt.subplots()
+    plt.subplots_adjust(bottom=0.2, right=0.75, left=0.2) 
+    x_array, y_array = np.meshgrid(x_array, y_array)
+    contour = ax.pcolor(x_array,y_array,matrix, cmap=cmap)
     ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
     ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman') 
     ax.set_ylabel(ylabel, fontsize=fontsize, fontfamily='Times New Roman') 
