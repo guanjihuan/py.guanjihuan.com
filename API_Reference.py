@@ -357,11 +357,11 @@ rgb = guan.hex_to_rgb(hex)
 
 guan.write_file_list_in_markdown(directory='./', filename='a', reverse_positive_or_negative=1, starting_from_h1=None, banned_file_format=[], hide_file_format=None, divided_line=None, show_second_number=None, show_third_number=None)
 
-repeated_file = guan.find_repeated_file_with_same_filename(directory='./', missed_directory='./missed_directory', num=1000)
+repeated_file = guan.find_repeated_file_with_same_filename(directory='./', missed_directory_with_words=[], missed_file_with_words=[], num=1000)
 
 guan.count_file_in_sub_directory(directory='./', smaller_than_num=None)
 
-guan.creat_necessary_file(directory, filename='readme', file_format='.md', content='', overwrite=None)
+guan.creat_necessary_file(directory, filename='readme', file_format='.md', content='', overwrite=None, missed_directory_with_words=[])
 
 guan.delete_file_with_specific_name(directory, filename='readme', file_format='.md')
 

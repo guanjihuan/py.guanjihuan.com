@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.157, updated on November 30, 2022.
+# The current version is guan-0.0.159, updated on January 02, 2023.
 
 # Installation: pip install --upgrade guan
 
@@ -2823,14 +2823,19 @@ def write_file_list_in_markdown(directory='./', filename='a', reverse_positive_o
                                                     f.write('###### '+str(filename6)+'\n\n')
     f.close()
 
-def find_repeated_file_with_same_filename(directory='./', missed_directory='./missed_directory', num=1000):
+def find_repeated_file_with_same_filename(directory='./', missed_directory_with_words=[], missed_file_with_words=[], num=1000):
     import os
     from collections import Counter
     file_list = []
     for root, dirs, files in os.walk(directory):
         for i0 in range(len(files)):
-            if missed_directory not in root:
-                file_list.append(files[i0])
+            file_list.append(files[i0])
+            for word in missed_file_with_words:
+                if word in files[i0]:
+                    file_list.remove(files[i0])   
+            for word in missed_directory_with_words:
+                if word in root:
+                    file_list.remove(files[i0])   
     count_file = Counter(file_list).most_common(num)
     repeated_file = []
     for item in count_file:
@@ -2862,7 +2867,7 @@ def count_file_in_sub_directory(directory='./', smaller_than_num=None):
                 print(count_file)
                 print()
 
-def creat_necessary_file(directory, filename='readme', file_format='.md', content='', overwrite=None):
+def creat_necessary_file(directory, filename='readme', file_format='.md', content='', overwrite=None, missed_directory_with_words=[]):
     import os
     directory_with_file = []
     missed_directory = []
@@ -2876,6 +2881,14 @@ def creat_necessary_file(directory, filename='readme', file_format='.md', conten
     if overwrite == None:
         for root in missed_directory:
             directory_with_file.remove(root)
+    missed_directory_more =[]
+    for root in directory_with_file: 
+        for word in missed_directory_with_words:
+            if word in root:
+                if root not in missed_directory_more:
+                    missed_directory_more.append(root)
+    for root in missed_directory_more:
+        directory_with_file.remove(root) 
     for root in directory_with_file:
         os.chdir(root)
         f = open(filename+file_format, 'w', encoding="utf-8")
