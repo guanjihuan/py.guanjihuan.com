@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.160, updated on January 13, 2023.
+# The current version is guan-0.0.161, updated on January 13, 2023.
 
 # Installation: pip install --upgrade guan
 
@@ -2823,17 +2823,17 @@ def write_file_list_in_markdown(directory='./', filename='a', reverse_positive_o
                                                     f.write('###### '+str(filename6)+'\n\n')
     f.close()
 
-def find_repeated_file_with_same_filename(directory='./', missed_directory_with_words=[], missed_file_with_words=[], num=1000):
+def find_repeated_file_with_same_filename(directory='./', ignored_directory_with_words=[], ignored_file_with_words=[], num=1000):
     import os
     from collections import Counter
     file_list = []
     for root, dirs, files in os.walk(directory):
         for i0 in range(len(files)):
             file_list.append(files[i0])
-            for word in missed_directory_with_words:
+            for word in ignored_directory_with_words:
                 if word in root:
                     file_list.remove(files[i0])       
-            for word in missed_file_with_words:
+            for word in ignored_file_with_words:
                 if word in files[i0]:
                     try:
                         file_list.remove(files[i0])   
@@ -2870,27 +2870,27 @@ def count_file_in_sub_directory(directory='./', smaller_than_num=None):
                 print(count_file)
                 print()
 
-def creat_necessary_file(directory, filename='readme', file_format='.md', content='', overwrite=None, missed_directory_with_words=[]):
+def creat_necessary_file(directory, filename='readme', file_format='.md', content='', overwrite=None, ignored_directory_with_words=[]):
     import os
     directory_with_file = []
-    missed_directory = []
+    ignored_directory = []
     for root, dirs, files in os.walk(directory):
         for i0 in range(len(files)):
             if root not in directory_with_file:
                 directory_with_file.append(root)
             if files[i0] == filename+file_format:
-                if root not in missed_directory:
-                    missed_directory.append(root)
+                if root not in ignored_directory:
+                    ignored_directory.append(root)
     if overwrite == None:
-        for root in missed_directory:
+        for root in ignored_directory:
             directory_with_file.remove(root)
-    missed_directory_more =[]
+    ignored_directory_more =[]
     for root in directory_with_file: 
-        for word in missed_directory_with_words:
+        for word in ignored_directory_with_words:
             if word in root:
-                if root not in missed_directory_more:
-                    missed_directory_more.append(root)
-    for root in missed_directory_more:
+                if root not in ignored_directory_more:
+                    ignored_directory_more.append(root)
+    for root in ignored_directory_more:
         directory_with_file.remove(root) 
     for root in directory_with_file:
         os.chdir(root)
