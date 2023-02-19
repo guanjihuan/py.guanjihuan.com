@@ -290,6 +290,8 @@ x_array, y_array, matrix = guan.read_two_dimensional_data(filename='a', file_for
 
 x_array, y_array, matrix = guan.read_two_dimensional_complex_data(filename='a', file_format='.txt')
 
+guan.open_file(filename='a', file_format='.txt')
+
 guan.write_one_dimensional_data(x_array, y_array, filename='a', file_format='.txt')
 
 guan.write_one_dimensional_data_without_opening_file(x_array, y_array, file)
@@ -298,7 +300,11 @@ guan.write_two_dimensional_data(x_array, y_array, matrix, filename='a', file_for
 
 guan.write_two_dimensional_data_without_opening_file(x_array, y_array, matrix, file)
 
-guan.print_array(array, show_index=0, index_type=0)
+guan.write_two_dimensional_data_without_xy_array(matrix, filename='a', file_format='.txt')
+
+guan.write_two_dimensional_data_without_xy_array_and_without_opening_file(matrix, file)
+
+guan.print_array_with_index(array, show_index=1, index_type=0)
 
 
 
