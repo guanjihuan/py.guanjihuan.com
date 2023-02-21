@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.162, updated on February 20, 2023.
+# The current version is guan-0.0.163, updated on February 21, 2023.
 
 # Installation: pip install --upgrade guan
 
@@ -2234,60 +2234,60 @@ def read_two_dimensional_complex_data(filename='a', file_format='.txt'):
 
 def open_file(filename='a', file_format='.txt'):
     try:
-        file = open(filename+file_format, 'a', encoding='UTF-8')
+        f = open(filename+file_format, 'a', encoding='UTF-8')
     except:
-        file = open(filename+file_format, 'w', encoding='UTF-8')
-    return file
+        f = open(filename+file_format, 'w', encoding='UTF-8')
+    return f
 
 def write_one_dimensional_data(x_array, y_array, filename='a', file_format='.txt'): 
-    with open(filename+file_format, 'w') as file:
-        guan.write_one_dimensional_data_without_opening_file(x_array, y_array, file)
+    with open(filename+file_format, 'w', encoding='UTF-8') as f:
+        guan.write_one_dimensional_data_without_opening_file(x_array, y_array, f)
 
-def write_one_dimensional_data_without_opening_file(x_array, y_array, file): 
+def write_one_dimensional_data_without_opening_file(x_array, y_array, f): 
     x_array = np.array(x_array)
     y_array = np.array(y_array)
     i0 = 0
     for x0 in x_array:
-        file.write(str(x0)+'   ')
+        f.write(str(x0)+'   ')
         if len(y_array.shape) == 1:
-            file.write(str(y_array[i0])+'\n')
+            f.write(str(y_array[i0])+'\n')
         elif len(y_array.shape) == 2:
             for j0 in range(y_array.shape[1]):
-                file.write(str(y_array[i0, j0])+'   ')
-            file.write('\n')
+                f.write(str(y_array[i0, j0])+'   ')
+            f.write('\n')
         i0 += 1
 
 def write_two_dimensional_data(x_array, y_array, matrix, filename='a', file_format='.txt'): 
-    with open(filename+file_format, 'w') as file:
-        guan.write_two_dimensional_data_without_opening_file(x_array, y_array, matrix, file)
+    with open(filename+file_format, 'w', encoding='UTF-8') as f:
+        guan.write_two_dimensional_data_without_opening_file(x_array, y_array, matrix, f)
 
-def write_two_dimensional_data_without_opening_file(x_array, y_array, matrix, file): 
+def write_two_dimensional_data_without_opening_file(x_array, y_array, matrix, f): 
     x_array = np.array(x_array)
     y_array = np.array(y_array)
     matrix = np.array(matrix)
-    file.write('0   ')
+    f.write('0   ')
     for x0 in x_array:
-        file.write(str(x0)+'   ')
-    file.write('\n')
+        f.write(str(x0)+'   ')
+    f.write('\n')
     i0 = 0
     for y0 in y_array:
-        file.write(str(y0))
+        f.write(str(y0))
         j0 = 0
         for x0 in x_array:
-            file.write('   '+str(matrix[i0, j0])+'   ')
+            f.write('   '+str(matrix[i0, j0])+'   ')
             j0 += 1
-        file.write('\n')
+        f.write('\n')
         i0 += 1
 
 def write_two_dimensional_data_without_xy_array(matrix, filename='a', file_format='.txt'):
-    with open(filename+file_format, 'w') as file:
-        guan.write_two_dimensional_data_without_xy_array_and_without_opening_file(matrix, file)
+    with open(filename+file_format, 'w', encoding='UTF-8') as f:
+        guan.write_two_dimensional_data_without_xy_array_and_without_opening_file(matrix, f)
 
-def write_two_dimensional_data_without_xy_array_and_without_opening_file(matrix, file):
+def write_two_dimensional_data_without_xy_array_and_without_opening_file(matrix, f):
     for row in matrix:
         for element in row:
-            file.write(str(element)+'   ')
-        file.write('\n')
+            f.write(str(element)+'   ')
+        f.write('\n')
 
 def print_array_with_index(array, show_index=1, index_type=0):
     if show_index==0:
