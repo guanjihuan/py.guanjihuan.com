@@ -394,6 +394,9 @@ x_array, y_array, matrix = guan.read_two_dimensional_data(filename='a', file_for
 # 读取文件中的二维数据（第一行和列分别为横纵坐标）（支持复数形式）
 x_array, y_array, matrix = guan.read_two_dimensional_complex_data(filename='a', file_format='.txt')
 
+# 读取文件中的二维数据（不包括x和y）
+matrix = guan.read_two_dimensional_data_without_xy_array(filename='a', file_format='.txt')
+
 # 打开文件用于新增内容
 f = guan.open_file(filename='a', file_format='.txt')
 

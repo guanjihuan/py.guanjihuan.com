@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.165, updated on February 24, 2023.
+# The current version is guan-0.0.166, updated on March 02, 2023.
 
 # Installation: pip install --upgrade guan
 
@@ -2322,6 +2322,11 @@ def read_two_dimensional_complex_data(filename='a', file_format='.txt'):
             else:
                 matrix = np.append(matrix, [matrix_row], axis=0)
     return x_array, y_array, matrix
+
+# 读取文件中的二维数据（不包括x和y）
+def read_two_dimensional_data_without_xy_array(filename='a', file_format='.txt'):
+    matrix = np.loadtxt(filename+file_format)
+    return matrix
 
 # 打开文件用于新增内容
 def open_file(filename='a', file_format='.txt'):
