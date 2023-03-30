@@ -1,4 +1,3 @@
-
 import guan
 import math
 
