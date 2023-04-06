@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.166, updated on March 02, 2023.
+# The current version is guan-0.0.167, updated on April 06, 2023.
 
 # Installation: pip install --upgrade guan
 
@@ -3291,7 +3291,7 @@ def play_academic_words(reverse=0, random_on=0, bre_or_ame='ame', show_translati
     if exist_directory == 0:
         os.makedirs(directory)
     soup = BeautifulSoup(html, features='lxml')
-    contents = re.findall('<h2>.*?</a></p>', html, re.S)
+    contents = re.findall('<h2.*?</a></p>', html, re.S)
     if random_on==1:
         random.shuffle(contents)
     if reverse==1:
@@ -3404,7 +3404,7 @@ def play_element_words(random_on=0, show_translation=1, show_link=1, translation
     if exist_directory == 0:
         os.makedirs(directory)
     soup = BeautifulSoup(html, features='lxml')
-    contents = re.findall('<h2>.*?</a></p>', html, re.S)
+    contents = re.findall('<h2.*?</a></p>', html, re.S)
     if random_on==1:
         random.shuffle(contents)
     for content in contents:
