@@ -530,6 +530,9 @@ links = guan.get_links_from_pdf(pdf_path, link_starting_form='')
 # 将PDF文件转成文本
 content = guan.pdf_to_text(pdf_path)
 
+# 生成二维码
+guan.creat_qrcode(data="https://www.guanjihuan.com", filename='a', file_format='.png')
+
 # 将文本转成音频
 guan.str_to_audio(str='hello world', filename='str', rate=125, voice=1, read=1, save=0, compress=0, bitrate='16k', print_text=0)
 

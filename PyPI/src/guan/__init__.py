@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.167, updated on April 06, 2023.
+# The current version is guan-0.0.168, updated on April 25, 2023.
 
 # Installation: pip install --upgrade guan
 
@@ -3183,6 +3183,16 @@ def pdf_to_text(pdf_path):
                 if isinstance(x, LTTextBox):
                     content  = content + x.get_text().strip()
     return content
+
+
+## image
+
+# 生成二维码
+def creat_qrcode(data="https://www.guanjihuan.com", filename='a', file_format='.png'):
+    import qrcode
+    img = qrcode.make(data)
+    img.save(filename+file_format)
+
 
 ## audio
 
