@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.168, updated on April 25, 2023.
+# The current version is guan-0.0.169, updated on June 11, 2023.
 
 # Installation: pip install --upgrade guan
 
@@ -30,7 +30,6 @@
 import numpy as np
 import math
 import cmath
-import copy
 import guan
 
 
@@ -1194,6 +1193,7 @@ def local_density_of_states_for_square_lattice_with_self_energy_using_dyson_equa
 
 # 计算电导
 def calculate_conductance(fermi_energy, h00, h01, length=100):
+    import copy
     right_self_energy, left_self_energy, gamma_right, gamma_left = guan.self_energy_of_lead(fermi_energy, h00, h01)
     for ix in range(length):
         if ix == 0:
@@ -1222,6 +1222,7 @@ def calculate_conductance_with_fermi_energy_array(fermi_energy_array, h00, h01, 
 
 # 计算在势垒散射下的电导
 def calculate_conductance_with_barrier(fermi_energy, h00, h01, length=100, barrier_length=20, barrier_potential=1):
+    import copy
     right_self_energy, left_self_energy, gamma_right, gamma_left = guan.self_energy_of_lead(fermi_energy, h00, h01)
     dim = np.array(h00).shape[0]
     for ix in range(length):
@@ -1242,6 +1243,7 @@ def calculate_conductance_with_barrier(fermi_energy, h00, h01, length=100, barri
 
 # 计算在无序散射下的电导
 def calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensity=2.0, disorder_concentration=1.0, length=100, calculation_times=1):
+    import copy
     right_self_energy, left_self_energy, gamma_right, gamma_left = guan.self_energy_of_lead(fermi_energy, h00, h01)
     dim = np.array(h00).shape[0]
     conductance_averaged = 0
@@ -1267,6 +1269,7 @@ def calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensi
 
 # 计算在无序垂直切片的散射下的电导
 def calculate_conductance_with_slice_disorder(fermi_energy, h00, h01, disorder_intensity=2.0, disorder_concentration=1.0, length=100):
+    import copy
     right_self_energy, left_self_energy, gamma_right, gamma_left = guan.self_energy_of_lead(fermi_energy, h00, h01)
     dim = np.array(h00).shape[0]
     for ix in range(length+2):
@@ -1287,6 +1290,7 @@ def calculate_conductance_with_slice_disorder(fermi_energy, h00, h01, disorder_i
 
 # 计算在无序水平切片的散射下的电导
 def calculate_conductance_with_disorder_inside_unit_cell_which_keeps_translational_symmetry(fermi_energy, h00, h01, disorder_intensity=2.0, disorder_concentration=1.0, length=100):
+    import copy
     right_self_energy, left_self_energy, gamma_right, gamma_left = guan.self_energy_of_lead(fermi_energy, h00, h01)
     dim = np.array(h00).shape[0]
     disorder = np.zeros((dim, dim))
@@ -1308,6 +1312,7 @@ def calculate_conductance_with_disorder_inside_unit_cell_which_keeps_translation
 
 # 计算在随机空位的散射下的电导
 def calculate_conductance_with_random_vacancy(fermi_energy, h00, h01, vacancy_concentration=0.5, vacancy_potential=1e9, length=100):
+    import copy
     right_self_energy, left_self_energy, gamma_right, gamma_left = guan.self_energy_of_lead(fermi_energy, h00, h01)
     dim = np.array(h00).shape[0]
     for ix in range(length+2):
@@ -1459,6 +1464,7 @@ def if_active_channel(k_of_channel):
 
 # 获取通道的动量和速度，用于计算散射矩阵
 def get_k_and_velocity_of_channel(fermi_energy, h00, h01):
+    import copy
     if np.array(h00).shape==():
         dim = 1
     else:
@@ -1541,6 +1547,7 @@ def get_classified_k_velocity_u_and_f(fermi_energy, h00, h01):
 
 # 计算散射矩阵
 def calculate_scattering_matrix(fermi_energy, h00, h01, length=100):
+    import copy
     h01 = np.array(h01)
     if np.array(h00).shape==():
         dim = 1
@@ -1663,7 +1670,6 @@ def print_or_write_scattering_matrix(fermi_energy, h00, h01, length=100, print_s
 # 在无序下，计算散射矩阵
 def calculate_scattering_matrix_with_disorder(fermi_energy, h00, h01, length=100, disorder_intensity=2.0, disorder_concentration=1.0):
     import copy
-    import math
     h01 = np.array(h01)
     if np.array(h00).shape==():
         dim = 1
