@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.171, updated on June 28, 2023.
+# The current version is guan-0.0.172, updated on July 02, 2023.
 
 # Installation: pip install --upgrade guan
 
@@ -3136,19 +3136,19 @@ def download_with_scihub(address=None, num=1):
 ## PDF
 
 # 拼接两个PDF文件
-def combine_two_pdf_files(input_file1='a.pdf', input_file2='b.pdf', output_file='combined_file.pdf'):
+def combine_two_pdf_files(input_file_1='a.pdf', input_file_2='b.pdf', output_file='combined_file.pdf'):
     import PyPDF2
     output_pdf = PyPDF2.PdfWriter()
-    with open(input_file1, 'rb') as file1:
+    with open(input_file_1, 'rb') as file1:
         pdf1 = PyPDF2.PdfReader(file1)
         for page in range(len(pdf1.pages)):
             output_pdf.add_page(pdf1.pages[page])
-    with open(input_file2, 'rb') as file2:
+    with open(input_file_2, 'rb') as file2:
         pdf2 = PyPDF2.PdfReader(file2)
         for page in range(len(pdf2.pages)):
             output_pdf.add_page(pdf2.pages[page])
-    with open(output_file, 'wb') as merged_file:
-        output_pdf.write(merged_file)
+    with open(output_file, 'wb') as combined_file:
+        output_pdf.write(combined_file)
 
 
 # 获取PDF文献中的链接。例如: link_starting_form='https://doi.org'

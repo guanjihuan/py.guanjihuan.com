@@ -522,7 +522,7 @@ guan.change_directory_by_replacement(current_key_word='code', new_key_word='data
 # Module 14: others
 
 # 拼接两个PDF文件
-guan.combine_two_pdf_files(input_file1='a.pdf', input_file2='b.pdf', output_file='combined_file.pdf')
+guan.combine_two_pdf_files(input_file_1='a.pdf', input_file_2='b.pdf', output_file='combined_file.pdf')
 
 # 通过Sci-Hub网站下载文献
 guan.download_with_scihub(address=None, num=1)
