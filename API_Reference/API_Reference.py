@@ -470,6 +470,8 @@ guan.combine_four_images(image_path_array, figsize=(16,16), show=0, save=1, file
 # 制作GIF动画
 guan.make_gif(image_path_array, filename='a', duration=0.1)
 
+# 选取颜色
+color_array = guan.color_matplotlib()
 
 
 # Module 12: data processing

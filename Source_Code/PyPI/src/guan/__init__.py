@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.172, updated on July 02, 2023.
+# The current version is guan-0.0.173, updated on July 12, 2023.
 
 # Installation: pip install --upgrade guan
 
@@ -2781,8 +2781,10 @@ def make_gif(image_path_array, filename='a', duration=0.1):
     imageio.mimsave(filename+'.gif', images, 'GIF', duration=duration)
 
 
-
-
+# 选取颜色
+def color_matplotlib():
+    color_array = ['tab:blue', 'tab:orange', 'tab:green', 'tab:red', 'tab:purple', 'tab:brown', 'tab:pink', 'tab:gray', 'tab:olive', 'tab:cyan']
+    return color_array
 
 
 
