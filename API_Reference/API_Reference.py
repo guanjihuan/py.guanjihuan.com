@@ -496,7 +496,7 @@ rgb = guan.hex_to_rgb(hex)
 
 
 
-# # Module 13: file processing
+# Module 13: file processing
 
 # 将文件目录结构写入Markdown文件
 guan.write_file_list_in_markdown(directory='./', filename='a', reverse_positive_or_negative=1, starting_from_h1=None, banned_file_format=[], hide_file_format=None, divided_line=None, show_second_number=None, show_third_number=None)
@@ -523,6 +523,8 @@ guan.change_directory_by_replacement(current_key_word='code', new_key_word='data
 
 # Module 14: others
 
+# stocks
+
 # 获取所有股票
 title, stock_data = guan.all_stocks()
 
@@ -538,8 +540,12 @@ title, stock_data = guan.history_data_of_one_stock(symbol='000002', period='dail
 # 拼接两个PDF文件
 guan.combine_two_pdf_files(input_file_1='a.pdf', input_file_2='b.pdf', output_file='combined_file.pdf')
 
+# download
+
 # 通过Sci-Hub网站下载文献
 guan.download_with_scihub(address=None, num=1)
+
+# PDF
 
 # 获取PDF文献中的链接。例如: link_starting_form='https://doi.org'
 links = guan.get_links_from_pdf(pdf_path, link_starting_form='')
@@ -547,8 +553,12 @@ links = guan.get_links_from_pdf(pdf_path, link_starting_form='')
 # 将PDF文件转成文本
 content = guan.pdf_to_text(pdf_path)
 
+# image
+
 # 生成二维码
 guan.creat_qrcode(data="https://www.guanjihuan.com", filename='a', file_format='.png')
+
+# audio
 
 # 将文本转成音频
 guan.str_to_audio(str='hello world', filename='str', rate=125, voice=1, read=1, save=0, compress=0, bitrate='16k', print_text=0)
@@ -561,6 +571,8 @@ guan.pdf_to_audio(pdf_path, rate=125, voice=1, read=1, save=0, compress=0, bitra
 
 # 将wav音频文件压缩成MP3音频文件
 guan.compress_wav_to_mp3(wav_path, output_filename='a.mp3', bitrate='16k')
+
+# words
 
 # 播放学术单词
 guan.play_academic_words(reverse=0, random_on=0, bre_or_ame='ame', show_translation=1, show_link=1, translation_time=2, rest_time=1)
