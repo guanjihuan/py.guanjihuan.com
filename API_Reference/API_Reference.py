@@ -523,6 +523,18 @@ guan.change_directory_by_replacement(current_key_word='code', new_key_word='data
 
 # Module 14: others
 
+# 获取所有股票
+title, stock_data = guan.all_stocks()
+
+# 获取所有股票的代码
+stock_symbols = guan.all_stock_symbols()
+
+# 从股票代码获取股票名称
+stock_name = guan.find_stock_name_from_symbol(symbol='000002')
+
+# 获取单个股票的历史数据
+title, stock_data = guan.history_data_of_one_stock(symbol='000002', period='daily', start_date="19000101", end_date='21000101')
+
 # 拼接两个PDF文件
 guan.combine_two_pdf_files(input_file_1='a.pdf', input_file_2='b.pdf', output_file='combined_file.pdf')
 

@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.173, updated on July 12, 2023.
+# The current version is guan-0.0.175, updated on September 05, 2023.
 
 # Installation: pip install --upgrade guan
 
@@ -3095,6 +3095,41 @@ def change_directory_by_replacement(current_key_word='code', new_key_word='data'
 
 
 # Module 14: others
+
+## stocks
+
+# 获取所有股票
+def all_stocks():
+    import akshare as ak
+    stocks = ak.stock_zh_a_spot_em()
+    title = np.array(stocks.columns)
+    stock_data = stocks.values
+    return title, stock_data
+
+# 获取所有股票的代码
+def all_stock_symbols():
+    title, stock_data = guan.all_stocks()
+    stock_symbols = stock_data[:, 1]
+    return stock_symbols
+
+# 从股票代码获取股票名称
+def find_stock_name_from_symbol(symbol='000002'):
+    title, stock_data = guan.all_stocks()
+    for stock in stock_data:
+        if symbol in stock:
+           stock_name = stock[2]
+    return stock_name
+
+# 获取单个股票的历史数据
+def history_data_of_one_stock(symbol='000002', period='daily', start_date="19000101", end_date='21000101'):
+    # period = 'daily'
+    # period = 'weekly'
+    # period = 'monthly'
+    import akshare as ak
+    stock = ak.stock_zh_a_hist(symbol=symbol, period=period, start_date=start_date, end_date=end_date)
+    title = np.array(stock.columns)
+    stock_data = stock.values[::-1]
+    return title, stock_data
 
 ## download
 
