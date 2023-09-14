@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.175, updated on September 05, 2023.
+# The current version is guan-0.0.176, updated on September 14, 2023.
 
 # Installation: pip install --upgrade guan
 
@@ -3095,6 +3095,22 @@ def change_directory_by_replacement(current_key_word='code', new_key_word='data'
 
 
 # Module 14: others
+
+## time
+
+# 获取当前日期
+def get_date(bar=True):
+    import datetime
+    datetime_date = str(datetime.date.today())
+    if bar==False:
+        datetime_date = datetime_date.replace('-', '')
+    return datetime_date
+
+# 获取当前时间
+def get_time():
+    import datetime
+    datetime_time = datetime.datetime.now().strftime('%H:%M:%S')
+    return datetime_time
 
 ## stocks
 

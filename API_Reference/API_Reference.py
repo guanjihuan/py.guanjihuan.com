@@ -523,6 +523,14 @@ guan.change_directory_by_replacement(current_key_word='code', new_key_word='data
 
 # Module 14: others
 
+# time
+
+# 获取当前日期
+datetime_date = guan.get_date(bar=True)
+
+# 获取当前时间
+datetime_time = guan.get_time()
+
 # stocks
 
 # 获取所有股票
