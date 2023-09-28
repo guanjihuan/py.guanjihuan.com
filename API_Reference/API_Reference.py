@@ -494,6 +494,12 @@ hex = guan.rgb_to_hex(rgb, pound=1)
 # 将HEX转成RGB
 rgb = guan.hex_to_rgb(hex)
 
+# 使用MD5进行散列加密
+hashed_password = guan.encryption_MD5(password, salt='')
+
+# 使用SHA-256进行散列加密
+hashed_password = guan.encryption_SHA_256(password, salt='')
+
 
 
 # Module 13: file processing

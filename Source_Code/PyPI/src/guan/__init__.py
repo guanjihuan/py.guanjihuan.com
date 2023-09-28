@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.176, updated on September 14, 2023.
+# The current version is guan-0.0.177, updated on September 29, 2023.
 
 # Installation: pip install --upgrade guan
 
@@ -2857,6 +2857,24 @@ def hex_to_rgb(hex):
     hex = hex.lstrip('#')
     length = len(hex)
     return tuple(int(hex[i:i+length//3], 16) for i in range(0, length, length//3))
+
+# 使用MD5进行散列加密
+def encryption_MD5(password, salt=''):
+    import hashlib
+    password = salt+password
+    hashed_password = hashlib.md5(password.encode()).hexdigest()
+    return hashed_password
+
+# 使用SHA-256进行散列加密
+def encryption_SHA_256(password, salt=''):
+    import hashlib
+    password = salt+password
+    print(password)
+    hashed_password = hashlib.sha256(password.encode()).hexdigest()
+    return hashed_password
+
+
+
 
 
 
