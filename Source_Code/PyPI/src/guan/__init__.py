@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.177, updated on September 29, 2023.
+# The current version is guan-0.0.179, updated on September 29, 2023.
 
 # Installation: pip install --upgrade guan
 
@@ -2228,6 +2228,19 @@ def calculate_wilson_loop(hamiltonian_function, k_min=-math.pi, k_max=math.pi, p
 
 
 # Module 10: read and write
+
+# 将数据存到文件
+def dump_data(data, filename, file_format='.txt'):
+    import pickle
+    with open(filename+file_format, 'wb') as f:
+	    pickle.dump(data, f)
+
+# 从文件中恢复数据到变量
+def load_data(filename, file_format='.txt'):
+    import pickle
+    with open(filename+file_format, 'rb') as f:
+	    data = pickle.load(f)
+    return data
 
 # 读取文件中的一维数据（每一行一组x和y）
 def read_one_dimensional_data(filename='a', file_format='.txt'): 

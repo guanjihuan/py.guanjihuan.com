@@ -381,6 +381,12 @@ wilson_loop_array = guan.calculate_wilson_loop(hamiltonian_function, k_min=-math
 
 # Module 10: read and write
 
+# 将数据存到文件
+guan.dump_data(data, filename, file_format='.txt')
+
+# 从文件中恢复数据到变量
+data = guan.load_data(filename, file_format='.txt')
+
 # 读取文件中的一维数据（每一行一组x和y）
 x_array, y_array = guan.read_one_dimensional_data(filename='a', file_format='.txt')
 
