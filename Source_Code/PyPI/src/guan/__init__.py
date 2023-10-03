@@ -1,6 +1,4 @@
-# Guan is an open-source python package developed and maintained by https://www.guanjihuan.com/about. The primary location of this package is on website https://py.guanjihuan.com.
-
-# With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
+# Guan is an open-source python package developed and maintained by https://www.guanjihuan.com/about (Ji-Huan Guan, 关济寰). The primary location of this package is on website https://py.guanjihuan.com. GitHub link: https://github.com/guanjihuan/py.guanjihuan.com.
 
 # The current version is guan-0.0.182, updated on December 03, 2023.
 
@@ -3172,6 +3170,18 @@ def combine_four_images(image_path_array, figsize=(16,16), show=0, save=1, filen
             plt.savefig(filename+file_format, dpi=dpi)
         plt.close('all')
 
+# 对于某个目录中的txt文件，批量读取和画图
+def batch_reading_and_plotting(directory, xlabel='x', ylabel='y'):
+    import re
+    import os
+    import guan
+    for root, dirs, files in os.walk(directory):
+        for file in files:
+            if re.search('^txt.', file[::-1]):
+                filename = file[:-4]
+                x_array, y_array = guan.read_one_dimensional_data(filename=filename)
+                guan.plot(x_array, y_array, xlabel=xlabel, ylabel=ylabel, title=filename, show=0, save=1, filename=filename)
+
 # 制作GIF动画
 def make_gif(image_path_array, filename='a', duration=0.1):
     import imageio
@@ -3559,17 +3569,23 @@ def find_degenerate_points(k_array, eigenvalue_array, precision=1e-2):
         i0 += 1
     return degenerate_k_array, degenerate_eigenvalue_array
 
-# 对于某个目录中的txt文件，批量读取和画图
-def batch_reading_and_plotting(directory, xlabel='x', ylabel='y'):
-    import re
-    import os
-    import guan
-    for root, dirs, files in os.walk(directory):
-        for file in files:
-            if re.search('^txt.', file[::-1]):
-                filename = file[:-4]
-                x_array, y_array = guan.read_one_dimensional_data(filename=filename)
-                guan.plot(x_array, y_array, xlabel=xlabel, ylabel=ylabel, title=filename, show=0, save=1, filename=filename)
+# 选取一个种子生成固定的随机整数
+def generate_random_int_number_for_a_specific_seed(seed=0, x_min=0, x_max=10):
+    import numpy as np
+    np.random.seed(seed)
+    rand_num = np.random.randint(x_min, x_max) # 左闭右开[x_min, x_max)
+    return rand_num
+
+# 统计运行的日期和时间，写进文件
+def statistics_with_day_and_time(content='', filename='a', file_format='.txt'):
+   import datetime
+   datetime_today = str(datetime.date.today())
+   datetime_time = datetime.datetime.now().strftime('%H:%M:%S')
+   with open(filename+file_format, 'a', encoding="utf-8") as f2:
+       if content == '':
+           f2.write(datetime_today+' '+datetime_time+'\n')
+       else:
+           f2.write(datetime_today+' '+datetime_time+' '+content+'\n')
 
 # 将RGB转成HEX
 def rgb_to_hex(rgb, pound=1):
@@ -3612,6 +3628,96 @@ def get_time():
     import datetime
     datetime_time = datetime.datetime.now().strftime('%H:%M:%S')
     return datetime_time
+
+# 获取本月的所有日期
+def get_days_of_the_current_month(str_or_datetime='str'):
+    import datetime
+    today = datetime.date.today()
+    first_day_of_month = today.replace(day=1)
+    if first_day_of_month.month == 12:
+        next_month = first_day_of_month.replace(year=first_day_of_month.year + 1, month=1)
+    else:
+        next_month = first_day_of_month.replace(month=first_day_of_month.month + 1)
+    current_date = first_day_of_month
+    day_array = []
+    while current_date < next_month:
+        if str_or_datetime=='str':
+            day_array.append(str(current_date))
+        elif str_or_datetime=='datetime':
+            day_array.append(current_date)
+        current_date += datetime.timedelta(days=1)
+    return day_array
+
+# 获取上个月份
+def get_last_month():
+    import datetime
+    today = datetime.date.today()
+    last_month = today.month - 1
+    if last_month == 0:
+        last_month = 12
+        year_of_last_month = today.year - 1
+    else:
+        year_of_last_month = today.year
+    return year_of_last_month, last_month
+
+# 获取上上个月份
+def get_the_month_before_last():
+    import datetime
+    today = datetime.date.today()
+    the_month_before_last = today.month - 2
+    if the_month_before_last == 0:
+        the_month_before_last = 12 
+        year_of_the_month_before_last = today.year - 1
+    else:
+        year_of_last_month = today.year
+    if the_month_before_last == -1:
+        the_month_before_last = 11
+        year_of_the_month_before_last = today.year - 1
+    else:
+        year_of_the_month_before_last = today.year
+    return year_of_the_month_before_last, the_month_before_last
+
+# 获取上个月的所有日期
+def get_days_of_the_last_month(str_or_datetime='str'):
+    import datetime
+    import guan
+    today = datetime.date.today()
+    year_of_last_month, last_month = guan.get_last_month()
+    first_day_of_month = today.replace(year=year_of_last_month, month=last_month, day=1)
+    if first_day_of_month.month == 12:
+        next_month = first_day_of_month.replace(year=first_day_of_month.year + 1, month=1)
+    else:
+        next_month = first_day_of_month.replace(month=first_day_of_month.month + 1)
+    current_date = first_day_of_month
+    day_array = []
+    while current_date < next_month:
+        if str_or_datetime=='str':
+            day_array.append(str(current_date))
+        elif str_or_datetime=='datetime':
+            day_array.append(current_date)
+        current_date += datetime.timedelta(days=1)
+    return day_array
+
+# 获取上上个月的所有日期
+def get_days_of_the_month_before_last(str_or_datetime='str'):
+    import datetime
+    import guan
+    today = datetime.date.today()
+    year_of_last_last_month, last_last_month = guan.get_the_month_before_last()
+    first_day_of_month = today.replace(year=year_of_last_last_month, month=last_last_month, day=1)
+    if first_day_of_month.month == 12:
+        next_month = first_day_of_month.replace(year=first_day_of_month.year + 1, month=1)
+    else:
+        next_month = first_day_of_month.replace(month=first_day_of_month.month + 1)
+    current_date = first_day_of_month
+    day_array = []
+    while current_date < next_month:
+        if str_or_datetime=='str':
+            day_array.append(str(current_date))
+        elif str_or_datetime=='datetime':
+            day_array.append(current_date)
+        current_date += datetime.timedelta(days=1)
+    return day_array
 
 # 获取所有股票
 def all_stocks():

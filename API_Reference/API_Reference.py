@@ -1,4 +1,8 @@
+# API Reference shows all functions in Guan package. The current version is guan-0.0.182, updated on December 03, 2023.
+
 import guan
+
+
 
 
 
@@ -680,6 +684,9 @@ guan.combine_three_images(image_path_array, figsize=(16,5), show=0, save=1, file
 # 合并四个图片
 guan.combine_four_images(image_path_array, figsize=(16,16), show=0, save=1, filename='a', file_format='.jpg', dpi=300)
 
+# 对于某个目录中的txt文件，批量读取和画图
+guan.batch_reading_and_plotting(directory, xlabel='x', ylabel='y')
+
 # 制作GIF动画
 guan.make_gif(image_path_array, filename='a', duration=0.1)
 
@@ -808,8 +815,11 @@ new_array = guan.find_close_values_in_one_array(array, precision=1e-2)
 # 寻找能带的简并点
 degenerate_k_array, degenerate_eigenvalue_array = guan.find_degenerate_points(k_array, eigenvalue_array, precision=1e-2)
 
-# 对于某个目录中的txt文件，批量读取和画图
-guan.batch_reading_and_plotting(directory, xlabel='x', ylabel='y')
+# 选取一个种子生成固定的随机整数
+rand_num = guan.generate_random_int_number_for_a_specific_seed(seed=0, x_min=0, x_max=10)
+
+# 统计运行的日期和时间，写进文件
+guan.statistics_with_day_and_time(content='', filename='a', file_format='.txt')
 
 # 将RGB转成HEX
 hex = guan.rgb_to_hex(rgb, pound=1)
@@ -828,6 +838,21 @@ datetime_date = guan.get_date(bar=True)
 
 # 获取当前时间字符串
 datetime_time = guan.get_time()
+
+# 获取本月的所有日期
+day_array = guan.get_days_of_the_current_month(str_or_datetime='str')
+
+# 获取上个月份
+year_of_last_month, last_month = guan.get_last_month()
+
+# 获取上上个月份
+year_of_the_month_before_last, the_month_before_last = guan.get_the_month_before_last()
+
+# 获取上个月的所有日期
+day_array = guan.get_days_of_the_last_month(str_or_datetime='str')
+
+# 获取上上个月的所有日期
+day_array = guan.get_days_of_the_month_before_last(str_or_datetime='str')
 
 # 获取所有股票
 title, stock_data = guan.all_stocks()
