@@ -229,6 +229,7 @@ hamiltonian = guan.hamiltonian_of_cubic_lattice(k1, k2, k3)
 hamiltonian = guan.hamiltonian_of_ssh_model(k, v=0.6, w=1)
 
 # 石墨烯的哈密顿量
+import math
 hamiltonian = guan.hamiltonian_of_graphene(k1, k2, staggered_potential=0, t=1, a=1/math.sqrt(3))
 
 # 石墨烯有效模型的哈密顿量
@@ -241,9 +242,11 @@ hamiltonian = guan.effective_hamiltonian_of_graphene_after_discretization(qx, qy
 hamiltonian = guan.hamiltonian_of_graphene_with_zigzag_in_quasi_one_dimension(k, N=10, M=0, t=1, period=0)
 
 # Haldane模型的哈密顿量
+import math
 hamiltonian = guan.hamiltonian_of_haldane_model(k1, k2, M=2/3, t1=1, t2=1/3, phi=math.pi/4, a=1/math.sqrt(3))
 
 # 准一维Haldane模型条带的哈密顿量
+import math
 hamiltonian = guan.hamiltonian_of_haldane_model_in_quasi_one_dimension(k, N=10, M=2/3, t1=1, t2=1/3, phi=math.pi/4, period=0)
 
 # 一个量子反常霍尔效应的哈密顿量
@@ -580,21 +583,26 @@ chern_number = guan.calculate_chern_number_for_square_lattice_with_wilson_loop(h
 chern_number = guan.calculate_chern_number_for_square_lattice_with_wilson_loop_for_degenerate_case(hamiltonian_function, index_of_bands=[0, 1], precision_of_plaquettes=20, precision_of_wilson_loop=5, print_show=0)
 
 # 通过高效法计算贝利曲率
+import math
 k_array, berry_curvature_array = guan.calculate_berry_curvature_with_efficient_method(hamiltonian_function, k_min=-math.pi, k_max=math.pi, precision=100, print_show=0)
 
 # 通过高效法计算贝利曲率（可计算简并的情况）
+import math
 k_array, berry_curvature_array = guan.calculate_berry_curvature_with_efficient_method_for_degenerate_case(hamiltonian_function, index_of_bands=[0, 1], k_min=-math.pi, k_max=math.pi, precision=100, print_show=0)
 
 # 通过Wilson loop方法计算贝里曲率
+import math
 k_array, berry_curvature_array = guan.calculate_berry_curvature_with_wilson_loop(hamiltonian_function, k_min=-math.pi, k_max=math.pi, precision_of_plaquettes=20, precision_of_wilson_loop=5, print_show=0)
 
 # 通过Wilson loop方法计算贝里曲率（可计算简并的情况）
+import math
 k_array, berry_curvature_array = guan.calculate_berry_curvature_with_wilson_loop_for_degenerate_case(hamiltonian_function, index_of_bands=[0, 1], k_min=-math.pi, k_max=math.pi, precision_of_plaquettes=20, precision_of_wilson_loop=5, print_show=0)
 
 # 计算蜂窝格子的陈数（高效法）
 chern_number = guan.calculate_chern_number_for_honeycomb_lattice(hamiltonian_function, a=1, precision=300, print_show=0)
 
 # 计算Wilson loop
+import math
 wilson_loop_array = guan.calculate_wilson_loop(hamiltonian_function, k_min=-math.pi, k_max=math.pi, precision=100, print_show=0)
 
 
