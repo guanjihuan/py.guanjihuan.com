@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.181, updated on December 03, 2023.
+# The current version is guan-0.0.182, updated on December 03, 2023.
 
 # Installation: pip install --upgrade guan
 
@@ -21,6 +21,8 @@
 # # Module 11: read and write
 # # Module 12: data processing
 # # Module 13: file processing
+
+
 
 
 
@@ -754,10 +756,12 @@ def hamiltonian_of_graphene_with_zigzag_in_quasi_one_dimension(k, N=10, M=0, t=1
     return hamiltonian
 
 # Haldane模型的哈密顿量
-def hamiltonian_of_haldane_model(k1, k2, M=2/3, t1=1, t2=1/3, phi=math.pi/4, a='default'):
+def hamiltonian_of_haldane_model(k1, k2, M=2/3, t1=1, t2=1/3, phi='default', a='default'):
     import numpy as np
     import cmath
     import math
+    if phi == 'default':
+        phi=math.pi/4
     if a == 'default':
         a=1/math.sqrt(3)
     h0 = np.zeros((2, 2), dtype=complex)  # mass term

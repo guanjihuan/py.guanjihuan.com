@@ -23,6 +23,8 @@ import guan
 
 
 
+
+
 # Module 1: basic functions
 
 guan.test()
@@ -248,7 +250,7 @@ hamiltonian = guan.effective_hamiltonian_of_graphene_after_discretization(qx, qy
 hamiltonian = guan.hamiltonian_of_graphene_with_zigzag_in_quasi_one_dimension(k, N=10, M=0, t=1, period=0)
 
 # Haldane模型的哈密顿量
-hamiltonian = guan.hamiltonian_of_haldane_model(k1, k2, M=2/3, t1=1, t2=1/3, phi=math.pi/4, a='default')
+hamiltonian = guan.hamiltonian_of_haldane_model(k1, k2, M=2/3, t1=1, t2=1/3, phi='default', a='default')
 
 # 准一维Haldane模型条带的哈密顿量
 hamiltonian = guan.hamiltonian_of_haldane_model_in_quasi_one_dimension(k, N=10, M=2/3, t1=1, t2=1/3, phi='default', period=0)

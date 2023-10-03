@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: guan
-Version: 0.0.181
+Version: 0.0.182
 Summary: An open source python package
 Home-page: https://py.guanjihuan.com
 Author: guanjihuan
@@ -13,4 +13,4 @@ Requires-Python: >=3.6
 Description-Content-Type: text/markdown
 License-File: LICENSE
 
-Guan is an open-source python package developed and maintained by https://www.guanjihuan.com/about. The primary location of this package is on website https://py.guanjihuan.com. With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
+Guan is an open-source python package developed and maintained by https://www.guanjihuan.com/about (Ji-Huan Guan, 关济寰). The primary location of this package is on website https://py.guanjihuan.com.
