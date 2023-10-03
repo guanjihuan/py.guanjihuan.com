@@ -54,6 +54,9 @@
 
 
 
+
+
+
 # import necessary packages
 
 import numpy as np
@@ -864,6 +867,10 @@ def hamiltonian_of_kagome_lattice(kx, ky, t=1):
     hamiltonian = hamiltonian + hamiltonian.transpose().conj()
     hamiltonian = -t*hamiltonian
     return hamiltonian
+
+
+
+
 
 
 
@@ -2053,6 +2060,18 @@ def calculate_scattering_matrix_with_disorder_and_get_averaged_information(fermi
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 # Module 9: topological invariant
 
 # 通过高效法计算方格子的陈数
@@ -3021,6 +3040,16 @@ def color_matplotlib():
 
 
 
+
+
+
+
+
+
+
+
+
+
 # Module 11: read and write
 
 # 将数据存到文件
@@ -3240,6 +3269,40 @@ def print_array_with_index(array, show_index=1, index_type=0):
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Module 12: data processing
 
 # 并行计算前的预处理，把参数分成多份
@@ -3321,6 +3384,228 @@ def encryption_SHA_256(password, salt=''):
     hashed_password = hashlib.sha256(password.encode()).hexdigest()
     return hashed_password
 
+# 获取当前日期字符串
+def get_date(bar=True):
+    import datetime
+    datetime_date = str(datetime.date.today())
+    if bar==False:
+        datetime_date = datetime_date.replace('-', '')
+    return datetime_date
+
+# 获取当前时间字符串
+def get_time():
+    import datetime
+    datetime_time = datetime.datetime.now().strftime('%H:%M:%S')
+    return datetime_time
+
+# 获取所有股票
+def all_stocks():
+    import akshare as ak
+    stocks = ak.stock_zh_a_spot_em()
+    title = np.array(stocks.columns)
+    stock_data = stocks.values
+    return title, stock_data
+
+# 获取所有股票的代码
+def all_stock_symbols():
+    title, stock_data = guan.all_stocks()
+    stock_symbols = stock_data[:, 1]
+    return stock_symbols
+
+# 从股票代码获取股票名称
+def find_stock_name_from_symbol(symbol='000002'):
+    title, stock_data = guan.all_stocks()
+    for stock in stock_data:
+        if symbol in stock:
+           stock_name = stock[2]
+    return stock_name
+
+# 获取单个股票的历史数据
+def history_data_of_one_stock(symbol='000002', period='daily', start_date="19000101", end_date='21000101'):
+    # period = 'daily'
+    # period = 'weekly'
+    # period = 'monthly'
+    import akshare as ak
+    stock = ak.stock_zh_a_hist(symbol=symbol, period=period, start_date=start_date, end_date=end_date)
+    title = np.array(stock.columns)
+    stock_data = stock.values[::-1]
+    return title, stock_data
+
+# 播放学术单词
+def play_academic_words(reverse=0, random_on=0, bre_or_ame='ame', show_translation=1, show_link=1, translation_time=2, rest_time=1):
+    from bs4 import BeautifulSoup
+    import re
+    import urllib.request
+    import requests
+    import os
+    import pygame
+    import time
+    import ssl
+    import random
+    ssl._create_default_https_context = ssl._create_unverified_context
+    html = urllib.request.urlopen("https://www.guanjihuan.com/archives/4418").read().decode('utf-8')
+    if bre_or_ame == 'ame':
+        directory = 'words_mp3_ameProns/'
+    elif bre_or_ame == 'bre':
+        directory = 'words_mp3_breProns/'
+    exist_directory = os.path.exists(directory)
+    html_file = urllib.request.urlopen("https://file.guanjihuan.com/words/"+directory).read().decode('utf-8')
+    if exist_directory == 0:
+        os.makedirs(directory)
+    soup = BeautifulSoup(html, features='lxml')
+    contents = re.findall('<h2.*?</a></p>', html, re.S)
+    if random_on==1:
+        random.shuffle(contents)
+    if reverse==1:
+        contents.reverse()
+    for content in contents:
+        soup2 = BeautifulSoup(content, features='lxml')
+        all_h2 = soup2.find_all('h2')
+        for h2 in all_h2:
+            if re.search('\d*. ', h2.get_text()):
+                word = re.findall('[a-zA-Z].*', h2.get_text(), re.S)[0]
+                exist = os.path.exists(directory+word+'.mp3')
+                if not exist:
+                    try:
+                        if re.search(word, html_file):
+                            r = requests.get("https://file.guanjihuan.com/words/"+directory+word+".mp3", stream=True)
+                            with open(directory+word+'.mp3', 'wb') as f:
+                                for chunk in r.iter_content(chunk_size=32):
+                                    f.write(chunk)
+                    except:
+                        pass
+                print(h2.get_text())
+                try:
+                    pygame.mixer.init()
+                    track = pygame.mixer.music.load(directory+word+'.mp3')
+                    pygame.mixer.music.play()
+                    if show_link==1:
+                        print('https://www.ldoceonline.com/dictionary/'+word)
+                except:
+                    pass
+                translation = re.findall('<p>.*?</p>', content, re.S)[0][3:-4]
+                if show_translation==1:
+                    time.sleep(translation_time)
+                    print(translation)
+                time.sleep(rest_time)
+                pygame.mixer.music.stop()
+                print()
+
+# 播放挑选过后的学术单词
+def play_selected_academic_words(reverse=0, random_on=0, bre_or_ame='ame', show_link=1, rest_time=3):
+    from bs4 import BeautifulSoup
+    import re
+    import urllib.request
+    import requests
+    import os
+    import pygame
+    import time
+    import ssl
+    import random
+    ssl._create_default_https_context = ssl._create_unverified_context
+    html = urllib.request.urlopen("https://www.guanjihuan.com/archives/24732").read().decode('utf-8')
+    if bre_or_ame == 'ame':
+        directory = 'words_mp3_ameProns/'
+    elif bre_or_ame == 'bre':
+        directory = 'words_mp3_breProns/'
+    exist_directory = os.path.exists(directory)
+    html_file = urllib.request.urlopen("https://file.guanjihuan.com/words/"+directory).read().decode('utf-8')
+    if exist_directory == 0:
+        os.makedirs(directory)
+    soup = BeautifulSoup(html, features='lxml')
+    contents = re.findall('<li>\d.*?</li>', html, re.S)
+    if random_on==1:
+        random.shuffle(contents)
+    if reverse==1:
+        contents.reverse()
+    for content in contents:
+        soup2 = BeautifulSoup(content, features='lxml')
+        all_li = soup2.find_all('li')
+        for li in all_li:
+            if re.search('\d*. ', li.get_text()):
+                word = re.findall('\s[a-zA-Z].*?\s', li.get_text(), re.S)[0][1:-1]
+                exist = os.path.exists(directory+word+'.mp3')
+                if not exist:
+                    try:
+                        if re.search(word, html_file):
+                            r = requests.get("https://file.guanjihuan.com/words/"+directory+word+".mp3", stream=True)
+                            with open(directory+word+'.mp3', 'wb') as f:
+                                for chunk in r.iter_content(chunk_size=32):
+                                    f.write(chunk)
+                    except:
+                        pass
+                print(li.get_text())
+                try:
+                    pygame.mixer.init()
+                    track = pygame.mixer.music.load(directory+word+'.mp3')
+                    pygame.mixer.music.play()
+                    if show_link==1:
+                        print('https://www.ldoceonline.com/dictionary/'+word)
+                except:
+                    pass
+                time.sleep(rest_time)
+                pygame.mixer.music.stop()
+                print()
+
+# 播放元素周期表上的单词
+def play_element_words(random_on=0, show_translation=1, show_link=1, translation_time=2, rest_time=1):
+    from bs4 import BeautifulSoup
+    import re
+    import urllib.request
+    import requests
+    import os
+    import pygame
+    import time
+    import ssl
+    import random
+    ssl._create_default_https_context = ssl._create_unverified_context
+    html = urllib.request.urlopen("https://www.guanjihuan.com/archives/10897").read().decode('utf-8')
+    directory = 'prons/'
+    exist_directory = os.path.exists(directory)
+    html_file = urllib.request.urlopen("https://file.guanjihuan.com/words/periodic_table_of_elements/"+directory).read().decode('utf-8')
+    if exist_directory == 0:
+        os.makedirs(directory)
+    soup = BeautifulSoup(html, features='lxml')
+    contents = re.findall('<h2.*?</a></p>', html, re.S)
+    if random_on==1:
+        random.shuffle(contents)
+    for content in contents:
+        soup2 = BeautifulSoup(content, features='lxml')
+        all_h2 = soup2.find_all('h2')
+        for h2 in all_h2:
+            if re.search('\d*. ', h2.get_text()):
+                word = re.findall('[a-zA-Z].* \(', h2.get_text(), re.S)[0][:-2]
+                exist = os.path.exists(directory+word+'.mp3')
+                if not exist:
+                    try:
+                        if re.search(word, html_file):
+                            r = requests.get("https://file.guanjihuan.com/words/periodic_table_of_elements/prons/"+word+".mp3", stream=True)
+                            with open(directory+word+'.mp3', 'wb') as f:
+                                for chunk in r.iter_content(chunk_size=32):
+                                    f.write(chunk)
+                    except:
+                        pass
+                print(h2.get_text())
+                try:
+                    pygame.mixer.init()
+                    track = pygame.mixer.music.load(directory+word+'.mp3')
+                    pygame.mixer.music.play()
+                    if show_link==1:
+                        print('https://www.merriam-webster.com/dictionary/'+word)
+                except:
+                    pass
+                translation = re.findall('<p>.*?</p>', content, re.S)[0][3:-4]
+                if show_translation==1:
+                    time.sleep(translation_time)
+                    print(translation)
+                time.sleep(rest_time)
+                pygame.mixer.music.stop()
+                print()
+
+
+
+
+
 
 
 
@@ -3368,6 +3653,113 @@ def make_directory(directory='./test'):
 def copy_file(file1='./a.txt', file2='./b.txt'):
     import shutil
     shutil.copy(file1, file2)
+
+# 拼接两个PDF文件
+def combine_two_pdf_files(input_file_1='a.pdf', input_file_2='b.pdf', output_file='combined_file.pdf'):
+    import PyPDF2
+    output_pdf = PyPDF2.PdfWriter()
+    with open(input_file_1, 'rb') as file1:
+        pdf1 = PyPDF2.PdfReader(file1)
+        for page in range(len(pdf1.pages)):
+            output_pdf.add_page(pdf1.pages[page])
+    with open(input_file_2, 'rb') as file2:
+        pdf2 = PyPDF2.PdfReader(file2)
+        for page in range(len(pdf2.pages)):
+            output_pdf.add_page(pdf2.pages[page])
+    with open(output_file, 'wb') as combined_file:
+        output_pdf.write(combined_file)
+
+# 将PDF文件转成文本
+def pdf_to_text(pdf_path):
+    from pdfminer.pdfparser import PDFParser, PDFDocument
+    from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
+    from pdfminer.converter import PDFPageAggregator
+    from pdfminer.layout import LAParams, LTTextBox
+    from pdfminer.pdfinterp import PDFTextExtractionNotAllowed
+    import logging 
+    logging.Logger.propagate = False 
+    logging.getLogger().setLevel(logging.ERROR) 
+    praser = PDFParser(open(pdf_path, 'rb'))
+    doc = PDFDocument()
+    praser.set_document(doc)
+    doc.set_parser(praser)
+    doc.initialize()
+    if not doc.is_extractable:
+        raise PDFTextExtractionNotAllowed
+    else:
+        rsrcmgr = PDFResourceManager()
+        laparams = LAParams()
+        device = PDFPageAggregator(rsrcmgr, laparams=laparams)
+        interpreter = PDFPageInterpreter(rsrcmgr, device)
+        content = ''
+        for page in doc.get_pages():
+            interpreter.process_page(page)                        
+            layout = device.get_result()                     
+            for x in layout:
+                if isinstance(x, LTTextBox):
+                    content  = content + x.get_text().strip()
+    return content
+
+# 获取PDF文献中的链接。例如: link_starting_form='https://doi.org'
+def get_links_from_pdf(pdf_path, link_starting_form=''):
+    import PyPDF2
+    import re
+    pdfReader = PyPDF2.PdfFileReader(pdf_path)
+    pages = pdfReader.getNumPages()
+    i0 = 0
+    links = []
+    for page in range(pages):
+        pageSliced = pdfReader.getPage(page)
+        pageObject = pageSliced.getObject()
+        if '/Annots' in pageObject.keys():
+            ann = pageObject['/Annots']
+            old = ''
+            for a in ann:
+                u = a.getObject()
+                if '/A' in u.keys():
+                    if re.search(re.compile('^'+link_starting_form), u['/A']['/URI']):
+                        if u['/A']['/URI'] != old:
+                            links.append(u['/A']['/URI']) 
+                            i0 += 1
+                            old = u['/A']['/URI']        
+    return links
+
+# 通过Sci-Hub网站下载文献
+def download_with_scihub(address=None, num=1):
+    from bs4 import BeautifulSoup
+    import re
+    import requests
+    import os
+    if num==1 and address!=None:
+        address_array = [address]
+    else:
+        address_array = []
+        for i in range(num):
+            address = input('\nInput：')
+            address_array.append(address)
+    for address in address_array:
+        r = requests.post('https://sci-hub.st/', data={'request': address})
+        print('\nResponse：', r)
+        print('Address：', r.url)
+        soup = BeautifulSoup(r.text, features='lxml')
+        pdf_URL = soup.embed['src']
+        # pdf_URL = soup.iframe['src'] # This is a code line of history version which fails to get pdf URL.
+        if re.search(re.compile('^https:'), pdf_URL):
+            pass
+        else:
+            pdf_URL = 'https:'+pdf_URL
+        print('PDF address：', pdf_URL)
+        name = re.search(re.compile('fdp.*?/'),pdf_URL[::-1]).group()[::-1][1::]
+        print('PDF name：', name)
+        print('Directory：', os.getcwd())
+        print('\nDownloading...')
+        r = requests.get(pdf_URL, stream=True)
+        with open(name, 'wb') as f:
+            for chunk in r.iter_content(chunk_size=32):
+                f.write(chunk)
+        print('Completed!\n')
+    if num != 1:
+        print('All completed!\n')
 
 # 将文件目录结构写入Markdown文件
 def write_file_list_in_markdown(directory='./', filename='a', reverse_positive_or_negative=1, starting_from_h1=None, banned_file_format=[], hide_file_format=None, divided_line=None, show_second_number=None, show_third_number=None): 
@@ -3582,234 +3974,11 @@ def change_directory_by_replacement(current_key_word='code', new_key_word='data'
         os.makedirs(data_path)
     os.chdir(data_path)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Module 14: others
-
-## time
-
-# 获取当前日期字符串
-def get_date(bar=True):
-    import datetime
-    datetime_date = str(datetime.date.today())
-    if bar==False:
-        datetime_date = datetime_date.replace('-', '')
-    return datetime_date
-
-# 获取当前时间字符串
-def get_time():
-    import datetime
-    datetime_time = datetime.datetime.now().strftime('%H:%M:%S')
-    return datetime_time
-
-## stocks
-
-# 获取所有股票
-def all_stocks():
-    import akshare as ak
-    stocks = ak.stock_zh_a_spot_em()
-    title = np.array(stocks.columns)
-    stock_data = stocks.values
-    return title, stock_data
-
-# 获取所有股票的代码
-def all_stock_symbols():
-    title, stock_data = guan.all_stocks()
-    stock_symbols = stock_data[:, 1]
-    return stock_symbols
-
-# 从股票代码获取股票名称
-def find_stock_name_from_symbol(symbol='000002'):
-    title, stock_data = guan.all_stocks()
-    for stock in stock_data:
-        if symbol in stock:
-           stock_name = stock[2]
-    return stock_name
-
-# 获取单个股票的历史数据
-def history_data_of_one_stock(symbol='000002', period='daily', start_date="19000101", end_date='21000101'):
-    # period = 'daily'
-    # period = 'weekly'
-    # period = 'monthly'
-    import akshare as ak
-    stock = ak.stock_zh_a_hist(symbol=symbol, period=period, start_date=start_date, end_date=end_date)
-    title = np.array(stock.columns)
-    stock_data = stock.values[::-1]
-    return title, stock_data
-
-## download
-
-# 通过Sci-Hub网站下载文献
-def download_with_scihub(address=None, num=1):
-    from bs4 import BeautifulSoup
-    import re
-    import requests
-    import os
-    if num==1 and address!=None:
-        address_array = [address]
-    else:
-        address_array = []
-        for i in range(num):
-            address = input('\nInput：')
-            address_array.append(address)
-    for address in address_array:
-        r = requests.post('https://sci-hub.st/', data={'request': address})
-        print('\nResponse：', r)
-        print('Address：', r.url)
-        soup = BeautifulSoup(r.text, features='lxml')
-        pdf_URL = soup.embed['src']
-        # pdf_URL = soup.iframe['src'] # This is a code line of history version which fails to get pdf URL.
-        if re.search(re.compile('^https:'), pdf_URL):
-            pass
-        else:
-            pdf_URL = 'https:'+pdf_URL
-        print('PDF address：', pdf_URL)
-        name = re.search(re.compile('fdp.*?/'),pdf_URL[::-1]).group()[::-1][1::]
-        print('PDF name：', name)
-        print('Directory：', os.getcwd())
-        print('\nDownloading...')
-        r = requests.get(pdf_URL, stream=True)
-        with open(name, 'wb') as f:
-            for chunk in r.iter_content(chunk_size=32):
-                f.write(chunk)
-        print('Completed!\n')
-    if num != 1:
-        print('All completed!\n')
-
-## PDF
-
-# 拼接两个PDF文件
-def combine_two_pdf_files(input_file_1='a.pdf', input_file_2='b.pdf', output_file='combined_file.pdf'):
-    import PyPDF2
-    output_pdf = PyPDF2.PdfWriter()
-    with open(input_file_1, 'rb') as file1:
-        pdf1 = PyPDF2.PdfReader(file1)
-        for page in range(len(pdf1.pages)):
-            output_pdf.add_page(pdf1.pages[page])
-    with open(input_file_2, 'rb') as file2:
-        pdf2 = PyPDF2.PdfReader(file2)
-        for page in range(len(pdf2.pages)):
-            output_pdf.add_page(pdf2.pages[page])
-    with open(output_file, 'wb') as combined_file:
-        output_pdf.write(combined_file)
-
-
-# 获取PDF文献中的链接。例如: link_starting_form='https://doi.org'
-def get_links_from_pdf(pdf_path, link_starting_form=''):
-    import PyPDF2
-    import re
-    pdfReader = PyPDF2.PdfFileReader(pdf_path)
-    pages = pdfReader.getNumPages()
-    i0 = 0
-    links = []
-    for page in range(pages):
-        pageSliced = pdfReader.getPage(page)
-        pageObject = pageSliced.getObject()
-        if '/Annots' in pageObject.keys():
-            ann = pageObject['/Annots']
-            old = ''
-            for a in ann:
-                u = a.getObject()
-                if '/A' in u.keys():
-                    if re.search(re.compile('^'+link_starting_form), u['/A']['/URI']):
-                        if u['/A']['/URI'] != old:
-                            links.append(u['/A']['/URI']) 
-                            i0 += 1
-                            old = u['/A']['/URI']        
-    return links
-
-# 将PDF文件转成文本
-def pdf_to_text(pdf_path):
-    from pdfminer.pdfparser import PDFParser, PDFDocument
-    from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
-    from pdfminer.converter import PDFPageAggregator
-    from pdfminer.layout import LAParams, LTTextBox
-    from pdfminer.pdfinterp import PDFTextExtractionNotAllowed
-    import logging 
-    logging.Logger.propagate = False 
-    logging.getLogger().setLevel(logging.ERROR) 
-    praser = PDFParser(open(pdf_path, 'rb'))
-    doc = PDFDocument()
-    praser.set_document(doc)
-    doc.set_parser(praser)
-    doc.initialize()
-    if not doc.is_extractable:
-        raise PDFTextExtractionNotAllowed
-    else:
-        rsrcmgr = PDFResourceManager()
-        laparams = LAParams()
-        device = PDFPageAggregator(rsrcmgr, laparams=laparams)
-        interpreter = PDFPageInterpreter(rsrcmgr, device)
-        content = ''
-        for page in doc.get_pages():
-            interpreter.process_page(page)                        
-            layout = device.get_result()                     
-            for x in layout:
-                if isinstance(x, LTTextBox):
-                    content  = content + x.get_text().strip()
-    return content
-
-
-## image
-
 # 生成二维码
 def creat_qrcode(data="https://www.guanjihuan.com", filename='a', file_format='.png'):
     import qrcode
     img = qrcode.make(data)
     img.save(filename+file_format)
-
-
-## audio
 
 # 将文本转成音频
 def str_to_audio(str='hello world', filename='str', rate=125, voice=1, read=1, save=0, compress=0, bitrate='16k', print_text=0):
@@ -3891,176 +4060,3 @@ def compress_wav_to_mp3(wav_path, output_filename='a.mp3', bitrate='16k'):
     from pydub import AudioSegment
     sound = AudioSegment.from_mp3(wav_path)
     sound.export(output_filename,format="mp3",bitrate=bitrate)
-
-## words
-
-# 播放学术单词
-def play_academic_words(reverse=0, random_on=0, bre_or_ame='ame', show_translation=1, show_link=1, translation_time=2, rest_time=1):
-    from bs4 import BeautifulSoup
-    import re
-    import urllib.request
-    import requests
-    import os
-    import pygame
-    import time
-    import ssl
-    import random
-    ssl._create_default_https_context = ssl._create_unverified_context
-    html = urllib.request.urlopen("https://www.guanjihuan.com/archives/4418").read().decode('utf-8')
-    if bre_or_ame == 'ame':
-        directory = 'words_mp3_ameProns/'
-    elif bre_or_ame == 'bre':
-        directory = 'words_mp3_breProns/'
-    exist_directory = os.path.exists(directory)
-    html_file = urllib.request.urlopen("https://file.guanjihuan.com/words/"+directory).read().decode('utf-8')
-    if exist_directory == 0:
-        os.makedirs(directory)
-    soup = BeautifulSoup(html, features='lxml')
-    contents = re.findall('<h2.*?</a></p>', html, re.S)
-    if random_on==1:
-        random.shuffle(contents)
-    if reverse==1:
-        contents.reverse()
-    for content in contents:
-        soup2 = BeautifulSoup(content, features='lxml')
-        all_h2 = soup2.find_all('h2')
-        for h2 in all_h2:
-            if re.search('\d*. ', h2.get_text()):
-                word = re.findall('[a-zA-Z].*', h2.get_text(), re.S)[0]
-                exist = os.path.exists(directory+word+'.mp3')
-                if not exist:
-                    try:
-                        if re.search(word, html_file):
-                            r = requests.get("https://file.guanjihuan.com/words/"+directory+word+".mp3", stream=True)
-                            with open(directory+word+'.mp3', 'wb') as f:
-                                for chunk in r.iter_content(chunk_size=32):
-                                    f.write(chunk)
-                    except:
-                        pass
-                print(h2.get_text())
-                try:
-                    pygame.mixer.init()
-                    track = pygame.mixer.music.load(directory+word+'.mp3')
-                    pygame.mixer.music.play()
-                    if show_link==1:
-                        print('https://www.ldoceonline.com/dictionary/'+word)
-                except:
-                    pass
-                translation = re.findall('<p>.*?</p>', content, re.S)[0][3:-4]
-                if show_translation==1:
-                    time.sleep(translation_time)
-                    print(translation)
-                time.sleep(rest_time)
-                pygame.mixer.music.stop()
-                print()
-
-# 播放挑选过后的学术单词
-def play_selected_academic_words(reverse=0, random_on=0, bre_or_ame='ame', show_link=1, rest_time=3):
-    from bs4 import BeautifulSoup
-    import re
-    import urllib.request
-    import requests
-    import os
-    import pygame
-    import time
-    import ssl
-    import random
-    ssl._create_default_https_context = ssl._create_unverified_context
-    html = urllib.request.urlopen("https://www.guanjihuan.com/archives/24732").read().decode('utf-8')
-    if bre_or_ame == 'ame':
-        directory = 'words_mp3_ameProns/'
-    elif bre_or_ame == 'bre':
-        directory = 'words_mp3_breProns/'
-    exist_directory = os.path.exists(directory)
-    html_file = urllib.request.urlopen("https://file.guanjihuan.com/words/"+directory).read().decode('utf-8')
-    if exist_directory == 0:
-        os.makedirs(directory)
-    soup = BeautifulSoup(html, features='lxml')
-    contents = re.findall('<li>\d.*?</li>', html, re.S)
-    if random_on==1:
-        random.shuffle(contents)
-    if reverse==1:
-        contents.reverse()
-    for content in contents:
-        soup2 = BeautifulSoup(content, features='lxml')
-        all_li = soup2.find_all('li')
-        for li in all_li:
-            if re.search('\d*. ', li.get_text()):
-                word = re.findall('\s[a-zA-Z].*?\s', li.get_text(), re.S)[0][1:-1]
-                exist = os.path.exists(directory+word+'.mp3')
-                if not exist:
-                    try:
-                        if re.search(word, html_file):
-                            r = requests.get("https://file.guanjihuan.com/words/"+directory+word+".mp3", stream=True)
-                            with open(directory+word+'.mp3', 'wb') as f:
-                                for chunk in r.iter_content(chunk_size=32):
-                                    f.write(chunk)
-                    except:
-                        pass
-                print(li.get_text())
-                try:
-                    pygame.mixer.init()
-                    track = pygame.mixer.music.load(directory+word+'.mp3')
-                    pygame.mixer.music.play()
-                    if show_link==1:
-                        print('https://www.ldoceonline.com/dictionary/'+word)
-                except:
-                    pass
-                time.sleep(rest_time)
-                pygame.mixer.music.stop()
-                print()
-
-# 播放元素周期表上的单词
-def play_element_words(random_on=0, show_translation=1, show_link=1, translation_time=2, rest_time=1):
-    from bs4 import BeautifulSoup
-    import re
-    import urllib.request
-    import requests
-    import os
-    import pygame
-    import time
-    import ssl
-    import random
-    ssl._create_default_https_context = ssl._create_unverified_context
-    html = urllib.request.urlopen("https://www.guanjihuan.com/archives/10897").read().decode('utf-8')
-    directory = 'prons/'
-    exist_directory = os.path.exists(directory)
-    html_file = urllib.request.urlopen("https://file.guanjihuan.com/words/periodic_table_of_elements/"+directory).read().decode('utf-8')
-    if exist_directory == 0:
-        os.makedirs(directory)
-    soup = BeautifulSoup(html, features='lxml')
-    contents = re.findall('<h2.*?</a></p>', html, re.S)
-    if random_on==1:
-        random.shuffle(contents)
-    for content in contents:
-        soup2 = BeautifulSoup(content, features='lxml')
-        all_h2 = soup2.find_all('h2')
-        for h2 in all_h2:
-            if re.search('\d*. ', h2.get_text()):
-                word = re.findall('[a-zA-Z].* \(', h2.get_text(), re.S)[0][:-2]
-                exist = os.path.exists(directory+word+'.mp3')
-                if not exist:
-                    try:
-                        if re.search(word, html_file):
-                            r = requests.get("https://file.guanjihuan.com/words/periodic_table_of_elements/prons/"+word+".mp3", stream=True)
-                            with open(directory+word+'.mp3', 'wb') as f:
-                                for chunk in r.iter_content(chunk_size=32):
-                                    f.write(chunk)
-                    except:
-                        pass
-                print(h2.get_text())
-                try:
-                    pygame.mixer.init()
-                    track = pygame.mixer.music.load(directory+word+'.mp3')
-                    pygame.mixer.music.play()
-                    if show_link==1:
-                        print('https://www.merriam-webster.com/dictionary/'+word)
-                except:
-                    pass
-                translation = re.findall('<p>.*?</p>', content, re.S)[0][3:-4]
-                if show_translation==1:
-                    time.sleep(translation_time)
-                    print(translation)
-                time.sleep(rest_time)
-                pygame.mixer.music.stop()
-                print()

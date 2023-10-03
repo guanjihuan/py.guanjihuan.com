@@ -14,6 +14,8 @@ import guan
 
 
 
+
+
 # Module 1: basic functions
 
 guan.test()
@@ -57,6 +59,12 @@ sigma_zx = guan.sigma_zx()
 sigma_zy = guan.sigma_zy()
 
 sigma_zz = guan.sigma_zz()
+
+
+
+
+
+
 
 
 
@@ -456,6 +464,8 @@ local_dos = guan.local_density_of_states_for_square_lattice_with_self_energy_usi
 
 
 
+
+
 # Module 8: quantum transport
 
 # 计算电导
@@ -586,6 +596,8 @@ chern_number = guan.calculate_chern_number_for_honeycomb_lattice(hamiltonian_fun
 
 # 计算Wilson loop
 wilson_loop_array = guan.calculate_wilson_loop(hamiltonian_function, k_min=-math.pi, k_max=math.pi, precision=100, print_show=0)
+
+
 
 
 
@@ -793,7 +805,32 @@ hashed_password = guan.encryption_MD5(password, salt='')
 # 使用SHA-256进行散列加密
 hashed_password = guan.encryption_SHA_256(password, salt='')
 
+# 获取当前日期字符串
+datetime_date = guan.get_date(bar=True)
 
+# 获取当前时间字符串
+datetime_time = guan.get_time()
+
+# 获取所有股票
+title, stock_data = guan.all_stocks()
+
+# 获取所有股票的代码
+stock_symbols = guan.all_stock_symbols()
+
+# 从股票代码获取股票名称
+stock_name = guan.find_stock_name_from_symbol(symbol='000002')
+
+# 获取单个股票的历史数据
+title, stock_data = guan.history_data_of_one_stock(symbol='000002', period='daily', start_date="19000101", end_date='21000101')
+
+# 播放学术单词
+guan.play_academic_words(reverse=0, random_on=0, bre_or_ame='ame', show_translation=1, show_link=1, translation_time=2, rest_time=1)
+
+# 播放挑选过后的学术单词
+guan.play_selected_academic_words(reverse=0, random_on=0, bre_or_ame='ame', show_link=1, rest_time=3)
+
+# 播放元素周期表上的单词
+guan.play_element_words(random_on=0, show_translation=1, show_link=1, translation_time=2, rest_time=1)
 
 
 
@@ -824,6 +861,18 @@ guan.make_directory(directory='./test')
 # 复制一份文件
 guan.copy_file(file1='./a.txt', file2='./b.txt')
 
+# 拼接两个PDF文件
+guan.combine_two_pdf_files(input_file_1='a.pdf', input_file_2='b.pdf', output_file='combined_file.pdf')
+
+# 将PDF文件转成文本
+content = guan.pdf_to_text(pdf_path)
+
+# 获取PDF文献中的链接。例如: link_starting_form='https://doi.org'
+links = guan.get_links_from_pdf(pdf_path, link_starting_form='')
+
+# 通过Sci-Hub网站下载文献
+guan.download_with_scihub(address=None, num=1)
+
 # 将文件目录结构写入Markdown文件
 guan.write_file_list_in_markdown(directory='./', filename='a', reverse_positive_or_negative=1, starting_from_h1=None, banned_file_format=[], hide_file_format=None, divided_line=None, show_second_number=None, show_third_number=None)
 
@@ -845,75 +894,8 @@ guan.move_all_files_to_root_directory(directory)
 # 改变当前的目录位置
 guan.change_directory_by_replacement(current_key_word='code', new_key_word='data')
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Module 14: others
-
-# time
-
-# 获取当前日期字符串
-datetime_date = guan.get_date(bar=True)
-
-# 获取当前时间字符串
-datetime_time = guan.get_time()
-
-# stocks
-
-# 获取所有股票
-title, stock_data = guan.all_stocks()
-
-# 获取所有股票的代码
-stock_symbols = guan.all_stock_symbols()
-
-# 从股票代码获取股票名称
-stock_name = guan.find_stock_name_from_symbol(symbol='000002')
-
-# 获取单个股票的历史数据
-title, stock_data = guan.history_data_of_one_stock(symbol='000002', period='daily', start_date="19000101", end_date='21000101')
-
-# 拼接两个PDF文件
-guan.combine_two_pdf_files(input_file_1='a.pdf', input_file_2='b.pdf', output_file='combined_file.pdf')
-
-# download
-
-# 通过Sci-Hub网站下载文献
-guan.download_with_scihub(address=None, num=1)
-
-# PDF
-
-# 获取PDF文献中的链接。例如: link_starting_form='https://doi.org'
-links = guan.get_links_from_pdf(pdf_path, link_starting_form='')
-
-# 将PDF文件转成文本
-content = guan.pdf_to_text(pdf_path)
-
-# image
-
 # 生成二维码
 guan.creat_qrcode(data="https://www.guanjihuan.com", filename='a', file_format='.png')
-
-# audio
 
 # 将文本转成音频
 guan.str_to_audio(str='hello world', filename='str', rate=125, voice=1, read=1, save=0, compress=0, bitrate='16k', print_text=0)
@@ -926,14 +908,3 @@ guan.pdf_to_audio(pdf_path, rate=125, voice=1, read=1, save=0, compress=0, bitra
 
 # 将wav音频文件压缩成MP3音频文件
 guan.compress_wav_to_mp3(wav_path, output_filename='a.mp3', bitrate='16k')
-
-# words
-
-# 播放学术单词
-guan.play_academic_words(reverse=0, random_on=0, bre_or_ame='ame', show_translation=1, show_link=1, translation_time=2, rest_time=1)
-
-# 播放挑选过后的学术单词
-guan.play_selected_academic_words(reverse=0, random_on=0, bre_or_ame='ame', show_link=1, rest_time=3)
-
-# 播放元素周期表上的单词
-guan.play_element_words(random_on=0, show_translation=1, show_link=1, translation_time=2, rest_time=1)
