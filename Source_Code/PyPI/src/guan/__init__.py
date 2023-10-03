@@ -17,11 +17,40 @@
 # # Module 7: density of states
 # # Module 8: quantum transport
 # # Module 9: topological invariant
-# # Module 10: read and write
-# # Module 11: plot figures
+# # Module 10: plot figures
+# # Module 11: read and write
 # # Module 12: data processing
 # # Module 13: file processing
 # # Module 14: others
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -31,6 +60,40 @@ import numpy as np
 import math
 import cmath
 import guan
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -114,9 +177,31 @@ def sigma_zz():
 
 
 
-# Module 2: Fourier_transform
 
-# Fourier transform for discrete lattices
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Module 2: Fourier_transform
 
 # 通过元胞和跃迁项得到一维的哈密顿量（需要输入k值）
 def one_dimensional_fourier_transform(k, unit_cell, hopping):
@@ -159,8 +244,6 @@ def three_dimensional_fourier_transform_for_cubic_lattice_with_k1_k2_k3(unit_cel
     import functools
     hamiltonian_function = functools.partial(guan.three_dimensional_fourier_transform_for_cubic_lattice, unit_cell=unit_cell, hopping_1=hopping_1, hopping_2=hopping_2, hopping_3=hopping_3)
     return hamiltonian_function
-
-## calculate reciprocal lattice vectors
 
 # 由实空间格矢得到倒空间格矢（一维）
 def calculate_one_dimensional_reciprocal_lattice_vector(a1):
@@ -220,6 +303,33 @@ def calculate_three_dimensional_reciprocal_lattice_vectors_with_sympy(a1, a2, a3
     b2 = 2*sympy.pi*cross_a3_a1/a1.dot(cross_a2_a3)
     b3 = 2*sympy.pi*cross_a1_a2/a1.dot(cross_a2_a3)
     return b1, b2, b3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -460,6 +570,42 @@ def get_onsite_and_hopping_terms_of_half_bhz_model_for_spin_down(A=0.3645/5, B=-
     H2[0, 1] = -1j*np.conj(V_sp)
     H2[1, 0] = -1j*V_sp
     return H0, H1, H2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -727,9 +873,43 @@ def hamiltonian_of_kagome_lattice(kx, ky, t=1):
 
 
 
-# Module 5: band structures and wave functions
 
-## band structures
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Module 5: band structures and wave functions
 
 # 计算哈密顿量的本征值
 def calculate_eigenvalue(hamiltonian):
@@ -793,14 +973,10 @@ def calculate_eigenvalue_with_two_parameters(x_array, y_array, hamiltonian_funct
             i0 += 1
     return eigenvalue_array
 
-## wave functions
-
 # 计算哈密顿量的本征矢
 def calculate_eigenvector(hamiltonian):
     eigenvalue, eigenvector = np.linalg.eigh(hamiltonian) 
     return eigenvector
-
-## find vector with the same gauge
 
 # 通过二分查找的方法获取和相邻波函数一样规范的波函数
 def find_vector_with_the_same_gauge_with_binary_search(vector_target, vector_ref, show_error=1, show_times=0, show_phase=0, n_test=1000, precision=1e-6):
@@ -906,6 +1082,42 @@ def rotation_of_degenerate_vectors_array(vector1_array, vector2_array, precision
     for i0 in range(Num_k):
         vector1_array[i0], vector2_array[i0] = guan.rotation_of_degenerate_vectors(vector1=vector1_array[i0], vector2=vector2_array[i0], index1=index1, index2=index2, precision=precision, criterion=criterion, show_theta=show_theta)
     return vector1_array, vector2_array
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1030,6 +1242,31 @@ def electron_correlation_function_green_n_for_local_current(fermi_energy, h00, h
     green = guan.green_function(fermi_energy, center_hamiltonian, broadening=0, self_energy=left_self_energy+right_self_energy)
     G_n = np.imag(np.dot(np.dot(green, gamma_left), green.transpose().conj()))
     return G_n
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1177,6 +1414,41 @@ def local_density_of_states_for_square_lattice_with_self_energy_using_dyson_equa
             for i in range(internal_degree):
                 local_dos[i2, i1] = local_dos[i2, i1] - np.imag(green_ii_n_minus[i2*internal_degree+i, i2*internal_degree+i])/math.pi
     return local_dos
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1733,6 +2005,54 @@ def calculate_scattering_matrix_with_disorder_and_get_averaged_information(fermi
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Module 9: topological invariant
 
 # 通过高效法计算方格子的陈数
@@ -2227,206 +2547,6 @@ def calculate_wilson_loop(hamiltonian_function, k_min=-math.pi, k_max=math.pi, p
 
 
 
-# Module 10: read and write
-
-# 将数据存到文件
-def dump_data(data, filename, file_format='.txt'):
-    import pickle
-    with open(filename+file_format, 'wb') as f:
-	    pickle.dump(data, f)
-
-# 从文件中恢复数据到变量
-def load_data(filename, file_format='.txt'):
-    import pickle
-    with open(filename+file_format, 'rb') as f:
-	    data = pickle.load(f)
-    return data
-
-# 读取文件中的一维数据（每一行一组x和y）
-def read_one_dimensional_data(filename='a', file_format='.txt'): 
-    f = open(filename+file_format, 'r')
-    text = f.read()
-    f.close()
-    row_list = np.array(text.split('\n')) 
-    dim_column = np.array(row_list[0].split()).shape[0] 
-    x_array = np.array([])
-    y_array = np.array([])
-    for row in row_list:
-        column = np.array(row.split()) 
-        if column.shape[0] != 0:  
-            x_array = np.append(x_array, [float(column[0])], axis=0)  
-            y_row = np.zeros(dim_column-1)
-            for dim0 in range(dim_column-1):
-                y_row[dim0] = float(column[dim0+1])
-            if np.array(y_array).shape[0] == 0:
-                y_array = [y_row]
-            else:
-                y_array = np.append(y_array, [y_row], axis=0)
-    return x_array, y_array
-
-# 读取文件中的一维数据（每一行一组x和y）（支持复数形式）
-def read_one_dimensional_complex_data(filename='a', file_format='.txt'): 
-    f = open(filename+file_format, 'r')
-    text = f.read()
-    f.close()
-    row_list = np.array(text.split('\n')) 
-    dim_column = np.array(row_list[0].split()).shape[0] 
-    x_array = np.array([])
-    y_array = np.array([])
-    for row in row_list:
-        column = np.array(row.split()) 
-        if column.shape[0] != 0:  
-            x_array = np.append(x_array, [complex(column[0])], axis=0)  
-            y_row = np.zeros(dim_column-1, dtype=complex)
-            for dim0 in range(dim_column-1):
-                y_row[dim0] = complex(column[dim0+1])
-            if np.array(y_array).shape[0] == 0:
-                y_array = [y_row]
-            else:
-                y_array = np.append(y_array, [y_row], axis=0)
-    return x_array, y_array
-
-# 读取文件中的二维数据（第一行和列分别为横纵坐标）
-def read_two_dimensional_data(filename='a', file_format='.txt'): 
-    f = open(filename+file_format, 'r')
-    text = f.read()
-    f.close()
-    row_list = np.array(text.split('\n')) 
-    dim_column = np.array(row_list[0].split()).shape[0] 
-    x_array = np.array([])
-    y_array = np.array([])
-    matrix = np.array([])
-    for i0 in range(row_list.shape[0]):
-        column = np.array(row_list[i0].split()) 
-        if i0 == 0:
-            x_str = column[1::] 
-            x_array = np.zeros(x_str.shape[0])
-            for i00 in range(x_str.shape[0]):
-                x_array[i00] = float(x_str[i00]) 
-        elif column.shape[0] != 0: 
-            y_array = np.append(y_array, [float(column[0])], axis=0)  
-            matrix_row = np.zeros(dim_column-1)
-            for dim0 in range(dim_column-1):
-                matrix_row[dim0] = float(column[dim0+1])
-            if np.array(matrix).shape[0] == 0:
-                matrix = [matrix_row]
-            else:
-                matrix = np.append(matrix, [matrix_row], axis=0)
-    return x_array, y_array, matrix
-
-# 读取文件中的二维数据（第一行和列分别为横纵坐标）（支持复数形式）
-def read_two_dimensional_complex_data(filename='a', file_format='.txt'): 
-    f = open(filename+file_format, 'r')
-    text = f.read()
-    f.close()
-    row_list = np.array(text.split('\n')) 
-    dim_column = np.array(row_list[0].split()).shape[0] 
-    x_array = np.array([])
-    y_array = np.array([])
-    matrix = np.array([])
-    for i0 in range(row_list.shape[0]):
-        column = np.array(row_list[i0].split()) 
-        if i0 == 0:
-            x_str = column[1::] 
-            x_array = np.zeros(x_str.shape[0], dtype=complex)
-            for i00 in range(x_str.shape[0]):
-                x_array[i00] = complex(x_str[i00]) 
-        elif column.shape[0] != 0: 
-            y_array = np.append(y_array, [complex(column[0])], axis=0)  
-            matrix_row = np.zeros(dim_column-1, dtype=complex)
-            for dim0 in range(dim_column-1):
-                matrix_row[dim0] = complex(column[dim0+1])
-            if np.array(matrix).shape[0] == 0:
-                matrix = [matrix_row]
-            else:
-                matrix = np.append(matrix, [matrix_row], axis=0)
-    return x_array, y_array, matrix
-
-# 读取文件中的二维数据（不包括x和y）
-def read_two_dimensional_data_without_xy_array(filename='a', file_format='.txt'):
-    matrix = np.loadtxt(filename+file_format)
-    return matrix
-
-# 打开文件用于新增内容
-def open_file(filename='a', file_format='.txt'):
-    try:
-        f = open(filename+file_format, 'a', encoding='UTF-8')
-    except:
-        f = open(filename+file_format, 'w', encoding='UTF-8')
-    return f
-
-# 在文件中写入一维数据（每一行一组x和y）
-def write_one_dimensional_data(x_array, y_array, filename='a', file_format='.txt'): 
-    with open(filename+file_format, 'w', encoding='UTF-8') as f:
-        guan.write_one_dimensional_data_without_opening_file(x_array, y_array, f)
-
-# 在文件中写入一维数据（每一行一组x和y）（需要输入文件）
-def write_one_dimensional_data_without_opening_file(x_array, y_array, f): 
-    x_array = np.array(x_array)
-    y_array = np.array(y_array)
-    i0 = 0
-    for x0 in x_array:
-        f.write(str(x0)+'   ')
-        if len(y_array.shape) == 1:
-            f.write(str(y_array[i0])+'\n')
-        elif len(y_array.shape) == 2:
-            for j0 in range(y_array.shape[1]):
-                f.write(str(y_array[i0, j0])+'   ')
-            f.write('\n')
-        i0 += 1
-
-# 在文件中写入二维数据（第一行和列分别为横纵坐标）
-def write_two_dimensional_data(x_array, y_array, matrix, filename='a', file_format='.txt'): 
-    with open(filename+file_format, 'w', encoding='UTF-8') as f:
-        guan.write_two_dimensional_data_without_opening_file(x_array, y_array, matrix, f)
-
-# 在文件中写入二维数据（第一行和列分别为横纵坐标）（需要输入文件）
-def write_two_dimensional_data_without_opening_file(x_array, y_array, matrix, f): 
-    x_array = np.array(x_array)
-    y_array = np.array(y_array)
-    matrix = np.array(matrix)
-    f.write('0   ')
-    for x0 in x_array:
-        f.write(str(x0)+'   ')
-    f.write('\n')
-    i0 = 0
-    for y0 in y_array:
-        f.write(str(y0))
-        j0 = 0
-        for x0 in x_array:
-            f.write('   '+str(matrix[i0, j0])+'   ')
-            j0 += 1
-        f.write('\n')
-        i0 += 1
-
-# 在文件中写入二维数据（不包括x和y）
-def write_two_dimensional_data_without_xy_array(matrix, filename='a', file_format='.txt'):
-    with open(filename+file_format, 'w', encoding='UTF-8') as f:
-        guan.write_two_dimensional_data_without_xy_array_and_without_opening_file(matrix, f)
-
-# 在文件中写入二维数据（不包括x和y）（需要输入文件）
-def write_two_dimensional_data_without_xy_array_and_without_opening_file(matrix, f):
-    for row in matrix:
-        for element in row:
-            f.write(str(element)+'   ')
-        f.write('\n')
-
-# 以显示编号的样式，打印数组
-def print_array_with_index(array, show_index=1, index_type=0):
-    if show_index==0:
-        for i0 in array:
-            print(i0)
-    else:
-        if index_type==0:
-            index = 0
-            for i0 in array:
-                print(index, i0)
-                index += 1
-        else:
-            index = 0
-            for i0 in array:
-                index += 1
-                print(index, i0)
 
 
 
@@ -2436,7 +2556,54 @@ def print_array_with_index(array, show_index=1, index_type=0):
 
 
 
-# Module 11: plot figures
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Module 10: plot figures
 
 # 导入plt, fig, ax
 def import_plt_and_start_fig_ax(adjust_bottom=0.2, adjust_left=0.2, labelsize=20):
@@ -2805,6 +2972,274 @@ def color_matplotlib():
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Module 11: read and write
+
+# 将数据存到文件
+def dump_data(data, filename, file_format='.txt'):
+    import pickle
+    with open(filename+file_format, 'wb') as f:
+	    pickle.dump(data, f)
+
+# 从文件中恢复数据到变量
+def load_data(filename, file_format='.txt'):
+    import pickle
+    with open(filename+file_format, 'rb') as f:
+	    data = pickle.load(f)
+    return data
+
+# 读取文件中的一维数据（每一行一组x和y）
+def read_one_dimensional_data(filename='a', file_format='.txt'): 
+    f = open(filename+file_format, 'r')
+    text = f.read()
+    f.close()
+    row_list = np.array(text.split('\n')) 
+    dim_column = np.array(row_list[0].split()).shape[0] 
+    x_array = np.array([])
+    y_array = np.array([])
+    for row in row_list:
+        column = np.array(row.split()) 
+        if column.shape[0] != 0:  
+            x_array = np.append(x_array, [float(column[0])], axis=0)  
+            y_row = np.zeros(dim_column-1)
+            for dim0 in range(dim_column-1):
+                y_row[dim0] = float(column[dim0+1])
+            if np.array(y_array).shape[0] == 0:
+                y_array = [y_row]
+            else:
+                y_array = np.append(y_array, [y_row], axis=0)
+    return x_array, y_array
+
+# 读取文件中的一维数据（每一行一组x和y）（支持复数形式）
+def read_one_dimensional_complex_data(filename='a', file_format='.txt'): 
+    f = open(filename+file_format, 'r')
+    text = f.read()
+    f.close()
+    row_list = np.array(text.split('\n')) 
+    dim_column = np.array(row_list[0].split()).shape[0] 
+    x_array = np.array([])
+    y_array = np.array([])
+    for row in row_list:
+        column = np.array(row.split()) 
+        if column.shape[0] != 0:  
+            x_array = np.append(x_array, [complex(column[0])], axis=0)  
+            y_row = np.zeros(dim_column-1, dtype=complex)
+            for dim0 in range(dim_column-1):
+                y_row[dim0] = complex(column[dim0+1])
+            if np.array(y_array).shape[0] == 0:
+                y_array = [y_row]
+            else:
+                y_array = np.append(y_array, [y_row], axis=0)
+    return x_array, y_array
+
+# 读取文件中的二维数据（第一行和列分别为横纵坐标）
+def read_two_dimensional_data(filename='a', file_format='.txt'): 
+    f = open(filename+file_format, 'r')
+    text = f.read()
+    f.close()
+    row_list = np.array(text.split('\n')) 
+    dim_column = np.array(row_list[0].split()).shape[0] 
+    x_array = np.array([])
+    y_array = np.array([])
+    matrix = np.array([])
+    for i0 in range(row_list.shape[0]):
+        column = np.array(row_list[i0].split()) 
+        if i0 == 0:
+            x_str = column[1::] 
+            x_array = np.zeros(x_str.shape[0])
+            for i00 in range(x_str.shape[0]):
+                x_array[i00] = float(x_str[i00]) 
+        elif column.shape[0] != 0: 
+            y_array = np.append(y_array, [float(column[0])], axis=0)  
+            matrix_row = np.zeros(dim_column-1)
+            for dim0 in range(dim_column-1):
+                matrix_row[dim0] = float(column[dim0+1])
+            if np.array(matrix).shape[0] == 0:
+                matrix = [matrix_row]
+            else:
+                matrix = np.append(matrix, [matrix_row], axis=0)
+    return x_array, y_array, matrix
+
+# 读取文件中的二维数据（第一行和列分别为横纵坐标）（支持复数形式）
+def read_two_dimensional_complex_data(filename='a', file_format='.txt'): 
+    f = open(filename+file_format, 'r')
+    text = f.read()
+    f.close()
+    row_list = np.array(text.split('\n')) 
+    dim_column = np.array(row_list[0].split()).shape[0] 
+    x_array = np.array([])
+    y_array = np.array([])
+    matrix = np.array([])
+    for i0 in range(row_list.shape[0]):
+        column = np.array(row_list[i0].split()) 
+        if i0 == 0:
+            x_str = column[1::] 
+            x_array = np.zeros(x_str.shape[0], dtype=complex)
+            for i00 in range(x_str.shape[0]):
+                x_array[i00] = complex(x_str[i00]) 
+        elif column.shape[0] != 0: 
+            y_array = np.append(y_array, [complex(column[0])], axis=0)  
+            matrix_row = np.zeros(dim_column-1, dtype=complex)
+            for dim0 in range(dim_column-1):
+                matrix_row[dim0] = complex(column[dim0+1])
+            if np.array(matrix).shape[0] == 0:
+                matrix = [matrix_row]
+            else:
+                matrix = np.append(matrix, [matrix_row], axis=0)
+    return x_array, y_array, matrix
+
+# 读取文件中的二维数据（不包括x和y）
+def read_two_dimensional_data_without_xy_array(filename='a', file_format='.txt'):
+    matrix = np.loadtxt(filename+file_format)
+    return matrix
+
+# 打开文件用于新增内容
+def open_file(filename='a', file_format='.txt'):
+    try:
+        f = open(filename+file_format, 'a', encoding='UTF-8')
+    except:
+        f = open(filename+file_format, 'w', encoding='UTF-8')
+    return f
+
+# 在文件中写入一维数据（每一行一组x和y）
+def write_one_dimensional_data(x_array, y_array, filename='a', file_format='.txt'): 
+    with open(filename+file_format, 'w', encoding='UTF-8') as f:
+        guan.write_one_dimensional_data_without_opening_file(x_array, y_array, f)
+
+# 在文件中写入一维数据（每一行一组x和y）（需要输入文件）
+def write_one_dimensional_data_without_opening_file(x_array, y_array, f): 
+    x_array = np.array(x_array)
+    y_array = np.array(y_array)
+    i0 = 0
+    for x0 in x_array:
+        f.write(str(x0)+'   ')
+        if len(y_array.shape) == 1:
+            f.write(str(y_array[i0])+'\n')
+        elif len(y_array.shape) == 2:
+            for j0 in range(y_array.shape[1]):
+                f.write(str(y_array[i0, j0])+'   ')
+            f.write('\n')
+        i0 += 1
+
+# 在文件中写入二维数据（第一行和列分别为横纵坐标）
+def write_two_dimensional_data(x_array, y_array, matrix, filename='a', file_format='.txt'): 
+    with open(filename+file_format, 'w', encoding='UTF-8') as f:
+        guan.write_two_dimensional_data_without_opening_file(x_array, y_array, matrix, f)
+
+# 在文件中写入二维数据（第一行和列分别为横纵坐标）（需要输入文件）
+def write_two_dimensional_data_without_opening_file(x_array, y_array, matrix, f): 
+    x_array = np.array(x_array)
+    y_array = np.array(y_array)
+    matrix = np.array(matrix)
+    f.write('0   ')
+    for x0 in x_array:
+        f.write(str(x0)+'   ')
+    f.write('\n')
+    i0 = 0
+    for y0 in y_array:
+        f.write(str(y0))
+        j0 = 0
+        for x0 in x_array:
+            f.write('   '+str(matrix[i0, j0])+'   ')
+            j0 += 1
+        f.write('\n')
+        i0 += 1
+
+# 在文件中写入二维数据（不包括x和y）
+def write_two_dimensional_data_without_xy_array(matrix, filename='a', file_format='.txt'):
+    with open(filename+file_format, 'w', encoding='UTF-8') as f:
+        guan.write_two_dimensional_data_without_xy_array_and_without_opening_file(matrix, f)
+
+# 在文件中写入二维数据（不包括x和y）（需要输入文件）
+def write_two_dimensional_data_without_xy_array_and_without_opening_file(matrix, f):
+    for row in matrix:
+        for element in row:
+            f.write(str(element)+'   ')
+        f.write('\n')
+
+# 以显示编号的样式，打印数组
+def print_array_with_index(array, show_index=1, index_type=0):
+    if show_index==0:
+        for i0 in array:
+            print(i0)
+    else:
+        if index_type==0:
+            index = 0
+            for i0 in array:
+                print(index, i0)
+                index += 1
+        else:
+            index = 0
+            for i0 in array:
+                index += 1
+                print(index, i0)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Module 12: data processing
 
 # 并行计算前的预处理，把参数分成多份
@@ -2900,7 +3335,39 @@ def encryption_SHA_256(password, salt=''):
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # # Module 13: file processing
+
+# 如果不存在文件夹，则新建文件夹
+def make_directory(directory='./test'):
+    import os
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+# 复制一份文件
+def copy_file(file1='./a.txt', file2='./b.txt'):
+    import shutil
+    shutil.copy(file1, file2)
 
 # 将文件目录结构写入Markdown文件
 def write_file_list_in_markdown(directory='./', filename='a', reverse_positive_or_negative=1, starting_from_h1=None, banned_file_format=[], hide_file_format=None, divided_line=None, show_second_number=None, show_third_number=None): 
@@ -3125,11 +3592,53 @@ def change_directory_by_replacement(current_key_word='code', new_key_word='data'
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Module 14: others
 
 ## time
 
-# 获取当前日期
+# 获取当前日期字符串
 def get_date(bar=True):
     import datetime
     datetime_date = str(datetime.date.today())
@@ -3137,7 +3646,7 @@ def get_date(bar=True):
         datetime_date = datetime_date.replace('-', '')
     return datetime_date
 
-# 获取当前时间
+# 获取当前时间字符串
 def get_time():
     import datetime
     datetime_time = datetime.datetime.now().strftime('%H:%M:%S')

@@ -1,5 +1,18 @@
 import guan
-import math
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Module 1: basic functions
 
@@ -47,6 +60,28 @@ sigma_zz = guan.sigma_zz()
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Module 2: Fourier transform
 
 # 通过元胞和跃迁项得到一维的哈密顿量（需要输入k值）
@@ -87,6 +122,33 @@ b1, b2, b3 = guan.calculate_three_dimensional_reciprocal_lattice_vectors_with_sy
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Module 3: Hamiltonian of finite size systems
 
 # 构建一维的有限尺寸体系哈密顿量（可设置是否为周期边界条件）
@@ -118,6 +180,26 @@ H0, H1, H2 = guan.get_onsite_and_hopping_terms_of_half_bhz_model_for_spin_up(A=0
 
 # 获取半个BHZ模型的在位能和跃迁项（自旋向下）
 H0, H1, H2 = guan.get_onsite_and_hopping_terms_of_half_bhz_model_for_spin_down(A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01, a=1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -176,6 +258,28 @@ hamiltonian = guan.hamiltonian_of_kagome_lattice(kx, ky, t=1)
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Module 5: band structures and wave functions
 
 # 计算哈密顿量的本征值
@@ -204,6 +308,32 @@ vector1, vector2 = guan.rotation_of_degenerate_vectors(vector1, vector2, index1=
 
 # 旋转两个简并的波函数向量组（说明：参数比较多，效率不高）
 vector1_array, vector2_array = guan.rotation_of_degenerate_vectors_array(vector1_array, vector2_array, precision=0.01, criterion=0.01, show_theta=0)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -247,6 +377,36 @@ G_n = guan.electron_correlation_function_green_n_for_local_current(fermi_energy,
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Module 7: density of states
 
 # 计算体系的总态密度
@@ -269,6 +429,30 @@ local_dos = guan.local_density_of_states_for_cubic_lattice_using_dyson_equation(
 
 # 利用Dyson方程，计算方格子条带（考虑了电极自能）的局域态密度（其中，h00的维度为：dim_h00 = N2*internal_degree）
 local_dos = guan.local_density_of_states_for_square_lattice_with_self_energy_using_dyson_equation(fermi_energy, h00, h01, N2, N1, right_self_energy, left_self_energy, internal_degree=1, broadening=0.01)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -345,6 +529,32 @@ transmission_matrix_for_active_channels_averaged, reflection_matrix_for_active_c
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Module 9: topological invariant
 
 # 通过高效法计算方格子的陈数
@@ -379,57 +589,31 @@ wilson_loop_array = guan.calculate_wilson_loop(hamiltonian_function, k_min=-math
 
 
 
-# Module 10: read and write
-
-# 将数据存到文件
-guan.dump_data(data, filename, file_format='.txt')
-
-# 从文件中恢复数据到变量
-data = guan.load_data(filename, file_format='.txt')
-
-# 读取文件中的一维数据（每一行一组x和y）
-x_array, y_array = guan.read_one_dimensional_data(filename='a', file_format='.txt')
-
-# 读取文件中的一维数据（每一行一组x和y）（支持复数形式）
-x_array, y_array = guan.read_one_dimensional_complex_data(filename='a', file_format='txt')
-
-# 读取文件中的二维数据（第一行和列分别为横纵坐标）
-x_array, y_array, matrix = guan.read_two_dimensional_data(filename='a', file_format='.txt')
-
-# 读取文件中的二维数据（第一行和列分别为横纵坐标）（支持复数形式）
-x_array, y_array, matrix = guan.read_two_dimensional_complex_data(filename='a', file_format='.txt')
-
-# 读取文件中的二维数据（不包括x和y）
-matrix = guan.read_two_dimensional_data_without_xy_array(filename='a', file_format='.txt')
-
-# 打开文件用于新增内容
-f = guan.open_file(filename='a', file_format='.txt')
-
-# 在文件中写入一维数据（每一行一组x和y）
-guan.write_one_dimensional_data(x_array, y_array, filename='a', file_format='.txt')
-
-# 在文件中写入一维数据（每一行一组x和y）（需要输入文件）
-guan.write_one_dimensional_data_without_opening_file(x_array, y_array, f)
-
-# 在文件中写入二维数据（第一行和列分别为横纵坐标）
-guan.write_two_dimensional_data(x_array, y_array, matrix, filename='a', file_format='.txt')
-
-# 在文件中写入二维数据（第一行和列分别为横纵坐标）（需要输入文件）
-guan.write_two_dimensional_data_without_opening_file(x_array, y_array, matrix, f)
-
-# 在文件中写入二维数据（不包括x和y）
-guan.write_two_dimensional_data_without_xy_array(matrix, filename='a', file_format='.txt')
-
-# 在文件中写入二维数据（不包括x和y）（需要输入文件）
-guan.write_two_dimensional_data_without_xy_array_and_without_opening_file(matrix, f)
-
-# 以显示编号的样式，打印数组
-guan.print_array_with_index(array, show_index=1, index_type=0)
 
 
 
 
-# Module 11: plot figures
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Module 10: plot figures
 
 # 导入plt, fig, ax
 plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=0.2, adjust_left=0.2, labelsize=20)
@@ -480,6 +664,109 @@ guan.make_gif(image_path_array, filename='a', duration=0.1)
 color_array = guan.color_matplotlib()
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Module 11: read and write
+
+# 将数据存到文件
+guan.dump_data(data, filename, file_format='.txt')
+
+# 从文件中恢复数据到变量
+data = guan.load_data(filename, file_format='.txt')
+
+# 读取文件中的一维数据（每一行一组x和y）
+x_array, y_array = guan.read_one_dimensional_data(filename='a', file_format='.txt')
+
+# 读取文件中的一维数据（每一行一组x和y）（支持复数形式）
+x_array, y_array = guan.read_one_dimensional_complex_data(filename='a', file_format='txt')
+
+# 读取文件中的二维数据（第一行和列分别为横纵坐标）
+x_array, y_array, matrix = guan.read_two_dimensional_data(filename='a', file_format='.txt')
+
+# 读取文件中的二维数据（第一行和列分别为横纵坐标）（支持复数形式）
+x_array, y_array, matrix = guan.read_two_dimensional_complex_data(filename='a', file_format='.txt')
+
+# 读取文件中的二维数据（不包括x和y）
+matrix = guan.read_two_dimensional_data_without_xy_array(filename='a', file_format='.txt')
+
+# 打开文件用于新增内容
+f = guan.open_file(filename='a', file_format='.txt')
+
+# 在文件中写入一维数据（每一行一组x和y）
+guan.write_one_dimensional_data(x_array, y_array, filename='a', file_format='.txt')
+
+# 在文件中写入一维数据（每一行一组x和y）（需要输入文件）
+guan.write_one_dimensional_data_without_opening_file(x_array, y_array, f)
+
+# 在文件中写入二维数据（第一行和列分别为横纵坐标）
+guan.write_two_dimensional_data(x_array, y_array, matrix, filename='a', file_format='.txt')
+
+# 在文件中写入二维数据（第一行和列分别为横纵坐标）（需要输入文件）
+guan.write_two_dimensional_data_without_opening_file(x_array, y_array, matrix, f)
+
+# 在文件中写入二维数据（不包括x和y）
+guan.write_two_dimensional_data_without_xy_array(matrix, filename='a', file_format='.txt')
+
+# 在文件中写入二维数据（不包括x和y）（需要输入文件）
+guan.write_two_dimensional_data_without_xy_array_and_without_opening_file(matrix, f)
+
+# 以显示编号的样式，打印数组
+guan.print_array_with_index(array, show_index=1, index_type=0)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Module 12: data processing
 
 # 并行计算前的预处理，把参数分成多份
@@ -508,13 +795,40 @@ hashed_password = guan.encryption_SHA_256(password, salt='')
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Module 13: file processing
+
+# 如果不存在文件夹，则新建文件夹
+guan.make_directory(directory='./test')
+
+# 复制一份文件
+guan.copy_file(file1='./a.txt', file2='./b.txt')
 
 # 将文件目录结构写入Markdown文件
 guan.write_file_list_in_markdown(directory='./', filename='a', reverse_positive_or_negative=1, starting_from_h1=None, banned_file_format=[], hide_file_format=None, divided_line=None, show_second_number=None, show_third_number=None)
 
 # 查找文件名相同的文件
-repeated_file = guan.find_repeated_file_with_same_filename(directory='./', ignored_directory_with_words=[], ignored_file_with_words=[], num=1000):
+repeated_file = guan.find_repeated_file_with_same_filename(directory='./', ignored_directory_with_words=[], ignored_file_with_words=[], num=1000)
 
 # 统计各个子文件夹中的文件数量
 guan.count_file_in_sub_directory(directory='./', smaller_than_num=None)
@@ -533,14 +847,35 @@ guan.change_directory_by_replacement(current_key_word='code', new_key_word='data
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Module 14: others
 
 # time
 
-# 获取当前日期
+# 获取当前日期字符串
 datetime_date = guan.get_date(bar=True)
 
-# 获取当前时间
+# 获取当前时间字符串
 datetime_time = guan.get_time()
 
 # stocks
