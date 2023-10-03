@@ -2,7 +2,7 @@
 
 # With this package, you can calculate band structures, density of states, quantum transport and topological invariant of tight-binding models by invoking the functions you need. Other frequently used functions are also integrated in this package, such as file reading/writing, figure plotting, data processing.
 
-# The current version is guan-0.0.180, updated on December 03, 2023.
+# The current version is guan-0.0.181, updated on December 03, 2023.
 
 # Installation: pip install --upgrade guan
 
@@ -679,11 +679,12 @@ def hamiltonian_of_ssh_model(k, v=0.6, w=1):
     return hamiltonian
 
 # 石墨烯的哈密顿量
-import math
-def hamiltonian_of_graphene(k1, k2, staggered_potential=0, t=1, a=1/math.sqrt(3)):
+def hamiltonian_of_graphene(k1, k2, staggered_potential=0, t=1, a='default'):
     import numpy as np
     import cmath
     import math
+    if a == 'default':
+        a = 1/math.sqrt(3)
     h0 = np.zeros((2, 2), dtype=complex)  # mass term
     h1 = np.zeros((2, 2), dtype=complex)  # nearest hopping
     h0[0, 0] = staggered_potential     
@@ -753,11 +754,12 @@ def hamiltonian_of_graphene_with_zigzag_in_quasi_one_dimension(k, N=10, M=0, t=1
     return hamiltonian
 
 # Haldane模型的哈密顿量
-import math
-def hamiltonian_of_haldane_model(k1, k2, M=2/3, t1=1, t2=1/3, phi=math.pi/4, a=1/math.sqrt(3)):
+def hamiltonian_of_haldane_model(k1, k2, M=2/3, t1=1, t2=1/3, phi=math.pi/4, a='default'):
     import numpy as np
     import cmath
     import math
+    if a == 'default':
+        a=1/math.sqrt(3)
     h0 = np.zeros((2, 2), dtype=complex)  # mass term
     h1 = np.zeros((2, 2), dtype=complex)  # nearest hopping
     h2 = np.zeros((2, 2), dtype=complex)  # next nearest hopping
@@ -771,10 +773,12 @@ def hamiltonian_of_haldane_model(k1, k2, M=2/3, t1=1, t2=1/3, phi=math.pi/4, a=1
     return hamiltonian
 
 # 准一维Haldane模型条带的哈密顿量
-import math
-def hamiltonian_of_haldane_model_in_quasi_one_dimension(k, N=10, M=2/3, t1=1, t2=1/3, phi=math.pi/4, period=0):
+def hamiltonian_of_haldane_model_in_quasi_one_dimension(k, N=10, M=2/3, t1=1, t2=1/3, phi='default', period=0):
     import numpy as np
     import cmath
+    import math
+    if phi == 'default':
+        phi=math.pi/4
     h00 = np.zeros((4*N, 4*N), dtype=complex)  # hopping in a unit cell
     h01 = np.zeros((4*N, 4*N), dtype=complex)  # hopping between unit cells
     for i in range(N):
@@ -2422,11 +2426,15 @@ def calculate_chern_number_for_square_lattice_with_wilson_loop_for_degenerate_ca
     return chern_number
 
 # 通过高效法计算贝利曲率
-import math
-def calculate_berry_curvature_with_efficient_method(hamiltonian_function, k_min=-math.pi, k_max=math.pi, precision=100, print_show=0):
+def calculate_berry_curvature_with_efficient_method(hamiltonian_function, k_min='default', k_max='default', precision=100, print_show=0):
     import numpy as np
     import cmath
     import guan
+    import math
+    if k_min == 'default':
+        k_min = -math.pi
+    if k_max == 'default':
+        k_max=math.pi
     if np.array(hamiltonian_function(0, 0)).shape==():
         dim = 1
     else:
@@ -2464,10 +2472,14 @@ def calculate_berry_curvature_with_efficient_method(hamiltonian_function, k_min=
     return k_array, berry_curvature_array
 
 # 通过高效法计算贝利曲率（可计算简并的情况）
-import math
-def calculate_berry_curvature_with_efficient_method_for_degenerate_case(hamiltonian_function, index_of_bands=[0, 1], k_min=-math.pi, k_max=math.pi, precision=100, print_show=0):
+def calculate_berry_curvature_with_efficient_method_for_degenerate_case(hamiltonian_function, index_of_bands=[0, 1], k_min='default', k_max='default', precision=100, print_show=0):
     import numpy as np
     import cmath
+    import math
+    if k_min == 'default':
+        k_min = -math.pi
+    if k_max == 'default':
+        k_max=math.pi
     delta = (k_max-k_min)/precision
     k_array = np.arange(k_min, k_max, delta)
     berry_curvature_array = np.zeros((k_array.shape[0], k_array.shape[0]), dtype=complex)
@@ -2538,9 +2550,13 @@ def calculate_berry_curvature_with_efficient_method_for_degenerate_case(hamilton
     return k_array, berry_curvature_array
 
 # 通过Wilson loop方法计算贝里曲率
-import math
-def calculate_berry_curvature_with_wilson_loop(hamiltonian_function, k_min=-math.pi, k_max=math.pi, precision_of_plaquettes=20, precision_of_wilson_loop=5, print_show=0):
+def calculate_berry_curvature_with_wilson_loop(hamiltonian_function, k_min='default', k_max='default', precision_of_plaquettes=20, precision_of_wilson_loop=5, print_show=0):
     import numpy as np
+    import math
+    if k_min == 'default':
+        k_min = -math.pi
+    if k_max == 'default':
+        k_max=math.pi
     if np.array(hamiltonian_function(0, 0)).shape==():
         dim = 1
     else:
@@ -2590,9 +2606,13 @@ def calculate_berry_curvature_with_wilson_loop(hamiltonian_function, k_min=-math
     return k_array, berry_curvature_array
 
 # 通过Wilson loop方法计算贝里曲率（可计算简并的情况）
-import math
-def calculate_berry_curvature_with_wilson_loop_for_degenerate_case(hamiltonian_function, index_of_bands=[0, 1], k_min=-math.pi, k_max=math.pi, precision_of_plaquettes=20, precision_of_wilson_loop=5, print_show=0):
+def calculate_berry_curvature_with_wilson_loop_for_degenerate_case(hamiltonian_function, index_of_bands=[0, 1], k_min='default', k_max='default', precision_of_plaquettes=20, precision_of_wilson_loop=5, print_show=0):
     import numpy as np
+    import math
+    if k_min == 'default':
+        k_min = -math.pi
+    if k_max == 'default':
+        k_max=math.pi
     delta = (k_max-k_min)/precision_of_plaquettes
     k_array = np.arange(k_min, k_max, delta)
     berry_curvature_array = np.zeros((k_array.shape[0], k_array.shape[0]), dtype=complex)
@@ -2700,10 +2720,14 @@ def calculate_chern_number_for_honeycomb_lattice(hamiltonian_function, a=1, prec
     return chern_number
 
 # 计算Wilson loop
-import math
-def calculate_wilson_loop(hamiltonian_function, k_min=-math.pi, k_max=math.pi, precision=100, print_show=0):
+def calculate_wilson_loop(hamiltonian_function, k_min='default', k_max='default', precision=100, print_show=0):
     import numpy as np
     import guan
+    import math
+    if k_min == 'default':
+        k_min = -math.pi
+    if k_max == 'default':
+        k_max=math.pi
     k_array = np.linspace(k_min, k_max, precision)
     dim = np.array(hamiltonian_function(0)).shape[0]
     wilson_loop_array = np.ones(dim, dtype=complex)
