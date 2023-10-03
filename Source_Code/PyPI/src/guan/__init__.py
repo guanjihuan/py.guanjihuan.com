@@ -57,13 +57,11 @@
 
 # Module 1: basic functions
 
-## test
-
+# 测试
 def test():
     print('\nSuccess in the installation of Guan package!\n')
 
-## Pauli matrices
-
+# 泡利矩阵
 def sigma_0():
     import numpy as np
     return np.eye(2)
@@ -80,8 +78,7 @@ def sigma_z():
     import numpy as np
     return np.array([[1, 0],[0, -1]])
 
-## Kronecker product of Pauli matrices
-
+# 泡利矩阵的张量积
 def sigma_00():
     import numpy as np
     import guan
@@ -1568,8 +1565,6 @@ def local_density_of_states_for_square_lattice_with_self_energy_using_dyson_equa
 
 # Module 8: quantum transport
 
-## conductance
-
 # 计算电导
 def calculate_conductance(fermi_energy, h00, h01, length=100):
     import numpy as np
@@ -1773,8 +1768,6 @@ def calculate_conductance_with_scattering_length_array(fermi_energy, h00, h01, l
     conductance_array = conductance_array/calculation_times
     return conductance_array
 
-## multi-terminal transmission
-
 # 计算得到Gamma矩阵和格林函数，用于计算六端口的量子输运
 def get_gamma_array_and_green_for_six_terminal_transmission(fermi_energy, h00_for_lead_4, h01_for_lead_4, h00_for_lead_2, h01_for_lead_2, center_hamiltonian, width=10, length=50, internal_degree=1, moving_step_of_leads=10):
     import numpy as np
@@ -1856,8 +1849,6 @@ def calculate_six_terminal_transmissions_from_lead_1(fermi_energy, h00_for_lead_
     transmission_15 = np.real(np.trace(np.dot(np.dot(np.dot(gamma_array[0], green), gamma_array[4]), green.transpose().conj())))
     transmission_16 = np.real(np.trace(np.dot(np.dot(np.dot(gamma_array[0], green), gamma_array[5]), green.transpose().conj())))
     return transmission_12, transmission_13, transmission_14, transmission_15, transmission_16
-
-## scattering matrix
 
 # 通过动量k的虚部，判断通道为传播通道还是衰减通道
 def if_active_channel(k_of_channel):
@@ -3841,7 +3832,7 @@ def play_element_words(random_on=0, show_translation=1, show_link=1, translation
 
 
 
-# # Module 13: file processing
+# Module 13: file processing
 
 # 如果不存在文件夹，则新建文件夹
 def make_directory(directory='./test'):
