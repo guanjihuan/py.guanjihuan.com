@@ -1,4 +1,4 @@
-# API Reference shows all functions in Guan package. The current version is guan-0.0.184, updated on December 03, 2023.
+# API Reference shows all functions in Guan package. The current version is guan-0.0.185, updated on December 05, 2023.
 
 import guan
 
@@ -820,6 +820,9 @@ rand_num = guan.generate_random_int_number_for_a_specific_seed(seed=0, x_min=0, 
 
 # 统计运行的日期和时间，写进文件
 guan.statistics_with_day_and_time(content='', filename='a', file_format='.txt')
+
+# 统计Python文件中import的数量并排序
+import_statement_counter = guan.count_number_of_import_statements(filename, file_format='.py', num=1000)
 
 # 将RGB转成HEX
 hex = guan.rgb_to_hex(rgb, pound=1)

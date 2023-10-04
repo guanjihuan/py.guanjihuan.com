@@ -1,6 +1,6 @@
 # Guan is an open-source python package developed and maintained by https://www.guanjihuan.com/about (Ji-Huan Guan, 关济寰). The primary location of this package is on website https://py.guanjihuan.com. GitHub link: https://github.com/guanjihuan/py.guanjihuan.com.
 
-# The current version is guan-0.0.184, updated on December 03, 2023.
+# The current version is guan-0.0.185, updated on December 05, 2023.
 
 # Installation: pip install --upgrade guan
 
@@ -3586,6 +3586,19 @@ def statistics_with_day_and_time(content='', filename='a', file_format='.txt'):
            f2.write(datetime_today+' '+datetime_time+'\n')
        else:
            f2.write(datetime_today+' '+datetime_time+' '+content+'\n')
+
+# 统计Python文件中import的数量并排序
+def count_number_of_import_statements(filename, file_format='.py', num=1000):
+    with open(filename+file_format, 'r') as file:
+        lines = file.readlines()
+    import_array = []
+    for line in lines:
+        if 'import ' in line:
+            line = line.strip()
+            import_array.append(line)
+    from collections import Counter
+    import_statement_counter = Counter(import_array).most_common(num)
+    return import_statement_counter
 
 # 将RGB转成HEX
 def rgb_to_hex(rgb, pound=1):
