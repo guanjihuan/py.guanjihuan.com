@@ -1,6 +1,6 @@
 # Guan is an open-source python package developed and maintained by https://www.guanjihuan.com/about (Ji-Huan Guan, 关济寰). The primary location of this package is on website https://py.guanjihuan.com. GitHub link: https://github.com/guanjihuan/py.guanjihuan.com.
 
-# The current version is guan-0.0.185, updated on December 05, 2023.
+# The current version is guan-0.0.186, updated on December 07, 2023.
 
 # Installation: pip install --upgrade guan
 
@@ -4037,6 +4037,27 @@ def pdf_to_text(pdf_path):
                 if isinstance(x, LTTextBox):
                     content  = content + x.get_text().strip()
     return content
+
+# 获取PDF文件页数
+def get_pdf_page_number(pdf_path):
+    import PyPDF2
+    pdf_file = open(pdf_path, 'rb')
+    pdf_reader = PyPDF2.PdfReader(pdf_file)
+    num_pages = len(pdf_reader.pages)
+    return num_pages
+
+# 获取PDF文件指定页面的内容
+def pdf_to_txt_for_a_specific_page(pdf_path, page_num=1):
+    import PyPDF2
+    pdf_file = open(pdf_path, 'rb')
+    pdf_reader = PyPDF2.PdfReader(pdf_file)
+    num_pages = len(pdf_reader.pages)
+    for page_num0 in range(num_pages):
+        if page_num0 == page_num-1:
+            page = pdf_reader.pages[page_num0]
+            page_text = page.extract_text()
+    pdf_file.close()
+    return page_text
 
 # 获取PDF文献中的链接。例如: link_starting_form='https://doi.org'
 def get_links_from_pdf(pdf_path, link_starting_form=''):

@@ -1,4 +1,4 @@
-# API Reference shows all functions in Guan package. The current version is guan-0.0.185, updated on December 05, 2023.
+# API Reference shows all functions in Guan package. The current version is guan-0.0.186, updated on December 07, 2023.
 
 import guan
 
@@ -916,6 +916,12 @@ guan.combine_two_pdf_files(input_file_1='a.pdf', input_file_2='b.pdf', output_fi
 
 # 将PDF文件转成文本
 content = guan.pdf_to_text(pdf_path)
+
+# 获取PDF文件页数
+num_pages = guan.get_pdf_page_number(pdf_path)
+
+# 获取PDF文件指定页面的内容
+page_text = guan.pdf_to_txt_for_a_specific_page(pdf_path, page_num=1)
 
 # 获取PDF文献中的链接。例如: link_starting_form='https://doi.org'
 links = guan.get_links_from_pdf(pdf_path, link_starting_form='')
