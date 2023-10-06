@@ -1,4 +1,4 @@
-# API Reference shows all functions in Guan package. The current version is guan-0.0.187, updated on December 07, 2023.
+# API Reference shows all functions in Guan package. The current version is guan-0.0.188, updated on December 07, 2023.
 
 import guan
 
