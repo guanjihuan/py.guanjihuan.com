@@ -1,6 +1,6 @@
 # Guan is an open-source python package developed and maintained by https://www.guanjihuan.com/about (Ji-Huan Guan, 关济寰). The primary location of this package is on website https://py.guanjihuan.com. GitHub link: https://github.com/guanjihuan/py.guanjihuan.com.
 
-# The current version is guan-0.0.188, updated on December 07, 2023.
+# The current version is guan-0.0.189, updated on December 07, 2023.
 
 # Installation: pip install --upgrade guan
 
@@ -3599,6 +3599,12 @@ def count_number_of_import_statements(filename, file_format='.py', num=1000):
     from collections import Counter
     import_statement_counter = Counter(import_array).most_common(num)
     return import_statement_counter
+
+# 根据一定的字符长度来分割文本
+def split_text(text, wrap_width=3000):  
+    import textwrap  
+    split_text_list = textwrap.wrap(text, wrap_width)
+    return split_text_list
 
 # 从网页的标签中获取内容
 def get_html_from_tags(link, tags=['title', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'li', 'a']):

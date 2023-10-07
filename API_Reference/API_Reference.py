@@ -1,4 +1,4 @@
-# API Reference shows all functions in Guan package. The current version is guan-0.0.188, updated on December 07, 2023.
+# API Reference shows all functions in Guan package. The current version is guan-0.0.189, updated on December 07, 2023.
 
 import guan
 
@@ -823,6 +823,9 @@ guan.statistics_with_day_and_time(content='', filename='a', file_format='.txt')
 
 # 统计Python文件中import的数量并排序
 import_statement_counter = guan.count_number_of_import_statements(filename, file_format='.py', num=1000)
+
+# 根据一定的字符长度来分割文本
+split_text_list = guan.split_text(text, wrap_width=3000)
 
 # 从网页的标签中获取内容
 content = guan.get_html_from_tags(link, tags=['title', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'li', 'a'])
