@@ -1,6 +1,6 @@
 # Guan is an open-source python package developed and maintained by https://www.guanjihuan.com/about (Ji-Huan Guan, 关济寰). The primary location of this package is on website https://py.guanjihuan.com. GitHub link: https://github.com/guanjihuan/py.guanjihuan.com.
 
-# The current version is guan-0.0.189, updated on December 07, 2023.
+# The current version is guan-0.0.190, updated on December 09, 2023.
 
 # Installation: pip install --upgrade guan
 
@@ -3648,7 +3648,6 @@ def encryption_MD5(password, salt=''):
 def encryption_SHA_256(password, salt=''):
     import hashlib
     password = salt+password
-    print(password)
     hashed_password = hashlib.sha256(password.encode()).hexdigest()
     return hashed_password
 
