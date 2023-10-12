@@ -1,6 +1,6 @@
 # Guan is an open-source python package developed and maintained by https://www.guanjihuan.com/about (Ji-Huan Guan, 关济寰). The primary location of this package is on website https://py.guanjihuan.com. GitHub link: https://github.com/guanjihuan/py.guanjihuan.com.
 
-# The current version is guan-0.0.192, updated on December 12, 2023.
+# The current version is guan-0.0.193, updated on December 12, 2023.
 
 # Installation: pip install --upgrade guan
 
@@ -3595,6 +3595,7 @@ def check_Chinese_or_English(a):
 # 统计中英文文本的字数，默认不包括空格
 def count_words(text, include_space=0, show_words=0):
     import jieba
+    import guan
     words = jieba.lcut(text)  
     new_words = []
     if include_space == 0:
