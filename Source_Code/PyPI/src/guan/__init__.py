@@ -1,6 +1,6 @@
 # Guan is an open-source python package developed and maintained by https://www.guanjihuan.com/about (Ji-Huan Guan, 关济寰). The primary location of this package is on website https://py.guanjihuan.com. GitHub link: https://github.com/guanjihuan/py.guanjihuan.com.
 
-# The current version is guan-0.0.190, updated on December 09, 2023.
+# The current version is guan-0.0.191, updated on December 12, 2023.
 
 # Installation: pip install --upgrade guan
 
@@ -3575,6 +3575,13 @@ def generate_random_int_number_for_a_specific_seed(seed=0, x_min=0, x_max=10):
     np.random.seed(seed)
     rand_num = np.random.randint(x_min, x_max) # 左闭右开[x_min, x_max)
     return rand_num
+
+# 统计中英文文本的字数
+def count_words(text):
+    import jieba
+    words = jieba.lcut(text)
+    num_words = len(words)
+    return num_words
 
 # 统计运行的日期和时间，写进文件
 def statistics_with_day_and_time(content='', filename='a', file_format='.txt'):

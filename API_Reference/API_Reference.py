@@ -1,4 +1,4 @@
-# API Reference shows all functions in Guan package. The current version is guan-0.0.190, updated on December 09, 2023.
+# API Reference shows all functions in Guan package. The current version is guan-0.0.191, updated on December 12, 2023.
 
 import guan
 
@@ -817,6 +817,9 @@ degenerate_k_array, degenerate_eigenvalue_array = guan.find_degenerate_points(k_
 
 # 选取一个种子生成固定的随机整数
 rand_num = guan.generate_random_int_number_for_a_specific_seed(seed=0, x_min=0, x_max=10)
+
+# 统计中英文文本的字数
+num_words = guan.count_words(text)
 
 # 统计运行的日期和时间，写进文件
 guan.statistics_with_day_and_time(content='', filename='a', file_format='.txt')
