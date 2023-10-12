@@ -1,6 +1,6 @@
 # Guan is an open-source python package developed and maintained by https://www.guanjihuan.com/about (Ji-Huan Guan, 关济寰). The primary location of this package is on website https://py.guanjihuan.com. GitHub link: https://github.com/guanjihuan/py.guanjihuan.com.
 
-# The current version is guan-0.0.191, updated on December 12, 2023.
+# The current version is guan-0.0.192, updated on December 12, 2023.
 
 # Installation: pip install --upgrade guan
 
@@ -3576,11 +3576,46 @@ def generate_random_int_number_for_a_specific_seed(seed=0, x_min=0, x_max=10):
     rand_num = np.random.randint(x_min, x_max) # 左闭右开[x_min, x_max)
     return rand_num
 
-# 统计中英文文本的字数
-def count_words(text):
+# 使用jieba分词
+def divide_text_into_words(text):
     import jieba
     words = jieba.lcut(text)
-    num_words = len(words)
+    return words
+
+# 判断某个字符是中文还是英文或其他
+def check_Chinese_or_English(a):  
+    if '\u4e00' <= a <= '\u9fff' :  
+        word_type = 'Chinese'  
+    elif '\x00' <= a <= '\xff':  
+        word_type = 'English'
+    else:
+        word_type = 'Others' 
+    return word_type
+
+# 统计中英文文本的字数，默认不包括空格
+def count_words(text, include_space=0, show_words=0):
+    import jieba
+    words = jieba.lcut(text)  
+    new_words = []
+    if include_space == 0:
+        for word in words:
+            if word != ' ':
+                new_words.append(word)
+    else:
+        new_words = words
+    num_words = 0
+    new_words_2 = []
+    for word in new_words:
+        word_type = guan.check_Chinese_or_English(word[0])
+        if word_type == 'Chinese':
+            num_words += len(word)
+            for one_word in word:
+                new_words_2.append(one_word)
+        elif word_type == 'English' or 'Others':
+            num_words += 1
+            new_words_2.append(word)
+    if show_words == 1:
+        print(new_words_2)
     return num_words
 
 # 统计运行的日期和时间，写进文件
