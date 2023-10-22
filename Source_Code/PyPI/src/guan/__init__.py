@@ -3694,6 +3694,12 @@ def encryption_SHA_256(password, salt=''):
     hashed_password = hashlib.sha256(password.encode()).hexdigest()
     return hashed_password
 
+# 获取CPU使用率
+def get_cpu_usage(interval=1):
+    import psutil
+    cpu_usage = psutil.cpu_percent(interval=interval)
+    return cpu_usage
+
 # 获取当前日期字符串
 def get_date(bar=True):
     import datetime

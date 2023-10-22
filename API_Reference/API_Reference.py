@@ -851,6 +851,9 @@ hashed_password = guan.encryption_MD5(password, salt='')
 # 使用SHA-256进行散列加密
 hashed_password = guan.encryption_SHA_256(password, salt='')
 
+# 获取CPU使用率
+cpu_usage = guan.get_cpu_usage(interval=1)
+
 # 获取当前日期字符串
 datetime_date = guan.get_date(bar=True)
 
