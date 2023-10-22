@@ -4053,6 +4053,25 @@ def play_element_words(random_on=0, show_translation=1, show_link=1, translation
 
 # Module 13: file processing
 
+# 自动先后运行程序（串行）
+def run_programs_sequentially(program_files=['./a.py', './b.py'], execute='python ', show_time=0):
+    import os
+    import time
+    if show_time == 1:
+        start = time.time()
+    i0 = 0
+    for program_file in program_files:
+        i0 += 1
+        if show_time == 1:
+            start_0 = time.time()
+        os.system(execute+program_file)
+        if show_time == 1:
+            end_0 = time.time()
+            print('Running time of program_'+str(i0)+' = '+str((end_0-start_0)/60)+' min')
+    if show_time == 1:
+        end = time.time()
+        print('Total running time = '+str((end-start)/60)+' min')
+
 # 如果不存在文件夹，则新建文件夹
 def make_directory(directory='./test'):
     import os

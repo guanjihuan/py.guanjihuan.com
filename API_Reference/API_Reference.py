@@ -923,6 +923,9 @@ guan.play_element_words(random_on=0, show_translation=1, show_link=1, translatio
 
 # Module 13: file processing
 
+# 自动先后运行程序（串行）
+guan.run_programs_sequentially(program_files=['./a.py', './b.py'], execute='python ', show_time=0)
+
 # 如果不存在文件夹，则新建文件夹
 guan.make_directory(directory='./test')
 
