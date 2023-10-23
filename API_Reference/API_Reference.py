@@ -1,4 +1,4 @@
-# API Reference shows all functions in Guan package. The current version is guan-0.1.1 updated on December 23, 2023.
+# API Reference shows all functions in Guan package. The current version is guan-0.1.2 updated on December 23, 2023.
 
 import guan
 
@@ -936,12 +936,6 @@ hashed_password = guan.encryption_SHA_256(password, salt='')
 # 获取CPU使用率
 cpu_usage = guan.get_cpu_usage(interval=1)
 
-# 获取当前日期字符串
-datetime_date = guan.get_date(bar=True)
-
-# 获取当前时间字符串
-datetime_time = guan.get_time()
-
 # 获取本月的所有日期
 day_array = guan.get_days_of_the_current_month(str_or_datetime='str')
 
@@ -989,6 +983,12 @@ current_function_name = guan.get_current_function_name()
 
 # 获取调用本函数的函数名
 calling_function_name = guan.get_calling_function_name(layer=1)
+
+# 获取当前日期字符串
+datetime_date = guan.get_date(bar=True)
+
+# 获取当前时间字符串
+datetime_time = guan.get_time()
 
 # Guan软件包的使用统计（不涉及到用户的个人数据）
 guan.statistics_of_guan_package()

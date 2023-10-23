@@ -1,6 +1,6 @@
 # Guan is an open-source python package developed and maintained by https://www.guanjihuan.com/about (Ji-Huan Guan, 关济寰). The primary location of this package is on website https://py.guanjihuan.com. GitHub link: https://github.com/guanjihuan/py.guanjihuan.com.
 
-# The current version is guan-0.1.1, updated on December 23, 2023.
+# The current version is guan-0.1.2, updated on December 23, 2023.
 
 # Installation: pip install --upgrade guan
 
@@ -4530,24 +4530,6 @@ def get_cpu_usage(interval=1):
     guan.statistics_of_guan_package()
     return cpu_usage
 
-# 获取当前日期字符串
-def get_date(bar=True):
-    import datetime
-    datetime_date = str(datetime.date.today())
-    if bar==False:
-        datetime_date = datetime_date.replace('-', '')
-    import guan
-    guan.statistics_of_guan_package()
-    return datetime_date
-
-# 获取当前时间字符串
-def get_time():
-    import datetime
-    datetime_time = datetime.datetime.now().strftime('%H:%M:%S')
-    import guan
-    guan.statistics_of_guan_package()
-    return datetime_time
-
 # 获取本月的所有日期
 def get_days_of_the_current_month(str_or_datetime='str'):
     import datetime
@@ -4897,6 +4879,24 @@ def get_calling_function_name(layer=1):
     caller = inspect.stack()[layer]
     calling_function_name = caller.function
     return calling_function_name
+
+# 获取当前日期字符串
+def get_date(bar=True):
+    import datetime
+    datetime_date = str(datetime.date.today())
+    if bar==False:
+        datetime_date = datetime_date.replace('-', '')
+    import guan
+    guan.statistics_of_guan_package()
+    return datetime_date
+
+# 获取当前时间字符串
+def get_time():
+    import datetime
+    datetime_time = datetime.datetime.now().strftime('%H:%M:%S')
+    import guan
+    guan.statistics_of_guan_package()
+    return datetime_time
 
 # Guan软件包的使用统计（不涉及到用户的个人数据）
 def statistics_of_guan_package():
