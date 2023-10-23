@@ -1,4 +1,4 @@
-# API Reference shows all functions in Guan package. The current version is guan-0.0.193, updated on December 12, 2023.
+# API Reference shows all functions in Guan package. The current version is guan-0.0.194, updated on December 23, 2023.
 
 import guan
 
@@ -790,6 +790,70 @@ guan.print_array_with_index(array, show_index=1, index_type=0)
 
 
 
+# Module 12: file processing
+
+# 自动先后运行程序（串行）
+guan.run_programs_sequentially(program_files=['./a.py', './b.py'], execute='python ', show_time=0)
+
+# 如果不存在文件夹，则新建文件夹
+guan.make_directory(directory='./test')
+
+# 复制一份文件
+guan.copy_file(file1='./a.txt', file2='./b.txt')
+
+# 拼接两个PDF文件
+guan.combine_two_pdf_files(input_file_1='a.pdf', input_file_2='b.pdf', output_file='combined_file.pdf')
+
+# 将PDF文件转成文本
+content = guan.pdf_to_text(pdf_path)
+
+# 获取PDF文件页数
+num_pages = guan.get_pdf_page_number(pdf_path)
+
+# 获取PDF文件指定页面的内容
+page_text = guan.pdf_to_txt_for_a_specific_page(pdf_path, page_num=1)
+
+# 获取PDF文献中的链接。例如: link_starting_form='https://doi.org'
+links = guan.get_links_from_pdf(pdf_path, link_starting_form='')
+
+# 通过Sci-Hub网站下载文献
+guan.download_with_scihub(address=None, num=1)
+
+# 将文件目录结构写入Markdown文件
+guan.write_file_list_in_markdown(directory='./', filename='a', reverse_positive_or_negative=1, starting_from_h1=None, banned_file_format=[], hide_file_format=None, divided_line=None, show_second_number=None, show_third_number=None)
+
+# 查找文件名相同的文件
+repeated_file = guan.find_repeated_file_with_same_filename(directory='./', ignored_directory_with_words=[], ignored_file_with_words=[], num=1000)
+
+# 统计各个子文件夹中的文件数量
+guan.count_file_in_sub_directory(directory='./', smaller_than_num=None)
+
+# 产生必要的文件，例如readme.md
+guan.creat_necessary_file(directory, filename='readme', file_format='.md', content='', overwrite=None, ignored_directory_with_words=[])
+
+# 删除特定文件名的文件
+guan.delete_file_with_specific_name(directory, filename='readme', file_format='.md')
+
+# 所有文件移到根目录（慎用）
+guan.move_all_files_to_root_directory(directory)
+
+# 改变当前的目录位置
+guan.change_directory_by_replacement(current_key_word='code', new_key_word='data')
+
+# 生成二维码
+guan.creat_qrcode(data="https://www.guanjihuan.com", filename='a', file_format='.png')
+
+# 将文本转成音频
+guan.str_to_audio(str='hello world', filename='str', rate=125, voice=1, read=1, save=0, compress=0, bitrate='16k', print_text=0)
+
+# 将txt文件转成音频
+guan.txt_to_audio(txt_path, rate=125, voice=1, read=1, save=0, compress=0, bitrate='16k', print_text=0)
+
+# 将PDF文件转成音频
+guan.pdf_to_audio(pdf_path, rate=125, voice=1, read=1, save=0, compress=0, bitrate='16k', print_text=0)
+
+# 将wav音频文件压缩成MP3音频文件
+guan.compress_wav_to_mp3(wav_path, output_filename='a.mp3', bitrate='16k')
 
 
 
@@ -804,7 +868,25 @@ guan.print_array_with_index(array, show_index=1, index_type=0)
 
 
 
-# Module 12: data processing
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Module 13: data processing
 
 # 并行计算前的预处理，把参数分成多份
 parameter_array = guan.preprocess_for_parallel_calculations(parameter_array_all, cpus=1, task_index=0)
@@ -896,92 +978,18 @@ guan.play_selected_academic_words(reverse=0, random_on=0, bre_or_ame='ame', show
 # 播放元素周期表上的单词
 guan.play_element_words(random_on=0, show_translation=1, show_link=1, translation_time=2, rest_time=1)
 
+# 获取当前函数名
+current_function_name = guan.get_current_function_name()
+
+# 获取调用本函数的函数名
+calling_function_name = guan.get_calling_function_name(layer=1)
+
+# 获取Guan软件包当前模块的所有函数名
+function_names = guan.get_all_function_names_in_current_module()
+
+# 统计Guan软件包中的函数数量
+num_functions = guan.count_functions_in_current_module()
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Module 13: file processing
-
-# 自动先后运行程序（串行）
-guan.run_programs_sequentially(program_files=['./a.py', './b.py'], execute='python ', show_time=0)
-
-# 如果不存在文件夹，则新建文件夹
-guan.make_directory(directory='./test')
-
-# 复制一份文件
-guan.copy_file(file1='./a.txt', file2='./b.txt')
-
-# 拼接两个PDF文件
-guan.combine_two_pdf_files(input_file_1='a.pdf', input_file_2='b.pdf', output_file='combined_file.pdf')
-
-# 将PDF文件转成文本
-content = guan.pdf_to_text(pdf_path)
-
-# 获取PDF文件页数
-num_pages = guan.get_pdf_page_number(pdf_path)
-
-# 获取PDF文件指定页面的内容
-page_text = guan.pdf_to_txt_for_a_specific_page(pdf_path, page_num=1)
-
-# 获取PDF文献中的链接。例如: link_starting_form='https://doi.org'
-links = guan.get_links_from_pdf(pdf_path, link_starting_form='')
-
-# 通过Sci-Hub网站下载文献
-guan.download_with_scihub(address=None, num=1)
-
-# 将文件目录结构写入Markdown文件
-guan.write_file_list_in_markdown(directory='./', filename='a', reverse_positive_or_negative=1, starting_from_h1=None, banned_file_format=[], hide_file_format=None, divided_line=None, show_second_number=None, show_third_number=None)
-
-# 查找文件名相同的文件
-repeated_file = guan.find_repeated_file_with_same_filename(directory='./', ignored_directory_with_words=[], ignored_file_with_words=[], num=1000)
-
-# 统计各个子文件夹中的文件数量
-guan.count_file_in_sub_directory(directory='./', smaller_than_num=None)
-
-# 产生必要的文件，例如readme.md
-guan.creat_necessary_file(directory, filename='readme', file_format='.md', content='', overwrite=None, ignored_directory_with_words=[])
-
-# 删除特定文件名的文件
-guan.delete_file_with_specific_name(directory, filename='readme', file_format='.md')
-
-# 所有文件移到根目录（慎用）
-guan.move_all_files_to_root_directory(directory)
-
-# 改变当前的目录位置
-guan.change_directory_by_replacement(current_key_word='code', new_key_word='data')
-
-# 生成二维码
-guan.creat_qrcode(data="https://www.guanjihuan.com", filename='a', file_format='.png')
-
-# 将文本转成音频
-guan.str_to_audio(str='hello world', filename='str', rate=125, voice=1, read=1, save=0, compress=0, bitrate='16k', print_text=0)
-
-# 将txt文件转成音频
-guan.txt_to_audio(txt_path, rate=125, voice=1, read=1, save=0, compress=0, bitrate='16k', print_text=0)
-
-# 将PDF文件转成音频
-guan.pdf_to_audio(pdf_path, rate=125, voice=1, read=1, save=0, compress=0, bitrate='16k', print_text=0)
-
-# 将wav音频文件压缩成MP3音频文件
-guan.compress_wav_to_mp3(wav_path, output_filename='a.mp3', bitrate='16k')
