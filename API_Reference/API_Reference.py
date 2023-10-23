@@ -1,4 +1,4 @@
-# API Reference shows all functions in Guan package. The current version is guan-0.0.194, updated on December 23, 2023.
+# API Reference shows all functions in Guan package. The current version is guan-0.1.1 updated on December 23, 2023.
 
 import guan
 
@@ -978,18 +978,19 @@ guan.play_selected_academic_words(reverse=0, random_on=0, bre_or_ame='ame', show
 # 播放元素周期表上的单词
 guan.play_element_words(random_on=0, show_translation=1, show_link=1, translation_time=2, rest_time=1)
 
-# 获取当前函数名
-current_function_name = guan.get_current_function_name()
-
-# 获取调用本函数的函数名
-calling_function_name = guan.get_calling_function_name(layer=1)
-
 # 获取Guan软件包当前模块的所有函数名
 function_names = guan.get_all_function_names_in_current_module()
 
 # 统计Guan软件包中的函数数量
 num_functions = guan.count_functions_in_current_module()
 
+# 获取当前函数名
+current_function_name = guan.get_current_function_name()
 
+# 获取调用本函数的函数名
+calling_function_name = guan.get_calling_function_name(layer=1)
+
+# Guan软件包的使用统计（不涉及到用户的个人数据）
+guan.statistics_of_guan_package()
 
 

@@ -1,6 +1,6 @@
 # Guan is an open-source python package developed and maintained by https://www.guanjihuan.com/about (Ji-Huan Guan, 关济寰). The primary location of this package is on website https://py.guanjihuan.com. GitHub link: https://github.com/guanjihuan/py.guanjihuan.com.
 
-# The current version is guan-0.1.0, updated on December 23, 2023.
+# The current version is guan-0.1.1, updated on December 23, 2023.
 
 # Installation: pip install --upgrade guan
 
@@ -60,103 +60,129 @@
 # 测试
 def test():
     print('\nSuccess in the installation of Guan package!\n')
+    import guan
+    guan.statistics_of_guan_package()
 
 # 泡利矩阵
 def sigma_0():
     import numpy as np
+    import guan
+    guan.statistics_of_guan_package()
     return np.eye(2)
 
 def sigma_x():
     import numpy as np
+    import guan
+    guan.statistics_of_guan_package()
     return np.array([[0, 1],[1, 0]])
 
 def sigma_y():
     import numpy as np
+    import guan
+    guan.statistics_of_guan_package()
     return np.array([[0, -1j],[1j, 0]])
 
 def sigma_z():
     import numpy as np
+    import guan
+    guan.statistics_of_guan_package()
     return np.array([[1, 0],[0, -1]])
 
 # 泡利矩阵的张量积
 def sigma_00():
     import numpy as np
     import guan
+    guan.statistics_of_guan_package()
     return np.kron(guan.sigma_0(), guan.sigma_0())
 
 def sigma_0x():
     import numpy as np
     import guan
+    guan.statistics_of_guan_package()
     return np.kron(guan.sigma_0(), guan.sigma_x())
 
 def sigma_0y():
     import numpy as np
     import guan
+    guan.statistics_of_guan_package()
     return np.kron(guan.sigma_0(), guan.sigma_y())
 
 def sigma_0z():
     import numpy as np
     import guan
+    guan.statistics_of_guan_package()
     return np.kron(guan.sigma_0(), guan.sigma_z())
 
 def sigma_x0():
     import numpy as np
     import guan
+    guan.statistics_of_guan_package()
     return np.kron(guan.sigma_x(), guan.sigma_0())
 
 def sigma_xx():
     import numpy as np
     import guan
+    guan.statistics_of_guan_package()
     return np.kron(guan.sigma_x(), guan.sigma_x())
 
 def sigma_xy():
     import numpy as np
     import guan
+    guan.statistics_of_guan_package()
     return np.kron(guan.sigma_x(), guan.sigma_y())
 
 def sigma_xz():
     import numpy as np
     import guan
+    guan.statistics_of_guan_package()
     return np.kron(guan.sigma_x(), guan.sigma_z())
 
 def sigma_y0():
     import numpy as np
     import guan
+    guan.statistics_of_guan_package()
     return np.kron(guan.sigma_y(), guan.sigma_0())
 
 def sigma_yx():
     import numpy as np
     import guan
+    guan.statistics_of_guan_package()
     return np.kron(guan.sigma_y(), guan.sigma_x())
 
 def sigma_yy():
     import numpy as np
     import guan
+    guan.statistics_of_guan_package()
     return np.kron(guan.sigma_y(), guan.sigma_y())
 
 def sigma_yz():
     import numpy as np
     import guan
+    guan.statistics_of_guan_package()
     return np.kron(guan.sigma_y(), guan.sigma_z())
 
 def sigma_z0():
     import numpy as np
     import guan
+    guan.statistics_of_guan_package()
     return np.kron(guan.sigma_z(), guan.sigma_0())
 
 def sigma_zx():
     import numpy as np
     import guan
+    guan.statistics_of_guan_package()
     return np.kron(guan.sigma_z(), guan.sigma_x())
 
 def sigma_zy():
     import numpy as np
     import guan
+    guan.statistics_of_guan_package()
     return np.kron(guan.sigma_z(), guan.sigma_y())
 
 def sigma_zz():
     import numpy as np
     import guan
+    guan.statistics_of_guan_package()
     return np.kron(guan.sigma_z(), guan.sigma_z())
 
 
@@ -201,6 +227,8 @@ def one_dimensional_fourier_transform(k, unit_cell, hopping):
     unit_cell = np.array(unit_cell)
     hopping = np.array(hopping)
     hamiltonian = unit_cell+hopping*cmath.exp(1j*k)+hopping.transpose().conj()*cmath.exp(-1j*k)
+    import guan
+    guan.statistics_of_guan_package()
     return hamiltonian
 
 # 通过元胞和跃迁项得到二维方格子的哈密顿量（需要输入k值）
@@ -211,6 +239,8 @@ def two_dimensional_fourier_transform_for_square_lattice(k1, k2, unit_cell, hopp
     hopping_1 = np.array(hopping_1)
     hopping_2 = np.array(hopping_2)
     hamiltonian = unit_cell+hopping_1*cmath.exp(1j*k1)+hopping_1.transpose().conj()*cmath.exp(-1j*k1)+hopping_2*cmath.exp(1j*k2)+hopping_2.transpose().conj()*cmath.exp(-1j*k2)
+    import guan
+    guan.statistics_of_guan_package()
     return hamiltonian
 
 # 通过元胞和跃迁项得到三维立方格子的哈密顿量（需要输入k值）
@@ -222,6 +252,8 @@ def three_dimensional_fourier_transform_for_cubic_lattice(k1, k2, k3, unit_cell,
     hopping_2 = np.array(hopping_2)
     hopping_3 = np.array(hopping_3)
     hamiltonian = unit_cell+hopping_1*cmath.exp(1j*k1)+hopping_1.transpose().conj()*cmath.exp(-1j*k1)+hopping_2*cmath.exp(1j*k2)+hopping_2.transpose().conj()*cmath.exp(-1j*k2)+hopping_3*cmath.exp(1j*k3)+hopping_3.transpose().conj()*cmath.exp(-1j*k3)
+    import guan
+    guan.statistics_of_guan_package()
     return hamiltonian
 
 # 通过元胞和跃迁项得到一维的哈密顿量（返回的哈密顿量为携带k的函数）
@@ -229,6 +261,7 @@ def one_dimensional_fourier_transform_with_k(unit_cell, hopping):
     import functools
     import guan
     hamiltonian_function = functools.partial(guan.one_dimensional_fourier_transform, unit_cell=unit_cell, hopping=hopping)
+    guan.statistics_of_guan_package()
     return hamiltonian_function
 
 # 通过元胞和跃迁项得到二维方格子的哈密顿量（返回的哈密顿量为携带k的函数）
@@ -236,6 +269,7 @@ def two_dimensional_fourier_transform_for_square_lattice_with_k1_k2(unit_cell, h
     import functools
     import guan
     hamiltonian_function = functools.partial(guan.two_dimensional_fourier_transform_for_square_lattice, unit_cell=unit_cell, hopping_1=hopping_1, hopping_2=hopping_2)
+    guan.statistics_of_guan_package()
     return hamiltonian_function
 
 # 通过元胞和跃迁项得到三维立方格子的哈密顿量（返回的哈密顿量为携带k的函数）
@@ -243,12 +277,15 @@ def three_dimensional_fourier_transform_for_cubic_lattice_with_k1_k2_k3(unit_cel
     import functools
     import guan
     hamiltonian_function = functools.partial(guan.three_dimensional_fourier_transform_for_cubic_lattice, unit_cell=unit_cell, hopping_1=hopping_1, hopping_2=hopping_2, hopping_3=hopping_3)
+    guan.statistics_of_guan_package()
     return hamiltonian_function
 
 # 由实空间格矢得到倒空间格矢（一维）
 def calculate_one_dimensional_reciprocal_lattice_vector(a1):
     import numpy as np
     b1 = 2*np.pi/a1
+    import guan
+    guan.statistics_of_guan_package()
     return b1
 
 # 由实空间格矢得到倒空间格矢（二维）
@@ -263,6 +300,8 @@ def calculate_two_dimensional_reciprocal_lattice_vectors(a1, a2):
     b2 = 2*np.pi*np.cross(a3, a1)/np.dot(a1, np.cross(a2, a3))
     b1 = np.delete(b1, 2)
     b2 = np.delete(b2, 2)
+    import guan
+    guan.statistics_of_guan_package()
     return b1, b2
 
 # 由实空间格矢得到倒空间格矢（三维）
@@ -274,12 +313,16 @@ def calculate_three_dimensional_reciprocal_lattice_vectors(a1, a2, a3):
     b1 = 2*np.pi*np.cross(a2, a3)/np.dot(a1, np.cross(a2, a3))
     b2 = 2*np.pi*np.cross(a3, a1)/np.dot(a1, np.cross(a2, a3))
     b3 = 2*np.pi*np.cross(a1, a2)/np.dot(a1, np.cross(a2, a3))
+    import guan
+    guan.statistics_of_guan_package()
     return b1, b2, b3
 
 # 由实空间格矢得到倒空间格矢（一维），这里为符号运算
 def calculate_one_dimensional_reciprocal_lattice_vector_with_sympy(a1):
     import sympy
     b1 = 2*sympy.pi/a1
+    import guan
+    guan.statistics_of_guan_package()
     return b1
 
 # 由实空间格矢得到倒空间格矢（二维），这里为符号运算
@@ -294,6 +337,8 @@ def calculate_two_dimensional_reciprocal_lattice_vectors_with_sympy(a1, a2):
     b2 = 2*sympy.pi*cross_a3_a1/a1.dot(cross_a2_a3)
     b1 = sympy.Matrix(1, 2, [b1[0], b1[1]])
     b2 = sympy.Matrix(1, 2, [b2[0], b2[1]])
+    import guan
+    guan.statistics_of_guan_package()
     return b1, b2
 
 # 由实空间格矢得到倒空间格矢（三维），这里为符号运算
@@ -305,6 +350,8 @@ def calculate_three_dimensional_reciprocal_lattice_vectors_with_sympy(a1, a2, a3
     b1 = 2*sympy.pi*cross_a2_a3/a1.dot(cross_a2_a3)
     b2 = 2*sympy.pi*cross_a3_a1/a1.dot(cross_a2_a3)
     b3 = 2*sympy.pi*cross_a1_a2/a1.dot(cross_a2_a3)
+    import guan
+    guan.statistics_of_guan_package()
     return b1, b2, b3
 
 
@@ -363,6 +410,8 @@ def hamiltonian_of_finite_size_system_along_one_direction(N, on_site=0, hopping=
     if period == 1:
         hamiltonian[(N-1)*dim+0:(N-1)*dim+dim, 0:dim] = hopping
         hamiltonian[0:dim, (N-1)*dim+0:(N-1)*dim+dim] = hopping.transpose().conj()
+    import guan
+    guan.statistics_of_guan_package()
     return hamiltonian
 
 # 构建二维的方格子有限尺寸体系哈密顿量（可设置是否为周期边界条件）
@@ -395,6 +444,8 @@ def hamiltonian_of_finite_size_system_along_two_directions_for_square_lattice(N1
         for i1 in range(N1):
             hamiltonian[i1*N2*dim+(N2-1)*dim+0:i1*N2*dim+(N2-1)*dim+dim, i1*N2*dim+0:i1*N2*dim+dim] = hopping_2
             hamiltonian[i1*N2*dim+0:i1*N2*dim+dim, i1*N2*dim+(N2-1)*dim+0:i1*N2*dim+(N2-1)*dim+dim] = hopping_2.transpose().conj()
+    import guan
+    guan.statistics_of_guan_package()
     return hamiltonian
 
 # 构建三维的立方格子有限尺寸体系哈密顿量（可设置是否为周期边界条件）
@@ -443,6 +494,8 @@ def hamiltonian_of_finite_size_system_along_three_directions_for_cubic_lattice(N
             for i2 in range(N2):
                 hamiltonian[i1*N2*N3*dim+i2*N3*dim+(N3-1)*dim+0:i1*N2*N3*dim+i2*N3*dim+(N3-1)*dim+dim, i1*N2*N3*dim+i2*N3*dim+0:i1*N2*N3*dim+i2*N3*dim+dim] = hopping_3
                 hamiltonian[i1*N2*N3*dim+i2*N3*dim+0:i1*N2*N3*dim+i2*N3*dim+dim, i1*N2*N3*dim+i2*N3*dim+(N3-1)*dim+0:i1*N2*N3*dim+i2*N3*dim+(N3-1)*dim+dim] = hopping_3.transpose().conj()
+    import guan
+    guan.statistics_of_guan_package()
     return hamiltonian
 
 # 构建有限尺寸的SSH模型哈密顿量
@@ -460,6 +513,8 @@ def hamiltonian_of_finite_size_ssh_model(N, v=0.6, w=1, onsite_1=0, onsite_2=0, 
     if period==1:
         hamiltonian[0, 2*N-1] = w
         hamiltonian[2*N-1, 0] = w
+    import guan
+    guan.statistics_of_guan_package()
     return hamiltonian
 
 # 获取Zigzag边的石墨烯条带的元胞间跃迁
@@ -473,6 +528,8 @@ def get_hopping_term_of_graphene_ribbon_along_zigzag_direction(N, eta=0):
         hopping[4*i0+3, 4*i0+3] = eta
         hopping[4*i0+1, 4*i0+0] = 1
         hopping[4*i0+2, 4*i0+3] = 1
+    import guan
+    guan.statistics_of_guan_package()
     return hopping
 
 # 构建有限尺寸的石墨烯哈密顿量（可设置是否为周期边界条件）
@@ -484,6 +541,7 @@ def hamiltonian_of_finite_size_system_along_two_directions_for_graphene(N1, N2, 
     hopping_2 = np.zeros((4, 4), dtype=complex)
     hopping_2[3, 0] = 1
     hamiltonian = guan.hamiltonian_of_finite_size_system_along_two_directions_for_square_lattice(N1, N2, on_site, hopping_1, hopping_2, period_1, period_2)
+    guan.statistics_of_guan_package()
     return hamiltonian
 
 # 获取石墨烯有效模型沿着x方向的在位能和跃迁项（其中，动量qy为参数）
@@ -504,6 +562,8 @@ def get_onsite_and_hopping_terms_of_2d_effective_graphene_along_one_direction(qy
     else:
         h01[0, 1] = constant*t*(1j/2)
         h01[1, 0] = constant*t*(1j/2)
+    import guan
+    guan.statistics_of_guan_package()
     return h00, h01
 
 # 获取BHZ模型的在位能和跃迁项
@@ -537,6 +597,8 @@ def get_onsite_and_hopping_terms_of_bhz_model(A=0.3645/5, B=-0.686/25, C=0, D=-0
     H2[1, 0] = 1j*np.conj(V_sp)
     H2[2, 3] = -1j*np.conj(V_sp)
     H2[3, 2] = -1j*V_sp
+    import guan
+    guan.statistics_of_guan_package()
     return H0, H1, H2
 
 # 获取半个BHZ模型的在位能和跃迁项（自旋向上）
@@ -560,6 +622,8 @@ def get_onsite_and_hopping_terms_of_half_bhz_model_for_spin_up(A=0.3645/5, B=-0.
     H2[1, 1] = V_pp
     H2[0, 1] = 1j*V_sp
     H2[1, 0] = 1j*np.conj(V_sp)
+    import guan
+    guan.statistics_of_guan_package()
     return H0, H1, H2
 
 # 获取半个BHZ模型的在位能和跃迁项（自旋向下）
@@ -583,6 +647,8 @@ def get_onsite_and_hopping_terms_of_half_bhz_model_for_spin_down(A=0.3645/5, B=-
     H2[1, 1] = V_pp
     H2[0, 1] = -1j*np.conj(V_sp)
     H2[1, 0] = -1j*V_sp
+    import guan
+    guan.statistics_of_guan_package()
     return H0, H1, H2
 
 
@@ -638,12 +704,14 @@ def get_onsite_and_hopping_terms_of_half_bhz_model_for_spin_down(A=0.3645/5, B=-
 def hamiltonian_of_simple_chain(k):
     import guan
     hamiltonian = guan.one_dimensional_fourier_transform(k, unit_cell=0, hopping=1)
+    guan.statistics_of_guan_package()
     return hamiltonian
 
 # 二维方格子的哈密顿量
 def hamiltonian_of_square_lattice(k1, k2):
     import guan
     hamiltonian = guan.two_dimensional_fourier_transform_for_square_lattice(k1, k2, unit_cell=0, hopping_1=1, hopping_2=1)
+    guan.statistics_of_guan_package()
     return hamiltonian
 
 # 准一维方格子条带的哈密顿量
@@ -660,13 +728,15 @@ def hamiltonian_of_square_lattice_in_quasi_one_dimension(k, N=10, period=0):
         h00[0, N-1] = 1
     for i in range(N):   
         h01[i, i] = 1
-    hamiltonian = guan.one_dimensional_fourier_transform(k, unit_cell=h00, hopping=h01) 
+    hamiltonian = guan.one_dimensional_fourier_transform(k, unit_cell=h00, hopping=h01)
+    guan.statistics_of_guan_package()
     return hamiltonian
 
 # 三维立方格子的哈密顿量
 def hamiltonian_of_cubic_lattice(k1, k2, k3):
     import guan
     hamiltonian = guan.three_dimensional_fourier_transform_for_cubic_lattice(k1, k2, k3, unit_cell=0, hopping_1=1, hopping_2=1, hopping_3=1)
+    guan.statistics_of_guan_package()
     return hamiltonian
 
 # SSH模型的哈密顿量
@@ -676,6 +746,8 @@ def hamiltonian_of_ssh_model(k, v=0.6, w=1):
     hamiltonian = np.zeros((2, 2), dtype=complex)
     hamiltonian[0,1] = v+w*cmath.exp(-1j*k)
     hamiltonian[1,0] = v+w*cmath.exp(1j*k)
+    import guan
+    guan.statistics_of_guan_package()
     return hamiltonian
 
 # 石墨烯的哈密顿量
@@ -692,6 +764,8 @@ def hamiltonian_of_graphene(k1, k2, staggered_potential=0, t=1, a='default'):
     h1[1, 0] = t*(cmath.exp(1j*k2*a)+cmath.exp(1j*math.sqrt(3)/2*k1*a-1j/2*k2*a)+cmath.exp(-1j*math.sqrt(3)/2*k1*a-1j/2*k2*a))   
     h1[0, 1] = h1[1, 0].conj()
     hamiltonian = h0 + h1
+    import guan
+    guan.statistics_of_guan_package()
     return hamiltonian
 
 # 石墨烯有效模型的哈密顿量
@@ -707,6 +781,8 @@ def effective_hamiltonian_of_graphene(qx, qy, t=1, staggered_potential=0, valley
     else:
         hamiltonian[0, 1] = constant*t*(-qx-1j*qy)
         hamiltonian[1, 0] = constant*t*(-qx+1j*qy)
+    import guan
+    guan.statistics_of_guan_package()
     return hamiltonian
 
 # 石墨烯有效模型离散化后的哈密顿量
@@ -722,6 +798,8 @@ def effective_hamiltonian_of_graphene_after_discretization(qx, qy, t=1, staggere
     else:
         hamiltonian[0, 1] = constant*t*(-np.sin(qx)-1j*np.sin(qy))
         hamiltonian[1, 0] = constant*t*(-np.sin(qx)+1j*np.sin(qy))
+    import guan
+    guan.statistics_of_guan_package()
     return hamiltonian
 
 # 准一维Zigzag边石墨烯条带的哈密顿量
@@ -750,7 +828,8 @@ def hamiltonian_of_graphene_with_zigzag_in_quasi_one_dimension(k, N=10, M=0, t=1
     for i in range(N):
         h01[i*4+1, i*4+0] = t
         h01[i*4+2, i*4+3] = t
-    hamiltonian = guan.one_dimensional_fourier_transform(k, unit_cell=h00, hopping=h01) 
+    hamiltonian = guan.one_dimensional_fourier_transform(k, unit_cell=h00, hopping=h01)
+    guan.statistics_of_guan_package()
     return hamiltonian
 
 # Haldane模型的哈密顿量
@@ -772,6 +851,8 @@ def hamiltonian_of_haldane_model(k1, k2, M=2/3, t1=1, t2=1/3, phi='default', a='
     h2[0, 0] = t2*cmath.exp(-1j*phi)*(cmath.exp(1j*math.sqrt(3)*k1*a)+cmath.exp(-1j*math.sqrt(3)/2*k1*a+1j*3/2*k2*a)+cmath.exp(-1j*math.sqrt(3)/2*k1*a-1j*3/2*k2*a))
     h2[1, 1] = t2*cmath.exp(1j*phi)*(cmath.exp(1j*math.sqrt(3)*k1*a)+cmath.exp(-1j*math.sqrt(3)/2*k1*a+1j*3/2*k2*a)+cmath.exp(-1j*math.sqrt(3)/2*k1*a-1j*3/2*k2*a))
     hamiltonian = h0 + h1 + h2 + h2.transpose().conj()
+    import guan
+    guan.statistics_of_guan_package()
     return hamiltonian
 
 # 准一维Haldane模型条带的哈密顿量
@@ -826,6 +907,8 @@ def hamiltonian_of_haldane_model_in_quasi_one_dimension(k, N=10, M=2/3, t1=1, t2
     for i in range(N-1):
         h01[i*4+2, (i+1)*4+0] = t2*cmath.exp(-1j*phi)
     hamiltonian = h00 + h01*cmath.exp(1j*k) + h01.transpose().conj()*cmath.exp(-1j*k)
+    import guan
+    guan.statistics_of_guan_package()
     return hamiltonian
 
 # 一个量子反常霍尔效应的哈密顿量
@@ -837,6 +920,8 @@ def hamiltonian_of_one_QAH_model(k1, k2, t1=1, t2=1, t3=0.5, m=-1):
     hamiltonian[1, 0] = 2*t1*math.cos(k1)+1j*2*t1*math.cos(k2)
     hamiltonian[0, 0] = m+2*t3*math.sin(k1)+2*t3*math.sin(k2)+2*t2*math.cos(k1+k2)
     hamiltonian[1, 1] = -(m+2*t3*math.sin(k1)+2*t3*math.sin(k2)+2*t2*math.cos(k1+k2))
+    import guan
+    guan.statistics_of_guan_package()
     return hamiltonian
 
 # BHZ模型的哈密顿量
@@ -855,6 +940,8 @@ def hamiltonian_of_bhz_model(kx, ky, A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, 
     hamiltonian[3, 3] = varepsilon-d3
     hamiltonian[2, 3] = -d1_d2 
     hamiltonian[3, 2] = -np.conj(d1_d2)
+    import guan
+    guan.statistics_of_guan_package()
     return hamiltonian
 
 # 半BHZ模型的哈密顿量（自旋向上）
@@ -869,6 +956,8 @@ def hamiltonian_of_half_bhz_model_for_spin_up(kx, ky, A=0.3645/5, B=-0.686/25, C
     hamiltonian[1, 1] = varepsilon-d3
     hamiltonian[0, 1] = np.conj(d1_d2)
     hamiltonian[1, 0] = d1_d2
+    import guan
+    guan.statistics_of_guan_package()
     return hamiltonian
 
 # 半BHZ模型的哈密顿量（自旋向下）
@@ -883,6 +972,8 @@ def hamiltonian_of_half_bhz_model_for_spin_down(kx, ky, A=0.3645/5, B=-0.686/25,
     hamiltonian[1, 1] = varepsilon-d3
     hamiltonian[0, 1] = -d1_d2 
     hamiltonian[1, 0] = -np.conj(d1_d2)
+    import guan
+    guan.statistics_of_guan_package()
     return hamiltonian
 
 # BBH模型的哈密顿量
@@ -901,7 +992,9 @@ def hamiltonian_of_bbh_model(kx, ky, gamma_x=0.5, gamma_y=0.5, lambda_x=1, lambd
     hamiltonian[2, 0] = np.conj(hamiltonian[0, 2])
     hamiltonian[3, 1] = np.conj(hamiltonian[1, 3])
     hamiltonian[3, 0] = np.conj(hamiltonian[0, 3])
-    hamiltonian[2, 1] = np.conj(hamiltonian[1, 2]) 
+    hamiltonian[2, 1] = np.conj(hamiltonian[1, 2])
+    import guan
+    guan.statistics_of_guan_package()
     return hamiltonian
 
 # Kagome模型的哈密顿量
@@ -917,6 +1010,8 @@ def hamiltonian_of_kagome_lattice(kx, ky, t=1):
     hamiltonian[1, 2] = 2*math.cos(k3_dot_a3)
     hamiltonian = hamiltonian + hamiltonian.transpose().conj()
     hamiltonian = -t*hamiltonian
+    import guan
+    guan.statistics_of_guan_package()
     return hamiltonian
 
 
@@ -976,6 +1071,8 @@ def calculate_eigenvalue(hamiltonian):
         eigenvalue = np.real(hamiltonian)
     else:
         eigenvalue, eigenvector = np.linalg.eigh(hamiltonian)
+    import guan
+    guan.statistics_of_guan_package()
     return eigenvalue
 
 # 输入哈密顿量函数（带一组参数），计算一组参数下的本征值，返回本征值向量组
@@ -999,6 +1096,8 @@ def calculate_eigenvalue_with_one_parameter(x_array, hamiltonian_function, print
             eigenvalue, eigenvector = np.linalg.eigh(hamiltonian)
             eigenvalue_array[i0, :] = eigenvalue
             i0 += 1
+    import guan
+    guan.statistics_of_guan_package()
     return eigenvalue_array
 
 # 输入哈密顿量函数（带两组参数），计算两组参数下的本征值，返回本征值向量组
@@ -1032,12 +1131,16 @@ def calculate_eigenvalue_with_two_parameters(x_array, y_array, hamiltonian_funct
                 eigenvalue_array[i0, j0, :] = eigenvalue
                 j0 += 1
             i0 += 1
+    import guan
+    guan.statistics_of_guan_package()
     return eigenvalue_array
 
 # 计算哈密顿量的本征矢
 def calculate_eigenvector(hamiltonian):
     import numpy as np
-    eigenvalue, eigenvector = np.linalg.eigh(hamiltonian) 
+    eigenvalue, eigenvector = np.linalg.eigh(hamiltonian)
+    import guan
+    guan.statistics_of_guan_package()
     return eigenvector
 
 # 通过二分查找的方法获取和相邻波函数一样规范的波函数
@@ -1076,7 +1179,9 @@ def find_vector_with_the_same_gauge_with_binary_search(vector_target, vector_ref
         phase_2_pre = phase_2
     vector_target = vector_target*cmath.exp(1j*phase)
     if show_phase==1:
-        print('Phase=', phase)   
+        print('Phase=', phase)
+    import guan
+    guan.statistics_of_guan_package()  
     return vector_target
 
 # 通过使得波函数的一个非零分量为实数，得到固定规范的波函数
@@ -1095,6 +1200,8 @@ def find_vector_with_fixed_gauge_by_making_one_component_real(vector, precision=
     vector = vector*cmath.exp(1j*phase)
     if np.real(vector[index]) < 0:
         vector = -vector
+    import guan
+    guan.statistics_of_guan_package()
     return vector
 
 # 通过使得波函数的一个非零分量为实数，得到固定规范的波函数（在一组波函数中选取最大的那个分量）
@@ -1108,6 +1215,7 @@ def find_vector_array_with_fixed_gauge_by_making_one_component_real(vector_array
     index = np.argmax(np.abs(vector_sum))
     for i0 in range(Num_k):
         vector_array[i0] = guan.find_vector_with_fixed_gauge_by_making_one_component_real(vector_array[i0], precision=precision, index=index)
+    guan.statistics_of_guan_package()
     return vector_array
 
 # 旋转两个简并的波函数（说明：参数比较多，效率不高）
@@ -1137,6 +1245,8 @@ def rotation_of_degenerate_vectors(vector1, vector2, index1=None, index2=None, p
                     break
             if np.abs(vector1_test[index2])<criterion and np.abs(vector2_test[index1])<criterion:
                 break
+    import guan
+    guan.statistics_of_guan_package()
     return vector1, vector2
 
 # 旋转两个简并的波函数向量组（说明：参数比较多，效率不高）
@@ -1154,6 +1264,7 @@ def rotation_of_degenerate_vectors_array(vector1_array, vector2_array, precision
     index2 = np.argmax(np.abs(vector2_sum))
     for i0 in range(Num_k):
         vector1_array[i0], vector2_array[i0] = guan.rotation_of_degenerate_vectors(vector1=vector1_array[i0], vector2=vector2_array[i0], index1=index1, index2=index2, precision=precision, criterion=criterion, show_theta=show_theta)
+    guan.statistics_of_guan_package()
     return vector1_array, vector2_array
 
 
@@ -1208,6 +1319,8 @@ def green_function(fermi_energy, hamiltonian, broadening, self_energy=0):
     else:
         dim = np.array(hamiltonian).shape[0]
     green = np.linalg.inv((fermi_energy+broadening*1j)*np.eye(dim)-hamiltonian-self_energy)
+    import guan
+    guan.statistics_of_guan_package()
     return green
 
 # 在Dyson方程中的一个中间格林函数G_{nn}^{n}
@@ -1219,12 +1332,16 @@ def green_function_nn_n(fermi_energy, h00, h01, green_nn_n_minus, broadening, se
     else:
         dim = np.array(h00).shape[0]   
     green_nn_n = np.linalg.inv((fermi_energy+broadening*1j)*np.identity(dim)-h00-np.dot(np.dot(h01.transpose().conj(), green_nn_n_minus), h01)-self_energy)
+    import guan
+    guan.statistics_of_guan_package()
     return green_nn_n
 
 # 在Dyson方程中的一个中间格林函数G_{in}^{n}
 def green_function_in_n(green_in_n_minus, h01, green_nn_n):
     import numpy as np
     green_in_n = np.dot(np.dot(green_in_n_minus, h01), green_nn_n)
+    import guan
+    guan.statistics_of_guan_package()
     return green_in_n
 
 # 在Dyson方程中的一个中间格林函数G_{ni}^{n}
@@ -1232,12 +1349,16 @@ def green_function_ni_n(green_nn_n, h01, green_ni_n_minus):
     import numpy as np
     h01 = np.array(h01)
     green_ni_n = np.dot(np.dot(green_nn_n, h01.transpose().conj()), green_ni_n_minus)
+    import guan
+    guan.statistics_of_guan_package()
     return green_ni_n
 
 # 在Dyson方程中的一个中间格林函数G_{ii}^{n}
 def green_function_ii_n(green_ii_n_minus, green_in_n_minus, h01, green_nn_n, green_ni_n_minus):
     import numpy as np
     green_ii_n = green_ii_n_minus+np.dot(np.dot(np.dot(np.dot(green_in_n_minus, h01), green_nn_n), h01.transpose().conj()),green_ni_n_minus)
+    import guan
+    guan.statistics_of_guan_package()
     return green_ii_n
 
 # 计算转移矩阵（该矩阵可以用来计算表面格林函数）
@@ -1253,6 +1374,8 @@ def transfer_matrix(fermi_energy, h00, h01):
     transfer[0:dim, dim:2*dim] = np.dot(-1*np.linalg.inv(h01), h01.transpose().conj())
     transfer[dim:2*dim, 0:dim] = np.identity(dim)
     transfer[dim:2*dim, dim:2*dim] = 0
+    import guan
+    guan.statistics_of_guan_package()
     return transfer
 
 # 计算电极的表面格林函数
@@ -1278,6 +1401,8 @@ def surface_green_function_of_lead(fermi_energy, h00, h01):
     s4 = temp[0:dim, dim:2*dim]
     right_lead_surface = np.linalg.inv(fermi_energy*np.identity(dim)-h00-np.dot(np.dot(h01, s2), np.linalg.inv(s1)))
     left_lead_surface = np.linalg.inv(fermi_energy*np.identity(dim)-h00-np.dot(np.dot(h01.transpose().conj(), s3), np.linalg.inv(s4)))
+    import guan
+    guan.statistics_of_guan_package()
     return right_lead_surface, left_lead_surface
 
 # 计算电极的自能（基于Dyson方程的小矩阵形式）
@@ -1290,6 +1415,7 @@ def self_energy_of_lead(fermi_energy, h00, h01):
     left_self_energy = np.dot(np.dot(h01.transpose().conj(), left_lead_surface), h01)
     gamma_right = (right_self_energy - right_self_energy.transpose().conj())*1j
     gamma_left = (left_self_energy - left_self_energy.transpose().conj())*1j
+    guan.statistics_of_guan_package()
     return right_self_energy, left_self_energy, gamma_right, gamma_left
 
 # 计算电极的自能（基于中心区整体的大矩阵形式）
@@ -1303,6 +1429,7 @@ def self_energy_of_lead_with_h_LC_and_h_CR(fermi_energy, h00, h01, h_LC, h_CR):
     left_self_energy = np.dot(np.dot(h_LC.transpose().conj(), left_lead_surface), h_LC)
     gamma_right = (right_self_energy - right_self_energy.transpose().conj())*1j
     gamma_left = (left_self_energy - left_self_energy.transpose().conj())*1j
+    guan.statistics_of_guan_package()
     return right_self_energy, left_self_energy, gamma_right, gamma_left
 
 # 计算电极的自能（基于中心区整体的大矩阵形式，可适用于多端电导的计算）
@@ -1313,6 +1440,7 @@ def self_energy_of_lead_with_h_lead_to_center(fermi_energy, h00, h01, h_lead_to_
     right_lead_surface, left_lead_surface = guan.surface_green_function_of_lead(fermi_energy, h00, h01)
     self_energy = np.dot(np.dot(h_lead_to_center.transpose().conj(), right_lead_surface), h_lead_to_center)
     gamma = (self_energy - self_energy.transpose().conj())*1j
+    guan.statistics_of_guan_package()
     return self_energy, gamma
 
 # 计算考虑电极自能后的中心区的格林函数
@@ -1322,6 +1450,7 @@ def green_function_with_leads(fermi_energy, h00, h01, h_LC, h_CR, center_hamilto
     dim = np.array(center_hamiltonian).shape[0]
     right_self_energy, left_self_energy, gamma_right, gamma_left = guan.self_energy_of_lead_with_h_LC_and_h_CR(fermi_energy, h00, h01, h_LC, h_CR)
     green = np.linalg.inv(fermi_energy*np.identity(dim)-center_hamiltonian-left_self_energy-right_self_energy)
+    guan.statistics_of_guan_package()
     return green, gamma_right, gamma_left
 
 # 计算用于计算局域电流的格林函数G_n
@@ -1331,6 +1460,7 @@ def electron_correlation_function_green_n_for_local_current(fermi_energy, h00, h
     right_self_energy, left_self_energy, gamma_right, gamma_left = guan.self_energy_of_lead_with_h_LC_and_h_CR(fermi_energy, h00, h01, h_LC, h_CR)
     green = guan.green_function(fermi_energy, center_hamiltonian, broadening=0, self_energy=left_self_energy+right_self_energy)
     G_n = np.imag(np.dot(np.dot(green, gamma_left), green.transpose().conj()))
+    guan.statistics_of_guan_package()
     return G_n
 
 
@@ -1376,6 +1506,7 @@ def total_density_of_states(fermi_energy, hamiltonian, broadening=0.01):
     import guan
     green = guan.green_function(fermi_energy, hamiltonian, broadening)
     total_dos = -np.trace(np.imag(green))/math.pi
+    guan.statistics_of_guan_package()
     return total_dos
 
 # 对于不同费米能，计算体系的总态密度
@@ -1390,6 +1521,7 @@ def total_density_of_states_with_fermi_energy_array(fermi_energy_array, hamilton
             print(fermi_energy)
         total_dos_array[i0] = guan.total_density_of_states(fermi_energy, hamiltonian, broadening)
         i0 += 1
+    guan.statistics_of_guan_package()
     return total_dos_array
 
 # 计算方格子的局域态密度（其中，哈密顿量的维度为：dim_hamiltonian = N1*N2*internal_degree）
@@ -1403,6 +1535,7 @@ def local_density_of_states_for_square_lattice(fermi_energy, hamiltonian, N1, N2
         for i2 in range(N2):
             for i in range(internal_degree): 
                 local_dos[i2, i1] = local_dos[i2, i1]-np.imag(green[i1*N2*internal_degree+i2*internal_degree+i, i1*N2*internal_degree+i2*internal_degree+i])/math.pi
+    guan.statistics_of_guan_package()
     return local_dos
 
 # 计算立方格子的局域态密度（其中，哈密顿量的维度为：dim_hamiltonian = N1*N2*N3*internal_degree）
@@ -1417,6 +1550,7 @@ def local_density_of_states_for_cubic_lattice(fermi_energy, hamiltonian, N1, N2,
             for i3 in range(N3):
                 for i in range(internal_degree): 
                     local_dos[i3, i2, i1] = local_dos[i3, i2, i1]-np.imag(green[i1*N2*N3*internal_degree+i2*N3*internal_degree+i3*internal_degree+i, i1*N2*N3*internal_degree+i2*N3*internal_degree+i3*internal_degree+i])/math.pi
+    guan.statistics_of_guan_package()
     return local_dos
 
 # 利用Dyson方程，计算方格子的局域态密度（其中，h00的维度为：dim_h00 = N2*internal_degree）
@@ -1450,6 +1584,7 @@ def local_density_of_states_for_square_lattice_using_dyson_equation(fermi_energy
         for i2 in range(N2):
             for i in range(internal_degree):
                 local_dos[i2, i1] = local_dos[i2, i1] - np.imag(green_ii_n_minus[i2*internal_degree+i, i2*internal_degree+i])/math.pi
+    guan.statistics_of_guan_package()
     return local_dos
 
 # 利用Dyson方程，计算立方格子的局域态密度（其中，h00的维度为：dim_h00 = N2*N3*internal_degree）
@@ -1484,6 +1619,7 @@ def local_density_of_states_for_cubic_lattice_using_dyson_equation(fermi_energy,
             for i3 in range(N3):
                 for i in range(internal_degree):
                     local_dos[i3, i2, i1] = local_dos[i3, i2, i1] -np.imag(green_ii_n_minus[i2*N3*internal_degree+i3*internal_degree+i, i2*N3*internal_degree+i3*internal_degree+i])/math.pi       
+    guan.statistics_of_guan_package()
     return local_dos
 
 # 利用Dyson方程，计算方格子条带（考虑了电极自能）的局域态密度（其中，h00的维度为：dim_h00 = N2*internal_degree）
@@ -1523,6 +1659,7 @@ def local_density_of_states_for_square_lattice_with_self_energy_using_dyson_equa
         for i2 in range(N2):
             for i in range(internal_degree):
                 local_dos[i2, i1] = local_dos[i2, i1] - np.imag(green_ii_n_minus[i2*internal_degree+i, i2*internal_degree+i])/math.pi
+    guan.statistics_of_guan_package()
     return local_dos
 
 
@@ -1588,6 +1725,7 @@ def calculate_conductance(fermi_energy, h00, h01, length=100):
             green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n, broadening=0, self_energy=right_self_energy)
             green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
     conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
+    guan.statistics_of_guan_package()
     return conductance
 
 # 计算不同费米能下的电导
@@ -1602,6 +1740,7 @@ def calculate_conductance_with_fermi_energy_array(fermi_energy_array, h00, h01, 
         if print_show == 1:
             print(fermi_energy, conductance_array[i0])
         i0 += 1
+    guan.statistics_of_guan_package()
     return conductance_array
 
 # 计算在势垒散射下的电导
@@ -1625,6 +1764,7 @@ def calculate_conductance_with_barrier(fermi_energy, h00, h01, length=100, barri
             green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n, broadening=0, self_energy=right_self_energy)
             green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
     conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
+    guan.statistics_of_guan_package()
     return conductance
 
 # 计算在无序散射下的电导
@@ -1653,6 +1793,7 @@ def calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensi
         conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
         conductance_averaged += conductance
     conductance_averaged = conductance_averaged/calculation_times
+    guan.statistics_of_guan_package()
     return conductance_averaged
 
 # 计算在无序垂直切片的散射下的电导
@@ -1676,6 +1817,7 @@ def calculate_conductance_with_slice_disorder(fermi_energy, h00, h01, disorder_i
             green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n, broadening=0, self_energy=right_self_energy)
             green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
     conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
+    guan.statistics_of_guan_package()
     return conductance
 
 # 计算在无序水平切片的散射下的电导
@@ -1700,6 +1842,7 @@ def calculate_conductance_with_disorder_inside_unit_cell_which_keeps_translation
             green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n, broadening=0, self_energy=right_self_energy)
             green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
     conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
+    guan.statistics_of_guan_package()
     return conductance
 
 # 计算在随机空位的散射下的电导
@@ -1724,6 +1867,7 @@ def calculate_conductance_with_random_vacancy(fermi_energy, h00, h01, vacancy_co
             green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n, broadening=0, self_energy=right_self_energy)
             green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
     conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
+    guan.statistics_of_guan_package()
     return conductance
 
 # 计算在不同无序散射强度下的电导
@@ -1740,6 +1884,7 @@ def calculate_conductance_with_disorder_intensity_array(fermi_energy, h00, h01, 
             print(disorder_intensity, conductance_array[i0]/calculation_times)
         i0 += 1
     conductance_array = conductance_array/calculation_times
+    guan.statistics_of_guan_package()
     return conductance_array
 
 # 计算在不同无序浓度下的电导
@@ -1756,6 +1901,7 @@ def calculate_conductance_with_disorder_concentration_array(fermi_energy, h00, h
             print(disorder_concentration, conductance_array[i0]/calculation_times)
         i0 += 1
     conductance_array = conductance_array/calculation_times
+    guan.statistics_of_guan_package()
     return conductance_array
 
 # 计算在不同无序散射长度下的电导
@@ -1772,6 +1918,7 @@ def calculate_conductance_with_scattering_length_array(fermi_energy, h00, h01, l
             print(length, conductance_array[i0]/calculation_times)
         i0 += 1
     conductance_array = conductance_array/calculation_times
+    guan.statistics_of_guan_package()
     return conductance_array
 
 # 计算得到Gamma矩阵和格林函数，用于计算六端口的量子输运
@@ -1818,6 +1965,7 @@ def get_gamma_array_and_green_for_six_terminal_transmission(fermi_energy, h00_fo
     self_energy6, gamma6 = guan.self_energy_of_lead_with_h_lead_to_center(fermi_energy, h00_for_lead_6, h01_for_lead_1, h_lead6_to_center)
     gamma_array = [gamma1, gamma2, gamma3, gamma4, gamma5, gamma6]
     green = np.linalg.inv(fermi_energy*np.eye(internal_degree*width*length)-center_hamiltonian-self_energy1-self_energy2-self_energy3-self_energy4-self_energy5-self_energy6)
+    guan.statistics_of_guan_package()
     return gamma_array, green
 
 # 计算六端口的透射矩阵
@@ -1842,6 +1990,7 @@ def calculate_six_terminal_transmission_matrix(fermi_energy, h00_for_lead_4, h01
             if j0!=i0:
                 transmission_matrix[i0, i0] = transmission_matrix[i0, i0]-transmission_matrix[i0, j0]
     transmission_matrix = np.real(transmission_matrix)
+    guan.statistics_of_guan_package()
     return transmission_matrix
 
 # 计算从电极1出发的透射系数
@@ -1854,6 +2003,7 @@ def calculate_six_terminal_transmissions_from_lead_1(fermi_energy, h00_for_lead_
     transmission_14 = np.real(np.trace(np.dot(np.dot(np.dot(gamma_array[0], green), gamma_array[3]), green.transpose().conj())))
     transmission_15 = np.real(np.trace(np.dot(np.dot(np.dot(gamma_array[0], green), gamma_array[4]), green.transpose().conj())))
     transmission_16 = np.real(np.trace(np.dot(np.dot(np.dot(gamma_array[0], green), gamma_array[5]), green.transpose().conj())))
+    guan.statistics_of_guan_package()
     return transmission_12, transmission_13, transmission_14, transmission_15, transmission_16
 
 # 通过动量k的虚部，判断通道为传播通道还是衰减通道
@@ -1863,6 +2013,8 @@ def if_active_channel(k_of_channel):
         if_active = 1
     else:
         if_active = 0
+    import guan
+    guan.statistics_of_guan_package()
     return if_active
 
 # 获取通道的动量和速度，用于计算散射矩阵
@@ -1899,6 +2051,7 @@ def get_k_and_velocity_of_channel(fermi_energy, h00, h01):
         velocity_of_channel[dim0] = eigenvalue[dim0]*np.dot(np.dot(temp[0:dim, :].transpose().conj(), h01),temp[0:dim, :])[dim0, dim0]
     velocity_of_channel = -2*np.imag(velocity_of_channel)
     eigenvector = copy.deepcopy(temp) 
+    guan.statistics_of_guan_package()
     return k_of_channel, velocity_of_channel, eigenvalue, eigenvector
 
 # 获取分类后的动量和速度，以及U和F，用于计算散射矩阵
@@ -1951,6 +2104,7 @@ def get_classified_k_velocity_u_and_f(fermi_energy, h00, h01):
     lambda_matrix_left = np.diag(lambda_left)
     f_right = np.dot(np.dot(u_right, lambda_matrix_right), np.linalg.inv(u_right))
     f_left = np.dot(np.dot(u_left, lambda_matrix_left), np.linalg.inv(u_left))
+    guan.statistics_of_guan_package()
     return k_right, k_left, velocity_right, velocity_left, f_right, f_left, u_right, u_left, ind_right_active
 
 # 计算散射矩阵
@@ -1996,6 +2150,7 @@ def calculate_scattering_matrix(fermi_energy, h00, h01, length=100):
     for sum_of_tran_refl in sum_of_tran_refl_array:
         if sum_of_tran_refl > 1.001:
             print('Error Alert: scattering matrix is not normalized!')
+    guan.statistics_of_guan_package()
     return transmission_matrix, reflection_matrix, k_right, k_left, velocity_right, velocity_left, ind_right_active
 
 # 从散射矩阵中，获取散射矩阵的信息
@@ -2017,6 +2172,8 @@ def information_of_scattering_matrix(transmission_matrix, reflection_matrix, k_r
     total_conductance = np.sum(np.square(np.abs(transmission_matrix[0:ind_right_active, 0:ind_right_active])))
     total_reflection_of_channels = np.sum(np.square(np.abs(reflection_matrix[0:ind_right_active, 0:ind_right_active])), axis=0)
     sum_of_transmission_and_reflection_of_channels = np.sum(np.square(np.abs(transmission_matrix[0:ind_right_active, 0:ind_right_active])), axis=0) + np.sum(np.square(np.abs(reflection_matrix[0:ind_right_active, 0:ind_right_active])), axis=0)
+    import guan
+    guan.statistics_of_guan_package()
     return number_of_active_channels, number_of_evanescent_channels, k_of_right_moving_active_channels, k_of_left_moving_active_channels, velocity_of_right_moving_active_channels, velocity_of_left_moving_active_channels, transmission_matrix_for_active_channels, reflection_matrix_for_active_channels, total_transmission_of_channels, total_conductance, total_reflection_of_channels, sum_of_transmission_and_reflection_of_channels
 
 # 已知h00和h01，计算散射矩阵并获得散射矩阵的信息
@@ -2025,6 +2182,8 @@ def calculate_scattering_matrix_and_get_information(fermi_energy, h00, h01, leng
     transmission_matrix, reflection_matrix, k_right, k_left, velocity_right, velocity_left, ind_right_active = guan.calculate_scattering_matrix(fermi_energy, h00, h01, length=length)
 
     number_of_active_channels, number_of_evanescent_channels, k_of_right_moving_active_channels, k_of_left_moving_active_channels, velocity_of_right_moving_active_channels, velocity_of_left_moving_active_channels, transmission_matrix_for_active_channels, reflection_matrix_for_active_channels, total_transmission_of_channels, total_conductance, total_reflection_of_channels, sum_of_transmission_and_reflection_of_channels = guan.information_of_scattering_matrix(transmission_matrix, reflection_matrix, k_right, k_left, velocity_right, velocity_left, ind_right_active)
+
+    guan.statistics_of_guan_package()
 
     return number_of_active_channels, number_of_evanescent_channels, k_of_right_moving_active_channels, k_of_left_moving_active_channels, velocity_of_right_moving_active_channels, velocity_of_left_moving_active_channels, transmission_matrix_for_active_channels, reflection_matrix_for_active_channels, total_transmission_of_channels, total_conductance, total_reflection_of_channels, sum_of_transmission_and_reflection_of_channels
 
@@ -2071,6 +2230,8 @@ def print_or_write_scattering_matrix_with_information_of_scattering_matrix(numbe
             f.write('\n')
             f.write('Total transmission of channels:\n'+str(total_transmission_of_channels)+'\n')
             f.write('Total conductance = '+str(total_conductance)+'\n')
+    import guan
+    guan.statistics_of_guan_package()
 
 # 已知h00和h01，计算散射矩阵并打印出散射矩阵的信息
 def print_or_write_scattering_matrix(fermi_energy, h00, h01, length=100, print_show=1, write_file=0, filename='a', file_format='.txt'):
@@ -2080,6 +2241,8 @@ def print_or_write_scattering_matrix(fermi_energy, h00, h01, length=100, print_s
     number_of_active_channels, number_of_evanescent_channels, k_of_right_moving_active_channels, k_of_left_moving_active_channels, velocity_of_right_moving_active_channels, velocity_of_left_moving_active_channels, transmission_matrix_for_active_channels, reflection_matrix_for_active_channels, total_transmission_of_channels, total_conductance, total_reflection_of_channels, sum_of_transmission_and_reflection_of_channels = guan.information_of_scattering_matrix(transmission_matrix, reflection_matrix, k_right, k_left, velocity_right, velocity_left, ind_right_active)
 
     guan.print_or_write_scattering_matrix_with_information_of_scattering_matrix(number_of_active_channels, number_of_evanescent_channels, k_of_right_moving_active_channels, k_of_left_moving_active_channels, velocity_of_right_moving_active_channels, velocity_of_left_moving_active_channels, transmission_matrix_for_active_channels, reflection_matrix_for_active_channels, total_transmission_of_channels, total_conductance, total_reflection_of_channels, sum_of_transmission_and_reflection_of_channels, print_show=print_show, write_file=write_file, filename=filename, file_format=file_format)
+
+    guan.statistics_of_guan_package()
 
 # 在无序下，计算散射矩阵
 def calculate_scattering_matrix_with_disorder(fermi_energy, h00, h01, length=100, disorder_intensity=2.0, disorder_concentration=1.0):
@@ -2128,6 +2291,7 @@ def calculate_scattering_matrix_with_disorder(fermi_energy, h00, h01, length=100
     for sum_of_tran_refl in sum_of_tran_refl_array:
         if sum_of_tran_refl > 1.001:
             print('Error Alert: scattering matrix is not normalized!')
+    guan.statistics_of_guan_package()
     return transmission_matrix, reflection_matrix, k_right, k_left, velocity_right, velocity_left, ind_right_active
 
 # 在无序下，计算散射矩阵，并获取散射矩阵多次计算的平均信息
@@ -2144,6 +2308,7 @@ def calculate_scattering_matrix_with_disorder_and_get_averaged_information(fermi
         reflection_matrix_for_active_channels_averaged += reflection_matrix_for_active_channels
     transmission_matrix_for_active_channels_averaged = transmission_matrix_for_active_channels_averaged/calculation_times
     reflection_matrix_for_active_channels_averaged = reflection_matrix_for_active_channels_averaged/calculation_times
+    guan.statistics_of_guan_package()
     return transmission_matrix_for_active_channels_averaged, reflection_matrix_for_active_channels_averaged
 
 
@@ -2249,6 +2414,7 @@ def calculate_chern_number_for_square_lattice_with_efficient_method(hamiltonian_
                 F = cmath.log(Ux*Uy_x*(1/Ux_y)*(1/Uy))
                 chern_number[i] = chern_number[i] + F
     chern_number = chern_number/(2*math.pi*1j)
+    guan.statistics_of_guan_package()
     return chern_number
 
 # 通过高效法计算方格子的陈数（可计算简并的情况）
@@ -2318,6 +2484,8 @@ def calculate_chern_number_for_square_lattice_with_efficient_method_for_degenera
             det_value= det_value*dot_matrix
             chern_number += cmath.log(det_value)
     chern_number = chern_number/(2*math.pi*1j)
+    import guan
+    guan.statistics_of_guan_package()
     return chern_number
 
 # 通过Wilson loop方法计算方格子的陈数
@@ -2362,6 +2530,8 @@ def calculate_chern_number_for_square_lattice_with_wilson_loop(hamiltonian_funct
             arg = np.log(np.diagonal(wilson_loop))/1j
             chern_number = chern_number + arg
     chern_number = chern_number/(2*math.pi)
+    import guan
+    guan.statistics_of_guan_package()
     return chern_number
 
 # 通过Wilson loop方法计算方格子的陈数（可计算简并的情况）
@@ -2425,6 +2595,8 @@ def calculate_chern_number_for_square_lattice_with_wilson_loop_for_degenerate_ca
             arg = np.log(wilson_loop)/1j
             chern_number = chern_number + arg
     chern_number = chern_number/(2*math.pi)
+    import guan
+    guan.statistics_of_guan_package()
     return chern_number
 
 # 通过高效法计算贝利曲率
@@ -2471,6 +2643,7 @@ def calculate_berry_curvature_with_efficient_method(hamiltonian_function, k_min=
                 berry_curvature_array[j0, i0, i] = berry_curvature
             j0 += 1
         i0 += 1
+    guan.statistics_of_guan_package()
     return k_array, berry_curvature_array
 
 # 通过高效法计算贝利曲率（可计算简并的情况）
@@ -2549,6 +2722,8 @@ def calculate_berry_curvature_with_efficient_method_for_degenerate_case(hamilton
             berry_curvature_array[j00, i00] = berry_curvature
             j00 += 1
         i00 += 1
+    import guan
+    guan.statistics_of_guan_package()
     return k_array, berry_curvature_array
 
 # 通过Wilson loop方法计算贝里曲率
@@ -2605,6 +2780,8 @@ def calculate_berry_curvature_with_wilson_loop(hamiltonian_function, k_min='defa
             berry_curvature_array[j00, i00, :]=berry_curvature
             j00 += 1
         i00 += 1
+    import guan
+    guan.statistics_of_guan_package()
     return k_array, berry_curvature_array
 
 # 通过Wilson loop方法计算贝里曲率（可计算简并的情况）
@@ -2676,6 +2853,8 @@ def calculate_berry_curvature_with_wilson_loop_for_degenerate_case(hamiltonian_f
             berry_curvature_array[j000, i000]=berry_curvature
             j000 += 1
         i000 += 1
+    import guan
+    guan.statistics_of_guan_package()
     return k_array, berry_curvature_array
 
 # 计算蜂窝格子的陈数（高效法）
@@ -2719,6 +2898,7 @@ def calculate_chern_number_for_honeycomb_lattice(hamiltonian_function, a=1, prec
                     F = cmath.log(Ux*Uy_x*(1/Ux_y)*(1/Uy))
                     chern_number[i] = chern_number[i] + F
     chern_number = chern_number/(2*math.pi*1j)
+    guan.statistics_of_guan_package()
     return chern_number
 
 # 计算Wilson loop
@@ -2746,6 +2926,7 @@ def calculate_wilson_loop(hamiltonian_function, k_min='default', k_max='default'
         for i0 in range(precision-1):
             F = np.dot(eigenvector_array[i0+1].transpose().conj(), eigenvector_array[i0])
             wilson_loop_array[i] = np.dot(F, wilson_loop_array[i])
+    guan.statistics_of_guan_package()
     return wilson_loop_array
 
 
@@ -2821,6 +3002,8 @@ def import_plt_and_start_fig_ax(adjust_bottom=0.2, adjust_left=0.2, labelsize=20
     ax.tick_params(labelsize=labelsize) 
     labels = ax.get_xticklabels() + ax.get_yticklabels()
     [label.set_fontname('Times New Roman') for label in labels]
+    import guan
+    guan.statistics_of_guan_package()
     return plt, fig, ax
 
 # 基于plt, fig, ax开始画图
@@ -2838,6 +3021,8 @@ def plot_without_starting_fig(plt, fig, ax, x_array, y_array, xlabel='x', ylabel
         if y_max==None:
             y_max=max(y_array)
         ax.set_ylim(y_min, y_max)
+    import guan
+    guan.statistics_of_guan_package()
 
 # 画图
 def plot(x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style='', y_min=None, y_max=None, linewidth=None, markersize=None, adjust_bottom=0.2, adjust_left=0.2): 
@@ -2858,6 +3043,7 @@ def plot(x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, labels
     if show == 1:
         plt.show()
     plt.close('all')
+    guan.statistics_of_guan_package()
 
 # 一组横坐标数据，两组纵坐标数据画图
 def plot_two_array(x_array, y1_array, y2_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style_1='', style_2='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, markersize_1=None, markersize_2=None, adjust_bottom=0.2, adjust_left=0.2): 
@@ -2883,6 +3069,7 @@ def plot_two_array(x_array, y1_array, y2_array, xlabel='x', ylabel='y', title=''
     if show == 1:
         plt.show()
     plt.close('all')
+    guan.statistics_of_guan_package()
 
 # 两组横坐标数据，两组纵坐标数据画图
 def plot_two_array_with_two_horizontal_array(x1_array, x2_array, y1_array, y2_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style_1='', style_2='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, markersize_1=None, markersize_2=None, adjust_bottom=0.2, adjust_left=0.2): 
@@ -2908,6 +3095,7 @@ def plot_two_array_with_two_horizontal_array(x1_array, x2_array, y1_array, y2_ar
     if show == 1:
         plt.show()
     plt.close('all')
+    guan.statistics_of_guan_package()
 
 # 一组横坐标数据，三组纵坐标数据画图
 def plot_three_array(x_array, y1_array, y2_array, y3_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style_1='', style_2='', style_3='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, linewidth_3=None,markersize_1=None, markersize_2=None, markersize_3=None, adjust_bottom=0.2, adjust_left=0.2): 
@@ -2936,6 +3124,7 @@ def plot_three_array(x_array, y1_array, y2_array, y3_array, xlabel='x', ylabel='
     if show == 1:
         plt.show()
     plt.close('all')
+    guan.statistics_of_guan_package()
 
 # 三组横坐标数据，三组纵坐标数据画图
 def plot_three_array_with_three_horizontal_array(x1_array, x2_array, x3_array, y1_array, y2_array, y3_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style_1='', style_2='', style_3='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, linewidth_3=None,markersize_1=None, markersize_2=None, markersize_3=None, adjust_bottom=0.2, adjust_left=0.2): 
@@ -2964,6 +3153,7 @@ def plot_three_array_with_three_horizontal_array(x1_array, x2_array, x3_array, y
     if show == 1:
         plt.show()
     plt.close('all')
+    guan.statistics_of_guan_package()
 
 # 画三维图
 def plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z', title='', fontsize=20, labelsize=15, show=1, save=0, filename='a', file_format='.jpg', dpi=300, z_min=None, z_max=None, rcount=100, ccount=100): 
@@ -3005,6 +3195,8 @@ def plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z'
     if show == 1:
         plt.show()
     plt.close('all')
+    import guan
+    guan.statistics_of_guan_package()
 
 # 画Contour图
 def plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=15, cmap='jet', levels=None, show=1, save=0, filename='a', file_format='.jpg', dpi=300):
@@ -3030,6 +3222,8 @@ def plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', fon
     if show == 1:
         plt.show()
     plt.close('all')
+    import guan
+    guan.statistics_of_guan_package()
 
 # 画棋盘图/伪彩色图
 def plot_pcolor(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=15, cmap='jet', levels=None, show=1, save=0, filename='a', file_format='.jpg', dpi=300):  
@@ -3055,6 +3249,8 @@ def plot_pcolor(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', font
     if show == 1:
         plt.show()
     plt.close('all')
+    import guan
+    guan.statistics_of_guan_package()
 
 # 通过坐标画点和线
 def draw_dots_and_lines(coordinate_array, draw_dots=1, draw_lines=1, max_distance=1.1, line_style='-k', linewidth=1, dot_style='ro', markersize=3, show=1, save=0, filename='a', file_format='.eps', dpi=300):
@@ -3082,6 +3278,8 @@ def draw_dots_and_lines(coordinate_array, draw_dots=1, draw_lines=1, max_distanc
             plt.savefig(filename+file_format)
         else:
             plt.savefig(filename+file_format, dpi=dpi)
+    import guan
+    guan.statistics_of_guan_package()
 
 # 合并两个图片
 def combine_two_images(image_path_array, figsize=(16,8), show=0, save=1, filename='a', file_format='.jpg', dpi=300):
@@ -3107,6 +3305,8 @@ def combine_two_images(image_path_array, figsize=(16,8), show=0, save=1, filenam
         if save == 1:
             plt.savefig(filename+file_format, dpi=dpi)
         plt.close('all')
+    import guan
+    guan.statistics_of_guan_package()
 
 # 合并三个图片
 def combine_three_images(image_path_array, figsize=(16,5), show=0, save=1, filename='a', file_format='.jpg', dpi=300):
@@ -3136,6 +3336,8 @@ def combine_three_images(image_path_array, figsize=(16,5), show=0, save=1, filen
         if save == 1:
             plt.savefig(filename+file_format, dpi=dpi)
         plt.close('all')
+    import guan
+    guan.statistics_of_guan_package()
 
 # 合并四个图片
 def combine_four_images(image_path_array, figsize=(16,16), show=0, save=1, filename='a', file_format='.jpg', dpi=300):
@@ -3169,6 +3371,8 @@ def combine_four_images(image_path_array, figsize=(16,16), show=0, save=1, filen
         if save == 1:
             plt.savefig(filename+file_format, dpi=dpi)
         plt.close('all')
+    import guan
+    guan.statistics_of_guan_package()
 
 # 对于某个目录中的txt文件，批量读取和画图
 def batch_reading_and_plotting(directory, xlabel='x', ylabel='y'):
@@ -3181,6 +3385,7 @@ def batch_reading_and_plotting(directory, xlabel='x', ylabel='y'):
                 filename = file[:-4]
                 x_array, y_array = guan.read_one_dimensional_data(filename=filename)
                 guan.plot(x_array, y_array, xlabel=xlabel, ylabel=ylabel, title=filename, show=0, save=1, filename=filename)
+    guan.statistics_of_guan_package()
 
 # 制作GIF动画
 def make_gif(image_path_array, filename='a', duration=0.1):
@@ -3190,13 +3395,15 @@ def make_gif(image_path_array, filename='a', duration=0.1):
         im = imageio.imread(image_path)
         images.append(im)
     imageio.mimsave(filename+'.gif', images, 'GIF', duration=duration)
-
+    import guan
+    guan.statistics_of_guan_package()
 
 # 选取颜色
 def color_matplotlib():
     color_array = ['tab:blue', 'tab:orange', 'tab:green', 'tab:red', 'tab:purple', 'tab:brown', 'tab:pink', 'tab:gray', 'tab:olive', 'tab:cyan']
+    import guan
+    guan.statistics_of_guan_package()
     return color_array
-
 
 
 
@@ -3269,12 +3476,16 @@ def dump_data(data, filename, file_format='.txt'):
     import pickle
     with open(filename+file_format, 'wb') as f:
 	    pickle.dump(data, f)
+    import guan
+    guan.statistics_of_guan_package()
 
 # 从文件中恢复数据到变量
 def load_data(filename, file_format='.txt'):
     import pickle
     with open(filename+file_format, 'rb') as f:
         data = pickle.load(f)
+    import guan
+    guan.statistics_of_guan_package()
     return data
 
 # 读取文件中的一维数据（每一行一组x和y）
@@ -3298,6 +3509,8 @@ def read_one_dimensional_data(filename='a', file_format='.txt'):
                 y_array = [y_row]
             else:
                 y_array = np.append(y_array, [y_row], axis=0)
+    import guan
+    guan.statistics_of_guan_package()
     return x_array, y_array
 
 # 读取文件中的一维数据（每一行一组x和y）（支持复数形式）
@@ -3321,6 +3534,8 @@ def read_one_dimensional_complex_data(filename='a', file_format='.txt'):
                 y_array = [y_row]
             else:
                 y_array = np.append(y_array, [y_row], axis=0)
+    import guan
+    guan.statistics_of_guan_package()
     return x_array, y_array
 
 # 读取文件中的二维数据（第一行和列分别为横纵坐标）
@@ -3350,6 +3565,8 @@ def read_two_dimensional_data(filename='a', file_format='.txt'):
                 matrix = [matrix_row]
             else:
                 matrix = np.append(matrix, [matrix_row], axis=0)
+    import guan
+    guan.statistics_of_guan_package()
     return x_array, y_array, matrix
 
 # 读取文件中的二维数据（第一行和列分别为横纵坐标）（支持复数形式）
@@ -3379,12 +3596,16 @@ def read_two_dimensional_complex_data(filename='a', file_format='.txt'):
                 matrix = [matrix_row]
             else:
                 matrix = np.append(matrix, [matrix_row], axis=0)
+    import guan
+    guan.statistics_of_guan_package()
     return x_array, y_array, matrix
 
 # 读取文件中的二维数据（不包括x和y）
 def read_two_dimensional_data_without_xy_array(filename='a', file_format='.txt'):
     import numpy as np
     matrix = np.loadtxt(filename+file_format)
+    import guan
+    guan.statistics_of_guan_package()
     return matrix
 
 # 打开文件用于新增内容
@@ -3393,6 +3614,8 @@ def open_file(filename='a', file_format='.txt'):
         f = open(filename+file_format, 'a', encoding='UTF-8')
     except:
         f = open(filename+file_format, 'w', encoding='UTF-8')
+    import guan
+    guan.statistics_of_guan_package()
     return f
 
 # 在文件中写入一维数据（每一行一组x和y）
@@ -3400,6 +3623,8 @@ def write_one_dimensional_data(x_array, y_array, filename='a', file_format='.txt
     import guan
     with open(filename+file_format, 'w', encoding='UTF-8') as f:
         guan.write_one_dimensional_data_without_opening_file(x_array, y_array, f)
+    import guan
+    guan.statistics_of_guan_package()
 
 # 在文件中写入一维数据（每一行一组x和y）（需要输入文件）
 def write_one_dimensional_data_without_opening_file(x_array, y_array, f):
@@ -3416,12 +3641,15 @@ def write_one_dimensional_data_without_opening_file(x_array, y_array, f):
                 f.write(str(y_array[i0, j0])+'   ')
             f.write('\n')
         i0 += 1
+    import guan
+    guan.statistics_of_guan_package()
 
 # 在文件中写入二维数据（第一行和列分别为横纵坐标）
 def write_two_dimensional_data(x_array, y_array, matrix, filename='a', file_format='.txt'):
     import guan
     with open(filename+file_format, 'w', encoding='UTF-8') as f:
         guan.write_two_dimensional_data_without_opening_file(x_array, y_array, matrix, f)
+    guan.statistics_of_guan_package()
 
 # 在文件中写入二维数据（第一行和列分别为横纵坐标）（需要输入文件）
 def write_two_dimensional_data_without_opening_file(x_array, y_array, matrix, f):
@@ -3442,12 +3670,15 @@ def write_two_dimensional_data_without_opening_file(x_array, y_array, matrix, f)
             j0 += 1
         f.write('\n')
         i0 += 1
+    import guan
+    guan.statistics_of_guan_package()
 
 # 在文件中写入二维数据（不包括x和y）
 def write_two_dimensional_data_without_xy_array(matrix, filename='a', file_format='.txt'):
     import guan
     with open(filename+file_format, 'w', encoding='UTF-8') as f:
         guan.write_two_dimensional_data_without_xy_array_and_without_opening_file(matrix, f)
+    guan.statistics_of_guan_package()
 
 # 在文件中写入二维数据（不包括x和y）（需要输入文件）
 def write_two_dimensional_data_without_xy_array_and_without_opening_file(matrix, f):
@@ -3455,6 +3686,8 @@ def write_two_dimensional_data_without_xy_array_and_without_opening_file(matrix,
         for element in row:
             f.write(str(element)+'   ')
         f.write('\n')
+    import guan
+    guan.statistics_of_guan_package()
 
 # 以显示编号的样式，打印数组
 def print_array_with_index(array, show_index=1, index_type=0):
@@ -3472,6 +3705,8 @@ def print_array_with_index(array, show_index=1, index_type=0):
             for i0 in array:
                 index += 1
                 print(index, i0)
+    import guan
+    guan.statistics_of_guan_package()
 
 
 
@@ -3558,17 +3793,23 @@ def run_programs_sequentially(program_files=['./a.py', './b.py'], execute='pytho
     if show_time == 1:
         end = time.time()
         print('Total running time = '+str((end-start)/60)+' min')
+    import guan
+    guan.statistics_of_guan_package()
 
 # 如果不存在文件夹，则新建文件夹
 def make_directory(directory='./test'):
     import os
     if not os.path.exists(directory):
         os.makedirs(directory)
+    import guan
+    guan.statistics_of_guan_package()
 
 # 复制一份文件
 def copy_file(file1='./a.txt', file2='./b.txt'):
     import shutil
     shutil.copy(file1, file2)
+    import guan
+    guan.statistics_of_guan_package()
 
 # 拼接两个PDF文件
 def combine_two_pdf_files(input_file_1='a.pdf', input_file_2='b.pdf', output_file='combined_file.pdf'):
@@ -3584,6 +3825,8 @@ def combine_two_pdf_files(input_file_1='a.pdf', input_file_2='b.pdf', output_fil
             output_pdf.add_page(pdf2.pages[page])
     with open(output_file, 'wb') as combined_file:
         output_pdf.write(combined_file)
+    import guan
+    guan.statistics_of_guan_package()
 
 # 将PDF文件转成文本
 def pdf_to_text(pdf_path):
@@ -3614,6 +3857,8 @@ def pdf_to_text(pdf_path):
             for x in layout:
                 if isinstance(x, LTTextBox):
                     content  = content + x.get_text().strip()
+    import guan
+    guan.statistics_of_guan_package()
     return content
 
 # 获取PDF文件页数
@@ -3622,6 +3867,8 @@ def get_pdf_page_number(pdf_path):
     pdf_file = open(pdf_path, 'rb')
     pdf_reader = PyPDF2.PdfReader(pdf_file)
     num_pages = len(pdf_reader.pages)
+    import guan
+    guan.statistics_of_guan_package()
     return num_pages
 
 # 获取PDF文件指定页面的内容
@@ -3635,6 +3882,8 @@ def pdf_to_txt_for_a_specific_page(pdf_path, page_num=1):
             page = pdf_reader.pages[page_num0]
             page_text = page.extract_text()
     pdf_file.close()
+    import guan
+    guan.statistics_of_guan_package()
     return page_text
 
 # 获取PDF文献中的链接。例如: link_starting_form='https://doi.org'
@@ -3659,6 +3908,8 @@ def get_links_from_pdf(pdf_path, link_starting_form=''):
                             links.append(u['/A']['/URI']) 
                             i0 += 1
                             old = u['/A']['/URI']        
+    import guan
+    guan.statistics_of_guan_package()
     return links
 
 # 通过Sci-Hub网站下载文献
@@ -3697,6 +3948,8 @@ def download_with_scihub(address=None, num=1):
         print('Completed!\n')
     if num != 1:
         print('All completed!\n')
+    import guan
+    guan.statistics_of_guan_package()
 
 # 将文件目录结构写入Markdown文件
 def write_file_list_in_markdown(directory='./', filename='a', reverse_positive_or_negative=1, starting_from_h1=None, banned_file_format=[], hide_file_format=None, divided_line=None, show_second_number=None, show_third_number=None): 
@@ -3800,6 +4053,8 @@ def write_file_list_in_markdown(directory='./', filename='a', reverse_positive_o
                                                         f.write('#')
                                                     f.write('###### '+str(filename6)+'\n\n')
     f.close()
+    import guan
+    guan.statistics_of_guan_package()
 
 # 查找文件名相同的文件
 def find_repeated_file_with_same_filename(directory='./', ignored_directory_with_words=[], ignored_file_with_words=[], num=1000):
@@ -3823,6 +4078,8 @@ def find_repeated_file_with_same_filename(directory='./', ignored_directory_with
     for item in count_file:
         if item[1]>1:
             repeated_file.append(item)
+    import guan
+    guan.statistics_of_guan_package()
     return repeated_file
 
 # 统计各个子文件夹中的文件数量
@@ -3849,6 +4106,8 @@ def count_file_in_sub_directory(directory='./', smaller_than_num=None):
                 print(sub_dir)
                 print(count_file)
                 print()
+    import guan
+    guan.statistics_of_guan_package()
 
 # 产生必要的文件，例如readme.md
 def creat_necessary_file(directory, filename='readme', file_format='.md', content='', overwrite=None, ignored_directory_with_words=[]):
@@ -3878,14 +4137,18 @@ def creat_necessary_file(directory, filename='readme', file_format='.md', conten
         f = open(filename+file_format, 'w', encoding="utf-8")
         f.write(content)
         f.close()
+    import guan
+    guan.statistics_of_guan_package()
 
 # 删除特定文件名的文件
 def delete_file_with_specific_name(directory, filename='readme', file_format='.md'):
-      import os
-      for root, dirs, files in os.walk(directory):
+    import os
+    for root, dirs, files in os.walk(directory):
         for i0 in range(len(files)):
             if files[i0] == filename+file_format:
                 os.remove(root+'/'+files[i0])
+    import guan
+    guan.statistics_of_guan_package()
 
 # 所有文件移到根目录（慎用）
 def move_all_files_to_root_directory(directory):
@@ -3900,6 +4163,8 @@ def move_all_files_to_root_directory(directory):
                 os.rmdir(root) 
             except:
                 pass
+    import guan
+    guan.statistics_of_guan_package()
 
 # 改变当前的目录位置
 def change_directory_by_replacement(current_key_word='code', new_key_word='data'):
@@ -3910,12 +4175,16 @@ def change_directory_by_replacement(current_key_word='code', new_key_word='data'
     if os.path.exists(data_path) == False:
         os.makedirs(data_path)
     os.chdir(data_path)
+    import guan
+    guan.statistics_of_guan_package()
 
 # 生成二维码
 def creat_qrcode(data="https://www.guanjihuan.com", filename='a', file_format='.png'):
     import qrcode
     img = qrcode.make(data)
     img.save(filename+file_format)
+    import guan
+    guan.statistics_of_guan_package()
 
 # 将文本转成音频
 def str_to_audio(str='hello world', filename='str', rate=125, voice=1, read=1, save=0, compress=0, bitrate='16k', print_text=0):
@@ -3939,6 +4208,7 @@ def str_to_audio(str='hello world', filename='str', rate=125, voice=1, read=1, s
     if read==1:
         engine.say(str)
         engine.runAndWait()
+    guan.statistics_of_guan_package()
 
 # 将txt文件转成音频
 def txt_to_audio(txt_path, rate=125, voice=1, read=1, save=0, compress=0, bitrate='16k', print_text=0):
@@ -3966,6 +4236,7 @@ def txt_to_audio(txt_path, rate=125, voice=1, read=1, save=0, compress=0, bitrat
     if read==1:
         engine.say(text)
         engine.runAndWait()
+    guan.statistics_of_guan_package()
 
 # 将PDF文件转成音频
 def pdf_to_audio(pdf_path, rate=125, voice=1, read=1, save=0, compress=0, bitrate='16k', print_text=0):
@@ -3993,6 +4264,7 @@ def pdf_to_audio(pdf_path, rate=125, voice=1, read=1, save=0, compress=0, bitrat
     if read==1:
         engine.say(text)
         engine.runAndWait()
+    guan.statistics_of_guan_package()
 
 # 将wav音频文件压缩成MP3音频文件
 def compress_wav_to_mp3(wav_path, output_filename='a.mp3', bitrate='16k'):
@@ -4000,6 +4272,8 @@ def compress_wav_to_mp3(wav_path, output_filename='a.mp3', bitrate='16k'):
     from pydub import AudioSegment
     sound = AudioSegment.from_mp3(wav_path)
     sound.export(output_filename,format="mp3",bitrate=bitrate)
+    import guan
+    guan.statistics_of_guan_package()
 
 
 
@@ -4066,6 +4340,8 @@ def preprocess_for_parallel_calculations(parameter_array_all, cpus=1, task_index
             parameter_array = parameter_array_all[task_index*num_parameter:(task_index+1)*num_parameter]
         else:
             parameter_array = parameter_array_all[task_index*num_parameter:num_all]
+    import guan
+    guan.statistics_of_guan_package()
     return parameter_array
 
 # 在一组数据中找到数值相近的数
@@ -4079,6 +4355,8 @@ def find_close_values_in_one_array(array, precision=1e-2):
                 new_array.append([a1, a2])
             j0 +=1
         i0 += 1
+    import guan
+    guan.statistics_of_guan_package()
     return new_array
 
 # 寻找能带的简并点
@@ -4093,6 +4371,8 @@ def find_degenerate_points(k_array, eigenvalue_array, precision=1e-2):
             degenerate_k_array.append(k)
             degenerate_eigenvalue_array.append(degenerate_points)
         i0 += 1
+    import guan
+    guan.statistics_of_guan_package()
     return degenerate_k_array, degenerate_eigenvalue_array
 
 # 选取一个种子生成固定的随机整数
@@ -4100,12 +4380,16 @@ def generate_random_int_number_for_a_specific_seed(seed=0, x_min=0, x_max=10):
     import numpy as np
     np.random.seed(seed)
     rand_num = np.random.randint(x_min, x_max) # 左闭右开[x_min, x_max)
+    import guan
+    guan.statistics_of_guan_package()
     return rand_num
 
 # 使用jieba分词
 def divide_text_into_words(text):
     import jieba
     words = jieba.lcut(text)
+    import guan
+    guan.statistics_of_guan_package()
     return words
 
 # 判断某个字符是中文还是英文或其他
@@ -4143,18 +4427,22 @@ def count_words(text, include_space=0, show_words=0):
             new_words_2.append(word)
     if show_words == 1:
         print(new_words_2)
+    import guan
+    guan.statistics_of_guan_package()
     return num_words
 
 # 统计运行的日期和时间，写进文件
 def statistics_with_day_and_time(content='', filename='a', file_format='.txt'):
-   import datetime
-   datetime_today = str(datetime.date.today())
-   datetime_time = datetime.datetime.now().strftime('%H:%M:%S')
-   with open(filename+file_format, 'a', encoding="utf-8") as f2:
+    import datetime
+    datetime_today = str(datetime.date.today())
+    datetime_time = datetime.datetime.now().strftime('%H:%M:%S')
+    with open(filename+file_format, 'a', encoding="utf-8") as f2:
        if content == '':
            f2.write(datetime_today+' '+datetime_time+'\n')
        else:
            f2.write(datetime_today+' '+datetime_time+' '+content+'\n')
+    import guan
+    guan.statistics_of_guan_package()
 
 # 统计Python文件中import的数量并排序
 def count_number_of_import_statements(filename, file_format='.py', num=1000):
@@ -4167,12 +4455,16 @@ def count_number_of_import_statements(filename, file_format='.py', num=1000):
             import_array.append(line)
     from collections import Counter
     import_statement_counter = Counter(import_array).most_common(num)
+    import guan
+    guan.statistics_of_guan_package()
     return import_statement_counter
 
 # 根据一定的字符长度来分割文本
 def split_text(text, wrap_width=3000):  
     import textwrap  
     split_text_list = textwrap.wrap(text, wrap_width)
+    import guan
+    guan.statistics_of_guan_package()
     return split_text_list
 
 # 从网页的标签中获取内容
@@ -4191,10 +4483,14 @@ def get_html_from_tags(link, tags=['title', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 
             content = text
         else:
             content = content + '\n\n' + text
+    import guan
+    guan.statistics_of_guan_package()
     return content
 
 # 将RGB转成HEX
 def rgb_to_hex(rgb, pound=1):
+    import guan
+    guan.statistics_of_guan_package()
     if pound==0:
         return '%02x%02x%02x' % rgb
     else:
@@ -4204,6 +4500,8 @@ def rgb_to_hex(rgb, pound=1):
 def hex_to_rgb(hex):
     hex = hex.lstrip('#')
     length = len(hex)
+    import guan
+    guan.statistics_of_guan_package()
     return tuple(int(hex[i:i+length//3], 16) for i in range(0, length, length//3))
 
 # 使用MD5进行散列加密
@@ -4211,6 +4509,8 @@ def encryption_MD5(password, salt=''):
     import hashlib
     password = salt+password
     hashed_password = hashlib.md5(password.encode()).hexdigest()
+    import guan
+    guan.statistics_of_guan_package()
     return hashed_password
 
 # 使用SHA-256进行散列加密
@@ -4218,12 +4518,16 @@ def encryption_SHA_256(password, salt=''):
     import hashlib
     password = salt+password
     hashed_password = hashlib.sha256(password.encode()).hexdigest()
+    import guan
+    guan.statistics_of_guan_package()
     return hashed_password
 
 # 获取CPU使用率
 def get_cpu_usage(interval=1):
     import psutil
     cpu_usage = psutil.cpu_percent(interval=interval)
+    import guan
+    guan.statistics_of_guan_package()
     return cpu_usage
 
 # 获取当前日期字符串
@@ -4232,12 +4536,16 @@ def get_date(bar=True):
     datetime_date = str(datetime.date.today())
     if bar==False:
         datetime_date = datetime_date.replace('-', '')
+    import guan
+    guan.statistics_of_guan_package()
     return datetime_date
 
 # 获取当前时间字符串
 def get_time():
     import datetime
     datetime_time = datetime.datetime.now().strftime('%H:%M:%S')
+    import guan
+    guan.statistics_of_guan_package()
     return datetime_time
 
 # 获取本月的所有日期
@@ -4257,6 +4565,8 @@ def get_days_of_the_current_month(str_or_datetime='str'):
         elif str_or_datetime=='datetime':
             day_array.append(current_date)
         current_date += datetime.timedelta(days=1)
+    import guan
+    guan.statistics_of_guan_package()
     return day_array
 
 # 获取上个月份
@@ -4269,6 +4579,8 @@ def get_last_month():
         year_of_last_month = today.year - 1
     else:
         year_of_last_month = today.year
+    import guan
+    guan.statistics_of_guan_package()
     return year_of_last_month, last_month
 
 # 获取上上个月份
@@ -4286,6 +4598,8 @@ def get_the_month_before_last():
         year_of_the_month_before_last = today.year - 1
     else:
         year_of_the_month_before_last = today.year
+    import guan
+    guan.statistics_of_guan_package()
     return year_of_the_month_before_last, the_month_before_last
 
 # 获取上个月的所有日期
@@ -4307,6 +4621,7 @@ def get_days_of_the_last_month(str_or_datetime='str'):
         elif str_or_datetime=='datetime':
             day_array.append(current_date)
         current_date += datetime.timedelta(days=1)
+    guan.statistics_of_guan_package()
     return day_array
 
 # 获取上上个月的所有日期
@@ -4328,6 +4643,7 @@ def get_days_of_the_month_before_last(str_or_datetime='str'):
         elif str_or_datetime=='datetime':
             day_array.append(current_date)
         current_date += datetime.timedelta(days=1)
+    guan.statistics_of_guan_package()
     return day_array
 
 # 获取所有股票
@@ -4337,6 +4653,8 @@ def all_stocks():
     stocks = ak.stock_zh_a_spot_em()
     title = np.array(stocks.columns)
     stock_data = stocks.values
+    import guan
+    guan.statistics_of_guan_package()
     return title, stock_data
 
 # 获取所有股票的代码
@@ -4344,6 +4662,7 @@ def all_stock_symbols():
     import guan
     title, stock_data = guan.all_stocks()
     stock_symbols = stock_data[:, 1]
+    guan.statistics_of_guan_package()
     return stock_symbols
 
 # 从股票代码获取股票名称
@@ -4353,6 +4672,7 @@ def find_stock_name_from_symbol(symbol='000002'):
     for stock in stock_data:
         if symbol in stock:
            stock_name = stock[2]
+    guan.statistics_of_guan_package()
     return stock_name
 
 # 获取单个股票的历史数据
@@ -4365,6 +4685,8 @@ def history_data_of_one_stock(symbol='000002', period='daily', start_date="19000
     stock = ak.stock_zh_a_hist(symbol=symbol, period=period, start_date=start_date, end_date=end_date)
     title = np.array(stock.columns)
     stock_data = stock.values[::-1]
+    import guan
+    guan.statistics_of_guan_package()
     return title, stock_data
 
 # 播放学术单词
@@ -4426,6 +4748,8 @@ def play_academic_words(reverse=0, random_on=0, bre_or_ame='ame', show_translati
                 time.sleep(rest_time)
                 pygame.mixer.music.stop()
                 print()
+    import guan
+    guan.statistics_of_guan_package()
 
 # 播放挑选过后的学术单词
 def play_selected_academic_words(reverse=0, random_on=0, bre_or_ame='ame', show_link=1, rest_time=3):
@@ -4482,6 +4806,8 @@ def play_selected_academic_words(reverse=0, random_on=0, bre_or_ame='ame', show_
                 time.sleep(rest_time)
                 pygame.mixer.music.stop()
                 print()
+    import guan
+    guan.statistics_of_guan_package()
 
 # 播放元素周期表上的单词
 def play_element_words(random_on=0, show_translation=1, show_link=1, translation_time=2, rest_time=1):
@@ -4537,12 +4863,32 @@ def play_element_words(random_on=0, show_translation=1, show_link=1, translation
                 time.sleep(rest_time)
                 pygame.mixer.music.stop()
                 print()
+    import guan
+    guan.statistics_of_guan_package()
 
+# 获取Guan软件包当前模块的所有函数名
+def get_all_function_names_in_current_module():
+    import inspect
+    current_module = inspect.getmodule(inspect.currentframe())
+    function_names = [name for name, obj in inspect.getmembers(current_module) if inspect.isfunction(obj)]
+    import guan
+    guan.statistics_of_guan_package()
+    return function_names
+
+# 统计Guan软件包中的函数数量
+def count_functions_in_current_module():
+    import guan
+    function_names = guan.get_all_function_names_in_current_module()
+    num_functions = len(function_names)
+    guan.statistics_of_guan_package()
+    return num_functions
 
 # 获取当前函数名
 def get_current_function_name():
     import inspect
     current_function_name = inspect.currentframe().f_code.co_name
+    import guan
+    guan.statistics_of_guan_package()
     return current_function_name
 
 # 获取调用本函数的函数名
@@ -4551,20 +4897,6 @@ def get_calling_function_name(layer=1):
     caller = inspect.stack()[layer]
     calling_function_name = caller.function
     return calling_function_name
-
-# 获取Guan软件包当前模块的所有函数名
-def get_all_function_names_in_current_module():
-    import inspect
-    current_module = inspect.getmodule(inspect.currentframe())
-    function_names = [name for name, obj in inspect.getmembers(current_module) if inspect.isfunction(obj)]
-    return function_names
-
-# 统计Guan软件包中的函数数量
-def count_functions_in_current_module():
-    import guan
-    function_names = guan.get_all_function_names_in_current_module()
-    num_functions = len(function_names)
-    return num_functions
 
 # Guan软件包的使用统计（不涉及到用户的个人数据）
 def statistics_of_guan_package():
@@ -4581,22 +4913,3 @@ def statistics_of_guan_package():
         client_socket.close()
     except:
         pass
-
-# 装饰器函数，用于在每个函数调用前调用 guan.statistics_of_guan_package()
-def call_common_function(func):
-    def wrapper(*args, **kwargs):
-        import guan
-        guan.statistics_of_guan_package()
-        return func(*args, **kwargs)
-    return wrapper
-
-# 动态应用装饰器到每个函数，用于统计
-try:
-    function_names = get_all_function_names_in_current_module()
-    for func_name in function_names:
-        func = locals().get(func_name)
-        if callable(func):
-            decorated_func = call_common_function(func)
-            locals()[func_name] = decorated_func
-except:
-    pass
