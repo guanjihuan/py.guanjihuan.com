@@ -1,6 +1,6 @@
 # Guan is an open-source python package developed and maintained by https://www.guanjihuan.com/about (Ji-Huan Guan, 关济寰). The primary location of this package is on website https://py.guanjihuan.com. GitHub link: https://github.com/guanjihuan/py.guanjihuan.com.
 
-# The current version is guan-0.1.2, updated on December 23, 2023.
+# The current version is guan-0.1.3, updated on December 23, 2023.
 
 # Installation: pip install --upgrade guan
 
@@ -4886,16 +4886,12 @@ def get_date(bar=True):
     datetime_date = str(datetime.date.today())
     if bar==False:
         datetime_date = datetime_date.replace('-', '')
-    import guan
-    guan.statistics_of_guan_package()
     return datetime_date
 
 # 获取当前时间字符串
 def get_time():
     import datetime
     datetime_time = datetime.datetime.now().strftime('%H:%M:%S')
-    import guan
-    guan.statistics_of_guan_package()
     return datetime_time
 
 # Guan软件包的使用统计（不涉及到用户的个人数据）
