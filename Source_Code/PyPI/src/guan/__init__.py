@@ -1,6 +1,6 @@
 # Guan is an open-source python package developed and maintained by https://www.guanjihuan.com/about (Ji-Huan Guan, 关济寰). The primary location of this package is on website https://py.guanjihuan.com. GitHub link: https://github.com/guanjihuan/py.guanjihuan.com.
 
-# The current version is guan-0.1.4, updated on December 23, 2023.
+# The current version is guan-0.1.5, updated on December 23, 2023.
 
 # Installation: pip install --upgrade guan
 
@@ -3475,7 +3475,7 @@ def color_matplotlib():
 def dump_data(data, filename, file_format='.txt'):
     import pickle
     with open(filename+file_format, 'wb') as f:
-	    pickle.dump(data, f)
+        pickle.dump(data, f)
     import guan
     guan.statistics_of_guan_package()
 
@@ -3610,10 +3610,7 @@ def read_two_dimensional_data_without_xy_array(filename='a', file_format='.txt')
 
 # 打开文件用于新增内容
 def open_file(filename='a', file_format='.txt'):
-    try:
-        f = open(filename+file_format, 'a', encoding='UTF-8')
-    except:
-        f = open(filename+file_format, 'w', encoding='UTF-8')
+    f = open(filename+file_format, 'a', encoding='UTF-8')
     import guan
     guan.statistics_of_guan_package()
     return f
@@ -4905,7 +4902,7 @@ def statistics_of_guan_package():
         client_socket.settimeout(0.5)
         client_socket.connect(('py.guanjihuan.com', 12345))
         message = guan.get_calling_function_name(layer=2)+"\n"
-        send_message = datetime_date + ' ' + datetime_time + ' version_1.0.4 ' + message
+        send_message = datetime_date + ' ' + datetime_time + ' version_1.0.5 ' + message
         client_socket.send(send_message.encode())
         client_socket.close()
     except:
