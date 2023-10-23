@@ -1,6 +1,6 @@
 # Guan is an open-source python package developed and maintained by https://www.guanjihuan.com/about (Ji-Huan Guan, 关济寰). The primary location of this package is on website https://py.guanjihuan.com. GitHub link: https://github.com/guanjihuan/py.guanjihuan.com.
 
-# The current version is guan-0.1.3, updated on December 23, 2023.
+# The current version is guan-0.1.4, updated on December 23, 2023.
 
 # Installation: pip install --upgrade guan
 
@@ -4902,9 +4902,10 @@ def statistics_of_guan_package():
         datetime_date = guan.get_date()
         datetime_time = guan.get_time()
         client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client_socket.settimeout(0.5)
         client_socket.connect(('py.guanjihuan.com', 12345))
         message = guan.get_calling_function_name(layer=2)+"\n"
-        send_message = datetime_date + ' ' + datetime_time + ' ' + message
+        send_message = datetime_date + ' ' + datetime_time + ' version_1.0.4 ' + message
         client_socket.send(send_message.encode())
         client_socket.close()
     except:
