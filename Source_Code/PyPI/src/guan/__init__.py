@@ -1,6 +1,6 @@
 # Guan is an open-source python package developed and maintained by https://www.guanjihuan.com/about (Ji-Huan Guan, 关济寰). The primary location of this package is on website https://py.guanjihuan.com. GitHub link: https://github.com/guanjihuan/py.guanjihuan.com.
 
-# The current version is guan-0.1.11, updated on November 02, 2023.
+# The current version is guan-0.1.12, updated on November 02, 2023.
 
 # Installation: pip install --upgrade guan
 
@@ -4901,13 +4901,13 @@ def get_mac_address():
 # Guan软件包的使用统计（不涉及到用户的个人数据）
 def statistics_of_guan_package():
     try:
-        import socket
         import guan
         message_calling = guan.get_calling_function_name(layer=3)
-        current_version = get_current_version('guan')
         if message_calling == '<module>':
+            import socket
             datetime_date = guan.get_date()
             datetime_time = guan.get_time()
+            current_version = guan.get_current_version('guan')
             client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             client_socket.settimeout(0.5)
             client_socket.connect(('py.guanjihuan.com', 12345))
@@ -4918,7 +4918,7 @@ def statistics_of_guan_package():
             client_socket2 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             client_socket2.settimeout(0.5)
             client_socket2.connect(('py.guanjihuan.com', 12345))
-            mac_address = get_mac_address()
+            mac_address = guan.get_mac_address()
             send_mac_address = 'version_'+current_version+' MAC_address: '+mac_address+'\n'
             client_socket2.send(send_mac_address.encode())
             client_socket2.close()
@@ -4952,8 +4952,9 @@ def get_current_version(package_name='guan'):
 # Guan软件包升级提示
 def notification_of_upgrade():
     try:
-        latest_version = get_latest_version(package_name='guan', timeout=2)
-        current_version = get_current_version('guan')
+        import guan
+        latest_version = guan.get_latest_version(package_name='guan', timeout=2)
+        current_version = guan.get_current_version('guan')
         if latest_version != None and current_version != None:
             if latest_version != current_version:
                 print('提示：您当前使用的版本是 guan-'+current_version+'，目前已经有最新版本 guan-'+latest_version+'。您可以通过以下命令对软件包进行升级：pip install --upgrade guan')
