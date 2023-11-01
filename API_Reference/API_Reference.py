@@ -1,4 +1,4 @@
-# API Reference shows all functions in Guan package. The current version is guan-0.1.7 updated on November 01, 2023.
+# API Reference shows all functions in Guan package. The current version is guan-0.1.8 updated on November 02, 2023.
 
 import guan
 
@@ -989,6 +989,9 @@ datetime_date = guan.get_date(bar=True)
 
 # 获取当前时间字符串
 datetime_time = guan.get_time()
+
+# 获取MAC地址
+mac_address = guan.get_mac_address()
 
 # Guan软件包的使用统计（不涉及到用户的个人数据）
 guan.statistics_of_guan_package()

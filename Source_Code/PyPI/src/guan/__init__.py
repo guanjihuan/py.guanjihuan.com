@@ -1,6 +1,6 @@
 # Guan is an open-source python package developed and maintained by https://www.guanjihuan.com/about (Ji-Huan Guan, 关济寰). The primary location of this package is on website https://py.guanjihuan.com. GitHub link: https://github.com/guanjihuan/py.guanjihuan.com.
 
-# The current version is guan-0.1.7, updated on November 01, 2023.
+# The current version is guan-0.1.8, updated on November 02, 2023.
 
 # Installation: pip install --upgrade guan
 
@@ -4891,6 +4891,13 @@ def get_time():
     datetime_time = datetime.datetime.now().strftime('%H:%M:%S')
     return datetime_time
 
+# 获取MAC地址
+def get_mac_address():
+    import uuid
+    mac_address = uuid.UUID(int=uuid.getnode()).hex[-12:].upper()
+    mac_address = '-'.join([mac_address[i:i+2] for i in range(0, 11, 2)])
+    return mac_address
+
 # Guan软件包的使用统计（不涉及到用户的个人数据）
 def statistics_of_guan_package():
     try:
@@ -4904,8 +4911,15 @@ def statistics_of_guan_package():
             client_socket.settimeout(0.5)
             client_socket.connect(('py.guanjihuan.com', 12345))
             message = guan.get_calling_function_name(layer=2)+"\n"
-            send_message = datetime_date + ' ' + datetime_time + ' version_0.1.7 guan.' + message
+            send_message = datetime_date + ' ' + datetime_time + ' version_0.1.8 guan.' + message
             client_socket.send(send_message.encode())
             client_socket.close()
+            client_socket2 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            client_socket2.settimeout(0.5)
+            client_socket2.connect(('py.guanjihuan.com', 12345))
+            mac_address = get_mac_address()
+            send_mac_address = 'version_0.1.8 MAC_address: '+mac_address
+            client_socket2.send(send_mac_address.encode())
+            client_socket2.close()
     except:
         pass
