@@ -1,4 +1,4 @@
-# API Reference shows all functions in Guan package. The current version is guan-0.1.9 updated on November 02, 2023.
+# API Reference shows all functions in Guan package. The current version is guan-0.1.10 updated on November 02, 2023.
 
 import guan
 
@@ -996,4 +996,11 @@ mac_address = guan.get_mac_address()
 # Guan软件包的使用统计（不涉及到用户的个人数据）
 guan.statistics_of_guan_package()
 
+# 获取Python软件包的最新版本
+latest_version = guan.get_latest_version(package_name='guan', timeout=2)
 
+# 获取软件包的本机版本
+current_version = guan.get_current_version(package_name='guan')
+
+# Guan软件包升级提示
+guan.notification_of_upgrade()

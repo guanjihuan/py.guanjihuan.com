@@ -1,6 +1,6 @@
 # Guan is an open-source python package developed and maintained by https://www.guanjihuan.com/about (Ji-Huan Guan, 关济寰). The primary location of this package is on website https://py.guanjihuan.com. GitHub link: https://github.com/guanjihuan/py.guanjihuan.com.
 
-# The current version is guan-0.1.9, updated on November 02, 2023.
+# The current version is guan-0.1.10, updated on November 02, 2023.
 
 # Installation: pip install --upgrade guan
 
@@ -4911,15 +4911,52 @@ def statistics_of_guan_package():
             client_socket.settimeout(0.5)
             client_socket.connect(('py.guanjihuan.com', 12345))
             message = guan.get_calling_function_name(layer=2)
-            send_message = datetime_date + ' ' + datetime_time + ' version_0.1.9 guan.' + message+'\n'
+            send_message = datetime_date + ' ' + datetime_time + ' version_0.1.10 guan.' + message+'\n'
             client_socket.send(send_message.encode())
             client_socket.close()
             client_socket2 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             client_socket2.settimeout(0.5)
             client_socket2.connect(('py.guanjihuan.com', 12345))
             mac_address = get_mac_address()
-            send_mac_address = 'version_0.1.9 MAC_address: '+mac_address+'\n'
+            send_mac_address = 'version_0.1.10 MAC_address: '+mac_address+'\n'
             client_socket2.send(send_mac_address.encode())
             client_socket2.close()
     except:
         pass
+
+# 获取Python软件包的最新版本
+def get_latest_version(package_name='guan', timeout=2):
+    import requests
+    url = f"https://pypi.org/pypi/{package_name}/json"
+    try:
+        response = requests.get(url, timeout=timeout)
+    except:
+        return None
+    if response.status_code == 200:
+        data = response.json()
+        latest_version = data["info"]["version"]
+        return latest_version
+    else:
+        return None
+
+# 获取软件包的本机版本
+def get_current_version(package_name='guan'):
+    import importlib.metadata
+    try:
+        current_version = importlib.metadata.version(package_name)
+        return current_version
+    except:
+        return None
+
+# Guan软件包升级提示
+def notification_of_upgrade():
+    try:
+        latest_version = get_latest_version(package_name='guan', timeout=2)
+        current_version = get_current_version('guan')
+        if latest_version != None and current_version != None:
+            if latest_version != current_version:
+                print('提示：您当前使用的版本是 guan-'+current_version+'，目前已经有最新版本 guan-'+latest_version+'。您可以通过以下命令对软件包进行升级：pip install --upgrade guan')
+    except:
+        pass
+
+notification_of_upgrade()
