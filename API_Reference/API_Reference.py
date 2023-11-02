@@ -2,33 +2,6 @@
 
 import guan
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Module 1: basic functions
 
 guan.test()
@@ -77,32 +50,6 @@ sigma_zz = guan.sigma_zz()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Module 2: Fourier transform
 
 # 通过元胞和跃迁项得到一维的哈密顿量（需要输入k值）
@@ -145,31 +92,6 @@ b1, b2, b3 = guan.calculate_three_dimensional_reciprocal_lattice_vectors_with_sy
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Module 3: Hamiltonian of finite size systems
 
 # 构建一维的有限尺寸体系哈密顿量（可设置是否为周期边界条件）
@@ -201,24 +123,6 @@ H0, H1, H2 = guan.get_onsite_and_hopping_terms_of_half_bhz_model_for_spin_up(A=0
 
 # 获取半个BHZ模型的在位能和跃迁项（自旋向下）
 H0, H1, H2 = guan.get_onsite_and_hopping_terms_of_half_bhz_model_for_spin_down(A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01, a=1)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -281,26 +185,6 @@ hamiltonian = guan.hamiltonian_of_kagome_lattice(kx, ky, t=1)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Module 5: band structures and wave functions
 
 # 计算哈密顿量的本征值
@@ -329,30 +213,6 @@ vector1, vector2 = guan.rotation_of_degenerate_vectors(vector1, vector2, index1=
 
 # 旋转两个简并的波函数向量组（说明：参数比较多，效率不高）
 vector1_array, vector2_array = guan.rotation_of_degenerate_vectors_array(vector1_array, vector2_array, precision=0.01, criterion=0.01, show_theta=0)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -400,34 +260,6 @@ G_n = guan.electron_correlation_function_green_n_for_local_current(fermi_energy,
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Module 7: density of states
 
 # 计算体系的总态密度
@@ -450,29 +282,6 @@ local_dos = guan.local_density_of_states_for_cubic_lattice_using_dyson_equation(
 
 # 利用Dyson方程，计算方格子条带（考虑了电极自能）的局域态密度（其中，h00的维度为：dim_h00 = N2*internal_degree）
 local_dos = guan.local_density_of_states_for_square_lattice_with_self_energy_using_dyson_equation(fermi_energy, h00, h01, N2, N1, right_self_energy, left_self_energy, internal_degree=1, broadening=0.01)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -554,30 +363,6 @@ transmission_matrix_for_active_channels_averaged, reflection_matrix_for_active_c
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Module 9: topological invariant
 
 # 通过高效法计算方格子的陈数
@@ -609,31 +394,6 @@ chern_number = guan.calculate_chern_number_for_honeycomb_lattice(hamiltonian_fun
 
 # 计算Wilson loop
 wilson_loop_array = guan.calculate_wilson_loop(hamiltonian_function, k_min='default', k_max='default', precision=100, print_show=0)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -698,30 +458,6 @@ color_array = guan.color_matplotlib()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Module 11: read and write
 
 # 将数据存到文件
@@ -768,22 +504,6 @@ guan.write_two_dimensional_data_without_xy_array_and_without_opening_file(matrix
 
 # 以显示编号的样式，打印数组
 guan.print_array_with_index(array, show_index=1, index_type=0)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -854,33 +574,6 @@ guan.pdf_to_audio(pdf_path, rate=125, voice=1, read=1, save=0, compress=0, bitra
 
 # 将wav音频文件压缩成MP3音频文件
 guan.compress_wav_to_mp3(wav_path, output_filename='a.mp3', bitrate='16k')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
