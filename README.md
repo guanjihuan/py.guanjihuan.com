@@ -17,7 +17,7 @@ import guan
 + basic functions
 + Fourier transform
 + Hamiltonian of finite size systems
-+ Hamiltonian of models in the reciprocal space
++ Hamiltonian of models in reciprocal space
 + band structures and wave functions
 + Green functions
 + density of states
