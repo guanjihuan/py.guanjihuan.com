@@ -48,12 +48,6 @@ def find_degenerate_points(k_array, eigenvalue_array, precision=1e-2):
     guan.statistics_of_guan_package()
     return degenerate_k_array, degenerate_eigenvalue_array
 
-# 随机获得一个整数，左闭右闭
-def get_random_number(start=0, end=1):
-    import random
-    rand_number = random.randint(start, end) # [start, end]
-    return rand_number
-
 # 选取一个种子生成固定的随机整数
 def generate_random_int_number_for_a_specific_seed(seed=0, x_min=0, x_max=10):
     import numpy as np
@@ -200,6 +194,14 @@ def encryption_SHA_256(password, salt=''):
     import guan
     guan.statistics_of_guan_package()
     return hashed_password
+
+# 生成二维码
+def creat_qrcode(data="https://www.guanjihuan.com", filename='a', file_format='.png'):
+    import qrcode
+    img = qrcode.make(data)
+    img.save(filename+file_format)
+    import guan
+    guan.statistics_of_guan_package()
 
 # 获取CPU使用率
 def get_cpu_usage(interval=1):
@@ -551,6 +553,12 @@ def get_current_function_name():
     import guan
     guan.statistics_of_guan_package()
     return current_function_name
+
+# 随机获得一个整数，左闭右闭
+def get_random_number(start=0, end=1):
+    import random
+    rand_number = random.randint(start, end) # [start, end]
+    return rand_number
 
 # 获取调用本函数的函数名
 def get_calling_function_name(layer=1):

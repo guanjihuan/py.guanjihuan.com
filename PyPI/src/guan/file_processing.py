@@ -403,14 +403,6 @@ def change_directory_by_replacement(current_key_word='code', new_key_word='data'
     import guan
     guan.statistics_of_guan_package()
 
-# 生成二维码
-def creat_qrcode(data="https://www.guanjihuan.com", filename='a', file_format='.png'):
-    import qrcode
-    img = qrcode.make(data)
-    img.save(filename+file_format)
-    import guan
-    guan.statistics_of_guan_package()
-
 # 将文本转成音频
 def str_to_audio(str='hello world', filename='str', rate=125, voice=1, read=1, save=0, compress=0, bitrate='16k', print_text=0):
     import pyttsx3
