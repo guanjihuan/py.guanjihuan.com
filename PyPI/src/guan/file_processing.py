@@ -308,7 +308,7 @@ def find_repeated_file_with_same_filename(directory='./', ignored_directory_with
     return repeated_file
 
 # 统计各个子文件夹中的文件数量
-def count_file_in_sub_directory(directory='./', smaller_than_num=None, sort=0):
+def count_file_in_sub_directory(directory='./', smaller_than_num=None, sort=0, print_show=1):
     import os
     import numpy as np
     dirs_list = []
@@ -325,28 +325,30 @@ def count_file_in_sub_directory(directory='./', smaller_than_num=None, sort=0):
         count_file = len(file_list)
         count_file_array.append(count_file)
         if sort == 0:
-            if smaller_than_num == None:
-                print(sub_dir)
-                print(count_file)
-                print()
-            else:
-                if count_file<smaller_than_num:
+            if print_show == 1:
+                if smaller_than_num == None:
                     print(sub_dir)
                     print(count_file)
                     print()
+                else:
+                    if count_file<smaller_than_num:
+                        print(sub_dir)
+                        print(count_file)
+                        print()
     if sort == 1:
-        index_array = np.argsort(count_file_array)
-        if smaller_than_num == None:
-            for i0 in index_array:
-                print(dirs_list[i0])
-                print(count_file_array[i0])
-                print()
-        else:
-            for i0 in index_array:
-                if count_file_array[i0]<smaller_than_num:
+        if print_show == 1:
+            index_array = np.argsort(count_file_array)
+            if smaller_than_num == None:
+                for i0 in index_array:
                     print(dirs_list[i0])
                     print(count_file_array[i0])
                     print()
+            else:
+                for i0 in index_array:
+                    if count_file_array[i0]<smaller_than_num:
+                        print(dirs_list[i0])
+                        print(count_file_array[i0])
+                        print()
     import guan
     guan.statistics_of_guan_package()
     return dirs_list, count_file_array
