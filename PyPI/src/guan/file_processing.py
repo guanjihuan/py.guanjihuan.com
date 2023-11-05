@@ -308,31 +308,48 @@ def find_repeated_file_with_same_filename(directory='./', ignored_directory_with
     return repeated_file
 
 # 统计各个子文件夹中的文件数量
-def count_file_in_sub_directory(directory='./', smaller_than_num=None):
+def count_file_in_sub_directory(directory='./', smaller_than_num=None, sort=0):
     import os
-    from collections import Counter
+    import numpy as np
     dirs_list = []
     for root, dirs, files in os.walk(directory):
         if dirs != []:
             for i0 in range(len(dirs)):
                 dirs_list.append(root+'/'+dirs[i0])
+    count_file_array = []
     for sub_dir in dirs_list:
         file_list = []
         for root, dirs, files in os.walk(sub_dir):
             for i0 in range(len(files)):
                 file_list.append(files[i0])
         count_file = len(file_list)
-        if smaller_than_num == None:
-            print(sub_dir)
-            print(count_file)
-            print()
-        else:
-            if count_file<smaller_than_num:
+        count_file_array.append(count_file)
+        if sort == 0:
+            if smaller_than_num == None:
                 print(sub_dir)
                 print(count_file)
                 print()
+            else:
+                if count_file<smaller_than_num:
+                    print(sub_dir)
+                    print(count_file)
+                    print()
+    if sort == 1:
+        index_array = np.argsort(count_file_array)
+        if smaller_than_num == None:
+            for i0 in index_array:
+                print(dirs_list[i0])
+                print(count_file_array[i0])
+                print()
+        else:
+            for i0 in index_array:
+                if count_file_array[i0]<smaller_than_num:
+                    print(dirs_list[i0])
+                    print(count_file_array[i0])
+                    print()
     import guan
     guan.statistics_of_guan_package()
+    return dirs_list, count_file_array
 
 # 产生必要的文件，例如readme.md
 def creat_necessary_file(directory, filename='readme', file_format='.md', content='', overwrite=None, ignored_directory_with_words=[]):
