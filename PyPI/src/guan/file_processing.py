@@ -308,7 +308,7 @@ def find_repeated_file_with_same_filename(directory='./', ignored_directory_with
     return repeated_file
 
 # 统计各个子文件夹中的文件数量
-def count_file_in_sub_directory(directory='./', smaller_than_num=None, sort=0, print_show=1):
+def count_file_in_sub_directory(directory='./', sort=0, reverse=1, print_show=1, smaller_than_num=None):
     import os
     import numpy as np
     dirs_list = []
@@ -335,23 +335,33 @@ def count_file_in_sub_directory(directory='./', smaller_than_num=None, sort=0, p
                         print(sub_dir)
                         print(count_file)
                         print()
+    if sort == 0:
+        sub_directory = dirs_list
+        num_in_sub_directory = count_file_array
     if sort == 1:
-        if print_show == 1:
+        sub_directory = []
+        num_in_sub_directory = []
+        if reverse == 1:
+            index_array = np.argsort(count_file_array)[::-1]
+        else:
             index_array = np.argsort(count_file_array)
-            if smaller_than_num == None:
-                for i0 in index_array:
+        for i0 in index_array:
+            sub_directory.append(dirs_list[i0])
+            num_in_sub_directory.append(count_file_array[i0])
+            if print_show == 1:
+                if smaller_than_num == None:
                     print(dirs_list[i0])
                     print(count_file_array[i0])
                     print()
-            else:
-                for i0 in index_array:
+                else:
                     if count_file_array[i0]<smaller_than_num:
                         print(dirs_list[i0])
                         print(count_file_array[i0])
                         print()
+    
     import guan
     guan.statistics_of_guan_package()
-    return dirs_list, count_file_array
+    return sub_directory, num_in_sub_directory
 
 # 产生必要的文件，例如readme.md
 def creat_necessary_file(directory, filename='readme', file_format='.md', content='', overwrite=None, ignored_directory_with_words=[]):
