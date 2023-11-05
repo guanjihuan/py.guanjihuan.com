@@ -53,6 +53,290 @@ def combine_two_pdf_files(input_file_1='a.pdf', input_file_2='b.pdf', output_fil
     import guan
     guan.statistics_of_guan_package()
 
+# 查找文件名相同的文件
+def find_repeated_file_with_same_filename(directory='./', ignored_directory_with_words=[], ignored_file_with_words=[], num=1000):
+    import os
+    from collections import Counter
+    file_list = []
+    for root, dirs, files in os.walk(directory):
+        for i0 in range(len(files)):
+            file_list.append(files[i0])
+            for word in ignored_directory_with_words:
+                if word in root:
+                    file_list.remove(files[i0])       
+            for word in ignored_file_with_words:
+                if word in files[i0]:
+                    try:
+                        file_list.remove(files[i0])   
+                    except:
+                        pass 
+    count_file = Counter(file_list).most_common(num)
+    repeated_file = []
+    for item in count_file:
+        if item[1]>1:
+            repeated_file.append(item)
+    import guan
+    guan.statistics_of_guan_package()
+    return repeated_file
+
+# 统计各个子文件夹中的文件数量
+def count_file_in_sub_directory(directory='./', sort=0, reverse=1, print_show=1, smaller_than_num=None):
+    import os
+    import numpy as np
+    dirs_list = []
+    for root, dirs, files in os.walk(directory):
+        if dirs != []:
+            for i0 in range(len(dirs)):
+                dirs_list.append(root+'/'+dirs[i0])
+    count_file_array = []
+    for sub_dir in dirs_list:
+        file_list = []
+        for root, dirs, files in os.walk(sub_dir):
+            for i0 in range(len(files)):
+                file_list.append(files[i0])
+        count_file = len(file_list)
+        count_file_array.append(count_file)
+        if sort == 0:
+            if print_show == 1:
+                if smaller_than_num == None:
+                    print(sub_dir)
+                    print(count_file)
+                    print()
+                else:
+                    if count_file<smaller_than_num:
+                        print(sub_dir)
+                        print(count_file)
+                        print()
+    if sort == 0:
+        sub_directory = dirs_list
+        num_in_sub_directory = count_file_array
+    if sort == 1:
+        sub_directory = []
+        num_in_sub_directory = []
+        if reverse == 1:
+            index_array = np.argsort(count_file_array)[::-1]
+        else:
+            index_array = np.argsort(count_file_array)
+        for i0 in index_array:
+            sub_directory.append(dirs_list[i0])
+            num_in_sub_directory.append(count_file_array[i0])
+            if print_show == 1:
+                if smaller_than_num == None:
+                    print(dirs_list[i0])
+                    print(count_file_array[i0])
+                    print()
+                else:
+                    if count_file_array[i0]<smaller_than_num:
+                        print(dirs_list[i0])
+                        print(count_file_array[i0])
+                        print()
+    
+    import guan
+    guan.statistics_of_guan_package()
+    return sub_directory, num_in_sub_directory
+
+# 改变当前的目录位置
+def change_directory_by_replacement(current_key_word='code', new_key_word='data'):
+    import os
+    code_path = os.getcwd()
+    data_path = code_path.replace('\\', '/') 
+    data_path = data_path.replace(current_key_word, new_key_word) 
+    if os.path.exists(data_path) == False:
+        os.makedirs(data_path)
+    os.chdir(data_path)
+    import guan
+    guan.statistics_of_guan_package()
+
+# 在多个子文件夹中产生必要的文件，例如 readme.md
+def creat_necessary_file(directory, filename='readme', file_format='.md', content='', overwrite=None, ignored_directory_with_words=[]):
+    import os
+    directory_with_file = []
+    ignored_directory = []
+    for root, dirs, files in os.walk(directory):
+        for i0 in range(len(files)):
+            if root not in directory_with_file:
+                directory_with_file.append(root)
+            if files[i0] == filename+file_format:
+                if root not in ignored_directory:
+                    ignored_directory.append(root)
+    if overwrite == None:
+        for root in ignored_directory:
+            directory_with_file.remove(root)
+    ignored_directory_more =[]
+    for root in directory_with_file: 
+        for word in ignored_directory_with_words:
+            if word in root:
+                if root not in ignored_directory_more:
+                    ignored_directory_more.append(root)
+    for root in ignored_directory_more:
+        directory_with_file.remove(root) 
+    for root in directory_with_file:
+        os.chdir(root)
+        f = open(filename+file_format, 'w', encoding="utf-8")
+        f.write(content)
+        f.close()
+    import guan
+    guan.statistics_of_guan_package()
+
+# 删除特定文件名的文件（慎用）
+def delete_file_with_specific_name(directory, filename='readme', file_format='.md'):
+    import os
+    for root, dirs, files in os.walk(directory):
+        for i0 in range(len(files)):
+            if files[i0] == filename+file_format:
+                os.remove(root+'/'+files[i0])
+    import guan
+    guan.statistics_of_guan_package()
+
+# 所有文件移到根目录（慎用）
+def move_all_files_to_root_directory(directory):
+    import os
+    import shutil
+    for root, dirs, files in os.walk(directory):
+        for i0 in range(len(files)):
+            shutil.move(root+'/'+files[i0], directory+'/'+files[i0])
+    for i0 in range(100):
+        for root, dirs, files in os.walk(directory):
+            try:
+                os.rmdir(root) 
+            except:
+                pass
+    import guan
+    guan.statistics_of_guan_package()
+
+# 将文件目录结构写入Markdown文件
+def write_file_list_in_markdown(directory='./', filename='a', reverse_positive_or_negative=1, starting_from_h1=None, banned_file_format=[], hide_file_format=None, divided_line=None, show_second_number=None, show_third_number=None): 
+    import os
+    f = open(filename+'.md', 'w', encoding="utf-8")
+    filenames1 = os.listdir(directory)
+    u0 = 0
+    for filename1 in filenames1[::reverse_positive_or_negative]:
+        filename1_with_path = os.path.join(directory,filename1) 
+        if os.path.isfile(filename1_with_path):
+            if os.path.splitext(filename1)[1] not in banned_file_format:
+                if hide_file_format == None:
+                    f.write('+ '+str(filename1)+'\n\n')
+                else:
+                    f.write('+ '+str(os.path.splitext(filename1)[0])+'\n\n')
+        else:
+            u0 += 1
+            if divided_line != None and u0 != 1:
+                f.write('--------\n\n')
+            if starting_from_h1 == None:
+                f.write('#')
+            f.write('# '+str(filename1)+'\n\n')
+
+            filenames2 = os.listdir(filename1_with_path) 
+            i0 = 0     
+            for filename2 in filenames2[::reverse_positive_or_negative]:
+                filename2_with_path = os.path.join(directory, filename1, filename2) 
+                if os.path.isfile(filename2_with_path):
+                    if os.path.splitext(filename2)[1] not in banned_file_format:
+                        if hide_file_format == None:
+                            f.write('+ '+str(filename2)+'\n\n')
+                        else:
+                            f.write('+ '+str(os.path.splitext(filename2)[0])+'\n\n')
+                else: 
+                    i0 += 1
+                    if starting_from_h1 == None:
+                        f.write('#')
+                    if show_second_number != None:
+                        f.write('## '+str(i0)+'. '+str(filename2)+'\n\n')
+                    else:
+                        f.write('## '+str(filename2)+'\n\n')
+                    
+                    j0 = 0
+                    filenames3 = os.listdir(filename2_with_path)
+                    for filename3 in filenames3[::reverse_positive_or_negative]:
+                        filename3_with_path = os.path.join(directory, filename1, filename2, filename3) 
+                        if os.path.isfile(filename3_with_path): 
+                            if os.path.splitext(filename3)[1] not in banned_file_format:
+                                if hide_file_format == None:
+                                    f.write('+ '+str(filename3)+'\n\n')
+                                else:
+                                    f.write('+ '+str(os.path.splitext(filename3)[0])+'\n\n')
+                        else:
+                            j0 += 1
+                            if starting_from_h1 == None:
+                                f.write('#')
+                            if show_third_number != None:
+                                f.write('### ('+str(j0)+') '+str(filename3)+'\n\n')
+                            else:
+                                f.write('### '+str(filename3)+'\n\n')
+
+                            filenames4 = os.listdir(filename3_with_path)
+                            for filename4 in filenames4[::reverse_positive_or_negative]:
+                                filename4_with_path = os.path.join(directory, filename1, filename2, filename3, filename4) 
+                                if os.path.isfile(filename4_with_path):
+                                    if os.path.splitext(filename4)[1] not in banned_file_format:
+                                        if hide_file_format == None:
+                                            f.write('+ '+str(filename4)+'\n\n')
+                                        else:
+                                            f.write('+ '+str(os.path.splitext(filename4)[0])+'\n\n')
+                                else: 
+                                    if starting_from_h1 == None:
+                                        f.write('#')
+                                    f.write('#### '+str(filename4)+'\n\n')
+
+                                    filenames5 = os.listdir(filename4_with_path)
+                                    for filename5 in filenames5[::reverse_positive_or_negative]:
+                                        filename5_with_path = os.path.join(directory, filename1, filename2, filename3, filename4, filename5) 
+                                        if os.path.isfile(filename5_with_path): 
+                                            if os.path.splitext(filename5)[1] not in banned_file_format:
+                                                if hide_file_format == None:
+                                                    f.write('+ '+str(filename5)+'\n\n')
+                                                else:
+                                                    f.write('+ '+str(os.path.splitext(filename5)[0])+'\n\n')
+                                        else:
+                                            if starting_from_h1 == None:
+                                                f.write('#')
+                                            f.write('##### '+str(filename5)+'\n\n')
+
+                                            filenames6 = os.listdir(filename5_with_path)
+                                            for filename6 in filenames6[::reverse_positive_or_negative]:
+                                                filename6_with_path = os.path.join(directory, filename1, filename2, filename3, filename4, filename5, filename6) 
+                                                if os.path.isfile(filename6_with_path): 
+                                                    if os.path.splitext(filename6)[1] not in banned_file_format:
+                                                        if hide_file_format == None:
+                                                            f.write('+ '+str(filename6)+'\n\n')
+                                                        else:
+                                                            f.write('+ '+str(os.path.splitext(filename6)[0])+'\n\n')
+                                                else:
+                                                    if starting_from_h1 == None:
+                                                        f.write('#')
+                                                    f.write('###### '+str(filename6)+'\n\n')
+    f.close()
+    import guan
+    guan.statistics_of_guan_package()
+
+# 从网页的标签中获取内容
+def get_html_from_tags(link, tags=['title', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'li', 'a']):
+    from bs4 import BeautifulSoup
+    import urllib.request
+    import ssl
+    ssl._create_default_https_context = ssl._create_unverified_context
+    html = urllib.request.urlopen(link).read().decode('utf-8')
+    soup = BeautifulSoup(html, features="lxml")
+    all_tags = soup.find_all(tags)
+    content = ''
+    for tag in all_tags:
+        text = tag.get_text().replace('\n', '')
+        if content == '':
+            content = text
+        else:
+            content = content + '\n\n' + text
+    import guan
+    guan.statistics_of_guan_package()
+    return content
+
+# 生成二维码
+def creat_qrcode(data="https://www.guanjihuan.com", filename='a', file_format='.png'):
+    import qrcode
+    img = qrcode.make(data)
+    img.save(filename+file_format)
+    import guan
+    guan.statistics_of_guan_package()
+
 # 将PDF文件转成文本
 def pdf_to_text(pdf_path):
     from pdfminer.pdfparser import PDFParser, PDFDocument
@@ -176,262 +460,6 @@ def download_with_scihub(address=None, num=1):
     import guan
     guan.statistics_of_guan_package()
 
-# 将文件目录结构写入Markdown文件
-def write_file_list_in_markdown(directory='./', filename='a', reverse_positive_or_negative=1, starting_from_h1=None, banned_file_format=[], hide_file_format=None, divided_line=None, show_second_number=None, show_third_number=None): 
-    import os
-    f = open(filename+'.md', 'w', encoding="utf-8")
-    filenames1 = os.listdir(directory)
-    u0 = 0
-    for filename1 in filenames1[::reverse_positive_or_negative]:
-        filename1_with_path = os.path.join(directory,filename1) 
-        if os.path.isfile(filename1_with_path):
-            if os.path.splitext(filename1)[1] not in banned_file_format:
-                if hide_file_format == None:
-                    f.write('+ '+str(filename1)+'\n\n')
-                else:
-                    f.write('+ '+str(os.path.splitext(filename1)[0])+'\n\n')
-        else:
-            u0 += 1
-            if divided_line != None and u0 != 1:
-                f.write('--------\n\n')
-            if starting_from_h1 == None:
-                f.write('#')
-            f.write('# '+str(filename1)+'\n\n')
-
-            filenames2 = os.listdir(filename1_with_path) 
-            i0 = 0     
-            for filename2 in filenames2[::reverse_positive_or_negative]:
-                filename2_with_path = os.path.join(directory, filename1, filename2) 
-                if os.path.isfile(filename2_with_path):
-                    if os.path.splitext(filename2)[1] not in banned_file_format:
-                        if hide_file_format == None:
-                            f.write('+ '+str(filename2)+'\n\n')
-                        else:
-                            f.write('+ '+str(os.path.splitext(filename2)[0])+'\n\n')
-                else: 
-                    i0 += 1
-                    if starting_from_h1 == None:
-                        f.write('#')
-                    if show_second_number != None:
-                        f.write('## '+str(i0)+'. '+str(filename2)+'\n\n')
-                    else:
-                        f.write('## '+str(filename2)+'\n\n')
-                    
-                    j0 = 0
-                    filenames3 = os.listdir(filename2_with_path)
-                    for filename3 in filenames3[::reverse_positive_or_negative]:
-                        filename3_with_path = os.path.join(directory, filename1, filename2, filename3) 
-                        if os.path.isfile(filename3_with_path): 
-                            if os.path.splitext(filename3)[1] not in banned_file_format:
-                                if hide_file_format == None:
-                                    f.write('+ '+str(filename3)+'\n\n')
-                                else:
-                                    f.write('+ '+str(os.path.splitext(filename3)[0])+'\n\n')
-                        else:
-                            j0 += 1
-                            if starting_from_h1 == None:
-                                f.write('#')
-                            if show_third_number != None:
-                                f.write('### ('+str(j0)+') '+str(filename3)+'\n\n')
-                            else:
-                                f.write('### '+str(filename3)+'\n\n')
-
-                            filenames4 = os.listdir(filename3_with_path)
-                            for filename4 in filenames4[::reverse_positive_or_negative]:
-                                filename4_with_path = os.path.join(directory, filename1, filename2, filename3, filename4) 
-                                if os.path.isfile(filename4_with_path):
-                                    if os.path.splitext(filename4)[1] not in banned_file_format:
-                                        if hide_file_format == None:
-                                            f.write('+ '+str(filename4)+'\n\n')
-                                        else:
-                                            f.write('+ '+str(os.path.splitext(filename4)[0])+'\n\n')
-                                else: 
-                                    if starting_from_h1 == None:
-                                        f.write('#')
-                                    f.write('#### '+str(filename4)+'\n\n')
-
-                                    filenames5 = os.listdir(filename4_with_path)
-                                    for filename5 in filenames5[::reverse_positive_or_negative]:
-                                        filename5_with_path = os.path.join(directory, filename1, filename2, filename3, filename4, filename5) 
-                                        if os.path.isfile(filename5_with_path): 
-                                            if os.path.splitext(filename5)[1] not in banned_file_format:
-                                                if hide_file_format == None:
-                                                    f.write('+ '+str(filename5)+'\n\n')
-                                                else:
-                                                    f.write('+ '+str(os.path.splitext(filename5)[0])+'\n\n')
-                                        else:
-                                            if starting_from_h1 == None:
-                                                f.write('#')
-                                            f.write('##### '+str(filename5)+'\n\n')
-
-                                            filenames6 = os.listdir(filename5_with_path)
-                                            for filename6 in filenames6[::reverse_positive_or_negative]:
-                                                filename6_with_path = os.path.join(directory, filename1, filename2, filename3, filename4, filename5, filename6) 
-                                                if os.path.isfile(filename6_with_path): 
-                                                    if os.path.splitext(filename6)[1] not in banned_file_format:
-                                                        if hide_file_format == None:
-                                                            f.write('+ '+str(filename6)+'\n\n')
-                                                        else:
-                                                            f.write('+ '+str(os.path.splitext(filename6)[0])+'\n\n')
-                                                else:
-                                                    if starting_from_h1 == None:
-                                                        f.write('#')
-                                                    f.write('###### '+str(filename6)+'\n\n')
-    f.close()
-    import guan
-    guan.statistics_of_guan_package()
-
-# 查找文件名相同的文件
-def find_repeated_file_with_same_filename(directory='./', ignored_directory_with_words=[], ignored_file_with_words=[], num=1000):
-    import os
-    from collections import Counter
-    file_list = []
-    for root, dirs, files in os.walk(directory):
-        for i0 in range(len(files)):
-            file_list.append(files[i0])
-            for word in ignored_directory_with_words:
-                if word in root:
-                    file_list.remove(files[i0])       
-            for word in ignored_file_with_words:
-                if word in files[i0]:
-                    try:
-                        file_list.remove(files[i0])   
-                    except:
-                        pass 
-    count_file = Counter(file_list).most_common(num)
-    repeated_file = []
-    for item in count_file:
-        if item[1]>1:
-            repeated_file.append(item)
-    import guan
-    guan.statistics_of_guan_package()
-    return repeated_file
-
-# 统计各个子文件夹中的文件数量
-def count_file_in_sub_directory(directory='./', sort=0, reverse=1, print_show=1, smaller_than_num=None):
-    import os
-    import numpy as np
-    dirs_list = []
-    for root, dirs, files in os.walk(directory):
-        if dirs != []:
-            for i0 in range(len(dirs)):
-                dirs_list.append(root+'/'+dirs[i0])
-    count_file_array = []
-    for sub_dir in dirs_list:
-        file_list = []
-        for root, dirs, files in os.walk(sub_dir):
-            for i0 in range(len(files)):
-                file_list.append(files[i0])
-        count_file = len(file_list)
-        count_file_array.append(count_file)
-        if sort == 0:
-            if print_show == 1:
-                if smaller_than_num == None:
-                    print(sub_dir)
-                    print(count_file)
-                    print()
-                else:
-                    if count_file<smaller_than_num:
-                        print(sub_dir)
-                        print(count_file)
-                        print()
-    if sort == 0:
-        sub_directory = dirs_list
-        num_in_sub_directory = count_file_array
-    if sort == 1:
-        sub_directory = []
-        num_in_sub_directory = []
-        if reverse == 1:
-            index_array = np.argsort(count_file_array)[::-1]
-        else:
-            index_array = np.argsort(count_file_array)
-        for i0 in index_array:
-            sub_directory.append(dirs_list[i0])
-            num_in_sub_directory.append(count_file_array[i0])
-            if print_show == 1:
-                if smaller_than_num == None:
-                    print(dirs_list[i0])
-                    print(count_file_array[i0])
-                    print()
-                else:
-                    if count_file_array[i0]<smaller_than_num:
-                        print(dirs_list[i0])
-                        print(count_file_array[i0])
-                        print()
-    
-    import guan
-    guan.statistics_of_guan_package()
-    return sub_directory, num_in_sub_directory
-
-# 产生必要的文件，例如readme.md
-def creat_necessary_file(directory, filename='readme', file_format='.md', content='', overwrite=None, ignored_directory_with_words=[]):
-    import os
-    directory_with_file = []
-    ignored_directory = []
-    for root, dirs, files in os.walk(directory):
-        for i0 in range(len(files)):
-            if root not in directory_with_file:
-                directory_with_file.append(root)
-            if files[i0] == filename+file_format:
-                if root not in ignored_directory:
-                    ignored_directory.append(root)
-    if overwrite == None:
-        for root in ignored_directory:
-            directory_with_file.remove(root)
-    ignored_directory_more =[]
-    for root in directory_with_file: 
-        for word in ignored_directory_with_words:
-            if word in root:
-                if root not in ignored_directory_more:
-                    ignored_directory_more.append(root)
-    for root in ignored_directory_more:
-        directory_with_file.remove(root) 
-    for root in directory_with_file:
-        os.chdir(root)
-        f = open(filename+file_format, 'w', encoding="utf-8")
-        f.write(content)
-        f.close()
-    import guan
-    guan.statistics_of_guan_package()
-
-# 删除特定文件名的文件
-def delete_file_with_specific_name(directory, filename='readme', file_format='.md'):
-    import os
-    for root, dirs, files in os.walk(directory):
-        for i0 in range(len(files)):
-            if files[i0] == filename+file_format:
-                os.remove(root+'/'+files[i0])
-    import guan
-    guan.statistics_of_guan_package()
-
-# 所有文件移到根目录（慎用）
-def move_all_files_to_root_directory(directory):
-    import os
-    import shutil
-    for root, dirs, files in os.walk(directory):
-        for i0 in range(len(files)):
-            shutil.move(root+'/'+files[i0], directory+'/'+files[i0])
-    for i0 in range(100):
-        for root, dirs, files in os.walk(directory):
-            try:
-                os.rmdir(root) 
-            except:
-                pass
-    import guan
-    guan.statistics_of_guan_package()
-
-# 改变当前的目录位置
-def change_directory_by_replacement(current_key_word='code', new_key_word='data'):
-    import os
-    code_path = os.getcwd()
-    data_path = code_path.replace('\\', '/') 
-    data_path = data_path.replace(current_key_word, new_key_word) 
-    if os.path.exists(data_path) == False:
-        os.makedirs(data_path)
-    os.chdir(data_path)
-    import guan
-    guan.statistics_of_guan_package()
-
 # 将文本转成音频
 def str_to_audio(str='hello world', filename='str', rate=125, voice=1, read=1, save=0, compress=0, bitrate='16k', print_text=0):
     import pyttsx3
@@ -518,5 +546,182 @@ def compress_wav_to_mp3(wav_path, output_filename='a.mp3', bitrate='16k'):
     from pydub import AudioSegment
     sound = AudioSegment.from_mp3(wav_path)
     sound.export(output_filename,format="mp3",bitrate=bitrate)
+    import guan
+    guan.statistics_of_guan_package()
+
+# 播放学术单词
+def play_academic_words(reverse=0, random_on=0, bre_or_ame='ame', show_translation=1, show_link=1, translation_time=2, rest_time=1):
+    from bs4 import BeautifulSoup
+    import re
+    import urllib.request
+    import requests
+    import os
+    import pygame
+    import time
+    import ssl
+    import random
+    ssl._create_default_https_context = ssl._create_unverified_context
+    html = urllib.request.urlopen("https://www.guanjihuan.com/archives/4418").read().decode('utf-8')
+    if bre_or_ame == 'ame':
+        directory = 'words_mp3_ameProns/'
+    elif bre_or_ame == 'bre':
+        directory = 'words_mp3_breProns/'
+    exist_directory = os.path.exists(directory)
+    html_file = urllib.request.urlopen("https://file.guanjihuan.com/words/"+directory).read().decode('utf-8')
+    if exist_directory == 0:
+        os.makedirs(directory)
+    soup = BeautifulSoup(html, features='lxml')
+    contents = re.findall('<h2.*?</a></p>', html, re.S)
+    if random_on==1:
+        random.shuffle(contents)
+    if reverse==1:
+        contents.reverse()
+    for content in contents:
+        soup2 = BeautifulSoup(content, features='lxml')
+        all_h2 = soup2.find_all('h2')
+        for h2 in all_h2:
+            if re.search('\d*. ', h2.get_text()):
+                word = re.findall('[a-zA-Z].*', h2.get_text(), re.S)[0]
+                exist = os.path.exists(directory+word+'.mp3')
+                if not exist:
+                    try:
+                        if re.search(word, html_file):
+                            r = requests.get("https://file.guanjihuan.com/words/"+directory+word+".mp3", stream=True)
+                            with open(directory+word+'.mp3', 'wb') as f:
+                                for chunk in r.iter_content(chunk_size=32):
+                                    f.write(chunk)
+                    except:
+                        pass
+                print(h2.get_text())
+                try:
+                    pygame.mixer.init()
+                    track = pygame.mixer.music.load(directory+word+'.mp3')
+                    pygame.mixer.music.play()
+                    if show_link==1:
+                        print('https://www.ldoceonline.com/dictionary/'+word)
+                except:
+                    pass
+                translation = re.findall('<p>.*?</p>', content, re.S)[0][3:-4]
+                if show_translation==1:
+                    time.sleep(translation_time)
+                    print(translation)
+                time.sleep(rest_time)
+                pygame.mixer.music.stop()
+                print()
+    import guan
+    guan.statistics_of_guan_package()
+
+# 播放挑选过后的学术单词
+def play_selected_academic_words(reverse=0, random_on=0, bre_or_ame='ame', show_link=1, rest_time=3):
+    from bs4 import BeautifulSoup
+    import re
+    import urllib.request
+    import requests
+    import os
+    import pygame
+    import time
+    import ssl
+    import random
+    ssl._create_default_https_context = ssl._create_unverified_context
+    html = urllib.request.urlopen("https://www.guanjihuan.com/archives/24732").read().decode('utf-8')
+    if bre_or_ame == 'ame':
+        directory = 'words_mp3_ameProns/'
+    elif bre_or_ame == 'bre':
+        directory = 'words_mp3_breProns/'
+    exist_directory = os.path.exists(directory)
+    html_file = urllib.request.urlopen("https://file.guanjihuan.com/words/"+directory).read().decode('utf-8')
+    if exist_directory == 0:
+        os.makedirs(directory)
+    soup = BeautifulSoup(html, features='lxml')
+    contents = re.findall('<li>\d.*?</li>', html, re.S)
+    if random_on==1:
+        random.shuffle(contents)
+    if reverse==1:
+        contents.reverse()
+    for content in contents:
+        soup2 = BeautifulSoup(content, features='lxml')
+        all_li = soup2.find_all('li')
+        for li in all_li:
+            if re.search('\d*. ', li.get_text()):
+                word = re.findall('\s[a-zA-Z].*?\s', li.get_text(), re.S)[0][1:-1]
+                exist = os.path.exists(directory+word+'.mp3')
+                if not exist:
+                    try:
+                        if re.search(word, html_file):
+                            r = requests.get("https://file.guanjihuan.com/words/"+directory+word+".mp3", stream=True)
+                            with open(directory+word+'.mp3', 'wb') as f:
+                                for chunk in r.iter_content(chunk_size=32):
+                                    f.write(chunk)
+                    except:
+                        pass
+                print(li.get_text())
+                try:
+                    pygame.mixer.init()
+                    track = pygame.mixer.music.load(directory+word+'.mp3')
+                    pygame.mixer.music.play()
+                    if show_link==1:
+                        print('https://www.ldoceonline.com/dictionary/'+word)
+                except:
+                    pass
+                time.sleep(rest_time)
+                pygame.mixer.music.stop()
+                print()
+    import guan
+    guan.statistics_of_guan_package()
+
+# 播放元素周期表上的单词
+def play_element_words(random_on=0, show_translation=1, show_link=1, translation_time=2, rest_time=1):
+    from bs4 import BeautifulSoup
+    import re
+    import urllib.request
+    import requests
+    import os
+    import pygame
+    import time
+    import ssl
+    import random
+    ssl._create_default_https_context = ssl._create_unverified_context
+    html = urllib.request.urlopen("https://www.guanjihuan.com/archives/10897").read().decode('utf-8')
+    directory = 'prons/'
+    exist_directory = os.path.exists(directory)
+    html_file = urllib.request.urlopen("https://file.guanjihuan.com/words/periodic_table_of_elements/"+directory).read().decode('utf-8')
+    if exist_directory == 0:
+        os.makedirs(directory)
+    soup = BeautifulSoup(html, features='lxml')
+    contents = re.findall('<h2.*?</a></p>', html, re.S)
+    if random_on==1:
+        random.shuffle(contents)
+    for content in contents:
+        soup2 = BeautifulSoup(content, features='lxml')
+        all_h2 = soup2.find_all('h2')
+        for h2 in all_h2:
+            if re.search('\d*. ', h2.get_text()):
+                word = re.findall('[a-zA-Z].* \(', h2.get_text(), re.S)[0][:-2]
+                exist = os.path.exists(directory+word+'.mp3')
+                if not exist:
+                    try:
+                        if re.search(word, html_file):
+                            r = requests.get("https://file.guanjihuan.com/words/periodic_table_of_elements/prons/"+word+".mp3", stream=True)
+                            with open(directory+word+'.mp3', 'wb') as f:
+                                for chunk in r.iter_content(chunk_size=32):
+                                    f.write(chunk)
+                    except:
+                        pass
+                print(h2.get_text())
+                try:
+                    pygame.mixer.init()
+                    track = pygame.mixer.music.load(directory+word+'.mp3')
+                    pygame.mixer.music.play()
+                    if show_link==1:
+                        print('https://www.merriam-webster.com/dictionary/'+word)
+                except:
+                    pass
+                translation = re.findall('<p>.*?</p>', content, re.S)[0][3:-4]
+                if show_translation==1:
+                    time.sleep(translation_time)
+                    print(translation)
+                time.sleep(rest_time)
+                pygame.mixer.music.stop()
+                print()
     import guan
     guan.statistics_of_guan_package()
