@@ -233,3 +233,31 @@ def print_array_with_index(array, show_index=1, index_type=0):
                 print(index, i0)
     import guan
     guan.statistics_of_guan_package()
+
+# 读取文件夹中某个文件类型的所有文本文件
+def read_text_files_in_directory(directory='./', file_format='.md'):
+    import os
+    file_list = []
+    for root, dirs, files in os.walk(directory):
+        for i0 in range(len(files)):
+            if file_format in files[i0]:
+                file_list.append(root+'/'+files[i0])
+    content_array = []
+    for file in file_list:
+        with open(file, 'r') as f:
+            content_array.append(f.read())
+    import guan
+    guan.statistics_of_guan_package()
+    return file_list, content_array
+
+# 在多个文本文件中查找关键词
+def find_words_in_multiple_files(words, directory='./', file_format='.md'):
+    import guan
+    file_list, content_array = guan.read_text_files_in_directory(directory=directory, file_format=file_format)
+    num_files = len(file_list)
+    file_list_with_words = []
+    for i0 in range(num_files):
+        if words in content_array[i0]:
+            file_list_with_words.append(file_list[i0])
+    guan.statistics_of_guan_package()
+    return file_list_with_words
