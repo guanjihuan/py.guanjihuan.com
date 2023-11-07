@@ -432,10 +432,10 @@ def get_current_version(package_name='guan'):
         return None
 
 # Guan软件包升级提示
-def notification_of_upgrade(timeout=0.5):
+def notification_of_upgrade(timeout=2):
     import guan
-    rand_number = guan.get_random_number(start=1, end=10)
-    if rand_number == 5:
+    rand_number = guan.get_random_number(start=1, end=20)
+    if rand_number == 10:
         try:
             import guan
             latest_version = guan.get_latest_version(package_name='guan', timeout=timeout)
