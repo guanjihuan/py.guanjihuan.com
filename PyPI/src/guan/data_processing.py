@@ -341,19 +341,16 @@ def count_functions_in_current_module():
     guan.statistics_of_guan_package()
     return num_functions
 
-# 获取当前函数名
-def get_current_function_name():
-    import inspect
-    current_function_name = inspect.currentframe().f_code.co_name
-    import guan
-    guan.statistics_of_guan_package()
-    return current_function_name
 
-# 随机获得一个整数，左闭右闭
-def get_random_number(start=0, end=1):
-    import random
-    rand_number = random.randint(start, end) # [start, end]
-    return rand_number
+
+
+
+
+
+
+
+
+
 
 # 获取调用本函数的函数名
 def get_calling_function_name(layer=1):
@@ -384,15 +381,16 @@ def get_mac_address():
     return mac_address
 
 # Guan软件包的使用统计（不涉及到用户的个人数据）
-global_variable_of_first_guan_package_calling = True
+global_variable_of_first_guan_package_calling = []
 def statistics_of_guan_package():
+    import guan
+    message = guan.get_calling_function_name(layer=2)
+    message_calling = guan.get_calling_function_name(layer=3)
     global global_variable_of_first_guan_package_calling
-    if global_variable_of_first_guan_package_calling == True:
-        global_variable_of_first_guan_package_calling = False
-        try:
-            import guan
-            message_calling = guan.get_calling_function_name(layer=3)
-            if message_calling == '<module>':
+    if message not in global_variable_of_first_guan_package_calling:
+        global_variable_of_first_guan_package_calling.append(message)
+        if message_calling == '<module>':
+            try:
                 import socket
                 datetime_date = guan.get_date()
                 datetime_time = guan.get_time()
@@ -401,15 +399,30 @@ def statistics_of_guan_package():
                 client_socket.settimeout(0.5)
                 client_socket.connect(('py.guanjihuan.com', 12345))
                 mac_address = guan.get_mac_address()
-                message = guan.get_calling_function_name(layer=2)
                 send_message = datetime_date + ' ' + datetime_time + ' version_'+current_version + ' MAC_address: '+mac_address+' guan.' + message+'\n'
                 client_socket.send(send_message.encode())
                 client_socket.close()
-        except:
-            pass
+            except:
+                pass
+
+
+
+
+
+
+
+
+
+
+
+# 随机获得一个整数，左闭右闭
+def get_random_number(start=0, end=1):
+    import random
+    rand_number = random.randint(start, end) # [start, end]
+    return rand_number
 
 # 获取Python软件包的最新版本
-def get_latest_version(package_name='guan', timeout=0.5):
+def get_latest_version(package_name='guan', timeout=2):
     import requests
     url = f"https://pypi.org/pypi/{package_name}/json"
     try:
@@ -434,18 +447,14 @@ def get_current_version(package_name='guan'):
 
 # Guan软件包升级提示
 def notification_of_upgrade(timeout=2):
-    import guan
-    rand_number = guan.get_random_number(start=1, end=20)
+    rand_number = get_random_number(start=1, end=20)
     if rand_number == 10:
         try:
-            import guan
-            latest_version = guan.get_latest_version(package_name='guan', timeout=timeout)
-            current_version = guan.get_current_version('guan')
+            latest_version = get_latest_version(package_name='guan', timeout=timeout)
+            current_version = get_current_version('guan')
             if latest_version != None and current_version != None:
                 if latest_version != current_version:
                     print('提示：您当前使用的版本是 guan-'+current_version+'，目前已经有最新版本 guan-'+latest_version+'。您可以通过以下命令对软件包进行升级：pip install --upgrade guan')
         except:
             pass
-
-import guan
-guan.notification_of_upgrade()
+notification_of_upgrade()
