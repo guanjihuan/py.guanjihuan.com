@@ -384,6 +384,7 @@ def get_mac_address():
     return mac_address
 
 # Guan软件包的使用统计（不涉及到用户的个人数据）
+global_variable_of_first_guan_package_calling = True
 def statistics_of_guan_package():
     global global_variable_of_first_guan_package_calling
     if global_variable_of_first_guan_package_calling == True:
@@ -445,3 +446,6 @@ def notification_of_upgrade(timeout=2):
                     print('提示：您当前使用的版本是 guan-'+current_version+'，目前已经有最新版本 guan-'+latest_version+'。您可以通过以下命令对软件包进行升级：pip install --upgrade guan')
         except:
             pass
+
+import guan
+guan.notification_of_upgrade()

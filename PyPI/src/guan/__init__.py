@@ -13,7 +13,3 @@ from .plot_figures import *
 from .read_and_write import *
 from .file_processing import *
 from .data_processing import *
-
-import guan
-guan.notification_of_upgrade()
-global_variable_of_first_guan_package_calling = True
