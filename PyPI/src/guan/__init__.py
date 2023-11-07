@@ -15,6 +15,5 @@ from .file_processing import *
 from .data_processing import *
 
 import guan
-rand_number = guan.get_random_number(start=1, end=10)
-if rand_number == 5:
-    guan.notification_of_upgrade()
+guan.notification_of_upgrade()
+global_variable_of_first_guan_package_calling = True
