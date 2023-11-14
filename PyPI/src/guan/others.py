@@ -43,7 +43,7 @@ def statistics_of_guan_package():
                 current_version = guan.get_current_version('guan')
                 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 client_socket.settimeout(0.5)
-                client_socket.connect(('py.guanjihuan.com', 12345))
+                client_socket.connect(('socket.guanjihuan.com', 12345))
                 mac_address = guan.get_mac_address()
                 send_message = datetime_date + ' ' + datetime_time + ' version_'+current_version + ' MAC_address: '+mac_address+' guan.' + message+'\n'
                 client_socket.send(send_message.encode())
