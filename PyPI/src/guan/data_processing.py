@@ -384,15 +384,15 @@ def get_PID(name):
     guan.statistics_of_guan_package()
     return id_running
 
-# 在CPU上运行大语言模型，通过Python函数调用
-def chat(message='你好', stream_show=1):
+# 在服务器上运行大语言模型，通过Python函数调用
+def chat(prompt='你好', stream_show=1):
     import socket
     response = ''
     try:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
             client_socket.settimeout(10)
             client_socket.connect(('socket.guanjihuan.com', 12345))
-            send_message = "chat.guanjihuan.com |---| " + message
+            send_message = "chat.guanjihuan.com |---| " + prompt
             client_socket.send(send_message.encode())
             try:
                 while True:
