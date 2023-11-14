@@ -370,3 +370,54 @@ def get_all_functions_in_one_package(package_name='guan', print_show=1):
             print()
     guan.statistics_of_guan_package()
     return all_function_names
+
+def get_PID(name):
+    import subprocess
+    command = "ps -ef | grep "+name
+    result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    if result.returncode == 0:
+        ps_ef = result.stdout
+    import re
+    ps_ef = re.split(r'\s+', ps_ef)
+    id_running = ps_ef[1]
+    import guan
+    guan.statistics_of_guan_package()
+    return id_running
+
+# 在CPU上运行大语言模型，通过Python函数调用
+def chat_on_CPU(message='你好', stream_show=1):
+    import socket
+    response = ''
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
+            client_socket.settimeout(10)
+            client_socket.connect(('socket.guanjihuan.com', 12345))
+            send_message = "chat.guanjihuan.com |---| " + message
+            client_socket.send(send_message.encode())
+            try:
+                while True:
+                    try:
+                        data = client_socket.recv(1024)
+                    except:
+                        break
+                    stream_response = data.decode()
+                    if '连接失败！请过段时间再试或者联系管理员。' in stream_response:
+                        response = None
+                        print('连接失败！请过段时间再试或者联系管理员。')
+                        break
+                    if stream_response == '':
+                        break
+                    else:
+                        if stream_show == 1:
+                            print(stream_response)
+                            print('\n---\n')
+                        response = stream_response
+            except:
+                pass
+            client_socket.close()
+    except:
+        response = None
+        print('连接失败！请过段时间再试或者联系管理员。')
+    import guan
+    guan.statistics_of_guan_package()
+    return response
