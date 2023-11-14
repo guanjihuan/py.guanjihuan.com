@@ -385,7 +385,7 @@ def get_PID(name):
     return id_running
 
 # 在CPU上运行大语言模型，通过Python函数调用
-def chat_on_CPU(message='你好', stream_show=1):
+def chat(message='你好', stream_show=1):
     import socket
     response = ''
     try:
