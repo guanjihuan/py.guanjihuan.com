@@ -12,6 +12,7 @@ src/guan/basic_functions.py
 src/guan/data_processing.py
 src/guan/density_of_states.py
 src/guan/file_processing.py
+src/guan/others.py
 src/guan/plot_figures.py
 src/guan/quantum_transport.py
 src/guan/read_and_write.py

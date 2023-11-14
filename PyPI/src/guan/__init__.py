@@ -13,3 +13,4 @@ from .plot_figures import *
 from .read_and_write import *
 from .file_processing import *
 from .data_processing import *
+from .others import *

@@ -48,6 +48,14 @@ def find_degenerate_points(k_array, eigenvalue_array, precision=1e-2):
     guan.statistics_of_guan_package()
     return degenerate_k_array, degenerate_eigenvalue_array
 
+# 随机获得一个整数，左闭右闭
+def get_random_number(start=0, end=1):
+    import random
+    rand_number = random.randint(start, end)   # 左闭右闭 [start, end]
+    import guan
+    guan.statistics_of_guan_package()
+    return rand_number
+
 # 选取一个种子生成固定的随机整数
 def generate_random_int_number_for_a_specific_seed(seed=0, x_min=0, x_max=10):
     import numpy as np
@@ -227,7 +235,7 @@ def get_the_month_before_last():
         the_month_before_last = 12 
         year_of_the_month_before_last = today.year - 1
     else:
-        year_of_last_month = today.year
+        year_of_the_month_before_last = today.year
     if the_month_before_last == -1:
         the_month_before_last = 11
         year_of_the_month_before_last = today.year - 1
@@ -324,137 +332,41 @@ def history_data_of_one_stock(symbol='000002', period='daily', start_date="19000
     guan.statistics_of_guan_package()
     return title, stock_data
 
-# 获取Guan软件包当前模块的所有函数名
-def get_all_function_names_in_current_module():
+# 获取软件包中的所有模块名
+def get_all_modules_in_one_package(package_name='guan'):
+    import pkgutil
+    package = __import__(package_name)
+    module_names = [name for _, name, _ in pkgutil.iter_modules(package.__path__)]
+    import guan
+    guan.statistics_of_guan_package()
+    return module_names
+
+# 获取软件包中一个模块的所有函数名
+def get_all_functions_in_one_module(module_name, package_name='guan'):
     import inspect
-    current_module = inspect.getmodule(inspect.currentframe())
-    function_names = [name for name, obj in inspect.getmembers(current_module) if inspect.isfunction(obj)]
+    function_names = []
+    module = __import__(f"{package_name}.{module_name}", fromlist=[""])
+    for name, obj in inspect.getmembers(module):
+        if inspect.isfunction(obj):
+            function_names.append(name)
     import guan
     guan.statistics_of_guan_package()
     return function_names
 
-# 统计Guan软件包中的函数数量
-def count_functions_in_current_module():
+# 获取软件包中的所有函数名
+def get_all_functions_in_one_package(package_name='guan', print_show=1):
     import guan
-    function_names = guan.get_all_function_names_in_current_module()
-    num_functions = len(function_names)
+    module_names = guan.get_all_modules_in_one_package(package_name=package_name)
+    all_function_names = []
+    for module_name in module_names:
+        function_names = guan.get_all_functions_in_one_module(module_name, package_name='guan')
+        if print_show == 1:
+            print('Module:', module_name)
+        for name in function_names:
+            all_function_names.append(name)
+            if print_show == 1:
+                print('function:', name)
+        if print_show == 1:
+            print()
     guan.statistics_of_guan_package()
-    return num_functions
-
-
-
-
-
-
-
-
-
-
-
-
-# 获取调用本函数的函数名
-def get_calling_function_name(layer=1):
-    import inspect
-    caller = inspect.stack()[layer]
-    calling_function_name = caller.function
-    return calling_function_name
-
-# 获取当前日期字符串
-def get_date(bar=True):
-    import datetime
-    datetime_date = str(datetime.date.today())
-    if bar==False:
-        datetime_date = datetime_date.replace('-', '')
-    return datetime_date
-
-# 获取当前时间字符串
-def get_time():
-    import datetime
-    datetime_time = datetime.datetime.now().strftime('%H:%M:%S')
-    return datetime_time
-
-# 获取MAC地址
-def get_mac_address():
-    import uuid
-    mac_address = uuid.UUID(int=uuid.getnode()).hex[-12:].upper()
-    mac_address = '-'.join([mac_address[i:i+2] for i in range(0, 11, 2)])
-    return mac_address
-
-# Guan软件包的使用统计（不涉及到用户的个人数据）
-global_variable_of_first_guan_package_calling = []
-def statistics_of_guan_package():
-    import guan
-    message = guan.get_calling_function_name(layer=2)
-    message_calling = guan.get_calling_function_name(layer=3)
-    global global_variable_of_first_guan_package_calling
-    if message not in global_variable_of_first_guan_package_calling:
-        global_variable_of_first_guan_package_calling.append(message)
-        if message_calling == '<module>':
-            try:
-                import socket
-                datetime_date = guan.get_date()
-                datetime_time = guan.get_time()
-                current_version = guan.get_current_version('guan')
-                client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                client_socket.settimeout(0.5)
-                client_socket.connect(('py.guanjihuan.com', 12345))
-                mac_address = guan.get_mac_address()
-                send_message = datetime_date + ' ' + datetime_time + ' version_'+current_version + ' MAC_address: '+mac_address+' guan.' + message+'\n'
-                client_socket.send(send_message.encode())
-                client_socket.close()
-            except:
-                pass
-
-
-
-
-
-
-
-
-
-
-
-# 随机获得一个整数，左闭右闭
-def get_random_number(start=0, end=1):
-    import random
-    rand_number = random.randint(start, end) # [start, end]
-    return rand_number
-
-# 获取Python软件包的最新版本
-def get_latest_version(package_name='guan', timeout=2):
-    import requests
-    url = f"https://pypi.org/pypi/{package_name}/json"
-    try:
-        response = requests.get(url, timeout=timeout)
-    except:
-        return None
-    if response.status_code == 200:
-        data = response.json()
-        latest_version = data["info"]["version"]
-        return latest_version
-    else:
-        return None
-
-# 获取软件包的本机版本
-def get_current_version(package_name='guan'):
-    import importlib.metadata
-    try:
-        current_version = importlib.metadata.version(package_name)
-        return current_version
-    except:
-        return None
-
-# Guan软件包升级提示
-def notification_of_upgrade(timeout=2):
-    rand_number = get_random_number(start=1, end=20)
-    if rand_number == 10:
-        try:
-            latest_version = get_latest_version(package_name='guan', timeout=timeout)
-            current_version = get_current_version('guan')
-            if latest_version != None and current_version != None:
-                if latest_version != current_version:
-                    print('提示：您当前使用的版本是 guan-'+current_version+'，目前已经有最新版本 guan-'+latest_version+'。您可以通过以下命令对软件包进行升级：pip install --upgrade guan')
-        except:
-            pass
-notification_of_upgrade()
+    return all_function_names
