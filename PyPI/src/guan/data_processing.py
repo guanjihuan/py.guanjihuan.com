@@ -391,7 +391,7 @@ def chat(prompt='你好', stream_show=1, top_p=0.8, temperature=0.8):
     response = ''
     try:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
-            client_socket.settimeout(10)
+            client_socket.settimeout(15)
             client_socket.connect(('socket.guanjihuan.com', 12345))
             message = {
                 'server': "chat.guanjihuan.com",
