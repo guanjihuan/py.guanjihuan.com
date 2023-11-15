@@ -411,7 +411,9 @@ def chat(prompt='你好', stream_show=1, top_p=0.8, temperature=0.8):
                     if '连接失败！请过段时间再试或者联系管理员。' in stream_response:
                         print('连接失败！请过段时间再试或者联系管理员。')
                         break
-                    if stream_response == '':
+                    elif 'End_response_from_chat.guanjihuan.com.' in stream_response:
+                        break
+                    elif stream_response == '':
                         break
                     else:
                         if stream_show == 1:
