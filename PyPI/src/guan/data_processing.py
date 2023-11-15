@@ -385,14 +385,21 @@ def get_PID(name):
     return id_running
 
 # 在服务器上运行大语言模型，通过Python函数调用
-def chat(prompt='你好', stream_show=1):
+def chat(prompt='你好', stream_show=1, top_p=0.8, temperature=0.8):
     import socket
+    import json
     response = ''
     try:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
             client_socket.settimeout(10)
             client_socket.connect(('socket.guanjihuan.com', 12345))
-            send_message = "chat.guanjihuan.com |---| " + prompt
+            message = {
+                'server': "chat.guanjihuan.com",
+                'prompt': prompt,
+                'top_p': top_p,
+                'temperature': temperature,
+            }
+            send_message = json.dumps(message)
             client_socket.send(send_message.encode())
             try:
                 while True:
@@ -402,7 +409,6 @@ def chat(prompt='你好', stream_show=1):
                         break
                     stream_response = data.decode()
                     if '连接失败！请过段时间再试或者联系管理员。' in stream_response:
-                        response = None
                         print('连接失败！请过段时间再试或者联系管理员。')
                         break
                     if stream_response == '':
@@ -416,7 +422,6 @@ def chat(prompt='你好', stream_show=1):
                 pass
             client_socket.close()
     except:
-        response = None
         print('连接失败！请过段时间再试或者联系管理员。')
     import guan
     guan.statistics_of_guan_package()

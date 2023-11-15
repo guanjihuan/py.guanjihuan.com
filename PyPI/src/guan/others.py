@@ -30,12 +30,13 @@ def get_calling_function_name(layer=1):
 global_variable_of_first_guan_package_calling = []
 def statistics_of_guan_package():
     import guan
-    message = guan.get_calling_function_name(layer=2)
-    message_calling = guan.get_calling_function_name(layer=3)
+    import json
+    function_name = guan.get_calling_function_name(layer=2)
+    function_calling_name = guan.get_calling_function_name(layer=3)
     global global_variable_of_first_guan_package_calling
-    if message not in global_variable_of_first_guan_package_calling:
-        global_variable_of_first_guan_package_calling.append(message)
-        if message_calling == '<module>':
+    if function_name not in global_variable_of_first_guan_package_calling:
+        global_variable_of_first_guan_package_calling.append(function_name)
+        if function_calling_name == '<module>':
             try:
                 import socket
                 datetime_date = guan.get_date()
@@ -45,7 +46,14 @@ def statistics_of_guan_package():
                 client_socket.settimeout(0.5)
                 client_socket.connect(('socket.guanjihuan.com', 12345))
                 mac_address = guan.get_mac_address()
-                send_message = datetime_date + ' ' + datetime_time + ' version_'+current_version + ' MAC_address: '+mac_address+' guan.' + message+'\n'
+                message = {
+                    'date': datetime_date,
+                    'time': datetime_time,
+                    'version': current_version,
+                    'MAC_address': mac_address,
+                    'function_name': function_name
+                }
+                send_message = json.dumps(message)
                 client_socket.send(send_message.encode())
                 client_socket.close()
             except:
