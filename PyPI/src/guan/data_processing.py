@@ -417,7 +417,7 @@ def chat(prompt='你好', stream_show=1, top_p=0.8, temperature=0.8):
                         print('\n---\n')
                     response = stream_response
             except:
-                pass
+                break
         client_socket.close()
     import guan
     guan.statistics_of_guan_package()
