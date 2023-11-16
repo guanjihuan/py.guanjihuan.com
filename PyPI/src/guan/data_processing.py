@@ -389,42 +389,33 @@ def chat(prompt='你好', stream_show=1, top_p=0.8, temperature=0.8):
     import socket
     import json
     response = ''
-    try:
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
-            client_socket.settimeout(15)
-            client_socket.connect(('socket.guanjihuan.com', 12345))
-            message = {
-                'server': "chat.guanjihuan.com",
-                'prompt': prompt,
-                'top_p': top_p,
-                'temperature': temperature,
-            }
-            send_message = json.dumps(message)
-            client_socket.send(send_message.encode())
-            try:
-                while True:
-                    try:
-                        data = client_socket.recv(1024)
-                    except:
-                        break
-                    stream_response = data.decode()
-                    if '连接失败！请过段时间再试或者联系管理员。' in stream_response:
-                        print('连接失败！请过段时间再试或者联系管理员。')
-                        break
-                    elif 'End_response_from_chat.guanjihuan.com.' in stream_response:
-                        break
-                    elif stream_response == '':
-                        break
-                    else:
-                        if stream_show == 1:
-                            print(stream_response)
-                            print('\n---\n')
-                        response = stream_response
-            except:
-                pass
-            client_socket.close()
-    except:
-        print('连接失败！请过段时间再试或者联系管理员。')
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
+        client_socket.settimeout(15)
+        client_socket.connect(('socket.guanjihuan.com', 12345))
+        message = {
+            'server': "chat.guanjihuan.com",
+            'prompt': prompt,
+            'top_p': top_p,
+            'temperature': temperature,
+        }
+        send_message = json.dumps(message)
+        client_socket.send(send_message.encode())
+        while True:
+            data = client_socket.recv(1024)
+            stream_response = data.decode()
+            response_dict = json.loads(stream_response)
+            stream_response = response_dict['response']
+            end_message = response_dict['end_message']
+            if end_message == 1:
+                break
+            elif stream_response == '':
+                break
+            else:
+                if stream_show == 1:
+                    print(stream_response)
+                    print('\n---\n')
+                response = stream_response
+        client_socket.close()
     import guan
     guan.statistics_of_guan_package()
     return response
