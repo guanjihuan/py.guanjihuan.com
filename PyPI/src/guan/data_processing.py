@@ -401,20 +401,23 @@ def chat(prompt='你好', stream_show=1, top_p=0.8, temperature=0.8):
         send_message = json.dumps(message)
         client_socket.send(send_message.encode())
         while True:
-            data = client_socket.recv(1024)
-            stream_response = data.decode()
-            response_dict = json.loads(stream_response)
-            stream_response = response_dict['response']
-            end_message = response_dict['end_message']
-            if end_message == 1:
-                break
-            elif stream_response == '':
-                break
-            else:
-                if stream_show == 1:
-                    print(stream_response)
-                    print('\n---\n')
-                response = stream_response
+            try:
+                data = client_socket.recv(1024)
+                stream_response = data.decode()
+                response_dict = json.loads(stream_response)
+                stream_response = response_dict['response']
+                end_message = response_dict['end_message']
+                if end_message == 1:
+                    break
+                elif stream_response == '':
+                    break
+                else:
+                    if stream_show == 1:
+                        print(stream_response)
+                        print('\n---\n')
+                    response = stream_response
+            except:
+                pass
         client_socket.close()
     import guan
     guan.statistics_of_guan_package()
