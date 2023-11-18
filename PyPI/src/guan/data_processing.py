@@ -45,7 +45,6 @@ def run(function_name, args=(), return_show=0, get_print=1):
     import json
     import guan
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
-        client_socket.settimeout(15)
         client_socket.connect(('socket.guanjihuan.com', 12345))
         function_source = guan.get_function_source(function_name)
         message = {
