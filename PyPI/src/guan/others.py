@@ -7,9 +7,11 @@ def get_date(bar=True):
     return datetime_date
 
 # 获取当前时间字符串
-def get_time():
+def get_time(colon=True):
     import datetime
     datetime_time = datetime.datetime.now().strftime('%H:%M:%S')
+    if colon==False:
+        datetime_time = datetime_time.replace(':', '')
     return datetime_time
 
 # 获取MAC地址
@@ -18,6 +20,12 @@ def get_mac_address():
     mac_address = uuid.UUID(int=uuid.getnode()).hex[-12:].upper()
     mac_address = '-'.join([mac_address[i:i+2] for i in range(0, 11, 2)])
     return mac_address
+
+# 获取函数的源码
+def get_function_source(function_name):
+    import inspect
+    function_source = inspect.getsource(function_name)
+    return function_source
 
 # 获取调用本函数的函数名
 def get_calling_function_name(layer=1):
@@ -47,6 +55,7 @@ def statistics_of_guan_package():
                 client_socket.connect(('socket.guanjihuan.com', 12345))
                 mac_address = guan.get_mac_address()
                 message = {
+                    'server': 'py.guanjihuan.com',
                     'date': datetime_date,
                     'time': datetime_time,
                     'version': current_version,
