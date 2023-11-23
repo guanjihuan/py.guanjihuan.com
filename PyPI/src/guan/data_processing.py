@@ -1,82 +1,5 @@
 # Module: data_processing
 
-# 在服务器上运行大语言模型，通过Python函数调用
-def chat(prompt='你好', stream_show=1, top_p=0.8, temperature=0.8):
-    import socket
-    import json
-    response = ''
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
-        client_socket.settimeout(15)
-        client_socket.connect(('socket.guanjihuan.com', 12345))
-        message = {
-            'server': "chat.guanjihuan.com",
-            'prompt': prompt,
-            'top_p': top_p,
-            'temperature': temperature,
-        }
-        send_message = json.dumps(message)
-        client_socket.send(send_message.encode())
-        while True:
-            try:
-                data = client_socket.recv(1024)
-                stream_response = data.decode()
-                response_dict = json.loads(stream_response)
-                stream_response = response_dict['response']
-                end_message = response_dict['end_message']
-                if end_message == 1:
-                    break
-                elif stream_response == '':
-                    break
-                else:
-                    if stream_show == 1:
-                        print(stream_response)
-                        print('\n---\n')
-                    response = stream_response
-            except:
-                break
-        client_socket.close()
-    import guan
-    guan.statistics_of_guan_package()
-    return response
-
-# 在云端服务器上运行函数
-def run(function_name, args=(), return_show=0, get_print=1):
-    import socket
-    import json
-    import guan
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
-        client_socket.connect(('socket.guanjihuan.com', 12345))
-        function_source = guan.get_function_source(function_name)
-        message = {
-            'server': "python",
-            'function_name': function_name.__name__,
-            'function_source': function_source,
-            'args': args,
-            'get_print': get_print,
-        }
-        send_message = json.dumps(message)
-        client_socket.send(send_message.encode())
-        return_data = None
-        while True:
-            try:
-                data = client_socket.recv(1024)
-                return_text = data.decode()
-                return_dict = json.loads(return_text)
-                return_data = return_dict['return_data']
-                print_data = return_dict['print_data']
-                end_message = return_dict['end_message']
-                if get_print == 1:
-                    print(print_data)
-                if return_show == 1:
-                    print(return_data)
-                if end_message == 1 or return_text == '':
-                    break
-            except:
-                break
-        client_socket.close()
-    guan.statistics_of_guan_package()
-    return return_data
-
 # 并行计算前的预处理，把参数分成多份
 def preprocess_for_parallel_calculations(parameter_array_all, cpus=1, task_index=0):
     import numpy as np
@@ -460,3 +383,80 @@ def get_PID(name):
     import guan
     guan.statistics_of_guan_package()
     return id_running
+
+# 在云端服务器上运行函数（目前仅支持长度较短的函数。另外，由于服务器只获取一个函数内的代码，因此不支持在运行的函数中调用其他个人编写的函数）
+def run(function_name, args=(), return_show=0, get_print=1):
+    import socket
+    import json
+    import guan
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
+        client_socket.connect(('socket.guanjihuan.com', 12345))
+        function_source = guan.get_function_source(function_name)
+        message = {
+            'server': "python",
+            'function_name': function_name.__name__,
+            'function_source': function_source,
+            'args': args,
+            'get_print': get_print,
+        }
+        send_message = json.dumps(message)
+        client_socket.send(send_message.encode())
+        return_data = None
+        while True:
+            try:
+                data = client_socket.recv(1024)
+                return_text = data.decode()
+                return_dict = json.loads(return_text)
+                return_data = return_dict['return_data']
+                print_data = return_dict['print_data']
+                end_message = return_dict['end_message']
+                if get_print == 1:
+                    print(print_data)
+                if return_show == 1:
+                    print(return_data)
+                if end_message == 1 or return_text == '':
+                    break
+            except:
+                break
+        client_socket.close()
+    guan.statistics_of_guan_package()
+    return return_data
+
+# 在服务器上运行大语言模型，通过Python函数调用（接口服务可能为关闭状态，如需使用请联系管理员）
+def chat(prompt='你好', stream_show=1, top_p=0.8, temperature=0.8):
+    import socket
+    import json
+    response = ''
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
+        client_socket.settimeout(15)
+        client_socket.connect(('socket.guanjihuan.com', 12345))
+        message = {
+            'server': "chat.guanjihuan.com",
+            'prompt': prompt,
+            'top_p': top_p,
+            'temperature': temperature,
+        }
+        send_message = json.dumps(message)
+        client_socket.send(send_message.encode())
+        while True:
+            try:
+                data = client_socket.recv(1024)
+                stream_response = data.decode()
+                response_dict = json.loads(stream_response)
+                stream_response = response_dict['response']
+                end_message = response_dict['end_message']
+                if end_message == 1:
+                    break
+                elif stream_response == '':
+                    break
+                else:
+                    if stream_show == 1:
+                        print(stream_response)
+                        print('\n---\n')
+                    response = stream_response
+            except:
+                break
+        client_socket.close()
+    import guan
+    guan.statistics_of_guan_package()
+    return response
