@@ -38,12 +38,11 @@ def get_calling_function_name(layer=1):
 global_variable_of_first_guan_package_calling = []
 def statistics_of_guan_package():
     import guan
-    import json
     function_name = guan.get_calling_function_name(layer=2)
-    function_calling_name = guan.get_calling_function_name(layer=3)
     global global_variable_of_first_guan_package_calling
     if function_name not in global_variable_of_first_guan_package_calling:
         global_variable_of_first_guan_package_calling.append(function_name)
+        function_calling_name = guan.get_calling_function_name(layer=3)
         if function_calling_name == '<module>':
             try:
                 import socket
@@ -62,6 +61,7 @@ def statistics_of_guan_package():
                     'MAC_address': mac_address,
                     'function_name': function_name
                 }
+                import json
                 send_message = json.dumps(message)
                 client_socket.send(send_message.encode())
                 client_socket.close()
