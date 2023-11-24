@@ -384,7 +384,7 @@ def get_PID(name):
     guan.statistics_of_guan_package()
     return id_running
 
-# 在服务器上运行函数（说明：接口服务可能为关闭状态，如果无法使用请联系管理员。目前仅支持长度较短的函数，此外由于服务器只获取一个函数内的代码，因此不支持在运行的函数中调用其他个人编写的函数）
+# 在服务器上运行函数（说明：接口服务可能为关闭状态，如果无法使用请联系管理员。目前仅支持长度较短的函数，此外由于服务器只获取一个函数内的代码，因此需要函数是独立的可运行的代码。需要注意的是：返回的值是字符串类型，需要自行转换成数字类型。）
 def run(function_name, args=(), return_show=0, get_print=1):
     import socket
     import json
@@ -396,7 +396,7 @@ def run(function_name, args=(), return_show=0, get_print=1):
             'server': "python",
             'function_name': function_name.__name__,
             'function_source': function_source,
-            'args': args,
+            'args': str(args),
             'get_print': get_print,
         }
         send_message = json.dumps(message)
