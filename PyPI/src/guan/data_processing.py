@@ -384,7 +384,7 @@ def get_PID(name):
     guan.statistics_of_guan_package()
     return id_running
 
-# 在云端服务器上运行函数（目前仅支持长度较短的函数。另外，由于服务器只获取一个函数内的代码，因此不支持在运行的函数中调用其他个人编写的函数）
+# 在服务器上运行函数（说明：接口服务可能为关闭状态，如果无法使用请联系管理员。目前仅支持长度较短的函数，此外由于服务器只获取一个函数内的代码，因此不支持在运行的函数中调用其他个人编写的函数）
 def run(function_name, args=(), return_show=0, get_print=1):
     import socket
     import json
@@ -422,7 +422,7 @@ def run(function_name, args=(), return_show=0, get_print=1):
     guan.statistics_of_guan_package()
     return return_data
 
-# 在服务器上运行大语言模型，通过Python函数调用（接口服务可能为关闭状态，如需使用请联系管理员）
+# 在服务器上运行大语言模型，通过Python函数调用（说明：接口服务可能为关闭状态，如果无法使用请联系管理员）
 def chat(prompt='你好', stream_show=1, top_p=0.8, temperature=0.8):
     import socket
     import json
