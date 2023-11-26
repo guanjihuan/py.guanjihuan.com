@@ -44,6 +44,16 @@ def get_cpu_usage(interval=1):
     guan.statistics_of_guan_package()
     return cpu_usage
 
+# 获取内存信息
+def get_memory_info():
+    import psutil
+    memory_info = psutil.virtual_memory()
+    total_memory = memory_info.total
+    used_memory = memory_info.used
+    available_memory = memory_info.available
+    used_memory_percent = memory_info.percent
+    return total_memory, used_memory, available_memory, used_memory_percent
+
 # 获取本月的所有日期
 def get_days_of_the_current_month(str_or_datetime='str'):
     import datetime
