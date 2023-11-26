@@ -48,9 +48,9 @@ def get_cpu_usage(interval=1):
 def get_memory_info():
     import psutil
     memory_info = psutil.virtual_memory()
-    total_memory = memory_info.total
-    used_memory = memory_info.used
-    available_memory = memory_info.available
+    total_memory = memory_info.total/(1024**2)
+    used_memory = memory_info.used/(1024**2)
+    available_memory = memory_info.available/(1024**2)
     used_memory_percent = memory_info.percent
     return total_memory, used_memory, available_memory, used_memory_percent
 
