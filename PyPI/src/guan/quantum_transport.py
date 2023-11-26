@@ -479,7 +479,7 @@ def calculate_scattering_matrix_and_get_information(fermi_energy, h00, h01, leng
 
     return number_of_active_channels, number_of_evanescent_channels, k_of_right_moving_active_channels, k_of_left_moving_active_channels, velocity_of_right_moving_active_channels, velocity_of_left_moving_active_channels, transmission_matrix_for_active_channels, reflection_matrix_for_active_channels, total_transmission_of_channels, total_conductance, total_reflection_of_channels, sum_of_transmission_and_reflection_of_channels
 
-# 从散射矩阵中，打印出散射矩阵的信息
+# 从散射矩阵中打印出散射矩阵的信息
 def print_or_write_scattering_matrix_with_information_of_scattering_matrix(number_of_active_channels, number_of_evanescent_channels, k_of_right_moving_active_channels, k_of_left_moving_active_channels, velocity_of_right_moving_active_channels, velocity_of_left_moving_active_channels, transmission_matrix_for_active_channels, reflection_matrix_for_active_channels, total_transmission_of_channels, total_conductance, total_reflection_of_channels, sum_of_transmission_and_reflection_of_channels, print_show=1, write_file=0, filename='a', file_format='.txt'):
     if print_show == 1:
         print('\nActive channel (left or right) = ', number_of_active_channels)

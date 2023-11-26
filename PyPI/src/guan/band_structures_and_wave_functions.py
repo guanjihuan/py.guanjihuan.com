@@ -154,7 +154,7 @@ def find_vector_array_with_fixed_gauge_by_making_one_component_real(vector_array
     guan.statistics_of_guan_package()
     return vector_array
 
-# 旋转两个简并的波函数（说明：参数比较多，效率不高）
+# 旋转两个简并的波函数（说明：参数比较多，算法效率不高）
 def rotation_of_degenerate_vectors(vector1, vector2, index1=None, index2=None, precision=0.01, criterion=0.01, show_theta=0):
     import numpy as np
     import math
@@ -185,7 +185,7 @@ def rotation_of_degenerate_vectors(vector1, vector2, index1=None, index2=None, p
     guan.statistics_of_guan_package()
     return vector1, vector2
 
-# 旋转两个简并的波函数向量组（说明：参数比较多，效率不高）
+# 旋转两个简并的波函数向量组（说明：参数比较多，算法效率不高）
 def rotation_of_degenerate_vectors_array(vector1_array, vector2_array, precision=0.01, criterion=0.01, show_theta=0):
     import numpy as np
     import guan
@@ -202,3 +202,34 @@ def rotation_of_degenerate_vectors_array(vector1_array, vector2_array, precision
         vector1_array[i0], vector2_array[i0] = guan.rotation_of_degenerate_vectors(vector1=vector1_array[i0], vector2=vector2_array[i0], index1=index1, index2=index2, precision=precision, criterion=criterion, show_theta=show_theta)
     guan.statistics_of_guan_package()
     return vector1_array, vector2_array
+
+# 在一组数据中找到数值相近的数
+def find_close_values_in_one_array(array, precision=1e-2):
+    new_array = []
+    i0 = 0
+    for a1 in array:
+        j0 = 0
+        for a2 in array:
+            if j0>i0 and abs(a1-a2)<precision: 
+                new_array.append([a1, a2])
+            j0 +=1
+        i0 += 1
+    import guan
+    guan.statistics_of_guan_package()
+    return new_array
+
+# 寻找能带的简并点
+def find_degenerate_points(k_array, eigenvalue_array, precision=1e-2):
+    import guan
+    degenerate_k_array = []
+    degenerate_eigenvalue_array = []
+    i0 = 0
+    for k in k_array:
+        degenerate_points = guan.find_close_values_in_one_array(eigenvalue_array[i0], precision=precision)
+        if len(degenerate_points) != 0:
+            degenerate_k_array.append(k)
+            degenerate_eigenvalue_array.append(degenerate_points)
+        i0 += 1
+    import guan
+    guan.statistics_of_guan_package()
+    return degenerate_k_array, degenerate_eigenvalue_array
