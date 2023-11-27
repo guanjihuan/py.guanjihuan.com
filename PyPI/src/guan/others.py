@@ -1065,16 +1065,16 @@ def get_current_version(package_name='guan'):
         return None
 
 # Guan软件包升级提示
-def notification_of_upgrade():
-    import random
-    rand_number = random.randint(1, 10)
-    if rand_number == 5:
-        try:
-            latest_version = get_latest_version(package_name='guan', timeout=2)
-            current_version = get_current_version('guan')
-            if latest_version != None and current_version != None:
-                if latest_version != current_version:
-                    print('提示：您当前使用的版本是 guan-'+current_version+'，目前已经有最新版本 guan-'+latest_version+'。您可以通过以下命令对软件包进行升级：pip install --upgrade guan')
-        except:
-            pass
-notification_of_upgrade()
+def notification_of_upgrade(timeout=2):
+    try:
+        latest_version = get_latest_version(package_name='guan', timeout=timeout)
+        current_version = get_current_version('guan')
+        if latest_version != None and current_version != None:
+            if latest_version != current_version:
+                print('提示：您当前使用的版本是 guan-'+current_version+'，目前已经有最新版本 guan-'+latest_version+'。您可以通过以下命令对软件包进行升级：pip install --upgrade guan')
+    except:
+        pass
+import random
+rand_number = random.randint(1, 10)
+if rand_number == 5:
+    notification_of_upgrade(timeout=2)

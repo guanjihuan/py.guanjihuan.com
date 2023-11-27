@@ -10,6 +10,7 @@ src/guan/band_structures_and_wave_functions.py
 src/guan/basic_functions.py
 src/guan/data_processing.py
 src/guan/density_of_states.py
+src/guan/machine_learning.py
 src/guan/others.py
 src/guan/quantum_transport.py
 src/guan/topological_invariant.py

@@ -4,7 +4,10 @@ import guan
 # 测试
 @guan.function_decorator
 def test():
-    print('\nSuccess in the installation of Guan package!\n')
+    import guan
+    current_version = guan.get_current_version('guan')
+    print(f'\nSuccess in the installation of Guan package! The installed version is guan-{current_version}.\n')
+    guan.notification_of_upgrade(timeout=5)
 
 # 泡利矩阵
 @guan.function_decorator

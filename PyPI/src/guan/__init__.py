@@ -17,5 +17,6 @@ from .Green_functions import *
 from .density_of_states import *
 from .quantum_transport import *
 from .topological_invariant import *
+from .machine_learning import *
 from .data_processing import *
 from .others import *
