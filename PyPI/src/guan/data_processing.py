@@ -646,7 +646,20 @@ def print_array_with_index(array, show_index=1, index_type=0):
     import guan
     guan.statistics_of_guan_package()
 
-# 读取文件夹中某个文件类型的所有文本文件
+# 获取目录中的所有文件名
+def get_all_filenames_in_directory(directory='./', file_format=None):
+    import os
+    file_list = []
+    for root, dirs, files in os.walk(directory):
+        for i0 in range(len(files)):
+            if file_format == None:
+                file_list.append(files[i0])
+            else:
+                if file_format in files[i0]:
+                    file_list.append(files[i0])
+    return file_list
+
+# 读取文件夹中某种文本文件类型的文件路径和内容
 def read_text_files_in_directory(directory='./', file_format='.md'):
     import os
     file_list = []
