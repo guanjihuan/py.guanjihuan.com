@@ -2,8 +2,8 @@
 
 # 函数的装饰器，用于软件包的统计
 def function_decorator(func):
-    def wrapper():
-        func()
+    def wrapper(*args, **kwargs):
+        func(*args, **kwargs)
         import guan
         guan.statistics_of_guan_package(func.__name__)
     return wrapper
