@@ -1,17 +1,18 @@
 # Module: band_structures_and_wave_functions
+import guan
 
 # 计算哈密顿量的本征值
+@guan.function_decorator
 def calculate_eigenvalue(hamiltonian):
     import numpy as np
     if np.array(hamiltonian).shape==():
         eigenvalue = np.real(hamiltonian)
     else:
         eigenvalue, eigenvector = np.linalg.eigh(hamiltonian)
-    import guan
-    guan.statistics_of_guan_package()
     return eigenvalue
 
 # 输入哈密顿量函数（带一组参数），计算一组参数下的本征值，返回本征值向量组
+@guan.function_decorator
 def calculate_eigenvalue_with_one_parameter(x_array, hamiltonian_function, print_show=0):
     import numpy as np
     dim_x = np.array(x_array).shape[0]
@@ -32,11 +33,10 @@ def calculate_eigenvalue_with_one_parameter(x_array, hamiltonian_function, print
             eigenvalue, eigenvector = np.linalg.eigh(hamiltonian)
             eigenvalue_array[i0, :] = eigenvalue
             i0 += 1
-    import guan
-    guan.statistics_of_guan_package()
     return eigenvalue_array
 
 # 输入哈密顿量函数（带两组参数），计算两组参数下的本征值，返回本征值向量组
+@guan.function_decorator
 def calculate_eigenvalue_with_two_parameters(x_array, y_array, hamiltonian_function, print_show=0, print_show_more=0):  
     import numpy as np
     dim_x = np.array(x_array).shape[0]
@@ -67,19 +67,17 @@ def calculate_eigenvalue_with_two_parameters(x_array, y_array, hamiltonian_funct
                 eigenvalue_array[i0, j0, :] = eigenvalue
                 j0 += 1
             i0 += 1
-    import guan
-    guan.statistics_of_guan_package()
     return eigenvalue_array
 
 # 计算哈密顿量的本征矢
+@guan.function_decorator
 def calculate_eigenvector(hamiltonian):
     import numpy as np
     eigenvalue, eigenvector = np.linalg.eigh(hamiltonian)
-    import guan
-    guan.statistics_of_guan_package()
     return eigenvector
 
 # 通过二分查找的方法获取和相邻波函数一样规范的波函数
+@guan.function_decorator
 def find_vector_with_the_same_gauge_with_binary_search(vector_target, vector_ref, show_error=1, show_times=0, show_phase=0, n_test=1000, precision=1e-6):
     import numpy as np
     import cmath
@@ -116,11 +114,10 @@ def find_vector_with_the_same_gauge_with_binary_search(vector_target, vector_ref
     vector_target = vector_target*cmath.exp(1j*phase)
     if show_phase==1:
         print('Phase=', phase)
-    import guan
-    guan.statistics_of_guan_package()  
     return vector_target
 
 # 通过使得波函数的一个非零分量为实数，得到固定规范的波函数
+@guan.function_decorator
 def find_vector_with_fixed_gauge_by_making_one_component_real(vector, precision=0.005, index=None):
     import numpy as np
     import cmath
@@ -136,11 +133,10 @@ def find_vector_with_fixed_gauge_by_making_one_component_real(vector, precision=
     vector = vector*cmath.exp(1j*phase)
     if np.real(vector[index]) < 0:
         vector = -vector
-    import guan
-    guan.statistics_of_guan_package()
     return vector
 
 # 通过使得波函数的一个非零分量为实数，得到固定规范的波函数（在一组波函数中选取最大的那个分量）
+@guan.function_decorator
 def find_vector_array_with_fixed_gauge_by_making_one_component_real(vector_array, precision=0.005):
     import numpy as np
     import guan
@@ -151,10 +147,10 @@ def find_vector_array_with_fixed_gauge_by_making_one_component_real(vector_array
     index = np.argmax(np.abs(vector_sum))
     for i0 in range(Num_k):
         vector_array[i0] = guan.find_vector_with_fixed_gauge_by_making_one_component_real(vector_array[i0], precision=precision, index=index)
-    guan.statistics_of_guan_package()
     return vector_array
 
 # 旋转两个简并的波函数（说明：参数比较多，算法效率不高）
+@guan.function_decorator
 def rotation_of_degenerate_vectors(vector1, vector2, index1=None, index2=None, precision=0.01, criterion=0.01, show_theta=0):
     import numpy as np
     import math
@@ -181,11 +177,10 @@ def rotation_of_degenerate_vectors(vector1, vector2, index1=None, index2=None, p
                     break
             if np.abs(vector1_test[index2])<criterion and np.abs(vector2_test[index1])<criterion:
                 break
-    import guan
-    guan.statistics_of_guan_package()
     return vector1, vector2
 
 # 旋转两个简并的波函数向量组（说明：参数比较多，算法效率不高）
+@guan.function_decorator
 def rotation_of_degenerate_vectors_array(vector1_array, vector2_array, precision=0.01, criterion=0.01, show_theta=0):
     import numpy as np
     import guan
@@ -200,10 +195,10 @@ def rotation_of_degenerate_vectors_array(vector1_array, vector2_array, precision
     index2 = np.argmax(np.abs(vector2_sum))
     for i0 in range(Num_k):
         vector1_array[i0], vector2_array[i0] = guan.rotation_of_degenerate_vectors(vector1=vector1_array[i0], vector2=vector2_array[i0], index1=index1, index2=index2, precision=precision, criterion=criterion, show_theta=show_theta)
-    guan.statistics_of_guan_package()
     return vector1_array, vector2_array
 
 # 在一组数据中找到数值相近的数
+@guan.function_decorator
 def find_close_values_in_one_array(array, precision=1e-2):
     new_array = []
     i0 = 0
@@ -214,11 +209,10 @@ def find_close_values_in_one_array(array, precision=1e-2):
                 new_array.append([a1, a2])
             j0 +=1
         i0 += 1
-    import guan
-    guan.statistics_of_guan_package()
     return new_array
 
 # 寻找能带的简并点
+@guan.function_decorator
 def find_degenerate_points(k_array, eigenvalue_array, precision=1e-2):
     import guan
     degenerate_k_array = []
@@ -230,6 +224,4 @@ def find_degenerate_points(k_array, eigenvalue_array, precision=1e-2):
             degenerate_k_array.append(k)
             degenerate_eigenvalue_array.append(degenerate_points)
         i0 += 1
-    import guan
-    guan.statistics_of_guan_package()
     return degenerate_k_array, degenerate_eigenvalue_array

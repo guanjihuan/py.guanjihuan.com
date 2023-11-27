@@ -1,16 +1,18 @@
 # Module: density_of_states
+import guan
 
 # 计算体系的总态密度
+@guan.function_decorator
 def total_density_of_states(fermi_energy, hamiltonian, broadening=0.01):
     import numpy as np
     import math
     import guan
     green = guan.green_function(fermi_energy, hamiltonian, broadening)
     total_dos = -np.trace(np.imag(green))/math.pi
-    guan.statistics_of_guan_package()
     return total_dos
 
 # 对于不同费米能，计算体系的总态密度
+@guan.function_decorator
 def total_density_of_states_with_fermi_energy_array(fermi_energy_array, hamiltonian, broadening=0.01, print_show=0):
     import numpy as np
     import guan
@@ -22,10 +24,10 @@ def total_density_of_states_with_fermi_energy_array(fermi_energy_array, hamilton
             print(fermi_energy)
         total_dos_array[i0] = guan.total_density_of_states(fermi_energy, hamiltonian, broadening)
         i0 += 1
-    guan.statistics_of_guan_package()
     return total_dos_array
 
 # 计算方格子的局域态密度（其中，哈密顿量的维度为：dim_hamiltonian = N1*N2*internal_degree）
+@guan.function_decorator
 def local_density_of_states_for_square_lattice(fermi_energy, hamiltonian, N1, N2, internal_degree=1, broadening=0.01):
     import numpy as np
     import math
@@ -36,10 +38,10 @@ def local_density_of_states_for_square_lattice(fermi_energy, hamiltonian, N1, N2
         for i2 in range(N2):
             for i in range(internal_degree): 
                 local_dos[i2, i1] = local_dos[i2, i1]-np.imag(green[i1*N2*internal_degree+i2*internal_degree+i, i1*N2*internal_degree+i2*internal_degree+i])/math.pi
-    guan.statistics_of_guan_package()
     return local_dos
 
 # 计算立方格子的局域态密度（其中，哈密顿量的维度为：dim_hamiltonian = N1*N2*N3*internal_degree）
+@guan.function_decorator
 def local_density_of_states_for_cubic_lattice(fermi_energy, hamiltonian, N1, N2, N3, internal_degree=1, broadening=0.01):
     import numpy as np
     import math
@@ -51,10 +53,10 @@ def local_density_of_states_for_cubic_lattice(fermi_energy, hamiltonian, N1, N2,
             for i3 in range(N3):
                 for i in range(internal_degree): 
                     local_dos[i3, i2, i1] = local_dos[i3, i2, i1]-np.imag(green[i1*N2*N3*internal_degree+i2*N3*internal_degree+i3*internal_degree+i, i1*N2*N3*internal_degree+i2*N3*internal_degree+i3*internal_degree+i])/math.pi
-    guan.statistics_of_guan_package()
     return local_dos
 
 # 利用Dyson方程，计算方格子的局域态密度（其中，h00的维度为：dim_h00 = N2*internal_degree）
+@guan.function_decorator
 def local_density_of_states_for_square_lattice_using_dyson_equation(fermi_energy, h00, h01, N2, N1, internal_degree=1, broadening=0.01):
     import numpy as np
     import math
@@ -85,10 +87,10 @@ def local_density_of_states_for_square_lattice_using_dyson_equation(fermi_energy
         for i2 in range(N2):
             for i in range(internal_degree):
                 local_dos[i2, i1] = local_dos[i2, i1] - np.imag(green_ii_n_minus[i2*internal_degree+i, i2*internal_degree+i])/math.pi
-    guan.statistics_of_guan_package()
     return local_dos
 
 # 利用Dyson方程，计算立方格子的局域态密度（其中，h00的维度为：dim_h00 = N2*N3*internal_degree）
+@guan.function_decorator
 def local_density_of_states_for_cubic_lattice_using_dyson_equation(fermi_energy, h00, h01, N3, N2, N1, internal_degree=1, broadening=0.01):
     import numpy as np
     import math
@@ -119,11 +121,11 @@ def local_density_of_states_for_cubic_lattice_using_dyson_equation(fermi_energy,
         for i2 in range(N2):
             for i3 in range(N3):
                 for i in range(internal_degree):
-                    local_dos[i3, i2, i1] = local_dos[i3, i2, i1] -np.imag(green_ii_n_minus[i2*N3*internal_degree+i3*internal_degree+i, i2*N3*internal_degree+i3*internal_degree+i])/math.pi       
-    guan.statistics_of_guan_package()
+                    local_dos[i3, i2, i1] = local_dos[i3, i2, i1] -np.imag(green_ii_n_minus[i2*N3*internal_degree+i3*internal_degree+i, i2*N3*internal_degree+i3*internal_degree+i])/math.pi
     return local_dos
 
 # 利用Dyson方程，计算方格子条带（考虑了电极自能）的局域态密度（其中，h00的维度为：dim_h00 = N2*internal_degree）
+@guan.function_decorator
 def local_density_of_states_for_square_lattice_with_self_energy_using_dyson_equation(fermi_energy, h00, h01, N2, N1, right_self_energy, left_self_energy, internal_degree=1, broadening=0.01):
     import numpy as np
     import math
@@ -160,5 +162,4 @@ def local_density_of_states_for_square_lattice_with_self_energy_using_dyson_equa
         for i2 in range(N2):
             for i in range(internal_degree):
                 local_dos[i2, i1] = local_dos[i2, i1] - np.imag(green_ii_n_minus[i2*internal_degree+i, i2*internal_degree+i])/math.pi
-    guan.statistics_of_guan_package()
     return local_dos
