@@ -6,7 +6,7 @@ import guan
 def test():
     import guan
     current_version = guan.get_current_version('guan')
-    print(f'\nSuccess in the installation of Guan package! The installed version is guan-{current_version}.\n')
+    print(f'Success in the installation of Guan package! The installed version is guan-{current_version}.')
     guan.notification_of_upgrade(timeout=5)
 
 # 泡利矩阵
