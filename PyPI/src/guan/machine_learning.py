@@ -1,13 +1,13 @@
 # Module: machine_learning
 import guan
-model_class = None  # 把类定义成全局的，防止保存完整模型时，无法访问函数中的类
 
 # 全连接神经网络模型（包含一个隐藏层）
 @guan.function_decorator
 def fully_connected_neural_network_with_one_hidden_layer(input_size=1, hidden_size=10, output_size=1, activation='relu'):
     import torch
-    global model_class
-    class model_class(torch.nn.Module):
+    # 如果在函数中定义模型类，尽量定义成全局的，这样可以防止在保存完整模型到文件时，无法访问函数中的模型类。
+    global model_class_of_fully_connected_neural_network_with_one_hidden_layer
+    class model_class_of_fully_connected_neural_network_with_one_hidden_layer(torch.nn.Module):
         def __init__(self):
             super().__init__()
             self.hidden_layer = torch.nn.Linear(input_size, hidden_size)
@@ -25,15 +25,15 @@ def fully_connected_neural_network_with_one_hidden_layer(input_size=1, hidden_si
                 hidden_output = self.hidden_layer(x)
             output = self.output_layer(hidden_output)
             return output
-    model = model_class()
+    model = model_class_of_fully_connected_neural_network_with_one_hidden_layer()
     return model
 
 # 全连接神经网络模型（包含两个隐藏层）
 @guan.function_decorator
 def fully_connected_neural_network_with_two_hidden_layers(input_size=1, hidden_size_1=10, hidden_size_2=10, output_size=1, activation_1='relu', activation_2='relu'):
     import torch
-    global model_class
-    class model_class(torch.nn.Module):
+    global model_class_of_fully_connected_neural_network_with_two_hidden_layers
+    class model_class_of_fully_connected_neural_network_with_two_hidden_layers(torch.nn.Module):
         def __init__(self):
             super().__init__()
             self.hidden_layer_1 = torch.nn.Linear(input_size, hidden_size_1)
@@ -64,15 +64,15 @@ def fully_connected_neural_network_with_two_hidden_layers(input_size=1, hidden_s
             
             output = self.output_layer(hidden_output_2)
             return output
-    model = model_class()
+    model = model_class_of_fully_connected_neural_network_with_two_hidden_layers()
     return model
 
 # 全连接神经网络模型（包含三个隐藏层）
 @guan.function_decorator
 def fully_connected_neural_network_with_three_hidden_layers(input_size=1, hidden_size_1=10, hidden_size_2=10, hidden_size_3=10, output_size=1, activation_1='relu', activation_2='relu', activation_3='relu'):
     import torch
-    global model_class
-    class model_class(torch.nn.Module):
+    global model_class_of_fully_connected_neural_network_with_three_hidden_layers
+    class model_class_of_fully_connected_neural_network_with_three_hidden_layers(torch.nn.Module):
         def __init__(self):
             super().__init__()
             self.hidden_layer_1 = torch.nn.Linear(input_size, hidden_size_1)
@@ -115,7 +115,7 @@ def fully_connected_neural_network_with_three_hidden_layers(input_size=1, hidden
             
             output = self.output_layer(hidden_output_3)
             return output
-    model = model_class()
+    model = model_class_of_fully_connected_neural_network_with_three_hidden_layers()
     return model
 
 # 使用优化器训练模型
