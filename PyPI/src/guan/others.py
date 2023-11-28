@@ -1071,7 +1071,7 @@ def notification_of_upgrade(timeout=2):
         current_version = get_current_version('guan')
         if latest_version != None and current_version != None:
             if latest_version != current_version:
-                print('提示：您当前使用的版本是 guan-'+current_version+'，目前已经有最新版本 guan-'+latest_version+'。您可以通过以下命令对软件包进行升级：pip install --upgrade guan')
+                print('提示：您当前使用的版本是 guan-'+current_version+'，目前已经有最新版本 guan-'+latest_version+'。您可以通过以下命令对软件包进行升级：pip install --upgrade guan -i https://pypi.python.org/simple 或 pip install --upgrade guan')
     except:
         pass
 import random
