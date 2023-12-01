@@ -6,11 +6,11 @@ import guan
 def test():
     import guan
     current_version = guan.get_current_version('guan')
-    print(f'Congratulations on successfully installing Guan package! The installed version is guan-{current_version}.')
-    print('\nChecking for the latest version of Guan package.')
+    print(f'\nCongratulations on successfully installing Guan package! The installed version is guan-{current_version}.')
+    print('\nChecking for the latest version of Guan package.\n')
     guan.notification_of_upgrade(timeout=5)
-    print('Check completed.')
-    print('\nTest completed.')
+    print('\nCheck completed.')
+    print('\nTest completed.\n')
 
 # 泡利矩阵
 @guan.function_decorator
