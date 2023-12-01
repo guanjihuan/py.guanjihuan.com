@@ -35,6 +35,8 @@ def convert_wordpress_xml_to_markdown(xml_file='./a.xml', convert_content=1, rep
             content = content.replace('</p>', '')
             content = content.replace('<ol>', '')
             content = content.replace('</ol>', '')
+            content = content.replace('<ul>', '')
+            content = content.replace('</ul>', '')
             content = content.replace('<strong>', '')
             content = content.replace('</strong>', '')
             content = content.replace('</li>', '')
