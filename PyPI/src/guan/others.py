@@ -1,6 +1,61 @@
 # Module: others
 import guan
 
+# 获取CPU使用率
+@guan.function_decorator
+def get_cpu_usage(interval=1):
+    import psutil
+    cpu_usage = psutil.cpu_percent(interval=interval)
+    return cpu_usage
+
+# 获取内存信息
+@guan.function_decorator
+def get_memory_info():
+    import psutil
+    memory_info = psutil.virtual_memory()
+    total_memory = memory_info.total/(1024**2)
+    used_memory = memory_info.used/(1024**2)
+    available_memory = memory_info.available/(1024**2)
+    used_memory_percent = memory_info.percent
+    return total_memory, used_memory, available_memory, used_memory_percent
+
+# 将WordPress导出的XML格式文件转换成多个MarkDown格式的文件
+@guan.function_decorator
+def convert_wordpress_xml_to_markdown(xml_file='./a.xml', convert_content=1, replace_more=[]):
+    import xml.etree.ElementTree as ET
+    import re
+    tree = ET.parse(xml_file)
+    root = tree.getroot()
+    for item in root.findall('.//item'):
+        print(item)
+        title = item.find('title').text
+        content = item.find('.//content:encoded', namespaces={'content': 'http://purl.org/rss/1.0/modules/content/'}).text
+        if convert_content == 1:
+            content = re.sub(r'<!--.*?-->', '', content)
+            content = content.replace('<p>', '')
+            content = content.replace('</p>', '')
+            content = content.replace('<ol>', '')
+            content = content.replace('</ol>', '')
+            content = content.replace('<strong>', '')
+            content = content.replace('</strong>', '')
+            content = content.replace('</li>', '')
+            content = content.replace('<li>', '+ ')
+            content = content.replace('</h3>', '')
+            content = re.sub(r'<h2.*?>', '## ', content)
+            content = re.sub(r'<h3.*?>', '### ', content)
+            content = re.sub(r'<h4.*?>', '#### ', content)
+            for replace_item in replace_more:
+                content = content.replace(replace_item, '')
+            for _ in range(100):
+                content = content.replace('\n\n\n', '\n\n')
+        else:
+            pass
+        markdown_content = f"# {title}\n{content}"
+        markdown_file_path = f"{title}.md"
+        cleaned_filename = re.sub(r'[/:*?"<>|\'\\]', ' ', markdown_file_path)
+        with open(cleaned_filename, 'w', encoding='utf-8') as md_file:
+            md_file.write(markdown_content)
+
 # 获取运行的日期和时间并写入文件
 @guan.function_decorator
 def statistics_with_day_and_time(content='', filename='a', file_format='.txt'):
@@ -33,24 +88,6 @@ def split_text(text, wrap_width=3000):
     import textwrap  
     split_text_list = textwrap.wrap(text, wrap_width)
     return split_text_list
-
-# 获取CPU使用率
-@guan.function_decorator
-def get_cpu_usage(interval=1):
-    import psutil
-    cpu_usage = psutil.cpu_percent(interval=interval)
-    return cpu_usage
-
-# 获取内存信息
-@guan.function_decorator
-def get_memory_info():
-    import psutil
-    memory_info = psutil.virtual_memory()
-    total_memory = memory_info.total/(1024**2)
-    used_memory = memory_info.used/(1024**2)
-    available_memory = memory_info.available/(1024**2)
-    used_memory_percent = memory_info.percent
-    return total_memory, used_memory, available_memory, used_memory_percent
 
 # 获取本月的所有日期
 @guan.function_decorator

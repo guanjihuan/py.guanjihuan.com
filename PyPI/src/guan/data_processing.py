@@ -638,7 +638,7 @@ def get_all_filenames_in_directory(directory='./', file_format=None):
                     file_list.append(files[i0])
     return file_list
 
-# 读取文件夹中某种文本文件类型的文件路径和内容
+# 读取文件夹中某种文本类型的文件路径和内容
 @guan.function_decorator
 def read_text_files_in_directory(directory='./', file_format='.md'):
     import os
