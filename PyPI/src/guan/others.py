@@ -2,14 +2,14 @@
 import guan
 
 # 获取CPU使用率
-@guan.function_decorator
+@guan.statistics_decorator
 def get_cpu_usage(interval=1):
     import psutil
     cpu_usage = psutil.cpu_percent(interval=interval)
     return cpu_usage
 
 # 获取内存信息
-@guan.function_decorator
+@guan.statistics_decorator
 def get_memory_info():
     import psutil
     memory_info = psutil.virtual_memory()
@@ -20,7 +20,7 @@ def get_memory_info():
     return total_memory, used_memory, available_memory, used_memory_percent
 
 # 将WordPress导出的XML格式文件转换成多个MarkDown格式的文件
-@guan.function_decorator
+@guan.statistics_decorator
 def convert_wordpress_xml_to_markdown(xml_file='./a.xml', convert_content=1, replace_more=[]):
     import xml.etree.ElementTree as ET
     import re
@@ -58,7 +58,7 @@ def convert_wordpress_xml_to_markdown(xml_file='./a.xml', convert_content=1, rep
             md_file.write(markdown_content)
 
 # 获取运行的日期和时间并写入文件
-@guan.function_decorator
+@guan.statistics_decorator
 def statistics_with_day_and_time(content='', filename='a', file_format='.txt'):
     import datetime
     datetime_today = str(datetime.date.today())
@@ -70,7 +70,7 @@ def statistics_with_day_and_time(content='', filename='a', file_format='.txt'):
            f2.write(datetime_today+' '+datetime_time+' '+content+'\n')
 
 # 统计Python文件中import的数量并排序
-@guan.function_decorator
+@guan.statistics_decorator
 def count_number_of_import_statements(filename, file_format='.py', num=1000):
     with open(filename+file_format, 'r') as file:
         lines = file.readlines()
@@ -84,14 +84,14 @@ def count_number_of_import_statements(filename, file_format='.py', num=1000):
     return import_statement_counter
 
 # 根据一定的字符长度来分割文本
-@guan.function_decorator
+@guan.statistics_decorator
 def split_text(text, wrap_width=3000):  
     import textwrap  
     split_text_list = textwrap.wrap(text, wrap_width)
     return split_text_list
 
 # 获取本月的所有日期
-@guan.function_decorator
+@guan.statistics_decorator
 def get_days_of_the_current_month(str_or_datetime='str'):
     import datetime
     today = datetime.date.today()
@@ -111,7 +111,7 @@ def get_days_of_the_current_month(str_or_datetime='str'):
     return day_array
 
 # 获取上个月份
-@guan.function_decorator
+@guan.statistics_decorator
 def get_last_month():
     import datetime
     today = datetime.date.today()
@@ -124,7 +124,7 @@ def get_last_month():
     return year_of_last_month, last_month
 
 # 获取上上个月份
-@guan.function_decorator
+@guan.statistics_decorator
 def get_the_month_before_last():
     import datetime
     today = datetime.date.today()
@@ -142,7 +142,7 @@ def get_the_month_before_last():
     return year_of_the_month_before_last, the_month_before_last
 
 # 获取上个月的所有日期
-@guan.function_decorator
+@guan.statistics_decorator
 def get_days_of_the_last_month(str_or_datetime='str'):
     import datetime
     import guan
@@ -164,7 +164,7 @@ def get_days_of_the_last_month(str_or_datetime='str'):
     return day_array
 
 # 获取上上个月的所有日期
-@guan.function_decorator
+@guan.statistics_decorator
 def get_days_of_the_month_before_last(str_or_datetime='str'):
     import datetime
     import guan
@@ -186,7 +186,7 @@ def get_days_of_the_month_before_last(str_or_datetime='str'):
     return day_array
 
 # 获取所有股票
-@guan.function_decorator
+@guan.statistics_decorator
 def all_stocks():
     import numpy as np
     import akshare as ak
@@ -196,7 +196,7 @@ def all_stocks():
     return title, stock_data
 
 # 获取所有股票的代码
-@guan.function_decorator
+@guan.statistics_decorator
 def all_stock_symbols():
     import guan
     title, stock_data = guan.all_stocks()
@@ -204,7 +204,7 @@ def all_stock_symbols():
     return stock_symbols
 
 # 从股票代码获取股票名称
-@guan.function_decorator
+@guan.statistics_decorator
 def find_stock_name_from_symbol(symbol='000002'):
     import guan
     title, stock_data = guan.all_stocks()
@@ -214,7 +214,7 @@ def find_stock_name_from_symbol(symbol='000002'):
     return stock_name
 
 # 获取单个股票的历史数据
-@guan.function_decorator
+@guan.statistics_decorator
 def history_data_of_one_stock(symbol='000002', period='daily', start_date="19000101", end_date='21000101'):
     # period = 'daily'
     # period = 'weekly'
@@ -227,7 +227,7 @@ def history_data_of_one_stock(symbol='000002', period='daily', start_date="19000
     return title, stock_data
 
 # 获取软件包中的所有模块名
-@guan.function_decorator
+@guan.statistics_decorator
 def get_all_modules_in_one_package(package_name='guan'):
     import pkgutil
     package = __import__(package_name)
@@ -235,7 +235,7 @@ def get_all_modules_in_one_package(package_name='guan'):
     return module_names
 
 # 获取软件包中一个模块的所有函数名
-@guan.function_decorator
+@guan.statistics_decorator
 def get_all_functions_in_one_module(module_name, package_name='guan'):
     import inspect
     function_names = []
@@ -246,7 +246,7 @@ def get_all_functions_in_one_module(module_name, package_name='guan'):
     return function_names
 
 # 获取软件包中的所有函数名
-@guan.function_decorator
+@guan.statistics_decorator
 def get_all_functions_in_one_package(package_name='guan', print_show=1):
     import guan
     module_names = guan.get_all_modules_in_one_package(package_name=package_name)
@@ -264,7 +264,7 @@ def get_all_functions_in_one_package(package_name='guan', print_show=1):
     return all_function_names
 
 # 获取包含某个字符的进程PID值
-@guan.function_decorator
+@guan.statistics_decorator
 def get_PID(name):
     import subprocess
     command = "ps -ef | grep "+name
@@ -277,90 +277,14 @@ def get_PID(name):
     return id_running
 
 # 获取函数的源码
-@guan.function_decorator
+@guan.statistics_decorator
 def get_function_source(function_name):
     import inspect
     function_source = inspect.getsource(function_name)
     return function_source
 
-# 在服务器上运行函数（说明：接口服务可能为关闭状态，如果无法使用请联系管理员。目前仅支持长度较短的函数，此外由于服务器只获取一个函数内的代码，因此需要函数是独立的可运行的代码。需要注意的是：返回的值是字符串类型，需要自行转换成数字类型。）
-@guan.function_decorator
-def run(function_name, args=(), return_show=0, get_print=1):
-    import socket
-    import json
-    import guan
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
-        client_socket.connect(('socket.guanjihuan.com', 12345))
-        function_source = guan.get_function_source(function_name)
-        message = {
-            'server': "python",
-            'function_name': function_name.__name__,
-            'function_source': function_source,
-            'args': str(args),
-            'get_print': get_print,
-        }
-        send_message = json.dumps(message)
-        client_socket.send(send_message.encode())
-        return_data = None
-        while True:
-            try:
-                data = client_socket.recv(1024)
-                return_text = data.decode()
-                return_dict = json.loads(return_text)
-                return_data = return_dict['return_data']
-                print_data = return_dict['print_data']
-                end_message = return_dict['end_message']
-                if get_print == 1:
-                    print(print_data)
-                if return_show == 1:
-                    print(return_data)
-                if end_message == 1 or return_text == '':
-                    break
-            except:
-                break
-        client_socket.close()
-    return return_data
-
-# 在服务器上运行大语言模型，通过Python函数调用（说明：接口服务可能为关闭状态，如果无法使用请联系管理员）
-@guan.function_decorator
-def chat(prompt='你好', stream_show=1, top_p=0.8, temperature=0.8):
-    import socket
-    import json
-    response = ''
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
-        client_socket.settimeout(15)
-        client_socket.connect(('socket.guanjihuan.com', 12345))
-        message = {
-            'server': "chat.guanjihuan.com",
-            'prompt': prompt,
-            'top_p': top_p,
-            'temperature': temperature,
-        }
-        send_message = json.dumps(message)
-        client_socket.send(send_message.encode())
-        while True:
-            try:
-                data = client_socket.recv(1024)
-                stream_response = data.decode()
-                response_dict = json.loads(stream_response)
-                stream_response = response_dict['response']
-                end_message = response_dict['end_message']
-                if end_message == 1:
-                    break
-                elif stream_response == '':
-                    break
-                else:
-                    if stream_show == 1:
-                        print(stream_response)
-                        print('\n---\n')
-                    response = stream_response
-            except:
-                break
-        client_socket.close()
-    return response
-
 # 查找文件名相同的文件
-@guan.function_decorator
+@guan.statistics_decorator
 def find_repeated_file_with_same_filename(directory='./', ignored_directory_with_words=[], ignored_file_with_words=[], num=1000):
     import os
     from collections import Counter
@@ -385,7 +309,7 @@ def find_repeated_file_with_same_filename(directory='./', ignored_directory_with
     return repeated_file
 
 # 统计各个子文件夹中的文件数量
-@guan.function_decorator
+@guan.statistics_decorator
 def count_file_in_sub_directory(directory='./', sort=0, reverse=1, print_show=1, smaller_than_num=None):
     import os
     import numpy as np
@@ -439,7 +363,7 @@ def count_file_in_sub_directory(directory='./', sort=0, reverse=1, print_show=1,
     return sub_directory, num_in_sub_directory
 
 # 改变当前的目录位置
-@guan.function_decorator
+@guan.statistics_decorator
 def change_directory_by_replacement(current_key_word='code', new_key_word='data'):
     import os
     code_path = os.getcwd()
@@ -450,7 +374,7 @@ def change_directory_by_replacement(current_key_word='code', new_key_word='data'
     os.chdir(data_path)
 
 # 在多个子文件夹中产生必要的文件，例如 readme.md
-@guan.function_decorator
+@guan.statistics_decorator
 def creat_necessary_file(directory, filename='readme', file_format='.md', content='', overwrite=None, ignored_directory_with_words=[]):
     import os
     directory_with_file = []
@@ -480,7 +404,7 @@ def creat_necessary_file(directory, filename='readme', file_format='.md', conten
         f.close()
 
 # 删除特定文件名的文件（慎用）
-@guan.function_decorator
+@guan.statistics_decorator
 def delete_file_with_specific_name(directory, filename='readme', file_format='.md'):
     import os
     for root, dirs, files in os.walk(directory):
@@ -489,7 +413,7 @@ def delete_file_with_specific_name(directory, filename='readme', file_format='.m
                 os.remove(root+'/'+files[i0])
 
 # 将所有文件移到根目录（慎用）
-@guan.function_decorator
+@guan.statistics_decorator
 def move_all_files_to_root_directory(directory):
     import os
     import shutil
@@ -504,7 +428,7 @@ def move_all_files_to_root_directory(directory):
                 pass
 
 # 将文件目录结构写入Markdown文件
-@guan.function_decorator
+@guan.statistics_decorator
 def write_file_list_in_markdown(directory='./', filename='a', reverse_positive_or_negative=1, starting_from_h1=None, banned_file_format=[], hide_file_format=None, divided_line=None, show_second_number=None, show_third_number=None): 
     import os
     f = open(filename+'.md', 'w', encoding="utf-8")
@@ -608,7 +532,7 @@ def write_file_list_in_markdown(directory='./', filename='a', reverse_positive_o
     f.close()
 
 # 从网页的标签中获取内容
-@guan.function_decorator
+@guan.statistics_decorator
 def get_html_from_tags(link, tags=['title', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'li', 'a']):
     from bs4 import BeautifulSoup
     import urllib.request
@@ -627,14 +551,14 @@ def get_html_from_tags(link, tags=['title', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 
     return content
 
 # 生成二维码
-@guan.function_decorator
+@guan.statistics_decorator
 def creat_qrcode(data="https://www.guanjihuan.com", filename='a', file_format='.png'):
     import qrcode
     img = qrcode.make(data)
     img.save(filename+file_format)
 
 # 将PDF文件转成文本
-@guan.function_decorator
+@guan.statistics_decorator
 def pdf_to_text(pdf_path):
     from pdfminer.pdfparser import PDFParser, PDFDocument
     from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
@@ -666,7 +590,7 @@ def pdf_to_text(pdf_path):
     return content
 
 # 获取PDF文件页数
-@guan.function_decorator
+@guan.statistics_decorator
 def get_pdf_page_number(pdf_path):
     import PyPDF2
     pdf_file = open(pdf_path, 'rb')
@@ -675,7 +599,7 @@ def get_pdf_page_number(pdf_path):
     return num_pages
 
 # 获取PDF文件指定页面的内容
-@guan.function_decorator
+@guan.statistics_decorator
 def pdf_to_txt_for_a_specific_page(pdf_path, page_num=1):
     import PyPDF2
     pdf_file = open(pdf_path, 'rb')
@@ -689,7 +613,7 @@ def pdf_to_txt_for_a_specific_page(pdf_path, page_num=1):
     return page_text
 
 # 获取PDF文献中的链接。例如: link_starting_form='https://doi.org'
-@guan.function_decorator
+@guan.statistics_decorator
 def get_links_from_pdf(pdf_path, link_starting_form=''):
     import PyPDF2
     import re
@@ -714,7 +638,7 @@ def get_links_from_pdf(pdf_path, link_starting_form=''):
     return links
 
 # 通过Sci-Hub网站下载文献
-@guan.function_decorator
+@guan.statistics_decorator
 def download_with_scihub(address=None, num=1):
     from bs4 import BeautifulSoup
     import re
@@ -752,7 +676,7 @@ def download_with_scihub(address=None, num=1):
         print('All completed!\n')
 
 # 将字符串转成音频
-@guan.function_decorator
+@guan.statistics_decorator
 def str_to_audio(str='hello world', filename='str', rate=125, voice=1, read=1, save=0, compress=0, bitrate='16k', print_text=0):
     import pyttsx3
     import guan
@@ -776,7 +700,7 @@ def str_to_audio(str='hello world', filename='str', rate=125, voice=1, read=1, s
         engine.runAndWait()
 
 # 将txt文件转成音频
-@guan.function_decorator
+@guan.statistics_decorator
 def txt_to_audio(txt_path, rate=125, voice=1, read=1, save=0, compress=0, bitrate='16k', print_text=0):
     import pyttsx3
     import guan
@@ -804,7 +728,7 @@ def txt_to_audio(txt_path, rate=125, voice=1, read=1, save=0, compress=0, bitrat
         engine.runAndWait()
 
 # 将PDF文件转成音频
-@guan.function_decorator
+@guan.statistics_decorator
 def pdf_to_audio(pdf_path, rate=125, voice=1, read=1, save=0, compress=0, bitrate='16k', print_text=0):
     import pyttsx3
     import guan
@@ -832,7 +756,7 @@ def pdf_to_audio(pdf_path, rate=125, voice=1, read=1, save=0, compress=0, bitrat
         engine.runAndWait()
 
 # 将wav音频文件压缩成MP3音频文件
-@guan.function_decorator
+@guan.statistics_decorator
 def compress_wav_to_mp3(wav_path, output_filename='a.mp3', bitrate='16k'):
     # Note: Beside the installation of pydub, you may also need download FFmpeg on http://www.ffmpeg.org/download.html and add the bin path to the environment variable.
     from pydub import AudioSegment
@@ -840,7 +764,7 @@ def compress_wav_to_mp3(wav_path, output_filename='a.mp3', bitrate='16k'):
     sound.export(output_filename,format="mp3",bitrate=bitrate)
 
 # 播放学术单词
-@guan.function_decorator
+@guan.statistics_decorator
 def play_academic_words(reverse=0, random_on=0, bre_or_ame='ame', show_translation=1, show_link=1, translation_time=2, rest_time=1):
     from bs4 import BeautifulSoup
     import re
@@ -901,7 +825,7 @@ def play_academic_words(reverse=0, random_on=0, bre_or_ame='ame', show_translati
                 print()
 
 # 播放挑选过后的学术单词
-@guan.function_decorator
+@guan.statistics_decorator
 def play_selected_academic_words(reverse=0, random_on=0, bre_or_ame='ame', show_link=1, rest_time=3):
     from bs4 import BeautifulSoup
     import re
@@ -958,7 +882,7 @@ def play_selected_academic_words(reverse=0, random_on=0, bre_or_ame='ame', show_
                 print()
 
 # 播放元素周期表上的单词
-@guan.function_decorator
+@guan.statistics_decorator
 def play_element_words(random_on=0, show_translation=1, show_link=1, translation_time=2, rest_time=1):
     from bs4 import BeautifulSoup
     import re

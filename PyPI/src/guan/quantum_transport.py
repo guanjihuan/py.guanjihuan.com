@@ -2,7 +2,7 @@
 import guan
 
 # 计算电导
-@guan.function_decorator
+@guan.statistics_decorator
 def calculate_conductance(fermi_energy, h00, h01, length=100):
     import numpy as np
     import copy
@@ -22,7 +22,7 @@ def calculate_conductance(fermi_energy, h00, h01, length=100):
     return conductance
 
 # 计算不同费米能下的电导
-@guan.function_decorator
+@guan.statistics_decorator
 def calculate_conductance_with_fermi_energy_array(fermi_energy_array, h00, h01, length=100, print_show=0):
     import numpy as np
     import guan
@@ -37,7 +37,7 @@ def calculate_conductance_with_fermi_energy_array(fermi_energy_array, h00, h01, 
     return conductance_array
 
 # 计算在势垒散射下的电导
-@guan.function_decorator
+@guan.statistics_decorator
 def calculate_conductance_with_barrier(fermi_energy, h00, h01, length=100, barrier_length=20, barrier_potential=1):
     import numpy as np
     import copy
@@ -61,7 +61,7 @@ def calculate_conductance_with_barrier(fermi_energy, h00, h01, length=100, barri
     return conductance
 
 # 计算在无序散射下的电导
-@guan.function_decorator
+@guan.statistics_decorator
 def calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensity=2.0, disorder_concentration=1.0, length=100, calculation_times=1):
     import numpy as np
     import copy
@@ -90,7 +90,7 @@ def calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensi
     return conductance_averaged
 
 # 计算在无序垂直切片的散射下的电导
-@guan.function_decorator
+@guan.statistics_decorator
 def calculate_conductance_with_slice_disorder(fermi_energy, h00, h01, disorder_intensity=2.0, disorder_concentration=1.0, length=100):
     import numpy as np
     import copy
@@ -114,7 +114,7 @@ def calculate_conductance_with_slice_disorder(fermi_energy, h00, h01, disorder_i
     return conductance
 
 # 计算在无序水平切片的散射下的电导
-@guan.function_decorator
+@guan.statistics_decorator
 def calculate_conductance_with_disorder_inside_unit_cell_which_keeps_translational_symmetry(fermi_energy, h00, h01, disorder_intensity=2.0, disorder_concentration=1.0, length=100):
     import numpy as np
     import copy
@@ -139,7 +139,7 @@ def calculate_conductance_with_disorder_inside_unit_cell_which_keeps_translation
     return conductance
 
 # 计算在随机空位的散射下的电导
-@guan.function_decorator
+@guan.statistics_decorator
 def calculate_conductance_with_random_vacancy(fermi_energy, h00, h01, vacancy_concentration=0.5, vacancy_potential=1e9, length=100):
     import numpy as np
     import copy
@@ -164,7 +164,7 @@ def calculate_conductance_with_random_vacancy(fermi_energy, h00, h01, vacancy_co
     return conductance
 
 # 计算在不同无序散射强度下的电导
-@guan.function_decorator
+@guan.statistics_decorator
 def calculate_conductance_with_disorder_intensity_array(fermi_energy, h00, h01, disorder_intensity_array, disorder_concentration=1.0, length=100, calculation_times=1, print_show=0):
     import numpy as np
     import guan
@@ -181,7 +181,7 @@ def calculate_conductance_with_disorder_intensity_array(fermi_energy, h00, h01, 
     return conductance_array
 
 # 计算在不同无序浓度下的电导
-@guan.function_decorator
+@guan.statistics_decorator
 def calculate_conductance_with_disorder_concentration_array(fermi_energy, h00, h01, disorder_concentration_array, disorder_intensity=2.0, length=100, calculation_times=1, print_show=0):
     import numpy as np
     import guan
@@ -198,7 +198,7 @@ def calculate_conductance_with_disorder_concentration_array(fermi_energy, h00, h
     return conductance_array
 
 # 计算在不同无序散射长度下的电导
-@guan.function_decorator
+@guan.statistics_decorator
 def calculate_conductance_with_scattering_length_array(fermi_energy, h00, h01, length_array, disorder_intensity=2.0, disorder_concentration=1.0, calculation_times=1, print_show=0):
     import numpy as np
     import guan
@@ -215,7 +215,7 @@ def calculate_conductance_with_scattering_length_array(fermi_energy, h00, h01, l
     return conductance_array
 
 # 计算得到Gamma矩阵和格林函数，用于计算六端口的量子输运
-@guan.function_decorator
+@guan.statistics_decorator
 def get_gamma_array_and_green_for_six_terminal_transmission(fermi_energy, h00_for_lead_4, h01_for_lead_4, h00_for_lead_2, h01_for_lead_2, center_hamiltonian, width=10, length=50, internal_degree=1, moving_step_of_leads=10):
     import numpy as np
     import guan
@@ -262,7 +262,7 @@ def get_gamma_array_and_green_for_six_terminal_transmission(fermi_energy, h00_fo
     return gamma_array, green
 
 # 计算六端口的透射矩阵
-@guan.function_decorator
+@guan.statistics_decorator
 def calculate_six_terminal_transmission_matrix(fermi_energy, h00_for_lead_4, h01_for_lead_4, h00_for_lead_2, h01_for_lead_2, center_hamiltonian, width=10, length=50, internal_degree=1, moving_step_of_leads=10):
     import numpy as np
     import guan
@@ -287,7 +287,7 @@ def calculate_six_terminal_transmission_matrix(fermi_energy, h00_for_lead_4, h01
     return transmission_matrix
 
 # 计算从电极1出发的透射系数
-@guan.function_decorator
+@guan.statistics_decorator
 def calculate_six_terminal_transmissions_from_lead_1(fermi_energy, h00_for_lead_4, h01_for_lead_4, h00_for_lead_2, h01_for_lead_2, center_hamiltonian, width=10, length=50, internal_degree=1, moving_step_of_leads=10):
     import numpy as np
     import guan
@@ -300,7 +300,7 @@ def calculate_six_terminal_transmissions_from_lead_1(fermi_energy, h00_for_lead_
     return transmission_12, transmission_13, transmission_14, transmission_15, transmission_16
 
 # 通过动量k的虚部，判断通道为传播通道还是衰减通道
-@guan.function_decorator
+@guan.statistics_decorator
 def if_active_channel(k_of_channel):
     import numpy as np
     if np.abs(np.imag(k_of_channel))<1e-6:
@@ -310,7 +310,7 @@ def if_active_channel(k_of_channel):
     return if_active
 
 # 获取通道的动量和速度，用于计算散射矩阵
-@guan.function_decorator
+@guan.statistics_decorator
 def get_k_and_velocity_of_channel(fermi_energy, h00, h01):
     import numpy as np
     import math
@@ -347,7 +347,7 @@ def get_k_and_velocity_of_channel(fermi_energy, h00, h01):
     return k_of_channel, velocity_of_channel, eigenvalue, eigenvector
 
 # 获取分类后的动量和速度，以及U和F，用于计算散射矩阵
-@guan.function_decorator
+@guan.statistics_decorator
 def get_classified_k_velocity_u_and_f(fermi_energy, h00, h01):
     import numpy as np
     import guan
@@ -400,7 +400,7 @@ def get_classified_k_velocity_u_and_f(fermi_energy, h00, h01):
     return k_right, k_left, velocity_right, velocity_left, f_right, f_left, u_right, u_left, ind_right_active
 
 # 计算散射矩阵
-@guan.function_decorator
+@guan.statistics_decorator
 def calculate_scattering_matrix(fermi_energy, h00, h01, length=100):
     import numpy as np
     import math
@@ -446,7 +446,7 @@ def calculate_scattering_matrix(fermi_energy, h00, h01, length=100):
     return transmission_matrix, reflection_matrix, k_right, k_left, velocity_right, velocity_left, ind_right_active
 
 # 从散射矩阵中，获取散射矩阵的信息
-@guan.function_decorator
+@guan.statistics_decorator
 def information_of_scattering_matrix(transmission_matrix, reflection_matrix, k_right, k_left, velocity_right, velocity_left, ind_right_active):
     import numpy as np
     if np.array(transmission_matrix).shape==():
@@ -468,7 +468,7 @@ def information_of_scattering_matrix(transmission_matrix, reflection_matrix, k_r
     return number_of_active_channels, number_of_evanescent_channels, k_of_right_moving_active_channels, k_of_left_moving_active_channels, velocity_of_right_moving_active_channels, velocity_of_left_moving_active_channels, transmission_matrix_for_active_channels, reflection_matrix_for_active_channels, total_transmission_of_channels, total_conductance, total_reflection_of_channels, sum_of_transmission_and_reflection_of_channels
 
 # 已知h00和h01，计算散射矩阵并获得散射矩阵的信息
-@guan.function_decorator
+@guan.statistics_decorator
 def calculate_scattering_matrix_and_get_information(fermi_energy, h00, h01, length=100):
     import guan
     transmission_matrix, reflection_matrix, k_right, k_left, velocity_right, velocity_left, ind_right_active = guan.calculate_scattering_matrix(fermi_energy, h00, h01, length=length)
@@ -478,7 +478,7 @@ def calculate_scattering_matrix_and_get_information(fermi_energy, h00, h01, leng
     return number_of_active_channels, number_of_evanescent_channels, k_of_right_moving_active_channels, k_of_left_moving_active_channels, velocity_of_right_moving_active_channels, velocity_of_left_moving_active_channels, transmission_matrix_for_active_channels, reflection_matrix_for_active_channels, total_transmission_of_channels, total_conductance, total_reflection_of_channels, sum_of_transmission_and_reflection_of_channels
 
 # 从散射矩阵中打印出散射矩阵的信息
-@guan.function_decorator
+@guan.statistics_decorator
 def print_or_write_scattering_matrix_with_information_of_scattering_matrix(number_of_active_channels, number_of_evanescent_channels, k_of_right_moving_active_channels, k_of_left_moving_active_channels, velocity_of_right_moving_active_channels, velocity_of_left_moving_active_channels, transmission_matrix_for_active_channels, reflection_matrix_for_active_channels, total_transmission_of_channels, total_conductance, total_reflection_of_channels, sum_of_transmission_and_reflection_of_channels, print_show=1, write_file=0, filename='a', file_format='.txt'):
     if print_show == 1:
         print('\nActive channel (left or right) = ', number_of_active_channels)
@@ -523,7 +523,7 @@ def print_or_write_scattering_matrix_with_information_of_scattering_matrix(numbe
             f.write('Total conductance = '+str(total_conductance)+'\n')
 
 # 已知h00和h01，计算散射矩阵并打印出散射矩阵的信息
-@guan.function_decorator
+@guan.statistics_decorator
 def print_or_write_scattering_matrix(fermi_energy, h00, h01, length=100, print_show=1, write_file=0, filename='a', file_format='.txt'):
     import guan
     transmission_matrix, reflection_matrix, k_right, k_left, velocity_right, velocity_left, ind_right_active = guan.calculate_scattering_matrix(fermi_energy, h00, h01, length=length)
@@ -533,7 +533,7 @@ def print_or_write_scattering_matrix(fermi_energy, h00, h01, length=100, print_s
     guan.print_or_write_scattering_matrix_with_information_of_scattering_matrix(number_of_active_channels, number_of_evanescent_channels, k_of_right_moving_active_channels, k_of_left_moving_active_channels, velocity_of_right_moving_active_channels, velocity_of_left_moving_active_channels, transmission_matrix_for_active_channels, reflection_matrix_for_active_channels, total_transmission_of_channels, total_conductance, total_reflection_of_channels, sum_of_transmission_and_reflection_of_channels, print_show=print_show, write_file=write_file, filename=filename, file_format=file_format)
 
 # 在无序下，计算散射矩阵
-@guan.function_decorator
+@guan.statistics_decorator
 def calculate_scattering_matrix_with_disorder(fermi_energy, h00, h01, length=100, disorder_intensity=2.0, disorder_concentration=1.0):
     import numpy as np
     import math
@@ -583,7 +583,7 @@ def calculate_scattering_matrix_with_disorder(fermi_energy, h00, h01, length=100
     return transmission_matrix, reflection_matrix, k_right, k_left, velocity_right, velocity_left, ind_right_active
 
 # 在无序下，计算散射矩阵，并获取散射矩阵多次计算的平均信息
-@guan.function_decorator
+@guan.statistics_decorator
 def calculate_scattering_matrix_with_disorder_and_get_averaged_information(fermi_energy, h00, h01, length=100, disorder_intensity=2.0, disorder_concentration=1.0, calculation_times=1):
     import guan
     transmission_matrix_for_active_channels_averaged = 0

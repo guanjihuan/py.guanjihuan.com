@@ -2,7 +2,7 @@
 import guan
 
 # 导入plt, fig, ax
-@guan.function_decorator
+@guan.statistics_decorator
 def import_plt_and_start_fig_ax(adjust_bottom=0.2, adjust_left=0.2, labelsize=20):
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots()
@@ -14,7 +14,7 @@ def import_plt_and_start_fig_ax(adjust_bottom=0.2, adjust_left=0.2, labelsize=20
     return plt, fig, ax
 
 # 基于plt, fig, ax画图
-@guan.function_decorator
+@guan.statistics_decorator
 def plot_without_starting_fig(plt, fig, ax, x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, style='', y_min=None, y_max=None, linewidth=None, markersize=None, color=None): 
     if color==None:
         ax.plot(x_array, y_array, style, linewidth=linewidth, markersize=markersize)
@@ -31,7 +31,7 @@ def plot_without_starting_fig(plt, fig, ax, x_array, y_array, xlabel='x', ylabel
         ax.set_ylim(y_min, y_max)
 
 # 画图
-@guan.function_decorator
+@guan.statistics_decorator
 def plot(x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style='', y_min=None, y_max=None, linewidth=None, markersize=None, adjust_bottom=0.2, adjust_left=0.2): 
     import guan
     plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize)
@@ -52,7 +52,7 @@ def plot(x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, labels
     plt.close('all')
 
 # 一组横坐标数据，两组纵坐标数据画图
-@guan.function_decorator
+@guan.statistics_decorator
 def plot_two_array(x_array, y1_array, y2_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style_1='', style_2='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, markersize_1=None, markersize_2=None, adjust_bottom=0.2, adjust_left=0.2): 
     import guan
     plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize) 
@@ -78,7 +78,7 @@ def plot_two_array(x_array, y1_array, y2_array, xlabel='x', ylabel='y', title=''
     plt.close('all')
 
 # 两组横坐标数据，两组纵坐标数据画图
-@guan.function_decorator
+@guan.statistics_decorator
 def plot_two_array_with_two_horizontal_array(x1_array, x2_array, y1_array, y2_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style_1='', style_2='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, markersize_1=None, markersize_2=None, adjust_bottom=0.2, adjust_left=0.2): 
     import guan
     plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize) 
@@ -104,7 +104,7 @@ def plot_two_array_with_two_horizontal_array(x1_array, x2_array, y1_array, y2_ar
     plt.close('all')
 
 # 一组横坐标数据，三组纵坐标数据画图
-@guan.function_decorator
+@guan.statistics_decorator
 def plot_three_array(x_array, y1_array, y2_array, y3_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style_1='', style_2='', style_3='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, linewidth_3=None,markersize_1=None, markersize_2=None, markersize_3=None, adjust_bottom=0.2, adjust_left=0.2): 
     import guan
     plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize) 
@@ -133,7 +133,7 @@ def plot_three_array(x_array, y1_array, y2_array, y3_array, xlabel='x', ylabel='
     plt.close('all')
 
 # 三组横坐标数据，三组纵坐标数据画图
-@guan.function_decorator
+@guan.statistics_decorator
 def plot_three_array_with_three_horizontal_array(x1_array, x2_array, x3_array, y1_array, y2_array, y3_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style_1='', style_2='', style_3='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, linewidth_3=None,markersize_1=None, markersize_2=None, markersize_3=None, adjust_bottom=0.2, adjust_left=0.2): 
     import guan
     plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize) 
@@ -162,7 +162,7 @@ def plot_three_array_with_three_horizontal_array(x1_array, x2_array, x3_array, y
     plt.close('all')
 
 # 画三维图
-@guan.function_decorator
+@guan.statistics_decorator
 def plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z', title='', fontsize=20, labelsize=15, show=1, save=0, filename='a', file_format='.jpg', dpi=300, z_min=None, z_max=None, rcount=100, ccount=100): 
     import numpy as np
     import matplotlib.pyplot as plt
@@ -204,7 +204,7 @@ def plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z'
     plt.close('all')
 
 # 画Contour图
-@guan.function_decorator
+@guan.statistics_decorator
 def plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=15, cmap='jet', levels=None, show=1, save=0, filename='a', file_format='.jpg', dpi=300):
     import numpy as np
     import matplotlib.pyplot as plt
@@ -230,7 +230,7 @@ def plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', fon
     plt.close('all')
 
 # 画棋盘图/伪彩色图
-@guan.function_decorator
+@guan.statistics_decorator
 def plot_pcolor(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=15, cmap='jet', levels=None, show=1, save=0, filename='a', file_format='.jpg', dpi=300):  
     import numpy as np
     import matplotlib.pyplot as plt
@@ -256,7 +256,7 @@ def plot_pcolor(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', font
     plt.close('all')
 
 # 通过坐标画点和线
-@guan.function_decorator
+@guan.statistics_decorator
 def draw_dots_and_lines(coordinate_array, draw_dots=1, draw_lines=1, max_distance=1.1, line_style='-k', linewidth=1, dot_style='ro', markersize=3, show=1, save=0, filename='a', file_format='.eps', dpi=300):
     import numpy as np
     import matplotlib.pyplot as plt
@@ -284,7 +284,7 @@ def draw_dots_and_lines(coordinate_array, draw_dots=1, draw_lines=1, max_distanc
             plt.savefig(filename+file_format, dpi=dpi)
 
 # 合并两个图片
-@guan.function_decorator
+@guan.statistics_decorator
 def combine_two_images(image_path_array, figsize=(16,8), show=0, save=1, filename='a', file_format='.jpg', dpi=300):
     import numpy as np
     num = np.array(image_path_array).shape[0]
@@ -310,7 +310,7 @@ def combine_two_images(image_path_array, figsize=(16,8), show=0, save=1, filenam
         plt.close('all')
 
 # 合并三个图片
-@guan.function_decorator
+@guan.statistics_decorator
 def combine_three_images(image_path_array, figsize=(16,5), show=0, save=1, filename='a', file_format='.jpg', dpi=300):
     import numpy as np
     num = np.array(image_path_array).shape[0]
@@ -340,7 +340,7 @@ def combine_three_images(image_path_array, figsize=(16,5), show=0, save=1, filen
         plt.close('all')
 
 # 合并四个图片
-@guan.function_decorator
+@guan.statistics_decorator
 def combine_four_images(image_path_array, figsize=(16,16), show=0, save=1, filename='a', file_format='.jpg', dpi=300):
     import numpy as np
     num = np.array(image_path_array).shape[0]
@@ -374,7 +374,7 @@ def combine_four_images(image_path_array, figsize=(16,16), show=0, save=1, filen
         plt.close('all')
 
 # 对某个目录中的txt文件批量读取和画图
-@guan.function_decorator
+@guan.statistics_decorator
 def batch_reading_and_plotting(directory, xlabel='x', ylabel='y'):
     import re
     import os
@@ -387,7 +387,7 @@ def batch_reading_and_plotting(directory, xlabel='x', ylabel='y'):
                 guan.plot(x_array, y_array, xlabel=xlabel, ylabel=ylabel, title=filename, show=0, save=1, filename=filename)
 
 # 将图片制作GIF动画
-@guan.function_decorator
+@guan.statistics_decorator
 def make_gif(image_path_array, filename='a', duration=0.1):
     import imageio
     images = []
@@ -397,20 +397,20 @@ def make_gif(image_path_array, filename='a', duration=0.1):
     imageio.mimsave(filename+'.gif', images, 'GIF', duration=duration)
 
 # 选取Matplotlib颜色
-@guan.function_decorator
+@guan.statistics_decorator
 def color_matplotlib():
     color_array = ['tab:blue', 'tab:orange', 'tab:green', 'tab:red', 'tab:purple', 'tab:brown', 'tab:pink', 'tab:gray', 'tab:olive', 'tab:cyan']
     return color_array
 
 # 将变量存到文件
-@guan.function_decorator
+@guan.statistics_decorator
 def dump_data(data, filename, file_format='.txt'):
     import pickle
     with open(filename+file_format, 'wb') as f:
         pickle.dump(data, f)
 
 # 从文件中恢复数据到变量
-@guan.function_decorator
+@guan.statistics_decorator
 def load_data(filename, file_format='.txt'):
     import pickle
     with open(filename+file_format, 'rb') as f:
@@ -418,7 +418,7 @@ def load_data(filename, file_format='.txt'):
     return data
 
 # 读取文件中的一维数据（一行一组x和y）
-@guan.function_decorator
+@guan.statistics_decorator
 def read_one_dimensional_data(filename='a', file_format='.txt'): 
     import numpy as np
     f = open(filename+file_format, 'r')
@@ -442,7 +442,7 @@ def read_one_dimensional_data(filename='a', file_format='.txt'):
     return x_array, y_array
 
 # 读取文件中的一维数据（一行一组x和y）（支持复数形式）
-@guan.function_decorator
+@guan.statistics_decorator
 def read_one_dimensional_complex_data(filename='a', file_format='.txt'): 
     import numpy as np
     f = open(filename+file_format, 'r')
@@ -466,7 +466,7 @@ def read_one_dimensional_complex_data(filename='a', file_format='.txt'):
     return x_array, y_array
 
 # 读取文件中的二维数据（第一行和第一列分别为横纵坐标）
-@guan.function_decorator
+@guan.statistics_decorator
 def read_two_dimensional_data(filename='a', file_format='.txt'): 
     import numpy as np
     f = open(filename+file_format, 'r')
@@ -496,7 +496,7 @@ def read_two_dimensional_data(filename='a', file_format='.txt'):
     return x_array, y_array, matrix
 
 # 读取文件中的二维数据（第一行和第一列分别为横纵坐标）（支持复数形式）
-@guan.function_decorator
+@guan.statistics_decorator
 def read_two_dimensional_complex_data(filename='a', file_format='.txt'): 
     import numpy as np
     f = open(filename+file_format, 'r')
@@ -526,27 +526,27 @@ def read_two_dimensional_complex_data(filename='a', file_format='.txt'):
     return x_array, y_array, matrix
 
 # 读取文件中的二维数据（不包括x和y）
-@guan.function_decorator
+@guan.statistics_decorator
 def read_two_dimensional_data_without_xy_array(filename='a', file_format='.txt'):
     import numpy as np
     matrix = np.loadtxt(filename+file_format)
     return matrix
 
 # 打开文件用于新增内容
-@guan.function_decorator
+@guan.statistics_decorator
 def open_file(filename='a', file_format='.txt'):
     f = open(filename+file_format, 'a', encoding='UTF-8')
     return f
 
 # 在文件中写入一维数据（一行一组x和y）
-@guan.function_decorator
+@guan.statistics_decorator
 def write_one_dimensional_data(x_array, y_array, filename='a', file_format='.txt'):
     import guan
     with open(filename+file_format, 'w', encoding='UTF-8') as f:
         guan.write_one_dimensional_data_without_opening_file(x_array, y_array, f)
 
 # 在文件中写入一维数据（一行一组x和y）（需要输入已打开的文件）
-@guan.function_decorator
+@guan.statistics_decorator
 def write_one_dimensional_data_without_opening_file(x_array, y_array, f):
     import numpy as np
     x_array = np.array(x_array)
@@ -563,14 +563,14 @@ def write_one_dimensional_data_without_opening_file(x_array, y_array, f):
         i0 += 1
 
 # 在文件中写入二维数据（第一行和第一列分别为横纵坐标）
-@guan.function_decorator
+@guan.statistics_decorator
 def write_two_dimensional_data(x_array, y_array, matrix, filename='a', file_format='.txt'):
     import guan
     with open(filename+file_format, 'w', encoding='UTF-8') as f:
         guan.write_two_dimensional_data_without_opening_file(x_array, y_array, matrix, f)
 
 # 在文件中写入二维数据（第一行和第一列分别为横纵坐标）（需要输入已打开的文件）
-@guan.function_decorator
+@guan.statistics_decorator
 def write_two_dimensional_data_without_opening_file(x_array, y_array, matrix, f):
     import numpy as np
     x_array = np.array(x_array)
@@ -591,14 +591,14 @@ def write_two_dimensional_data_without_opening_file(x_array, y_array, matrix, f)
         i0 += 1
 
 # 在文件中写入二维数据（不包括x和y）
-@guan.function_decorator
+@guan.statistics_decorator
 def write_two_dimensional_data_without_xy_array(matrix, filename='a', file_format='.txt'):
     import guan
     with open(filename+file_format, 'w', encoding='UTF-8') as f:
         guan.write_two_dimensional_data_without_xy_array_and_without_opening_file(matrix, f)
 
 # 在文件中写入二维数据（不包括x和y）（需要输入已打开的文件）
-@guan.function_decorator
+@guan.statistics_decorator
 def write_two_dimensional_data_without_xy_array_and_without_opening_file(matrix, f):
     for row in matrix:
         for element in row:
@@ -607,7 +607,7 @@ def write_two_dimensional_data_without_xy_array_and_without_opening_file(matrix,
     import guan
 
 # 以显示编号的样式，打印数组
-@guan.function_decorator
+@guan.statistics_decorator
 def print_array_with_index(array, show_index=1, index_type=0):
     if show_index==0:
         for i0 in array:
@@ -625,7 +625,7 @@ def print_array_with_index(array, show_index=1, index_type=0):
                 print(index, i0)
 
 # 获取目录中的所有文件名
-@guan.function_decorator
+@guan.statistics_decorator
 def get_all_filenames_in_directory(directory='./', file_format=None):
     import os
     file_list = []
@@ -639,7 +639,7 @@ def get_all_filenames_in_directory(directory='./', file_format=None):
     return file_list
 
 # 读取文件夹中某种文本类型的文件路径和内容
-@guan.function_decorator
+@guan.statistics_decorator
 def read_text_files_in_directory(directory='./', file_format='.md'):
     import os
     file_list = []
@@ -654,7 +654,7 @@ def read_text_files_in_directory(directory='./', file_format='.md'):
     return file_list, content_array
 
 # 在多个文本文件中查找关键词
-@guan.function_decorator
+@guan.statistics_decorator
 def find_words_in_multiple_files(words, directory='./', file_format='.md'):
     import guan
     file_list, content_array = guan.read_text_files_in_directory(directory=directory, file_format=file_format)
@@ -666,7 +666,7 @@ def find_words_in_multiple_files(words, directory='./', file_format='.md'):
     return file_list_with_words
 
 # 并行计算前的预处理，把参数分成多份
-@guan.function_decorator
+@guan.statistics_decorator
 def preprocess_for_parallel_calculations(parameter_array_all, cpus=1, task_index=0):
     import numpy as np
     num_all = np.array(parameter_array_all).shape[0]
@@ -682,14 +682,14 @@ def preprocess_for_parallel_calculations(parameter_array_all, cpus=1, task_index
     return parameter_array
 
 # 随机获得一个整数，左闭右闭
-@guan.function_decorator
+@guan.statistics_decorator
 def get_random_number(start=0, end=1):
     import random
     rand_number = random.randint(start, end)   # 左闭右闭 [start, end]
     return rand_number
 
 # 选取一个种子生成固定的随机整数
-@guan.function_decorator
+@guan.statistics_decorator
 def generate_random_int_number_for_a_specific_seed(seed=0, x_min=0, x_max=10):
     import numpy as np
     np.random.seed(seed)
@@ -697,14 +697,14 @@ def generate_random_int_number_for_a_specific_seed(seed=0, x_min=0, x_max=10):
     return rand_num
 
 # 使用jieba软件包进行分词
-@guan.function_decorator
+@guan.statistics_decorator
 def divide_text_into_words(text):
     import jieba
     words = jieba.lcut(text)
     return words
 
 # 判断某个字符是中文还是英文或其他
-@guan.function_decorator
+@guan.statistics_decorator
 def check_Chinese_or_English(a):  
     if '\u4e00' <= a <= '\u9fff' :  
         word_type = 'Chinese'  
@@ -715,7 +715,7 @@ def check_Chinese_or_English(a):
     return word_type
 
 # 统计中英文文本的字数，默认不包括空格
-@guan.function_decorator
+@guan.statistics_decorator
 def count_words(text, include_space=0, show_words=0):
     import jieba
     import guan
@@ -743,7 +743,7 @@ def count_words(text, include_space=0, show_words=0):
     return num_words
 
 # 将RGB转成HEX
-@guan.function_decorator
+@guan.statistics_decorator
 def rgb_to_hex(rgb, pound=1):
     if pound==0:
         return '%02x%02x%02x' % rgb
@@ -751,14 +751,14 @@ def rgb_to_hex(rgb, pound=1):
         return '#%02x%02x%02x' % rgb
 
 # 将HEX转成RGB
-@guan.function_decorator
+@guan.statistics_decorator
 def hex_to_rgb(hex):
     hex = hex.lstrip('#')
     length = len(hex)
     return tuple(int(hex[i:i+length//3], 16) for i in range(0, length, length//3))
 
 # 使用MD5进行散列加密
-@guan.function_decorator
+@guan.statistics_decorator
 def encryption_MD5(password, salt=''):
     import hashlib
     password = salt+password
@@ -766,7 +766,7 @@ def encryption_MD5(password, salt=''):
     return hashed_password
 
 # 使用SHA-256进行散列加密
-@guan.function_decorator
+@guan.statistics_decorator
 def encryption_SHA_256(password, salt=''):
     import hashlib
     password = salt+password
@@ -774,7 +774,7 @@ def encryption_SHA_256(password, salt=''):
     return hashed_password
 
 # 自动先后运行程序
-@guan.function_decorator
+@guan.statistics_decorator
 def run_programs_sequentially(program_files=['./a.py', './b.py'], execute='python ', show_time=0):
     import os
     import time
@@ -794,20 +794,20 @@ def run_programs_sequentially(program_files=['./a.py', './b.py'], execute='pytho
         print('Total running time = '+str((end-start)/60)+' min')
 
 # 如果不存在文件夹，则新建文件夹
-@guan.function_decorator
+@guan.statistics_decorator
 def make_directory(directory='./test'):
     import os
     if not os.path.exists(directory):
         os.makedirs(directory)
 
 # 复制一份文件
-@guan.function_decorator
+@guan.statistics_decorator
 def copy_file(file1='./a.txt', file2='./b.txt'):
     import shutil
     shutil.copy(file1, file2)
 
 # 拼接两个PDF文件
-@guan.function_decorator
+@guan.statistics_decorator
 def combine_two_pdf_files(input_file_1='a.pdf', input_file_2='b.pdf', output_file='combined_file.pdf'):
     import PyPDF2
     output_pdf = PyPDF2.PdfWriter()

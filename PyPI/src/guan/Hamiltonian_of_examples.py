@@ -2,7 +2,7 @@
 import guan
 
 # 构建一维的有限尺寸体系哈密顿量（可设置是否为周期边界条件）
-@guan.function_decorator
+@guan.statistics_decorator
 def hamiltonian_of_finite_size_system_along_one_direction(N, on_site=0, hopping=1, period=0):
     import numpy as np
     on_site = np.array(on_site)
@@ -23,7 +23,7 @@ def hamiltonian_of_finite_size_system_along_one_direction(N, on_site=0, hopping=
     return hamiltonian
 
 # 构建二维的方格子有限尺寸体系哈密顿量（可设置是否为周期边界条件）
-@guan.function_decorator
+@guan.statistics_decorator
 def hamiltonian_of_finite_size_system_along_two_directions_for_square_lattice(N1, N2, on_site=0, hopping_1=1, hopping_2=1, period_1=0, period_2=0):
     import numpy as np
     on_site = np.array(on_site)
@@ -56,7 +56,7 @@ def hamiltonian_of_finite_size_system_along_two_directions_for_square_lattice(N1
     return hamiltonian
 
 # 构建三维的立方格子有限尺寸体系哈密顿量（可设置是否为周期边界条件）
-@guan.function_decorator
+@guan.statistics_decorator
 def hamiltonian_of_finite_size_system_along_three_directions_for_cubic_lattice(N1, N2, N3, on_site=0, hopping_1=1, hopping_2=1, hopping_3=1, period_1=0, period_2=0, period_3=0):
     import numpy as np
     on_site = np.array(on_site)
@@ -105,7 +105,7 @@ def hamiltonian_of_finite_size_system_along_three_directions_for_cubic_lattice(N
     return hamiltonian
 
 # 构建有限尺寸的SSH模型哈密顿量
-@guan.function_decorator
+@guan.statistics_decorator
 def hamiltonian_of_finite_size_ssh_model(N, v=0.6, w=1, onsite_1=0, onsite_2=0, period=1):
     import numpy as np
     hamiltonian = np.zeros((2*N, 2*N))
@@ -123,7 +123,7 @@ def hamiltonian_of_finite_size_ssh_model(N, v=0.6, w=1, onsite_1=0, onsite_2=0, 
     return hamiltonian
 
 # 获取Zigzag边的石墨烯条带的元胞间跃迁
-@guan.function_decorator
+@guan.statistics_decorator
 def get_hopping_term_of_graphene_ribbon_along_zigzag_direction(N, eta=0):
     import numpy as np
     hopping = np.zeros((4*N, 4*N), dtype=complex)
@@ -137,7 +137,7 @@ def get_hopping_term_of_graphene_ribbon_along_zigzag_direction(N, eta=0):
     return hopping
 
 # 构建有限尺寸的石墨烯哈密顿量（可设置是否为周期边界条件）
-@guan.function_decorator
+@guan.statistics_decorator
 def hamiltonian_of_finite_size_system_along_two_directions_for_graphene(N1, N2, period_1=0, period_2=0):
     import numpy as np
     import guan
@@ -149,7 +149,7 @@ def hamiltonian_of_finite_size_system_along_two_directions_for_graphene(N1, N2, 
     return hamiltonian
 
 # 获取石墨烯有效模型沿着x方向的在位能和跃迁项（其中，动量qy为参数）
-@guan.function_decorator
+@guan.statistics_decorator
 def get_onsite_and_hopping_terms_of_2d_effective_graphene_along_one_direction(qy, t=1, staggered_potential=0, eta=0, valley_index=0):
     import numpy as np
     constant = -np.sqrt(3)/2
@@ -170,7 +170,7 @@ def get_onsite_and_hopping_terms_of_2d_effective_graphene_along_one_direction(qy
     return h00, h01
 
 # 获取BHZ模型的在位能和跃迁项
-@guan.function_decorator
+@guan.statistics_decorator
 def get_onsite_and_hopping_terms_of_bhz_model(A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01, a=1):
     import numpy as np
     E_s = C+M-4*(D+B)/(a**2)
@@ -204,7 +204,7 @@ def get_onsite_and_hopping_terms_of_bhz_model(A=0.3645/5, B=-0.686/25, C=0, D=-0
     return H0, H1, H2
 
 # 获取半个BHZ模型的在位能和跃迁项（自旋向上）
-@guan.function_decorator
+@guan.statistics_decorator
 def get_onsite_and_hopping_terms_of_half_bhz_model_for_spin_up(A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01, a=1):
     import numpy as np
     E_s = C+M-4*(D+B)/(a**2)
@@ -228,7 +228,7 @@ def get_onsite_and_hopping_terms_of_half_bhz_model_for_spin_up(A=0.3645/5, B=-0.
     return H0, H1, H2
 
 # 获取半个BHZ模型的在位能和跃迁项（自旋向下）
-@guan.function_decorator
+@guan.statistics_decorator
 def get_onsite_and_hopping_terms_of_half_bhz_model_for_spin_down(A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01, a=1):
     import numpy as np
     E_s = C+M-4*(D+B)/(a**2)
@@ -252,21 +252,21 @@ def get_onsite_and_hopping_terms_of_half_bhz_model_for_spin_down(A=0.3645/5, B=-
     return H0, H1, H2
 
 # 一维链的哈密顿量（倒空间）
-@guan.function_decorator
+@guan.statistics_decorator
 def hamiltonian_of_simple_chain(k):
     import guan
     hamiltonian = guan.one_dimensional_fourier_transform(k, unit_cell=0, hopping=1)
     return hamiltonian
 
 # 二维方格子的哈密顿量（倒空间）
-@guan.function_decorator
+@guan.statistics_decorator
 def hamiltonian_of_square_lattice(k1, k2):
     import guan
     hamiltonian = guan.two_dimensional_fourier_transform_for_square_lattice(k1, k2, unit_cell=0, hopping_1=1, hopping_2=1)
     return hamiltonian
 
 # 准一维方格子条带的哈密顿量（倒空间）
-@guan.function_decorator
+@guan.statistics_decorator
 def hamiltonian_of_square_lattice_in_quasi_one_dimension(k, N=10, period=0):
     import numpy as np
     import guan
@@ -284,14 +284,14 @@ def hamiltonian_of_square_lattice_in_quasi_one_dimension(k, N=10, period=0):
     return hamiltonian
 
 # 三维立方格子的哈密顿量（倒空间）
-@guan.function_decorator
+@guan.statistics_decorator
 def hamiltonian_of_cubic_lattice(k1, k2, k3):
     import guan
     hamiltonian = guan.three_dimensional_fourier_transform_for_cubic_lattice(k1, k2, k3, unit_cell=0, hopping_1=1, hopping_2=1, hopping_3=1)
     return hamiltonian
 
 # SSH模型的哈密顿量（倒空间）
-@guan.function_decorator
+@guan.statistics_decorator
 def hamiltonian_of_ssh_model(k, v=0.6, w=1):
     import numpy as np
     import cmath
@@ -301,7 +301,7 @@ def hamiltonian_of_ssh_model(k, v=0.6, w=1):
     return hamiltonian
 
 # 石墨烯的哈密顿量（倒空间）
-@guan.function_decorator
+@guan.statistics_decorator
 def hamiltonian_of_graphene(k1, k2, staggered_potential=0, t=1, a='default'):
     import numpy as np
     import cmath
@@ -318,7 +318,7 @@ def hamiltonian_of_graphene(k1, k2, staggered_potential=0, t=1, a='default'):
     return hamiltonian
 
 # 石墨烯有效模型的哈密顿量（倒空间）
-@guan.function_decorator
+@guan.statistics_decorator
 def effective_hamiltonian_of_graphene(qx, qy, t=1, staggered_potential=0, valley_index=0):
     import numpy as np
     hamiltonian = np.zeros((2, 2), dtype=complex)
@@ -334,7 +334,7 @@ def effective_hamiltonian_of_graphene(qx, qy, t=1, staggered_potential=0, valley
     return hamiltonian
 
 # 石墨烯有效模型离散化后的哈密顿量（倒空间）
-@guan.function_decorator
+@guan.statistics_decorator
 def effective_hamiltonian_of_graphene_after_discretization(qx, qy, t=1, staggered_potential=0, valley_index=0):
     import numpy as np
     hamiltonian = np.zeros((2, 2), dtype=complex)
@@ -350,7 +350,7 @@ def effective_hamiltonian_of_graphene_after_discretization(qx, qy, t=1, staggere
     return hamiltonian
 
 # 准一维Zigzag边石墨烯条带的哈密顿量（倒空间）
-@guan.function_decorator
+@guan.statistics_decorator
 def hamiltonian_of_graphene_with_zigzag_in_quasi_one_dimension(k, N=10, M=0, t=1, period=0):
     import numpy as np
     import guan
@@ -380,7 +380,7 @@ def hamiltonian_of_graphene_with_zigzag_in_quasi_one_dimension(k, N=10, M=0, t=1
     return hamiltonian
 
 # Haldane模型的哈密顿量（倒空间）
-@guan.function_decorator
+@guan.statistics_decorator
 def hamiltonian_of_haldane_model(k1, k2, M=2/3, t1=1, t2=1/3, phi='default', a='default'):
     import numpy as np
     import cmath
@@ -402,7 +402,7 @@ def hamiltonian_of_haldane_model(k1, k2, M=2/3, t1=1, t2=1/3, phi='default', a='
     return hamiltonian
 
 # 准一维Haldane模型条带的哈密顿量（倒空间）
-@guan.function_decorator
+@guan.statistics_decorator
 def hamiltonian_of_haldane_model_in_quasi_one_dimension(k, N=10, M=2/3, t1=1, t2=1/3, phi='default', period=0):
     import numpy as np
     import cmath
@@ -457,7 +457,7 @@ def hamiltonian_of_haldane_model_in_quasi_one_dimension(k, N=10, M=2/3, t1=1, t2
     return hamiltonian
 
 # 一个量子反常霍尔效应的哈密顿量（倒空间）
-@guan.function_decorator
+@guan.statistics_decorator
 def hamiltonian_of_one_QAH_model(k1, k2, t1=1, t2=1, t3=0.5, m=-1):
     import numpy as np
     import math
@@ -469,7 +469,7 @@ def hamiltonian_of_one_QAH_model(k1, k2, t1=1, t2=1, t3=0.5, m=-1):
     return hamiltonian
 
 # BHZ模型的哈密顿量（倒空间）
-@guan.function_decorator
+@guan.statistics_decorator
 def hamiltonian_of_bhz_model(kx, ky, A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01):
     import numpy as np
     import math
@@ -488,7 +488,7 @@ def hamiltonian_of_bhz_model(kx, ky, A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, 
     return hamiltonian
 
 # 半BHZ模型的哈密顿量（自旋向上）（倒空间）
-@guan.function_decorator
+@guan.statistics_decorator
 def hamiltonian_of_half_bhz_model_for_spin_up(kx, ky, A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01):
     import numpy as np
     import math
@@ -503,7 +503,7 @@ def hamiltonian_of_half_bhz_model_for_spin_up(kx, ky, A=0.3645/5, B=-0.686/25, C
     return hamiltonian
 
 # 半BHZ模型的哈密顿量（自旋向下）（倒空间）
-@guan.function_decorator
+@guan.statistics_decorator
 def hamiltonian_of_half_bhz_model_for_spin_down(kx, ky, A=0.3645/5, B=-0.686/25, C=0, D=-0.512/25, M=-0.01):
     import numpy as np
     import math
@@ -518,7 +518,7 @@ def hamiltonian_of_half_bhz_model_for_spin_down(kx, ky, A=0.3645/5, B=-0.686/25,
     return hamiltonian
 
 # BBH模型的哈密顿量（倒空间）
-@guan.function_decorator
+@guan.statistics_decorator
 def hamiltonian_of_bbh_model(kx, ky, gamma_x=0.5, gamma_y=0.5, lambda_x=1, lambda_y=1):
     import numpy as np
     import cmath
@@ -538,7 +538,7 @@ def hamiltonian_of_bbh_model(kx, ky, gamma_x=0.5, gamma_y=0.5, lambda_x=1, lambd
     return hamiltonian
 
 # Kagome模型的哈密顿量（倒空间）
-@guan.function_decorator
+@guan.statistics_decorator
 def hamiltonian_of_kagome_lattice(kx, ky, t=1):
     import numpy as np
     import math

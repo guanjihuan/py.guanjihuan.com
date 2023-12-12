@@ -1,7 +1,23 @@
 # Guan is an open-source python package developed and maintained by https://www.guanjihuan.com/about (Ji-Huan Guan, 关济寰). The primary location of this package is on website https://py.guanjihuan.com. The GitHub location of this package is on https://github.com/guanjihuan/py.guanjihuan.com.
 
-# 函数的装饰器，用于软件包的统计
-def function_decorator(func):
+# 函数的装饰器，用于获取计算时间
+def timer_decorator(func, time_type=0):
+    import time
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        result = func(*args, **kwargs)
+        end = time.time()
+        if time_type == 0:
+            print(f"Running time of {func.__name__}: {end - start} seconds")
+        elif time_type == 1:
+            print(f"Running time of {func.__name__}: {(end - start)/60} minutes")
+        elif time_type == 2:
+            print(f"Running time of {func.__name__}: {(end - start)/3600} hours")
+        return result
+    return wrapper
+
+# 函数的装饰器，用于GUAN软件包的统计
+def statistics_decorator(func):
     def wrapper(*args, **kwargs):
         result = func(*args, **kwargs)
         import guan

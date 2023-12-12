@@ -2,7 +2,7 @@
 import guan
 
 # 计算体系的总态密度
-@guan.function_decorator
+@guan.statistics_decorator
 def total_density_of_states(fermi_energy, hamiltonian, broadening=0.01):
     import numpy as np
     import math
@@ -12,7 +12,7 @@ def total_density_of_states(fermi_energy, hamiltonian, broadening=0.01):
     return total_dos
 
 # 对于不同费米能，计算体系的总态密度
-@guan.function_decorator
+@guan.statistics_decorator
 def total_density_of_states_with_fermi_energy_array(fermi_energy_array, hamiltonian, broadening=0.01, print_show=0):
     import numpy as np
     import guan
@@ -27,7 +27,7 @@ def total_density_of_states_with_fermi_energy_array(fermi_energy_array, hamilton
     return total_dos_array
 
 # 计算方格子的局域态密度（其中，哈密顿量的维度为：dim_hamiltonian = N1*N2*internal_degree）
-@guan.function_decorator
+@guan.statistics_decorator
 def local_density_of_states_for_square_lattice(fermi_energy, hamiltonian, N1, N2, internal_degree=1, broadening=0.01):
     import numpy as np
     import math
@@ -41,7 +41,7 @@ def local_density_of_states_for_square_lattice(fermi_energy, hamiltonian, N1, N2
     return local_dos
 
 # 计算立方格子的局域态密度（其中，哈密顿量的维度为：dim_hamiltonian = N1*N2*N3*internal_degree）
-@guan.function_decorator
+@guan.statistics_decorator
 def local_density_of_states_for_cubic_lattice(fermi_energy, hamiltonian, N1, N2, N3, internal_degree=1, broadening=0.01):
     import numpy as np
     import math
@@ -56,7 +56,7 @@ def local_density_of_states_for_cubic_lattice(fermi_energy, hamiltonian, N1, N2,
     return local_dos
 
 # 利用Dyson方程，计算方格子的局域态密度（其中，h00的维度为：dim_h00 = N2*internal_degree）
-@guan.function_decorator
+@guan.statistics_decorator
 def local_density_of_states_for_square_lattice_using_dyson_equation(fermi_energy, h00, h01, N2, N1, internal_degree=1, broadening=0.01):
     import numpy as np
     import math
@@ -90,7 +90,7 @@ def local_density_of_states_for_square_lattice_using_dyson_equation(fermi_energy
     return local_dos
 
 # 利用Dyson方程，计算立方格子的局域态密度（其中，h00的维度为：dim_h00 = N2*N3*internal_degree）
-@guan.function_decorator
+@guan.statistics_decorator
 def local_density_of_states_for_cubic_lattice_using_dyson_equation(fermi_energy, h00, h01, N3, N2, N1, internal_degree=1, broadening=0.01):
     import numpy as np
     import math
@@ -125,7 +125,7 @@ def local_density_of_states_for_cubic_lattice_using_dyson_equation(fermi_energy,
     return local_dos
 
 # 利用Dyson方程，计算方格子条带（考虑了电极自能）的局域态密度（其中，h00的维度为：dim_h00 = N2*internal_degree）
-@guan.function_decorator
+@guan.statistics_decorator
 def local_density_of_states_for_square_lattice_with_self_energy_using_dyson_equation(fermi_energy, h00, h01, N2, N1, right_self_energy, left_self_energy, internal_degree=1, broadening=0.01):
     import numpy as np
     import math

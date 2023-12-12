@@ -2,7 +2,7 @@
 import guan
 
 # 通过高效法计算方格子的陈数
-@guan.function_decorator
+@guan.statistics_decorator
 def calculate_chern_number_for_square_lattice_with_efficient_method(hamiltonian_function, precision=100, print_show=0):
     import numpy as np
     import math
@@ -41,7 +41,7 @@ def calculate_chern_number_for_square_lattice_with_efficient_method(hamiltonian_
     return chern_number
 
 # 通过高效法计算方格子的陈数（可计算简并的情况）
-@guan.function_decorator
+@guan.statistics_decorator
 def calculate_chern_number_for_square_lattice_with_efficient_method_for_degenerate_case(hamiltonian_function, index_of_bands=[0, 1], precision=100, print_show=0): 
     import numpy as np
     import math
@@ -111,7 +111,7 @@ def calculate_chern_number_for_square_lattice_with_efficient_method_for_degenera
     return chern_number
 
 # 通过Wilson loop方法计算方格子的陈数
-@guan.function_decorator
+@guan.statistics_decorator
 def calculate_chern_number_for_square_lattice_with_wilson_loop(hamiltonian_function, precision_of_plaquettes=20, precision_of_wilson_loop=5, print_show=0):
     import numpy as np
     import math
@@ -156,7 +156,7 @@ def calculate_chern_number_for_square_lattice_with_wilson_loop(hamiltonian_funct
     return chern_number
 
 # 通过Wilson loop方法计算方格子的陈数（可计算简并的情况）
-@guan.function_decorator
+@guan.statistics_decorator
 def calculate_chern_number_for_square_lattice_with_wilson_loop_for_degenerate_case(hamiltonian_function, index_of_bands=[0, 1], precision_of_plaquettes=20, precision_of_wilson_loop=5, print_show=0):
     import numpy as np
     import math
@@ -220,7 +220,7 @@ def calculate_chern_number_for_square_lattice_with_wilson_loop_for_degenerate_ca
     return chern_number
 
 # 通过高效法计算贝利曲率
-@guan.function_decorator
+@guan.statistics_decorator
 def calculate_berry_curvature_with_efficient_method(hamiltonian_function, k_min='default', k_max='default', precision=100, print_show=0):
     import numpy as np
     import cmath
@@ -267,7 +267,7 @@ def calculate_berry_curvature_with_efficient_method(hamiltonian_function, k_min=
     return k_array, berry_curvature_array
 
 # 通过高效法计算贝利曲率（可计算简并的情况）
-@guan.function_decorator
+@guan.statistics_decorator
 def calculate_berry_curvature_with_efficient_method_for_degenerate_case(hamiltonian_function, index_of_bands=[0, 1], k_min='default', k_max='default', precision=100, print_show=0):
     import numpy as np
     import cmath
@@ -346,7 +346,7 @@ def calculate_berry_curvature_with_efficient_method_for_degenerate_case(hamilton
     return k_array, berry_curvature_array
 
 # 通过Wilson loop方法计算贝里曲率
-@guan.function_decorator
+@guan.statistics_decorator
 def calculate_berry_curvature_with_wilson_loop(hamiltonian_function, k_min='default', k_max='default', precision_of_plaquettes=20, precision_of_wilson_loop=5, print_show=0):
     import numpy as np
     import math
@@ -403,7 +403,7 @@ def calculate_berry_curvature_with_wilson_loop(hamiltonian_function, k_min='defa
     return k_array, berry_curvature_array
 
 # 通过Wilson loop方法计算贝里曲率（可计算简并的情况）
-@guan.function_decorator
+@guan.statistics_decorator
 def calculate_berry_curvature_with_wilson_loop_for_degenerate_case(hamiltonian_function, index_of_bands=[0, 1], k_min='default', k_max='default', precision_of_plaquettes=20, precision_of_wilson_loop=5, print_show=0):
     import numpy as np
     import math
@@ -475,7 +475,7 @@ def calculate_berry_curvature_with_wilson_loop_for_degenerate_case(hamiltonian_f
     return k_array, berry_curvature_array
 
 # 计算蜂窝格子的陈数（高效法）
-@guan.function_decorator
+@guan.statistics_decorator
 def calculate_chern_number_for_honeycomb_lattice(hamiltonian_function, a=1, precision=300, print_show=0):
     import numpy as np
     import math
@@ -519,7 +519,7 @@ def calculate_chern_number_for_honeycomb_lattice(hamiltonian_function, a=1, prec
     return chern_number
 
 # 计算Wilson loop
-@guan.function_decorator
+@guan.statistics_decorator
 def calculate_wilson_loop(hamiltonian_function, k_min='default', k_max='default', precision=100, print_show=0):
     import numpy as np
     import guan
