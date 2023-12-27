@@ -552,3 +552,22 @@ def hamiltonian_of_kagome_lattice(kx, ky, t=1):
     hamiltonian = hamiltonian + hamiltonian.transpose().conj()
     hamiltonian = -t*hamiltonian
     return hamiltonian
+
+# 超蜂窝晶格的哈密顿量（倒空间）
+@guan.statistics_decorator
+def hamiltonian_of_hyperhoneycomb_lattice(kx, ky, kz, t=1, a=1):
+    import cmath
+    import numpy as np
+    hamiltonian = np.zeros((4, 4), dtype=complex)
+    fx = (t*cmath.exp(1j*np.sqrt(3)/2*kx*a)+t*cmath.exp(-1j*np.sqrt(3)/2*kx*a))*cmath.exp(1j*kz/2*a)
+    fy = (t*cmath.exp(1j*np.sqrt(3)/2*ky*a)+t*cmath.exp(-1j*np.sqrt(3)/2*ky*a))*cmath.exp(1j*kz/2*a)
+    fz = cmath.exp(1j*kz*a)
+    hamiltonian[0, 1] = fx
+    hamiltonian[1, 0] = np.conj(fx)
+    hamiltonian[2, 3] = fy
+    hamiltonian[3, 2] = np.conj(fy)
+    hamiltonian[1, 2] = fz
+    hamiltonian[2, 1] = np.conj(fz)
+    hamiltonian[3, 0] = fz
+    hamiltonian[0, 3] = np.conj(fz)
+    return hamiltonian
