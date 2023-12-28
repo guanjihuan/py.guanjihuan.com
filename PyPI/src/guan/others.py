@@ -203,6 +203,76 @@ def all_stock_symbols():
     stock_symbols = stock_data[:, 1]
     return stock_symbols
 
+# 股票代码的分类
+@guan.statistics_decorator
+def stock_symbols_classification():
+    import guan
+    import re
+    stock_symbols = guan.all_stock_symbols()
+    # 上交所主板
+    stock_symbols_60 = []
+    for stock_symbol in stock_symbols:
+        find_600 = re.findall(r'^600', stock_symbol)
+        find_601 = re.findall(r'^601', stock_symbol)
+        find_603 = re.findall(r'^603', stock_symbol)
+        find_605 = re.findall(r'^605', stock_symbol)
+        if find_600 != [] or find_601 != [] or find_603 != [] or find_605 != []:
+            stock_symbols_60.append(stock_symbol)
+    # 深交所主板
+    stock_symbols_00 = []
+    for stock_symbol in stock_symbols:
+        find_000 = re.findall(r'^000', stock_symbol)
+        find_001 = re.findall(r'^001', stock_symbol)
+        find_002 = re.findall(r'^002', stock_symbol)
+        find_003 = re.findall(r'^003', stock_symbol)
+        if find_000 != [] or find_001 != [] or find_002 != [] or find_003 != []:
+            stock_symbols_00.append(stock_symbol)
+    # 创业板
+    stock_symbols_30 = []
+    for stock_symbol in stock_symbols:
+        find_300 = re.findall(r'^300', stock_symbol)
+        find_301 = re.findall(r'^301', stock_symbol)
+        if find_300 != [] or find_301 != []:
+            stock_symbols_30.append(stock_symbol)
+    # 科创板
+    stock_symbols_68 = []
+    for stock_symbol in stock_symbols:
+        find_688 = re.findall(r'^688', stock_symbol)
+        find_689 = re.findall(r'^689', stock_symbol)
+        if find_688 != [] or find_689 != []:
+            stock_symbols_68.append(stock_symbol)
+    # 新三板
+    stock_symbols_8_4 = []
+    for stock_symbol in stock_symbols:
+        find_82 = re.findall(r'^82', stock_symbol)
+        find_83 = re.findall(r'^83', stock_symbol)
+        find_87 = re.findall(r'^87', stock_symbol)
+        find_88 = re.findall(r'^88', stock_symbol)
+        find_430 = re.findall(r'^430', stock_symbol)
+        find_420 = re.findall(r'^420', stock_symbol)
+        find_400 = re.findall(r'^400', stock_symbol)
+        if find_82 != [] or find_83 != [] or find_87 != [] or find_88 != [] or find_430 != [] or find_420 != [] or find_400 != []:
+            stock_symbols_8_4.append(stock_symbol)
+    # 检查其他遗漏的股票代码
+    stock_symbols_others = []
+    for stock_symbol in stock_symbols:
+        if stock_symbol not in stock_symbols_60 and stock_symbol not in stock_symbols_00 and stock_symbol not in stock_symbols_30 and stock_symbol not in stock_symbols_68 and stock_symbol not in stock_symbols_8_4:
+            stock_symbols_others.others.append(stock_symbol) 
+    return stock_symbols_60, stock_symbols_00, stock_symbols_30, stock_symbols_68, stock_symbols_8_4, stock_symbols_others
+
+# 股票代码各个分类的数量
+@guan.statistics_decorator
+def statistics_of_stock_symbols_classification():
+    import guan
+    stock_symbols_60, stock_symbols_00, stock_symbols_30, stock_symbols_68, stock_symbols_8_4, stock_symbols_others = guan.stock_symbols_classification()
+    num_stocks_60 = len(stock_symbols_60)
+    num_stocks_00 = len(stock_symbols_00)
+    num_stocks_30 = len(stock_symbols_30)
+    num_stocks_68 = len(stock_symbols_68)
+    num_stocks_8_4 = len(stock_symbols_8_4)
+    num_stocks_others= len(stock_symbols_others)
+    return num_stocks_60, num_stocks_00, num_stocks_30, num_stocks_68, num_stocks_8_4, num_stocks_others
+
 # 从股票代码获取股票名称
 @guan.statistics_decorator
 def find_stock_name_from_symbol(symbol='000002'):
