@@ -253,7 +253,7 @@ def stock_symbols_classification():
         find_400 = re.findall(r'^400', stock_symbol)
         if find_82 != [] or find_83 != [] or find_87 != [] or find_88 != [] or find_430 != [] or find_420 != [] or find_400 != []:
             stock_symbols_8_4.append(stock_symbol)
-    # 检查其他遗漏的股票代码
+    # 检查遗漏的股票代码
     stock_symbols_others = []
     for stock_symbol in stock_symbols:
         if stock_symbol not in stock_symbols_60 and stock_symbol not in stock_symbols_00 and stock_symbol not in stock_symbols_30 and stock_symbol not in stock_symbols_68 and stock_symbol not in stock_symbols_8_4:
@@ -282,6 +282,22 @@ def find_stock_name_from_symbol(symbol='000002'):
         if symbol in stock:
            stock_name = stock[2]
     return stock_name
+
+# 市值排序
+@guan.statistics_decorator
+def sorted_market_capitalization(num=10):
+    import numpy as np
+    import guan
+    title, stock_data = guan.all_stocks()
+    list_index = np.argsort(stock_data[:, 17])
+    list_index = list_index[::-1]
+    sorted_array = []
+    for i0 in range(num):
+        stock_symbol = stock_data[list_index[i0], 1]
+        stock_name = stock_data[list_index[i0], 2]
+        market_capitalization = stock_data[list_index[i0], 17]/1e8
+        sorted_array.append([i0+1, stock_symbol, stock_name, market_capitalization])
+    return sorted_array
 
 # 获取单个股票的历史数据
 @guan.statistics_decorator
