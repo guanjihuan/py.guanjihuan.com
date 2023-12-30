@@ -7,10 +7,6 @@ def test():
     import guan
     current_version = guan.get_current_version('guan')
     print(f'\nCongratulations on successfully installing Guan package! The installed version is guan-{current_version}.')
-    print('\nChecking for the latest version of Guan package.\n')
-    guan.notification_of_upgrade(timeout=5)
-    print('\nCheck completed.')
-    print('\nTest completed.\n')
 
 # 泡利矩阵
 @guan.statistics_decorator

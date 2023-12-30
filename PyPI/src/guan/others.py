@@ -1,6 +1,127 @@
 # Module: others
 import guan
 
+# 如果不存在文件夹，则新建文件夹
+@guan.statistics_decorator
+def make_directory(directory='./test'):
+    import os
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+# 获取当前日期字符串
+@guan.statistics_decorator
+def get_date(bar=True):
+    import datetime
+    datetime_date = str(datetime.date.today())
+    if bar==False:
+        datetime_date = datetime_date.replace('-', '')
+    return datetime_date
+
+# 获取当前时间字符串
+@guan.statistics_decorator
+def get_time(colon=True):
+    import datetime
+    datetime_time = datetime.datetime.now().strftime('%H:%M:%S')
+    if colon==False:
+        datetime_time = datetime_time.replace(':', '')
+    return datetime_time
+
+# 判断某个字符是中文还是英文或其他
+@guan.statistics_decorator
+def check_Chinese_or_English(a):  
+    if '\u4e00' <= a <= '\u9fff' :  
+        word_type = 'Chinese'  
+    elif '\x00' <= a <= '\xff':  
+        word_type = 'English'
+    else:
+        word_type = 'Others' 
+    return word_type
+
+# 统计中英文文本的字数，默认不包括空格
+@guan.statistics_decorator
+def count_words(text, include_space=0, show_words=0):
+    import jieba
+    import guan
+    words = jieba.lcut(text)  
+    new_words = []
+    if include_space == 0:
+        for word in words:
+            if word != ' ':
+                new_words.append(word)
+    else:
+        new_words = words
+    num_words = 0
+    new_words_2 = []
+    for word in new_words:
+        word_type = guan.check_Chinese_or_English(word[0])
+        if word_type == 'Chinese':
+            num_words += len(word)
+            for one_word in word:
+                new_words_2.append(one_word)
+        elif word_type == 'English' or 'Others':
+            num_words += 1
+            new_words_2.append(word)
+    if show_words == 1:
+        print(new_words_2)
+    return num_words
+
+# 将RGB转成HEX
+@guan.statistics_decorator
+def rgb_to_hex(rgb, pound=1):
+    if pound==0:
+        return '%02x%02x%02x' % rgb
+    else:
+        return '#%02x%02x%02x' % rgb
+
+# 将HEX转成RGB
+@guan.statistics_decorator
+def hex_to_rgb(hex):
+    hex = hex.lstrip('#')
+    length = len(hex)
+    return tuple(int(hex[i:i+length//3], 16) for i in range(0, length, length//3))
+
+# 使用MD5进行散列加密
+@guan.statistics_decorator
+def encryption_MD5(password, salt=''):
+    import hashlib
+    password = salt+password
+    hashed_password = hashlib.md5(password.encode()).hexdigest()
+    return hashed_password
+
+# 使用SHA-256进行散列加密
+@guan.statistics_decorator
+def encryption_SHA_256(password, salt=''):
+    import hashlib
+    password = salt+password
+    hashed_password = hashlib.sha256(password.encode()).hexdigest()
+    return hashed_password
+
+# 自动先后运行程序
+@guan.statistics_decorator
+def run_programs_sequentially(program_files=['./a.py', './b.py'], execute='python ', show_time=0):
+    import os
+    import time
+    if show_time == 1:
+        start = time.time()
+    i0 = 0
+    for program_file in program_files:
+        i0 += 1
+        if show_time == 1:
+            start_0 = time.time()
+        os.system(execute+program_file)
+        if show_time == 1:
+            end_0 = time.time()
+            print('Running time of program_'+str(i0)+' = '+str((end_0-start_0)/60)+' min')
+    if show_time == 1:
+        end = time.time()
+        print('Total running time = '+str((end-start)/60)+' min')
+
+# 复制一份文件
+@guan.statistics_decorator
+def copy_file(file1='./a.txt', file2='./b.txt'):
+    import shutil
+    shutil.copy(file1, file2)
+
 # 获取CPU使用率
 @guan.statistics_decorator
 def get_cpu_usage(interval=1):
@@ -291,6 +412,8 @@ def sorted_market_capitalization(num=10):
     title, stock_data = guan.all_stocks()
     list_index = np.argsort(stock_data[:, 17])
     list_index = list_index[::-1]
+    if num == None:
+        num = len(list_index)
     sorted_array = []
     for i0 in range(num):
         stock_symbol = stock_data[list_index[i0], 1]
@@ -311,6 +434,24 @@ def history_data_of_one_stock(symbol='000002', period='daily', start_date="19000
     title = np.array(stock.columns)
     stock_data = stock.values[::-1]
     return title, stock_data
+
+# 绘制股票图
+@guan.statistics_decorator
+def plot_stock_line(date_array, opening_array, closing_array, high_array, low_array, lw_open_close=6, lw_high_low=2, xlabel='date', ylabel='price', title='', fontsize=20, labelsize=20, adjust_bottom=0.2, adjust_left=0.2):
+    import guan
+    plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize)
+    ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
+    ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman') 
+    ax.set_ylabel(ylabel, fontsize=fontsize, fontfamily='Times New Roman') 
+    for i0 in range(len(date_array)):
+        if opening_array[i0] <= closing_array[i0]:
+            ax.vlines(date_array[i0], opening_array[i0], closing_array[i0], linestyle='-', color='red', lw=lw_open_close)
+            ax.vlines(date_array[i0], low_array[i0], high_array[i0], color='red', linestyle='-', lw=lw_high_low)
+        else:
+            ax.vlines(date_array[i0], opening_array[i0], closing_array[i0], linestyle='-', color='green', lw=lw_open_close)
+            ax.vlines(date_array[i0], low_array[i0], high_array[i0], color='green', linestyle='-', lw=lw_high_low)
+    plt.show()
+    plt.close('all')
 
 # 获取软件包中的所有模块名
 @guan.statistics_decorator
@@ -849,6 +990,61 @@ def compress_wav_to_mp3(wav_path, output_filename='a.mp3', bitrate='16k'):
     sound = AudioSegment.from_mp3(wav_path)
     sound.export(output_filename,format="mp3",bitrate=bitrate)
 
+# 获取MAC地址
+@guan.statistics_decorator
+def get_mac_address():
+    import uuid
+    mac_address = uuid.UUID(int=uuid.getnode()).hex[-12:].upper()
+    mac_address = '-'.join([mac_address[i:i+2] for i in range(0, 11, 2)])
+    return mac_address
+
+# 获取调用本函数的函数名
+@guan.statistics_decorator
+def get_calling_function_name(layer=1):
+    import inspect
+    caller = inspect.stack()[layer]
+    calling_function_name = caller.function
+    return calling_function_name
+
+# 获取Python软件包的最新版本
+@guan.statistics_decorator
+def get_latest_version(package_name='guan', timeout=5):
+    import requests
+    url = f"https://pypi.org/pypi/{package_name}/json"
+    try:
+        response = requests.get(url, timeout=timeout)
+    except:
+        return None
+    if response.status_code == 200:
+        data = response.json()
+        latest_version = data["info"]["version"]
+        return latest_version
+    else:
+        return None
+
+# 获取软件包的本机版本
+@guan.statistics_decorator
+def get_current_version(package_name='guan'):
+    import importlib.metadata
+    try:
+        current_version = importlib.metadata.version(package_name)
+        return current_version
+    except:
+        return None
+
+# Guan软件包升级检查和提示
+@guan.statistics_decorator
+def notification_of_upgrade(timeout=5):
+    try:
+        import guan
+        latest_version = guan.get_latest_version(package_name='guan', timeout=timeout)
+        current_version = guan.get_current_version('guan')
+        if latest_version != None and current_version != None:
+            if latest_version != current_version:
+                print('升级提示：您当前使用的版本是 guan-'+current_version+'，目前已经有最新版本 guan-'+latest_version+'。您可以通过以下命令对软件包进行升级：pip install --upgrade guan -i https://pypi.python.org/simple 或 pip install --upgrade guan')
+    except:
+        pass
+
 # Guan软件包的使用统计（不涉及到用户的个人数据）
 global_variable_of_first_guan_package_calling = []
 def statistics_of_guan_package(function_name=None):
@@ -883,72 +1079,3 @@ def statistics_of_guan_package(function_name=None):
             client_socket.close()
         except:
             pass
-
-# 获取当前日期字符串
-def get_date(bar=True):
-    import datetime
-    datetime_date = str(datetime.date.today())
-    if bar==False:
-        datetime_date = datetime_date.replace('-', '')
-    return datetime_date
-
-# 获取当前时间字符串
-def get_time(colon=True):
-    import datetime
-    datetime_time = datetime.datetime.now().strftime('%H:%M:%S')
-    if colon==False:
-        datetime_time = datetime_time.replace(':', '')
-    return datetime_time
-
-# 获取MAC地址
-def get_mac_address():
-    import uuid
-    mac_address = uuid.UUID(int=uuid.getnode()).hex[-12:].upper()
-    mac_address = '-'.join([mac_address[i:i+2] for i in range(0, 11, 2)])
-    return mac_address
-
-# 获取调用本函数的函数名
-def get_calling_function_name(layer=1):
-    import inspect
-    caller = inspect.stack()[layer]
-    calling_function_name = caller.function
-    return calling_function_name
-
-# 获取Python软件包的最新版本
-def get_latest_version(package_name='guan', timeout=2):
-    import requests
-    url = f"https://pypi.org/pypi/{package_name}/json"
-    try:
-        response = requests.get(url, timeout=timeout)
-    except:
-        return None
-    if response.status_code == 200:
-        data = response.json()
-        latest_version = data["info"]["version"]
-        return latest_version
-    else:
-        return None
-
-# 获取软件包的本机版本
-def get_current_version(package_name='guan'):
-    import importlib.metadata
-    try:
-        current_version = importlib.metadata.version(package_name)
-        return current_version
-    except:
-        return None
-
-# Guan软件包升级提示
-def notification_of_upgrade(timeout=2):
-    try:
-        latest_version = get_latest_version(package_name='guan', timeout=timeout)
-        current_version = get_current_version('guan')
-        if latest_version != None and current_version != None:
-            if latest_version != current_version:
-                print('升级提示：您当前使用的版本是 guan-'+current_version+'，目前已经有最新版本 guan-'+latest_version+'。您可以通过以下命令对软件包进行升级：pip install --upgrade guan -i https://pypi.python.org/simple 或 pip install --upgrade guan')
-    except:
-        pass
-import random
-rand_number = random.randint(1, 10)
-if rand_number == 5:
-    notification_of_upgrade(timeout=2)

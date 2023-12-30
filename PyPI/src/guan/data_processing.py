@@ -638,7 +638,22 @@ def get_all_filenames_in_directory(directory='./', file_format=None):
                     file_list.append(files[i0])
     return file_list
 
-# 读取文件夹中某种文本类型的文件路径和内容
+# 获取目录中的所有文件名（不包括子目录）
+@guan.statistics_decorator
+def get_all_filenames_in_directory_without_subdirectory(directory='./', file_format=None):
+    import os
+    file_list = []
+    for root, dirs, files in os.walk(directory):
+        for i0 in range(len(files)):
+            if file_format == None:
+                file_list.append(files[i0])
+            else:
+                if file_format in files[i0]:
+                    file_list.append(files[i0])
+        break
+    return file_list
+
+# 获取文件夹中某种文本类型的文件路径以及读取内容
 @guan.statistics_decorator
 def read_text_files_in_directory(directory='./', file_format='.md'):
     import os
@@ -688,7 +703,7 @@ def get_random_number(start=0, end=1):
     rand_number = random.randint(start, end)   # 左闭右闭 [start, end]
     return rand_number
 
-# 选取一个种子生成固定的随机整数
+# 选取一个种子生成固定的随机整数，左闭右开
 @guan.statistics_decorator
 def generate_random_int_number_for_a_specific_seed(seed=0, x_min=0, x_max=10):
     import numpy as np
@@ -702,109 +717,6 @@ def divide_text_into_words(text):
     import jieba
     words = jieba.lcut(text)
     return words
-
-# 判断某个字符是中文还是英文或其他
-@guan.statistics_decorator
-def check_Chinese_or_English(a):  
-    if '\u4e00' <= a <= '\u9fff' :  
-        word_type = 'Chinese'  
-    elif '\x00' <= a <= '\xff':  
-        word_type = 'English'
-    else:
-        word_type = 'Others' 
-    return word_type
-
-# 统计中英文文本的字数，默认不包括空格
-@guan.statistics_decorator
-def count_words(text, include_space=0, show_words=0):
-    import jieba
-    import guan
-    words = jieba.lcut(text)  
-    new_words = []
-    if include_space == 0:
-        for word in words:
-            if word != ' ':
-                new_words.append(word)
-    else:
-        new_words = words
-    num_words = 0
-    new_words_2 = []
-    for word in new_words:
-        word_type = guan.check_Chinese_or_English(word[0])
-        if word_type == 'Chinese':
-            num_words += len(word)
-            for one_word in word:
-                new_words_2.append(one_word)
-        elif word_type == 'English' or 'Others':
-            num_words += 1
-            new_words_2.append(word)
-    if show_words == 1:
-        print(new_words_2)
-    return num_words
-
-# 将RGB转成HEX
-@guan.statistics_decorator
-def rgb_to_hex(rgb, pound=1):
-    if pound==0:
-        return '%02x%02x%02x' % rgb
-    else:
-        return '#%02x%02x%02x' % rgb
-
-# 将HEX转成RGB
-@guan.statistics_decorator
-def hex_to_rgb(hex):
-    hex = hex.lstrip('#')
-    length = len(hex)
-    return tuple(int(hex[i:i+length//3], 16) for i in range(0, length, length//3))
-
-# 使用MD5进行散列加密
-@guan.statistics_decorator
-def encryption_MD5(password, salt=''):
-    import hashlib
-    password = salt+password
-    hashed_password = hashlib.md5(password.encode()).hexdigest()
-    return hashed_password
-
-# 使用SHA-256进行散列加密
-@guan.statistics_decorator
-def encryption_SHA_256(password, salt=''):
-    import hashlib
-    password = salt+password
-    hashed_password = hashlib.sha256(password.encode()).hexdigest()
-    return hashed_password
-
-# 自动先后运行程序
-@guan.statistics_decorator
-def run_programs_sequentially(program_files=['./a.py', './b.py'], execute='python ', show_time=0):
-    import os
-    import time
-    if show_time == 1:
-        start = time.time()
-    i0 = 0
-    for program_file in program_files:
-        i0 += 1
-        if show_time == 1:
-            start_0 = time.time()
-        os.system(execute+program_file)
-        if show_time == 1:
-            end_0 = time.time()
-            print('Running time of program_'+str(i0)+' = '+str((end_0-start_0)/60)+' min')
-    if show_time == 1:
-        end = time.time()
-        print('Total running time = '+str((end-start)/60)+' min')
-
-# 如果不存在文件夹，则新建文件夹
-@guan.statistics_decorator
-def make_directory(directory='./test'):
-    import os
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-
-# 复制一份文件
-@guan.statistics_decorator
-def copy_file(file1='./a.txt', file2='./b.txt'):
-    import shutil
-    shutil.copy(file1, file2)
 
 # 拼接两个PDF文件
 @guan.statistics_decorator
