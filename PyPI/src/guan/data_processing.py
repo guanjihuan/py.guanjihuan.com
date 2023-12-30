@@ -402,6 +402,34 @@ def color_matplotlib():
     color_array = ['tab:blue', 'tab:orange', 'tab:green', 'tab:red', 'tab:purple', 'tab:brown', 'tab:pink', 'tab:gray', 'tab:olive', 'tab:cyan']
     return color_array
 
+# 如果不存在文件夹，则新建文件夹
+@guan.statistics_decorator
+def make_directory(directory='./test'):
+    import os
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+# 如果不存在文件，则新建空文件
+@guan.statistics_decorator
+def make_file(file_path='./a.txt'):
+    import os
+    if not os.path.exists(file_path):
+        with open(file_path, 'w') as f:
+            pass
+
+# 读取文本文件内容，如果不存在，则新建空文件
+@guan.statistics_decorator
+def read_text_file(file_path='./a.txt'):
+    import os
+    if not os.path.exists(file_path):
+        with open(file_path, 'w') as f:
+            pass
+        return ''
+    else:
+        with open(file_path, 'r') as f:
+            content = f.read()
+        return content
+
 # 将变量存到文件
 @guan.statistics_decorator
 def dump_data(data, filename, file_format='.txt'):

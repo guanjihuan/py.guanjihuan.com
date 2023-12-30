@@ -1,13 +1,6 @@
 # Module: others
 import guan
 
-# 如果不存在文件夹，则新建文件夹
-@guan.statistics_decorator
-def make_directory(directory='./test'):
-    import os
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-
 # 获取当前日期字符串
 @guan.statistics_decorator
 def get_date(bar=True):
