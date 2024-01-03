@@ -89,6 +89,30 @@ def calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensi
     conductance_averaged = conductance_averaged/calculation_times
     return conductance_averaged
 
+# 计算在无序散射下的电导（需要输入无序数组）
+@guan.statistics_decorator
+def calculate_conductance_with_disorder_array(fermi_energy, h00, h01, disorder_array, length=100):
+    import numpy as np
+    import copy
+    import guan
+    right_self_energy, left_self_energy, gamma_right, gamma_left = guan.self_energy_of_lead(fermi_energy, h00, h01)
+    dim = np.array(h00).shape[0]
+    for ix in range(length+2):
+        if ix == 0:
+            green_nn_n = guan.green_function(fermi_energy, h00, broadening=0, self_energy=left_self_energy)
+            green_0n_n = copy.deepcopy(green_nn_n)
+        elif ix != length+1:
+            i0 = 0
+            disorder = disorder_array[i0*dim:(i0+1)*dim]
+            i0 += 1
+            green_nn_n = guan.green_function_nn_n(fermi_energy, h00+disorder, h01, green_nn_n, broadening=0)
+            green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
+        else:
+            green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n, broadening=0, self_energy=right_self_energy)
+            green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
+    conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
+    return conductance
+
 # 计算在无序垂直切片的散射下的电导
 @guan.statistics_decorator
 def calculate_conductance_with_slice_disorder(fermi_energy, h00, h01, disorder_intensity=2.0, disorder_concentration=1.0, length=100):
