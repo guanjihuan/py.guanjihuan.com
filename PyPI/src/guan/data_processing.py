@@ -724,6 +724,12 @@ def preprocess_for_parallel_calculations(parameter_array_all, cpus=1, task_index
             parameter_array = parameter_array_all[task_index*num_parameter:num_all]
     return parameter_array
 
+# 根据子数组的第index个元素对子数组进行排序（index从0开始）
+@guan.statistics_decorator
+def sort_array_by_index_element(original_array, index):
+    sorted_array = sorted(original_array, key=lambda x: x[index])
+    return sorted_array
+
 # 随机获得一个整数，左闭右闭
 @guan.statistics_decorator
 def get_random_number(start=0, end=1):
