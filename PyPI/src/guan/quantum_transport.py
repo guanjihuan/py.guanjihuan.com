@@ -103,7 +103,7 @@ def calculate_conductance_with_disorder_array(fermi_energy, h00, h01, disorder_a
             green_0n_n = copy.deepcopy(green_nn_n)
         elif ix != length+1:
             i0 = 0
-            disorder = disorder_array[i0*dim:(i0+1)*dim]
+            disorder = np.diag(disorder_array[i0*dim:(i0+1)*dim])
             i0 += 1
             green_nn_n = guan.green_function_nn_n(fermi_energy, h00+disorder, h01, green_nn_n, broadening=0)
             green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
