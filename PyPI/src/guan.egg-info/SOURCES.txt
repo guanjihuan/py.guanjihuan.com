@@ -9,7 +9,10 @@ src/guan/__init__.py
 src/guan/band_structures_and_wave_functions.py
 src/guan/basic_functions.py
 src/guan/data_processing.py
+src/guan/decorator.py
 src/guan/density_of_states.py
+src/guan/figure_plotting.py
+src/guan/file_reading_and_writing.py
 src/guan/machine_learning.py
 src/guan/others.py
 src/guan/quantum_transport.py

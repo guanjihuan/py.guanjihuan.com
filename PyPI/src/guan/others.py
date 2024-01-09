@@ -19,76 +19,6 @@ def get_time(colon=True):
         datetime_time = datetime_time.replace(':', '')
     return datetime_time
 
-# 判断某个字符是中文还是英文或其他
-@guan.statistics_decorator
-def check_Chinese_or_English(a):  
-    if '\u4e00' <= a <= '\u9fff' :  
-        word_type = 'Chinese'  
-    elif '\x00' <= a <= '\xff':  
-        word_type = 'English'
-    else:
-        word_type = 'Others' 
-    return word_type
-
-# 统计中英文文本的字数，默认不包括空格
-@guan.statistics_decorator
-def count_words(text, include_space=0, show_words=0):
-    import jieba
-    import guan
-    words = jieba.lcut(text)  
-    new_words = []
-    if include_space == 0:
-        for word in words:
-            if word != ' ':
-                new_words.append(word)
-    else:
-        new_words = words
-    num_words = 0
-    new_words_2 = []
-    for word in new_words:
-        word_type = guan.check_Chinese_or_English(word[0])
-        if word_type == 'Chinese':
-            num_words += len(word)
-            for one_word in word:
-                new_words_2.append(one_word)
-        elif word_type == 'English' or 'Others':
-            num_words += 1
-            new_words_2.append(word)
-    if show_words == 1:
-        print(new_words_2)
-    return num_words
-
-# 将RGB转成HEX
-@guan.statistics_decorator
-def rgb_to_hex(rgb, pound=1):
-    if pound==0:
-        return '%02x%02x%02x' % rgb
-    else:
-        return '#%02x%02x%02x' % rgb
-
-# 将HEX转成RGB
-@guan.statistics_decorator
-def hex_to_rgb(hex):
-    hex = hex.lstrip('#')
-    length = len(hex)
-    return tuple(int(hex[i:i+length//3], 16) for i in range(0, length, length//3))
-
-# 使用MD5进行散列加密
-@guan.statistics_decorator
-def encryption_MD5(password, salt=''):
-    import hashlib
-    password = salt+password
-    hashed_password = hashlib.md5(password.encode()).hexdigest()
-    return hashed_password
-
-# 使用SHA-256进行散列加密
-@guan.statistics_decorator
-def encryption_SHA_256(password, salt=''):
-    import hashlib
-    password = salt+password
-    hashed_password = hashlib.sha256(password.encode()).hexdigest()
-    return hashed_password
-
 # 自动先后运行程序
 @guan.statistics_decorator
 def run_programs_sequentially(program_files=['./a.py', './b.py'], execute='python ', show_time=0):
@@ -108,12 +38,6 @@ def run_programs_sequentially(program_files=['./a.py', './b.py'], execute='pytho
     if show_time == 1:
         end = time.time()
         print('Total running time = '+str((end-start)/60)+' min')
-
-# 复制一份文件
-@guan.statistics_decorator
-def copy_file(file1='./a.txt', file2='./b.txt'):
-    import shutil
-    shutil.copy(file1, file2)
 
 # 获取CPU使用率
 @guan.statistics_decorator
@@ -196,13 +120,6 @@ def count_number_of_import_statements(filename, file_format='.py', num=1000):
     from collections import Counter
     import_statement_counter = Counter(import_array).most_common(num)
     return import_statement_counter
-
-# 根据一定的字符长度来分割文本
-@guan.statistics_decorator
-def split_text(text, wrap_width=3000):  
-    import textwrap  
-    split_text_list = textwrap.wrap(text, wrap_width)
-    return split_text_list
 
 # 获取本月的所有日期
 @guan.statistics_decorator

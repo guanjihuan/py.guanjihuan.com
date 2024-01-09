@@ -165,9 +165,9 @@ def batch_train_model(model, train_loader, optimizer='Adam', learning_rate=0.001
             loss.backward()
             optimizer.step()
             losses.append(loss.item())
-            if print_show == 1:
-                if (epoch + 1) % 100 == 0:
-                    print(epoch, loss.item())
+        if print_show == 1:
+            if (epoch + 1) % 100 == 0:
+                print(epoch, loss.item())
     return model, losses
 
 # 保存模型参数到文件
