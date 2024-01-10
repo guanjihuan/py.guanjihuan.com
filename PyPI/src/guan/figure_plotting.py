@@ -40,7 +40,7 @@ def plot_without_starting_fig(plt, fig, ax, x_array, y_array, xlabel='x', ylabel
 @guan.statistics_decorator
 def plot(x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style='', y_min=None, y_max=None, linewidth=None, markersize=None, adjust_bottom=0.2, adjust_left=0.2, fontfamily='Times New Roman'): 
     import guan
-    plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize)
+    plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize, fontfamily=fontfamily)
     ax.plot(x_array, y_array, style, linewidth=linewidth, markersize=markersize)
     if fontfamily=='Times New Roman':
         ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
@@ -66,7 +66,7 @@ def plot(x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, labels
 @guan.statistics_decorator
 def plot_two_array(x_array, y1_array, y2_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style_1='', style_2='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, markersize_1=None, markersize_2=None, adjust_bottom=0.2, adjust_left=0.2, fontfamily='Times New Roman'): 
     import guan
-    plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize) 
+    plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize, fontfamily=fontfamily) 
     ax.plot(x_array, y1_array, style_1, linewidth=linewidth_1, markersize=markersize_1)
     ax.plot(x_array, y2_array, style_2, linewidth=linewidth_2, markersize=markersize_2)
     if fontfamily=='Times New Roman':
@@ -97,7 +97,7 @@ def plot_two_array(x_array, y1_array, y2_array, xlabel='x', ylabel='y', title=''
 @guan.statistics_decorator
 def plot_two_array_with_two_horizontal_array(x1_array, x2_array, y1_array, y2_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style_1='', style_2='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, markersize_1=None, markersize_2=None, adjust_bottom=0.2, adjust_left=0.2, fontfamily='Times New Roman'): 
     import guan
-    plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize) 
+    plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize, fontfamily=fontfamily) 
     ax.plot(x1_array, y1_array, style_1, linewidth=linewidth_1, markersize=markersize_1)
     ax.plot(x2_array, y2_array, style_2, linewidth=linewidth_2, markersize=markersize_2)
     if fontfamily=='Times New Roman':
@@ -128,7 +128,7 @@ def plot_two_array_with_two_horizontal_array(x1_array, x2_array, y1_array, y2_ar
 @guan.statistics_decorator
 def plot_three_array(x_array, y1_array, y2_array, y3_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style_1='', style_2='', style_3='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, linewidth_3=None,markersize_1=None, markersize_2=None, markersize_3=None, adjust_bottom=0.2, adjust_left=0.2, fontfamily='Times New Roman'): 
     import guan
-    plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize) 
+    plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize, fontfamily=fontfamily) 
     ax.plot(x_array, y1_array, style_1, linewidth=linewidth_1, markersize=markersize_1)
     ax.plot(x_array, y2_array, style_2, linewidth=linewidth_2, markersize=markersize_2)
     ax.plot(x_array, y3_array, style_3, linewidth=linewidth_3, markersize=markersize_3)
@@ -162,7 +162,7 @@ def plot_three_array(x_array, y1_array, y2_array, y3_array, xlabel='x', ylabel='
 @guan.statistics_decorator
 def plot_three_array_with_three_horizontal_array(x1_array, x2_array, x3_array, y1_array, y2_array, y3_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style_1='', style_2='', style_3='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, linewidth_3=None,markersize_1=None, markersize_2=None, markersize_3=None, adjust_bottom=0.2, adjust_left=0.2, fontfamily='Times New Roman'): 
     import guan
-    plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize) 
+    plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize, fontfamily=fontfamily) 
     ax.plot(x1_array, y1_array, style_1, linewidth=linewidth_1, markersize=markersize_1)
     ax.plot(x2_array, y2_array, style_2, linewidth=linewidth_2, markersize=markersize_2)
     ax.plot(x3_array, y3_array, style_3, linewidth=linewidth_3, markersize=markersize_3)
