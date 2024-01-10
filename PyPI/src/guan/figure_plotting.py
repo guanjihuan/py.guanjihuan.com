@@ -3,26 +3,32 @@ import guan
 
 # 导入plt, fig, ax
 @guan.statistics_decorator
-def import_plt_and_start_fig_ax(adjust_bottom=0.2, adjust_left=0.2, labelsize=20):
+def import_plt_and_start_fig_ax(adjust_bottom=0.2, adjust_left=0.2, labelsize=20, fontfamily='Times New Roman'):
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots()
     plt.subplots_adjust(bottom=adjust_bottom, left=adjust_left)
     ax.grid()
     ax.tick_params(labelsize=labelsize) 
-    labels = ax.get_xticklabels() + ax.get_yticklabels()
-    [label.set_fontname('Times New Roman') for label in labels]
+    if fontfamily=='Times New Roman':
+        labels = ax.get_xticklabels() + ax.get_yticklabels()
+        [label.set_fontname('Times New Roman') for label in labels]
     return plt, fig, ax
 
 # 基于plt, fig, ax画图
 @guan.statistics_decorator
-def plot_without_starting_fig(plt, fig, ax, x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, style='', y_min=None, y_max=None, linewidth=None, markersize=None, color=None): 
+def plot_without_starting_fig(plt, fig, ax, x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, style='', y_min=None, y_max=None, linewidth=None, markersize=None, color=None, fontfamily='Times New Roman'): 
     if color==None:
         ax.plot(x_array, y_array, style, linewidth=linewidth, markersize=markersize)
     else:
         ax.plot(x_array, y_array, style, linewidth=linewidth, markersize=markersize, color=color)
-    ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
-    ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman') 
-    ax.set_ylabel(ylabel, fontsize=fontsize, fontfamily='Times New Roman') 
+    if fontfamily=='Times New Roman':
+        ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
+        ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman')
+        ax.set_ylabel(ylabel, fontsize=fontsize, fontfamily='Times New Roman')
+    else:
+        ax.set_title(title, fontsize=fontsize)
+        ax.set_xlabel(xlabel, fontsize=fontsize)
+        ax.set_ylabel(ylabel, fontsize=fontsize)
     if y_min!=None or y_max!=None:
         if y_min==None:
             y_min=min(y_array)
@@ -32,13 +38,18 @@ def plot_without_starting_fig(plt, fig, ax, x_array, y_array, xlabel='x', ylabel
 
 # 画图
 @guan.statistics_decorator
-def plot(x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style='', y_min=None, y_max=None, linewidth=None, markersize=None, adjust_bottom=0.2, adjust_left=0.2): 
+def plot(x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style='', y_min=None, y_max=None, linewidth=None, markersize=None, adjust_bottom=0.2, adjust_left=0.2, fontfamily='Times New Roman'): 
     import guan
     plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize)
     ax.plot(x_array, y_array, style, linewidth=linewidth, markersize=markersize)
-    ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
-    ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman') 
-    ax.set_ylabel(ylabel, fontsize=fontsize, fontfamily='Times New Roman') 
+    if fontfamily=='Times New Roman':
+        ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
+        ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman')
+        ax.set_ylabel(ylabel, fontsize=fontsize, fontfamily='Times New Roman')
+    else:
+        ax.set_title(title, fontsize=fontsize)
+        ax.set_xlabel(xlabel, fontsize=fontsize)
+        ax.set_ylabel(ylabel, fontsize=fontsize)
     if y_min!=None or y_max!=None:
         if y_min==None:
             y_min=min(y_array)
@@ -53,14 +64,19 @@ def plot(x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, labels
 
 # 一组横坐标数据，两组纵坐标数据画图
 @guan.statistics_decorator
-def plot_two_array(x_array, y1_array, y2_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style_1='', style_2='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, markersize_1=None, markersize_2=None, adjust_bottom=0.2, adjust_left=0.2): 
+def plot_two_array(x_array, y1_array, y2_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style_1='', style_2='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, markersize_1=None, markersize_2=None, adjust_bottom=0.2, adjust_left=0.2, fontfamily='Times New Roman'): 
     import guan
     plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize) 
     ax.plot(x_array, y1_array, style_1, linewidth=linewidth_1, markersize=markersize_1)
     ax.plot(x_array, y2_array, style_2, linewidth=linewidth_2, markersize=markersize_2)
-    ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
-    ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman') 
-    ax.set_ylabel(ylabel, fontsize=fontsize, fontfamily='Times New Roman') 
+    if fontfamily=='Times New Roman':
+        ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
+        ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman')
+        ax.set_ylabel(ylabel, fontsize=fontsize, fontfamily='Times New Roman')
+    else:
+        ax.set_title(title, fontsize=fontsize)
+        ax.set_xlabel(xlabel, fontsize=fontsize)
+        ax.set_ylabel(ylabel, fontsize=fontsize)
     if y_min!=None or y_max!=None:
         if y_min==None:
             y1_min=min(y1_array)
@@ -79,14 +95,19 @@ def plot_two_array(x_array, y1_array, y2_array, xlabel='x', ylabel='y', title=''
 
 # 两组横坐标数据，两组纵坐标数据画图
 @guan.statistics_decorator
-def plot_two_array_with_two_horizontal_array(x1_array, x2_array, y1_array, y2_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style_1='', style_2='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, markersize_1=None, markersize_2=None, adjust_bottom=0.2, adjust_left=0.2): 
+def plot_two_array_with_two_horizontal_array(x1_array, x2_array, y1_array, y2_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style_1='', style_2='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, markersize_1=None, markersize_2=None, adjust_bottom=0.2, adjust_left=0.2, fontfamily='Times New Roman'): 
     import guan
     plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize) 
     ax.plot(x1_array, y1_array, style_1, linewidth=linewidth_1, markersize=markersize_1)
     ax.plot(x2_array, y2_array, style_2, linewidth=linewidth_2, markersize=markersize_2)
-    ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
-    ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman') 
-    ax.set_ylabel(ylabel, fontsize=fontsize, fontfamily='Times New Roman') 
+    if fontfamily=='Times New Roman':
+        ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
+        ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman')
+        ax.set_ylabel(ylabel, fontsize=fontsize, fontfamily='Times New Roman')
+    else:
+        ax.set_title(title, fontsize=fontsize)
+        ax.set_xlabel(xlabel, fontsize=fontsize)
+        ax.set_ylabel(ylabel, fontsize=fontsize)
     if y_min!=None or y_max!=None:
         if y_min==None:
             y1_min=min(y1_array)
@@ -105,15 +126,20 @@ def plot_two_array_with_two_horizontal_array(x1_array, x2_array, y1_array, y2_ar
 
 # 一组横坐标数据，三组纵坐标数据画图
 @guan.statistics_decorator
-def plot_three_array(x_array, y1_array, y2_array, y3_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style_1='', style_2='', style_3='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, linewidth_3=None,markersize_1=None, markersize_2=None, markersize_3=None, adjust_bottom=0.2, adjust_left=0.2): 
+def plot_three_array(x_array, y1_array, y2_array, y3_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style_1='', style_2='', style_3='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, linewidth_3=None,markersize_1=None, markersize_2=None, markersize_3=None, adjust_bottom=0.2, adjust_left=0.2, fontfamily='Times New Roman'): 
     import guan
     plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize) 
     ax.plot(x_array, y1_array, style_1, linewidth=linewidth_1, markersize=markersize_1)
     ax.plot(x_array, y2_array, style_2, linewidth=linewidth_2, markersize=markersize_2)
     ax.plot(x_array, y3_array, style_3, linewidth=linewidth_3, markersize=markersize_3)
-    ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
-    ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman') 
-    ax.set_ylabel(ylabel, fontsize=fontsize, fontfamily='Times New Roman') 
+    if fontfamily=='Times New Roman':
+        ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
+        ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman')
+        ax.set_ylabel(ylabel, fontsize=fontsize, fontfamily='Times New Roman')
+    else:
+        ax.set_title(title, fontsize=fontsize)
+        ax.set_xlabel(xlabel, fontsize=fontsize)
+        ax.set_ylabel(ylabel, fontsize=fontsize)
     if y_min!=None or y_max!=None:
         if y_min==None:
             y1_min=min(y1_array)
@@ -134,15 +160,20 @@ def plot_three_array(x_array, y1_array, y2_array, y3_array, xlabel='x', ylabel='
 
 # 三组横坐标数据，三组纵坐标数据画图
 @guan.statistics_decorator
-def plot_three_array_with_three_horizontal_array(x1_array, x2_array, x3_array, y1_array, y2_array, y3_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style_1='', style_2='', style_3='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, linewidth_3=None,markersize_1=None, markersize_2=None, markersize_3=None, adjust_bottom=0.2, adjust_left=0.2): 
+def plot_three_array_with_three_horizontal_array(x1_array, x2_array, x3_array, y1_array, y2_array, y3_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style_1='', style_2='', style_3='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, linewidth_3=None,markersize_1=None, markersize_2=None, markersize_3=None, adjust_bottom=0.2, adjust_left=0.2, fontfamily='Times New Roman'): 
     import guan
     plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize) 
     ax.plot(x1_array, y1_array, style_1, linewidth=linewidth_1, markersize=markersize_1)
     ax.plot(x2_array, y2_array, style_2, linewidth=linewidth_2, markersize=markersize_2)
     ax.plot(x3_array, y3_array, style_3, linewidth=linewidth_3, markersize=markersize_3)
-    ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
-    ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman') 
-    ax.set_ylabel(ylabel, fontsize=fontsize, fontfamily='Times New Roman') 
+    if fontfamily=='Times New Roman':
+        ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
+        ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman')
+        ax.set_ylabel(ylabel, fontsize=fontsize, fontfamily='Times New Roman')
+    else:
+        ax.set_title(title, fontsize=fontsize)
+        ax.set_xlabel(xlabel, fontsize=fontsize)
+        ax.set_ylabel(ylabel, fontsize=fontsize)
     if y_min!=None or y_max!=None:
         if y_min==None:
             y1_min=min(y1_array)
@@ -163,7 +194,7 @@ def plot_three_array_with_three_horizontal_array(x1_array, x2_array, x3_array, y
 
 # 画三维图
 @guan.statistics_decorator
-def plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z', title='', fontsize=20, labelsize=15, show=1, save=0, filename='a', file_format='.jpg', dpi=300, z_min=None, z_max=None, rcount=100, ccount=100): 
+def plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z', title='', fontsize=20, labelsize=15, show=1, save=0, filename='a', file_format='.jpg', dpi=300, z_min=None, z_max=None, rcount=100, ccount=100, fontfamily='Times New Roman'): 
     import numpy as np
     import matplotlib.pyplot as plt
     from matplotlib import cm
@@ -177,10 +208,16 @@ def plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z'
     elif len(matrix.shape) == 3:
         for i0 in range(matrix.shape[2]):
             surf = ax.plot_surface(x_array, y_array, matrix[:,:,i0], rcount=rcount, ccount=ccount, cmap=cm.coolwarm, linewidth=0, antialiased=False) 
-    ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
-    ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman') 
-    ax.set_ylabel(ylabel, fontsize=fontsize, fontfamily='Times New Roman') 
-    ax.set_zlabel(zlabel, fontsize=fontsize, fontfamily='Times New Roman') 
+    if fontfamily=='Times New Roman':
+        ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
+        ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman')
+        ax.set_ylabel(ylabel, fontsize=fontsize, fontfamily='Times New Roman')
+        ax.set_zlabel(zlabel, fontsize=fontsize, fontfamily='Times New Roman')
+    else:
+        ax.set_title(title, fontsize=fontsize)
+        ax.set_xlabel(xlabel, fontsize=fontsize)
+        ax.set_ylabel(ylabel, fontsize=fontsize)
+        ax.set_zlabel(zlabel, fontsize=fontsize)
     ax.zaxis.set_major_locator(LinearLocator(5)) 
     ax.zaxis.set_major_formatter('{x:.2f}')  
     if z_min!=None or z_max!=None:
@@ -190,13 +227,15 @@ def plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z'
             z_max=matrix.max()
         ax.set_zlim(z_min, z_max)
     ax.tick_params(labelsize=labelsize) 
-    labels = ax.get_xticklabels() + ax.get_yticklabels() + ax.get_zticklabels()
-    [label.set_fontname('Times New Roman') for label in labels] 
+    if fontfamily=='Times New Roman':
+        labels = ax.get_xticklabels() + ax.get_yticklabels() + ax.get_zticklabels()
+        [label.set_fontname('Times New Roman') for label in labels] 
     cax = plt.axes([0.8, 0.1, 0.05, 0.8]) 
     cbar = fig.colorbar(surf, cax=cax)  
     cbar.ax.tick_params(labelsize=labelsize)
-    for l in cbar.ax.yaxis.get_ticklabels():
-        l.set_family('Times New Roman')
+    if fontfamily=='Times New Roman':
+        for l in cbar.ax.yaxis.get_ticklabels():
+            l.set_family('Times New Roman')
     if save == 1:
         plt.savefig(filename+file_format, dpi=dpi) 
     if show == 1:
@@ -205,24 +244,31 @@ def plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z'
 
 # 画Contour图
 @guan.statistics_decorator
-def plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=15, cmap='jet', levels=None, show=1, save=0, filename='a', file_format='.jpg', dpi=300):
+def plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=15, cmap='jet', levels=None, show=1, save=0, filename='a', file_format='.jpg', dpi=300, fontfamily='Times New Roman'):
     import numpy as np
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots()
     plt.subplots_adjust(bottom=0.2, right=0.75, left=0.2) 
     x_array, y_array = np.meshgrid(x_array, y_array)
     contour = ax.contourf(x_array,y_array,matrix,cmap=cmap, levels=levels) 
-    ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
-    ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman') 
-    ax.set_ylabel(ylabel, fontsize=fontsize, fontfamily='Times New Roman') 
-    ax.tick_params(labelsize=labelsize) 
-    labels = ax.get_xticklabels() + ax.get_yticklabels()
-    [label.set_fontname('Times New Roman') for label in labels]
+    if fontfamily=='Times New Roman':
+        ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
+        ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman')
+        ax.set_ylabel(ylabel, fontsize=fontsize, fontfamily='Times New Roman')
+    else:
+        ax.set_title(title, fontsize=fontsize)
+        ax.set_xlabel(xlabel, fontsize=fontsize) 
+        ax.set_ylabel(ylabel, fontsize=fontsize) 
+    ax.tick_params(labelsize=labelsize)
+    if fontfamily=='Times New Roman':
+        labels = ax.get_xticklabels() + ax.get_yticklabels()
+        [label.set_fontname('Times New Roman') for label in labels]
     cax = plt.axes([0.8, 0.2, 0.05, 0.68])
     cbar = fig.colorbar(contour, cax=cax) 
-    cbar.ax.tick_params(labelsize=labelsize) 
-    for l in cbar.ax.yaxis.get_ticklabels():
-        l.set_family('Times New Roman')
+    cbar.ax.tick_params(labelsize=labelsize)
+    if fontfamily=='Times New Roman':
+        for l in cbar.ax.yaxis.get_ticklabels():
+            l.set_family('Times New Roman')
     if save == 1:
         plt.savefig(filename+file_format, dpi=dpi) 
     if show == 1:
@@ -231,24 +277,31 @@ def plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', fon
 
 # 画棋盘图/伪彩色图
 @guan.statistics_decorator
-def plot_pcolor(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=15, cmap='jet', levels=None, show=1, save=0, filename='a', file_format='.jpg', dpi=300):  
+def plot_pcolor(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=15, cmap='jet', levels=None, show=1, save=0, filename='a', file_format='.jpg', dpi=300, fontfamily='Times New Roman'):  
     import numpy as np
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots()
     plt.subplots_adjust(bottom=0.2, right=0.75, left=0.2) 
     x_array, y_array = np.meshgrid(x_array, y_array)
     contour = ax.pcolor(x_array,y_array,matrix, cmap=cmap)
-    ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
-    ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman') 
-    ax.set_ylabel(ylabel, fontsize=fontsize, fontfamily='Times New Roman') 
-    ax.tick_params(labelsize=labelsize) 
-    labels = ax.get_xticklabels() + ax.get_yticklabels()
-    [label.set_fontname('Times New Roman') for label in labels]
+    if fontfamily=='Times New Roman':
+        ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
+        ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman')
+        ax.set_ylabel(ylabel, fontsize=fontsize, fontfamily='Times New Roman')
+    else:
+        ax.set_title(title, fontsize=fontsize)
+        ax.set_xlabel(xlabel, fontsize=fontsize)
+        ax.set_ylabel(ylabel, fontsize=fontsize)
+    ax.tick_params(labelsize=labelsize)
+    if fontfamily=='Times New Roman':
+        labels = ax.get_xticklabels() + ax.get_yticklabels()
+        [label.set_fontname('Times New Roman') for label in labels]
     cax = plt.axes([0.8, 0.2, 0.05, 0.68])
     cbar = fig.colorbar(contour, cax=cax) 
-    cbar.ax.tick_params(labelsize=labelsize) 
-    for l in cbar.ax.yaxis.get_ticklabels():
-        l.set_family('Times New Roman')
+    cbar.ax.tick_params(labelsize=labelsize)
+    if fontfamily=='Times New Roman':
+        for l in cbar.ax.yaxis.get_ticklabels():
+            l.set_family('Times New Roman')
     if save == 1:
         plt.savefig(filename+file_format, dpi=dpi) 
     if show == 1:
