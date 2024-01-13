@@ -2,7 +2,6 @@
 import guan
 
 # 获取当前日期字符串
-@guan.statistics_decorator
 def get_date(bar=True):
     import datetime
     datetime_date = str(datetime.date.today())
@@ -11,7 +10,6 @@ def get_date(bar=True):
     return datetime_date
 
 # 获取当前时间字符串
-@guan.statistics_decorator
 def get_time(colon=True):
     import datetime
     datetime_time = datetime.datetime.now().strftime('%H:%M:%S')
@@ -901,7 +899,6 @@ def compress_wav_to_mp3(wav_path, output_filename='a.mp3', bitrate='16k'):
     sound.export(output_filename,format="mp3",bitrate=bitrate)
 
 # 获取MAC地址
-@guan.statistics_decorator
 def get_mac_address():
     import uuid
     mac_address = uuid.UUID(int=uuid.getnode()).hex[-12:].upper()
@@ -909,7 +906,6 @@ def get_mac_address():
     return mac_address
 
 # 获取调用本函数的函数名
-@guan.statistics_decorator
 def get_calling_function_name(layer=1):
     import inspect
     caller = inspect.stack()[layer]
@@ -933,7 +929,6 @@ def get_latest_version(package_name='guan', timeout=5):
         return None
 
 # 获取软件包的本机版本
-@guan.statistics_decorator
 def get_current_version(package_name='guan'):
     import importlib.metadata
     try:
