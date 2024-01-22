@@ -42,6 +42,142 @@ def load_txt_data(filename):
     data = np.loadtxt(filename+'.txt')
     return data
 
+# 如果不存在文件夹，则新建文件夹
+@guan.statistics_decorator
+def make_directory(directory='./test'):
+    import os
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+# 如果不存在文件，则新建空文件
+@guan.statistics_decorator
+def make_file(file_path='./a.txt'):
+    import os
+    if not os.path.exists(file_path):
+        with open(file_path, 'w') as f:
+            pass
+
+# 打开文件用于写入，默认为新增内容
+@guan.statistics_decorator
+def open_file(filename='a', file_format='.txt', mode='add'):
+    if mode == 'add':
+        f = open(filename+file_format, 'a', encoding='UTF-8')
+    elif mode == 'overwrite':
+        f = open(filename+file_format, 'w', encoding='UTF-8')
+    return f
+
+# 读取文本文件内容，如果不存在，则新建空文件，并返回空字符串
+@guan.statistics_decorator
+def read_text_file(file_path='./a.txt'):
+    import os
+    if not os.path.exists(file_path):
+        with open(file_path, 'w') as f:
+            pass
+        return ''
+    else:
+        with open(file_path, 'r') as f:
+            content = f.read()
+        return content
+
+# 获取目录中的所有文件名
+@guan.statistics_decorator
+def get_all_filenames_in_directory(directory='./', file_format=None):
+    import os
+    file_list = []
+    for root, dirs, files in os.walk(directory):
+        for i0 in range(len(files)):
+            if file_format == None:
+                file_list.append(files[i0])
+            else:
+                if file_format in files[i0]:
+                    file_list.append(files[i0])
+    return file_list
+
+# 获取目录中的所有文件名（不包括子目录）
+@guan.statistics_decorator
+def get_all_filenames_in_directory_without_subdirectory(directory='./', file_format=None):
+    import os
+    file_list = []
+    for root, dirs, files in os.walk(directory):
+        for i0 in range(len(files)):
+            if file_format == None:
+                file_list.append(files[i0])
+            else:
+                if file_format in files[i0]:
+                    file_list.append(files[i0])
+        break
+    return file_list
+
+# 获取文件夹中某种文本类型的文件以及读取所有内容
+@guan.statistics_decorator
+def read_text_files_in_directory(directory='./', file_format='.md'):
+    import os
+    file_list = []
+    for root, dirs, files in os.walk(directory):
+        for i0 in range(len(files)):
+            if file_format in files[i0]:
+                file_list.append(root+'/'+files[i0])
+    content_array = []
+    for file in file_list:
+        with open(file, 'r') as f:
+            content_array.append(f.read())
+    return file_list, content_array
+
+# 在多个文本文件中查找关键词
+@guan.statistics_decorator
+def find_words_in_multiple_files(words, directory='./', file_format='.md'):
+    import guan
+    file_list, content_array = guan.read_text_files_in_directory(directory=directory, file_format=file_format)
+    num_files = len(file_list)
+    file_list_with_words = []
+    for i0 in range(num_files):
+        if words in content_array[i0]:
+            file_list_with_words.append(file_list[i0])
+    return file_list_with_words
+
+# 复制一份文件
+@guan.statistics_decorator
+def copy_file(file1='./a.txt', file2='./b.txt'):
+    import shutil
+    shutil.copy(file1, file2)
+
+# 打开文件，替代某字符串
+@guan.statistics_decorator
+def open_file_and_replace_str(file_path='./a.txt', old_str='', new_str=''):
+    import guan
+    content = guan.read_text_file(file_path=file_path)
+    content = content.replace(old_str, new_str)
+    f = guan.open_file(filename=file_path, file_format='', mode='overwrite')
+    f.write(content)
+    f.close()
+
+# 复制一份文件，然后再替代某字符串
+@guan.statistics_decorator
+def copy_file_and_replace_str(old_file='./a.txt', new_file='./b.txt', old_str='', new_str=''):
+    import guan
+    guan.copy_file(file1=old_file, file2=new_file)
+    content = guan.read_text_file(file_path=new_file)
+    content = content.replace(old_str, new_str)
+    f = guan.open_file(filename=new_file, file_format='', mode='overwrite')
+    f.write(content)
+    f.close()
+
+# 拼接两个PDF文件
+@guan.statistics_decorator
+def combine_two_pdf_files(input_file_1='a.pdf', input_file_2='b.pdf', output_file='combined_file.pdf'):
+    import PyPDF2
+    output_pdf = PyPDF2.PdfWriter()
+    with open(input_file_1, 'rb') as file1:
+        pdf1 = PyPDF2.PdfReader(file1)
+        for page in range(len(pdf1.pages)):
+            output_pdf.add_page(pdf1.pages[page])
+    with open(input_file_2, 'rb') as file2:
+        pdf2 = PyPDF2.PdfReader(file2)
+        for page in range(len(pdf2.pages)):
+            output_pdf.add_page(pdf2.pages[page])
+    with open(output_file, 'wb') as combined_file:
+        output_pdf.write(combined_file)
+
 # 读取文件中的一维数据（一行一组x和y）
 @guan.statistics_decorator
 def read_one_dimensional_data(filename='a', file_format='.txt'): 
@@ -157,12 +293,6 @@ def read_two_dimensional_data_without_xy_array(filename='a', file_format='.txt')
     matrix = np.loadtxt(filename+file_format)
     return matrix
 
-# 打开文件用于新增内容
-@guan.statistics_decorator
-def open_file(filename='a', file_format='.txt'):
-    f = open(filename+file_format, 'a', encoding='UTF-8')
-    return f
-
 # 在文件中写入一维数据（一行一组x和y）
 @guan.statistics_decorator
 def write_one_dimensional_data(x_array, y_array, filename='a', file_format='.txt'):
@@ -229,109 +359,3 @@ def write_two_dimensional_data_without_xy_array_and_without_opening_file(matrix,
         for element in row:
             f.write(str(element)+'   ')
         f.write('\n')
-
-# 如果不存在文件夹，则新建文件夹
-@guan.statistics_decorator
-def make_directory(directory='./test'):
-    import os
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-
-# 如果不存在文件，则新建空文件
-@guan.statistics_decorator
-def make_file(file_path='./a.txt'):
-    import os
-    if not os.path.exists(file_path):
-        with open(file_path, 'w') as f:
-            pass
-
-# 读取文本文件内容，如果不存在，则新建空文件
-@guan.statistics_decorator
-def read_text_file(file_path='./a.txt'):
-    import os
-    if not os.path.exists(file_path):
-        with open(file_path, 'w') as f:
-            pass
-        return ''
-    else:
-        with open(file_path, 'r') as f:
-            content = f.read()
-        return content
-
-# 获取目录中的所有文件名
-@guan.statistics_decorator
-def get_all_filenames_in_directory(directory='./', file_format=None):
-    import os
-    file_list = []
-    for root, dirs, files in os.walk(directory):
-        for i0 in range(len(files)):
-            if file_format == None:
-                file_list.append(files[i0])
-            else:
-                if file_format in files[i0]:
-                    file_list.append(files[i0])
-    return file_list
-
-# 获取目录中的所有文件名（不包括子目录）
-@guan.statistics_decorator
-def get_all_filenames_in_directory_without_subdirectory(directory='./', file_format=None):
-    import os
-    file_list = []
-    for root, dirs, files in os.walk(directory):
-        for i0 in range(len(files)):
-            if file_format == None:
-                file_list.append(files[i0])
-            else:
-                if file_format in files[i0]:
-                    file_list.append(files[i0])
-        break
-    return file_list
-
-# 获取文件夹中某种文本类型的文件路径以及读取内容
-@guan.statistics_decorator
-def read_text_files_in_directory(directory='./', file_format='.md'):
-    import os
-    file_list = []
-    for root, dirs, files in os.walk(directory):
-        for i0 in range(len(files)):
-            if file_format in files[i0]:
-                file_list.append(root+'/'+files[i0])
-    content_array = []
-    for file in file_list:
-        with open(file, 'r') as f:
-            content_array.append(f.read())
-    return file_list, content_array
-
-# 在多个文本文件中查找关键词
-@guan.statistics_decorator
-def find_words_in_multiple_files(words, directory='./', file_format='.md'):
-    import guan
-    file_list, content_array = guan.read_text_files_in_directory(directory=directory, file_format=file_format)
-    num_files = len(file_list)
-    file_list_with_words = []
-    for i0 in range(num_files):
-        if words in content_array[i0]:
-            file_list_with_words.append(file_list[i0])
-    return file_list_with_words
-
-# 复制一份文件
-@guan.statistics_decorator
-def copy_file(file1='./a.txt', file2='./b.txt'):
-    import shutil
-    shutil.copy(file1, file2)
-
-# 拼接两个PDF文件
-@guan.statistics_decorator
-def combine_two_pdf_files(input_file_1='a.pdf', input_file_2='b.pdf', output_file='combined_file.pdf'):
-    import PyPDF2
-    output_pdf = PyPDF2.PdfWriter()
-    with open(input_file_1, 'rb') as file1:
-        pdf1 = PyPDF2.PdfReader(file1)
-        for page in range(len(pdf1.pages)):
-            output_pdf.add_page(pdf1.pages[page])
-    with open(input_file_2, 'rb') as file2:
-        pdf2 = PyPDF2.PdfReader(file2)
-        for page in range(len(pdf2.pages)):
-            output_pdf.add_page(pdf2.pages[page])
-    with open(output_file, 'wb') as combined_file:
-        output_pdf.write(combined_file)
