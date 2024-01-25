@@ -116,9 +116,35 @@ def find_vector_with_the_same_gauge_with_binary_search(vector_target, vector_ref
         print('Phase=', phase)
     return vector_target
 
-# 通过使得波函数的一个非零分量为实数，得到固定规范的波函数
+# 通过乘一个相反的相位角，实现波函数的一个非零分量为实数，从而得到固定规范的波函数
 @guan.statistics_decorator
-def find_vector_with_fixed_gauge_by_making_one_component_real(vector, precision=0.005, index=None):
+def find_vector_with_fixed_gauge_by_making_one_component_real(vector, index=None):
+    import numpy as np
+    import cmath
+    vector = np.array(vector)
+    if index == None:
+        index = np.argmax(np.abs(vector))
+    angle = cmath.phase(vector[index])
+    vector = vector*cmath.exp(-1j*angle)
+    return vector
+
+# 通过乘一个相反的相位角，实现波函数的一个非零分量为实数，从而得到固定规范的波函数（在一组波函数中选取最大的那个分量）
+@guan.statistics_decorator
+def find_vector_array_with_fixed_gauge_by_making_one_component_real(vector_array):
+    import numpy as np
+    import guan
+    vector_sum = 0
+    Num_k = np.array(vector_array).shape[0]
+    for i0 in range(Num_k):
+        vector_sum += np.abs(vector_array[i0])
+    index = np.argmax(np.abs(vector_sum))
+    for i0 in range(Num_k):
+        vector_array[i0] = guan.find_vector_with_fixed_gauge_by_making_one_component_real(vector_array[i0], index=index)
+    return vector_array
+
+# 循环查找规范使得波函数的一个非零分量为实数，得到固定规范的波函数
+@guan.statistics_decorator
+def loop_find_vector_with_fixed_gauge_by_making_one_component_real(vector, precision=0.005, index=None):
     import numpy as np
     import cmath
     vector = np.array(vector)
@@ -135,9 +161,9 @@ def find_vector_with_fixed_gauge_by_making_one_component_real(vector, precision=
         vector = -vector
     return vector
 
-# 通过使得波函数的一个非零分量为实数，得到固定规范的波函数（在一组波函数中选取最大的那个分量）
+# 循环查找规范使得波函数的一个非零分量为实数，得到固定规范的波函数（在一组波函数中选取最大的那个分量）
 @guan.statistics_decorator
-def find_vector_array_with_fixed_gauge_by_making_one_component_real(vector_array, precision=0.005):
+def loop_find_vector_array_with_fixed_gauge_by_making_one_component_real(vector_array, precision=0.005):
     import numpy as np
     import guan
     vector_sum = 0
@@ -146,7 +172,7 @@ def find_vector_array_with_fixed_gauge_by_making_one_component_real(vector_array
         vector_sum += np.abs(vector_array[i0])
     index = np.argmax(np.abs(vector_sum))
     for i0 in range(Num_k):
-        vector_array[i0] = guan.find_vector_with_fixed_gauge_by_making_one_component_real(vector_array[i0], precision=precision, index=index)
+        vector_array[i0] = guan.loop_find_vector_with_fixed_gauge_by_making_one_component_real(vector_array[i0], precision=precision, index=index)
     return vector_array
 
 # 旋转两个简并的波函数（说明：参数比较多，算法效率不高）
