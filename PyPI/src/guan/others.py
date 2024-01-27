@@ -330,6 +330,32 @@ def sorted_market_capitalization(num=10):
         sorted_array.append([i0+1, stock_symbol, stock_name, market_capitalization])
     return sorted_array
 
+# 美股市值排序
+@guan.statistics_decorator
+def sorted_market_capitalization_us(num=10):
+    import akshare as ak
+    import numpy as np
+    stocks = ak.stock_us_spot_em()
+    stock_data = stocks.values
+    new_stock_data = []
+    for stock in stock_data:
+        if np.isnan(float(stock[9])):
+            continue
+        else:
+            new_stock_data.append(stock)
+    new_stock_data = np.array(new_stock_data)
+    list_index = np.argsort(new_stock_data[:, 9])
+    list_index = list_index[::-1]
+    if num == None:
+        num = len(list_index)
+    sorted_array = []
+    for i0 in range(num):
+        stock_symbol = new_stock_data[list_index[i0], 15]
+        stock_name = new_stock_data[list_index[i0], 1]
+        market_capitalization = new_stock_data[list_index[i0], 9]/1e8
+        sorted_array.append([i0+1, stock_symbol, stock_name, market_capitalization])
+    return sorted_array
+
 # 获取单个股票的历史数据
 @guan.statistics_decorator
 def history_data_of_one_stock(symbol='000002', period='daily', start_date="19000101", end_date='21000101'):
