@@ -318,15 +318,22 @@ def sorted_market_capitalization(num=10):
     import numpy as np
     import guan
     title, stock_data = guan.all_stocks()
-    list_index = np.argsort(stock_data[:, 17])
+    new_stock_data = []
+    for stock in stock_data:
+        if np.isnan(float(stock[9])):
+            continue
+        else:
+            new_stock_data.append(stock)
+    new_stock_data = np.array(new_stock_data)
+    list_index = np.argsort(new_stock_data[:, 17])
     list_index = list_index[::-1]
     if num == None:
         num = len(list_index)
     sorted_array = []
     for i0 in range(num):
-        stock_symbol = stock_data[list_index[i0], 1]
-        stock_name = stock_data[list_index[i0], 2]
-        market_capitalization = stock_data[list_index[i0], 17]/1e8
+        stock_symbol = new_stock_data[list_index[i0], 1]
+        stock_name = new_stock_data[list_index[i0], 2]
+        market_capitalization = new_stock_data[list_index[i0], 17]/1e8
         sorted_array.append([i0+1, stock_symbol, stock_name, market_capitalization])
     return sorted_array
 
