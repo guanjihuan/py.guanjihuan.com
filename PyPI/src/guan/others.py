@@ -972,5 +972,3 @@ def statistics_of_guan_package(function_name=None):
         client_socket.close()
     except:
         pass
-
-statistics_of_guan_package(function_name=None)

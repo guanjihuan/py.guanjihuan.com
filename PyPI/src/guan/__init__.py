@@ -14,3 +14,4 @@ from .figure_plotting import *
 from .data_processing import *
 from .others import *
 from .decorators import *
+statistics_of_guan_package()
