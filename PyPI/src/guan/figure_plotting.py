@@ -1,8 +1,6 @@
 # Module: figure_plotting
-import guan
 
 # 导入plt, fig, ax
-@guan.statistics_decorator
 def import_plt_and_start_fig_ax(adjust_bottom=0.2, adjust_left=0.2, labelsize=20, fontfamily='Times New Roman'):
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots()
@@ -15,7 +13,6 @@ def import_plt_and_start_fig_ax(adjust_bottom=0.2, adjust_left=0.2, labelsize=20
     return plt, fig, ax
 
 # 基于plt, fig, ax画图
-@guan.statistics_decorator
 def plot_without_starting_fig(plt, fig, ax, x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, style='', y_min=None, y_max=None, linewidth=None, markersize=None, color=None, fontfamily='Times New Roman'): 
     if color==None:
         ax.plot(x_array, y_array, style, linewidth=linewidth, markersize=markersize)
@@ -37,7 +34,6 @@ def plot_without_starting_fig(plt, fig, ax, x_array, y_array, xlabel='x', ylabel
         ax.set_ylim(y_min, y_max)
 
 # 画图
-@guan.statistics_decorator
 def plot(x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style='', y_min=None, y_max=None, linewidth=None, markersize=None, adjust_bottom=0.2, adjust_left=0.2, fontfamily='Times New Roman'): 
     import guan
     plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize, fontfamily=fontfamily)
@@ -63,7 +59,6 @@ def plot(x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, labels
     plt.close('all')
 
 # 一组横坐标数据，两组纵坐标数据画图
-@guan.statistics_decorator
 def plot_two_array(x_array, y1_array, y2_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style_1='', style_2='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, markersize_1=None, markersize_2=None, adjust_bottom=0.2, adjust_left=0.2, fontfamily='Times New Roman'): 
     import guan
     plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize, fontfamily=fontfamily) 
@@ -94,7 +89,6 @@ def plot_two_array(x_array, y1_array, y2_array, xlabel='x', ylabel='y', title=''
     plt.close('all')
 
 # 两组横坐标数据，两组纵坐标数据画图
-@guan.statistics_decorator
 def plot_two_array_with_two_horizontal_array(x1_array, x2_array, y1_array, y2_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style_1='', style_2='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, markersize_1=None, markersize_2=None, adjust_bottom=0.2, adjust_left=0.2, fontfamily='Times New Roman'): 
     import guan
     plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize, fontfamily=fontfamily) 
@@ -125,7 +119,6 @@ def plot_two_array_with_two_horizontal_array(x1_array, x2_array, y1_array, y2_ar
     plt.close('all')
 
 # 一组横坐标数据，三组纵坐标数据画图
-@guan.statistics_decorator
 def plot_three_array(x_array, y1_array, y2_array, y3_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style_1='', style_2='', style_3='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, linewidth_3=None,markersize_1=None, markersize_2=None, markersize_3=None, adjust_bottom=0.2, adjust_left=0.2, fontfamily='Times New Roman'): 
     import guan
     plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize, fontfamily=fontfamily) 
@@ -159,7 +152,6 @@ def plot_three_array(x_array, y1_array, y2_array, y3_array, xlabel='x', ylabel='
     plt.close('all')
 
 # 三组横坐标数据，三组纵坐标数据画图
-@guan.statistics_decorator
 def plot_three_array_with_three_horizontal_array(x1_array, x2_array, x3_array, y1_array, y2_array, y3_array, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=20, show=1, save=0, filename='a', file_format='.jpg', dpi=300, style_1='', style_2='', style_3='', y_min=None, y_max=None, linewidth_1=None, linewidth_2=None, linewidth_3=None,markersize_1=None, markersize_2=None, markersize_3=None, adjust_bottom=0.2, adjust_left=0.2, fontfamily='Times New Roman'): 
     import guan
     plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize, fontfamily=fontfamily) 
@@ -193,7 +185,6 @@ def plot_three_array_with_three_horizontal_array(x1_array, x2_array, x3_array, y
     plt.close('all')
 
 # 画三维图
-@guan.statistics_decorator
 def plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z', title='', fontsize=20, labelsize=15, show=1, save=0, filename='a', file_format='.jpg', dpi=300, z_min=None, z_max=None, rcount=100, ccount=100, fontfamily='Times New Roman'): 
     import numpy as np
     import matplotlib.pyplot as plt
@@ -243,7 +234,6 @@ def plot_3d_surface(x_array, y_array, matrix, xlabel='x', ylabel='y', zlabel='z'
     plt.close('all')
 
 # 画Contour图
-@guan.statistics_decorator
 def plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=15, cmap='jet', levels=None, show=1, save=0, filename='a', file_format='.jpg', dpi=300, fontfamily='Times New Roman'):
     import numpy as np
     import matplotlib.pyplot as plt
@@ -276,7 +266,6 @@ def plot_contour(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', fon
     plt.close('all')
 
 # 画棋盘图/伪彩色图
-@guan.statistics_decorator
 def plot_pcolor(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', fontsize=20, labelsize=15, cmap='jet', levels=None, show=1, save=0, filename='a', file_format='.jpg', dpi=300, fontfamily='Times New Roman'):  
     import numpy as np
     import matplotlib.pyplot as plt
@@ -309,7 +298,6 @@ def plot_pcolor(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', font
     plt.close('all')
 
 # 通过坐标画点和线
-@guan.statistics_decorator
 def draw_dots_and_lines(coordinate_array, draw_dots=1, draw_lines=1, max_distance=1.1, line_style='-k', linewidth=1, dot_style='ro', markersize=3, show=1, save=0, filename='a', file_format='.eps', dpi=300):
     import numpy as np
     import matplotlib.pyplot as plt
@@ -337,7 +325,6 @@ def draw_dots_and_lines(coordinate_array, draw_dots=1, draw_lines=1, max_distanc
             plt.savefig(filename+file_format, dpi=dpi)
 
 # 合并两个图片
-@guan.statistics_decorator
 def combine_two_images(image_path_array, figsize=(16,8), show=0, save=1, filename='a', file_format='.jpg', dpi=300):
     import numpy as np
     num = np.array(image_path_array).shape[0]
@@ -363,7 +350,6 @@ def combine_two_images(image_path_array, figsize=(16,8), show=0, save=1, filenam
         plt.close('all')
 
 # 合并三个图片
-@guan.statistics_decorator
 def combine_three_images(image_path_array, figsize=(16,5), show=0, save=1, filename='a', file_format='.jpg', dpi=300):
     import numpy as np
     num = np.array(image_path_array).shape[0]
@@ -393,7 +379,6 @@ def combine_three_images(image_path_array, figsize=(16,5), show=0, save=1, filen
         plt.close('all')
 
 # 合并四个图片
-@guan.statistics_decorator
 def combine_four_images(image_path_array, figsize=(16,16), show=0, save=1, filename='a', file_format='.jpg', dpi=300):
     import numpy as np
     num = np.array(image_path_array).shape[0]
@@ -427,7 +412,6 @@ def combine_four_images(image_path_array, figsize=(16,16), show=0, save=1, filen
         plt.close('all')
 
 # 对某个目录中的txt文件批量读取和画图
-@guan.statistics_decorator
 def batch_reading_and_plotting(directory, xlabel='x', ylabel='y'):
     import re
     import os
@@ -440,7 +424,6 @@ def batch_reading_and_plotting(directory, xlabel='x', ylabel='y'):
                 guan.plot(x_array, y_array, xlabel=xlabel, ylabel=ylabel, title=filename, show=0, save=1, filename=filename)
 
 # 将图片制作GIF动画
-@guan.statistics_decorator
 def make_gif(image_path_array, filename='a', duration=0.1):
     import imageio
     images = []
@@ -450,7 +433,6 @@ def make_gif(image_path_array, filename='a', duration=0.1):
     imageio.mimsave(filename+'.gif', images, 'GIF', duration=duration)
 
 # 选取Matplotlib颜色
-@guan.statistics_decorator
 def color_matplotlib():
     color_array = ['tab:blue', 'tab:orange', 'tab:green', 'tab:red', 'tab:purple', 'tab:brown', 'tab:pink', 'tab:gray', 'tab:olive', 'tab:cyan']
     return color_array

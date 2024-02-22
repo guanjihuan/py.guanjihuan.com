@@ -1,3 +1,5 @@
+# Module: decorators
+
 # 函数的装饰器，用于获取计算时间（秒）
 def timer_decorator(func):
     import time
@@ -31,7 +33,7 @@ def timer_decorator_hours(func):
         return result
     return wrapper
 
-# 函数的装饰器，用于GUAN软件包的统计
+# 函数的装饰器，用于GUAN软件包函数的使用统计
 def statistics_decorator(func):
     def wrapper(*args, **kwargs):
         result = func(*args, **kwargs)

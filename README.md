@@ -14,7 +14,6 @@ import guan
 
 ## Summary of API Reference
 
-+ decorator
 + basic functions
 + Fourier transform
 + Hamiltonian of examples
@@ -28,6 +27,7 @@ import guan
 + figure plotting
 + data processing
 + others
++ decorators
 
 ## About this package
 

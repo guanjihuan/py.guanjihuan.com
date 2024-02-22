@@ -1,8 +1,6 @@
 # Module: band_structures_and_wave_functions
-import guan
 
 # 计算哈密顿量的本征值
-@guan.statistics_decorator
 def calculate_eigenvalue(hamiltonian):
     import numpy as np
     if np.array(hamiltonian).shape==():
@@ -12,7 +10,6 @@ def calculate_eigenvalue(hamiltonian):
     return eigenvalue
 
 # 输入哈密顿量函数（带一组参数），计算一组参数下的本征值，返回本征值向量组
-@guan.statistics_decorator
 def calculate_eigenvalue_with_one_parameter(x_array, hamiltonian_function, print_show=0):
     import numpy as np
     dim_x = np.array(x_array).shape[0]
@@ -36,7 +33,6 @@ def calculate_eigenvalue_with_one_parameter(x_array, hamiltonian_function, print
     return eigenvalue_array
 
 # 输入哈密顿量函数（带两组参数），计算两组参数下的本征值，返回本征值向量组
-@guan.statistics_decorator
 def calculate_eigenvalue_with_two_parameters(x_array, y_array, hamiltonian_function, print_show=0, print_show_more=0):  
     import numpy as np
     dim_x = np.array(x_array).shape[0]
@@ -70,14 +66,12 @@ def calculate_eigenvalue_with_two_parameters(x_array, y_array, hamiltonian_funct
     return eigenvalue_array
 
 # 计算哈密顿量的本征矢
-@guan.statistics_decorator
 def calculate_eigenvector(hamiltonian):
     import numpy as np
     eigenvalue, eigenvector = np.linalg.eigh(hamiltonian)
     return eigenvector
 
 # 通过二分查找的方法获取和相邻波函数一样规范的波函数
-@guan.statistics_decorator
 def find_vector_with_the_same_gauge_with_binary_search(vector_target, vector_ref, show_error=1, show_times=0, show_phase=0, n_test=1000, precision=1e-6):
     import numpy as np
     import cmath
@@ -117,7 +111,6 @@ def find_vector_with_the_same_gauge_with_binary_search(vector_target, vector_ref
     return vector_target
 
 # 通过乘一个相反的相位角，实现波函数的一个非零分量为实数，从而得到固定规范的波函数
-@guan.statistics_decorator
 def find_vector_with_fixed_gauge_by_making_one_component_real(vector, index=None):
     import numpy as np
     import cmath
@@ -129,7 +122,6 @@ def find_vector_with_fixed_gauge_by_making_one_component_real(vector, index=None
     return vector
 
 # 通过乘一个相反的相位角，实现波函数的一个非零分量为实数，从而得到固定规范的波函数（在一组波函数中选取最大的那个分量）
-@guan.statistics_decorator
 def find_vector_array_with_fixed_gauge_by_making_one_component_real(vector_array):
     import numpy as np
     import guan
@@ -143,7 +135,6 @@ def find_vector_array_with_fixed_gauge_by_making_one_component_real(vector_array
     return vector_array
 
 # 循环查找规范使得波函数的一个非零分量为实数，得到固定规范的波函数
-@guan.statistics_decorator
 def loop_find_vector_with_fixed_gauge_by_making_one_component_real(vector, precision=0.005, index=None):
     import numpy as np
     import cmath
@@ -162,7 +153,6 @@ def loop_find_vector_with_fixed_gauge_by_making_one_component_real(vector, preci
     return vector
 
 # 循环查找规范使得波函数的一个非零分量为实数，得到固定规范的波函数（在一组波函数中选取最大的那个分量）
-@guan.statistics_decorator
 def loop_find_vector_array_with_fixed_gauge_by_making_one_component_real(vector_array, precision=0.005):
     import numpy as np
     import guan
@@ -176,7 +166,6 @@ def loop_find_vector_array_with_fixed_gauge_by_making_one_component_real(vector_
     return vector_array
 
 # 旋转两个简并的波函数（说明：参数比较多，算法效率不高）
-@guan.statistics_decorator
 def rotation_of_degenerate_vectors(vector1, vector2, index1=None, index2=None, precision=0.01, criterion=0.01, show_theta=0):
     import numpy as np
     import math
@@ -206,7 +195,6 @@ def rotation_of_degenerate_vectors(vector1, vector2, index1=None, index2=None, p
     return vector1, vector2
 
 # 旋转两个简并的波函数向量组（说明：参数比较多，算法效率不高）
-@guan.statistics_decorator
 def rotation_of_degenerate_vectors_array(vector1_array, vector2_array, precision=0.01, criterion=0.01, show_theta=0):
     import numpy as np
     import guan
@@ -224,7 +212,6 @@ def rotation_of_degenerate_vectors_array(vector1_array, vector2_array, precision
     return vector1_array, vector2_array
 
 # 在一组数据中找到数值相近的数
-@guan.statistics_decorator
 def find_close_values_in_one_array(array, precision=1e-2):
     new_array = []
     i0 = 0
@@ -238,7 +225,6 @@ def find_close_values_in_one_array(array, precision=1e-2):
     return new_array
 
 # 寻找能带的简并点
-@guan.statistics_decorator
 def find_degenerate_points(k_array, eigenvalue_array, precision=1e-2):
     import guan
     degenerate_k_array = []

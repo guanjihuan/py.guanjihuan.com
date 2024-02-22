@@ -1,8 +1,6 @@
 # Module: data_processing
-import guan
 
 # 并行计算前的预处理，把参数分成多份
-@guan.statistics_decorator
 def preprocess_for_parallel_calculations(parameter_array_all, cpus=1, task_index=0):
     import numpy as np
     num_all = np.array(parameter_array_all).shape[0]
@@ -18,20 +16,17 @@ def preprocess_for_parallel_calculations(parameter_array_all, cpus=1, task_index
     return parameter_array
 
 # 根据子数组的第index个元素对子数组进行排序（index从0开始）
-@guan.statistics_decorator
 def sort_array_by_index_element(original_array, index):
     sorted_array = sorted(original_array, key=lambda x: x[index])
     return sorted_array
 
 # 随机获得一个整数，左闭右闭
-@guan.statistics_decorator
 def get_random_number(start=0, end=1):
     import random
     rand_number = random.randint(start, end)   # 左闭右闭 [start, end]
     return rand_number
 
 # 选取一个种子生成固定的随机整数，左闭右开
-@guan.statistics_decorator
 def generate_random_int_number_for_a_specific_seed(seed=0, x_min=0, x_max=10):
     import numpy as np
     np.random.seed(seed)
@@ -39,7 +34,6 @@ def generate_random_int_number_for_a_specific_seed(seed=0, x_min=0, x_max=10):
     return rand_num
 
 # 以显示编号的样式，打印数组
-@guan.statistics_decorator
 def print_array_with_index(array, show_index=1, index_type=0):
     if show_index==0:
         for i0 in array:
@@ -57,21 +51,18 @@ def print_array_with_index(array, show_index=1, index_type=0):
                 print(index, i0)
 
 # 使用jieba软件包进行分词
-@guan.statistics_decorator
 def divide_text_into_words(text):
     import jieba
     words = jieba.lcut(text)
     return words
 
 # 根据一定的字符长度来分割文本
-@guan.statistics_decorator
 def split_text(text, wrap_width=3000):  
     import textwrap  
     split_text_list = textwrap.wrap(text, wrap_width)
     return split_text_list
 
 # 判断某个字符是中文还是英文或其他
-@guan.statistics_decorator
 def check_Chinese_or_English(a):  
     if '\u4e00' <= a <= '\u9fff' :  
         word_type = 'Chinese'  
@@ -82,7 +73,6 @@ def check_Chinese_or_English(a):
     return word_type
 
 # 统计中英文文本的字数，默认不包括空格
-@guan.statistics_decorator
 def count_words(text, include_space=0, show_words=0):
     import jieba
     import guan
@@ -110,7 +100,6 @@ def count_words(text, include_space=0, show_words=0):
     return num_words
 
 # 将RGB转成HEX
-@guan.statistics_decorator
 def rgb_to_hex(rgb, pound=1):
     if pound==0:
         return '%02x%02x%02x' % rgb
@@ -118,14 +107,12 @@ def rgb_to_hex(rgb, pound=1):
         return '#%02x%02x%02x' % rgb
 
 # 将HEX转成RGB
-@guan.statistics_decorator
 def hex_to_rgb(hex):
     hex = hex.lstrip('#')
     length = len(hex)
     return tuple(int(hex[i:i+length//3], 16) for i in range(0, length, length//3))
 
 # 使用MD5进行散列加密
-@guan.statistics_decorator
 def encryption_MD5(password, salt=''):
     import hashlib
     password = salt+password
@@ -133,7 +120,6 @@ def encryption_MD5(password, salt=''):
     return hashed_password
 
 # 使用SHA-256进行散列加密
-@guan.statistics_decorator
 def encryption_SHA_256(password, salt=''):
     import hashlib
     password = salt+password

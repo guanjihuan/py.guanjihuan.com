@@ -1,8 +1,6 @@
 # Module: machine_learning
-import guan
 
 # 全连接神经网络模型（包含一个隐藏层）（模型的类定义成全局的）
-@guan.statistics_decorator
 def fully_connected_neural_network_with_one_hidden_layer(input_size=1, hidden_size=10, output_size=1, activation='relu'):
     import torch
     global model_class_of_fully_connected_neural_network_with_one_hidden_layer
@@ -28,7 +26,6 @@ def fully_connected_neural_network_with_one_hidden_layer(input_size=1, hidden_si
     return model
 
 # 全连接神经网络模型（包含两个隐藏层）（模型的类定义成全局的）
-@guan.statistics_decorator
 def fully_connected_neural_network_with_two_hidden_layers(input_size=1, hidden_size_1=10, hidden_size_2=10, output_size=1, activation_1='relu', activation_2='relu'):
     import torch
     global model_class_of_fully_connected_neural_network_with_two_hidden_layers
@@ -67,7 +64,6 @@ def fully_connected_neural_network_with_two_hidden_layers(input_size=1, hidden_s
     return model
 
 # 全连接神经网络模型（包含三个隐藏层）（模型的类定义成全局的）
-@guan.statistics_decorator
 def fully_connected_neural_network_with_three_hidden_layers(input_size=1, hidden_size_1=10, hidden_size_2=10, hidden_size_3=10, output_size=1, activation_1='relu', activation_2='relu', activation_3='relu'):
     import torch
     global model_class_of_fully_connected_neural_network_with_three_hidden_layers
@@ -118,7 +114,6 @@ def fully_connected_neural_network_with_three_hidden_layers(input_size=1, hidden
     return model
 
 # 使用优化器训练模型
-@guan.statistics_decorator
 def train_model(model, x_data, y_data, optimizer='Adam', learning_rate=0.001, criterion='MSELoss', num_epochs=1000, print_show=1):
     import torch
     if optimizer == 'Adam':
@@ -144,7 +139,6 @@ def train_model(model, x_data, y_data, optimizer='Adam', learning_rate=0.001, cr
     return model, losses
 
 # 使用优化器批量训练模型
-@guan.statistics_decorator
 def batch_train_model(model, train_loader, optimizer='Adam', learning_rate=0.001, criterion='MSELoss', num_epochs=1000, print_show=1):
     import torch
     if optimizer == 'Adam':
@@ -171,33 +165,28 @@ def batch_train_model(model, train_loader, optimizer='Adam', learning_rate=0.001
     return model, losses
 
 # 保存模型参数到文件
-@guan.statistics_decorator
 def save_model_parameters(model, filename='./model_parameters.pth'):
     import torch
     torch.save(model.state_dict(), filename)
 
 # 保存完整模型到文件（保存时需要模型的类可访问）
-@guan.statistics_decorator
 def save_model(model, filename='./model.pth'):
     import torch
     torch.save(model, filename)
 
 # 加载模型参数（需要输入模型，加载后，原输入的模型参数也会改变）
-@guan.statistics_decorator
 def load_model_parameters(model, filename='./model_parameters.pth'):
     import torch
     model.load_state_dict(torch.load(filename))
     return model
 
 # 加载完整模型（不需要输入模型，但加载时需要原定义的模型的类可访问）
-@guan.statistics_decorator
 def load_model(filename='./model.pth'):
     import torch
     model = torch.load(filename)
     return model
 
 # 加载训练数据，用于批量加载训练
-@guan.statistics_decorator
 def load_train_data(x_train, y_train, batch_size=32):
     from torch.utils.data import DataLoader, TensorDataset
     train_dataset = TensorDataset(x_train, y_train)

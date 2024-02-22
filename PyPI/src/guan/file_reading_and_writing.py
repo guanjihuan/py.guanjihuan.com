@@ -1,15 +1,12 @@
 # Module: file_reading_and_writing
-import guan
 
 # 使用pickle将变量保存到文件（支持几乎所有对象类型）
-@guan.statistics_decorator
 def dump_data(data, filename, file_format='.txt'):
     import pickle
     with open(filename+file_format, 'wb') as f:
         pickle.dump(data, f)
 
 # 使用pickle从文件中恢复数据到变量（支持几乎所有对象类型）
-@guan.statistics_decorator
 def load_data(filename, file_format='.txt'):
     import pickle
     with open(filename+file_format, 'rb') as f:
@@ -17,40 +14,34 @@ def load_data(filename, file_format='.txt'):
     return data
 
 # 使用NumPy保存数组变量到npy文件（二进制文件）
-@guan.statistics_decorator
 def save_npy_data(data, filename):
     import numpy as np
     np.save(filename+'.npy', data)
 
 # 使用NumPy从npy文件恢复数据到数组变量（二进制文件）
-@guan.statistics_decorator
 def load_npy_data(filename):
     import numpy as np
     data = np.load(filename+'.npy')
     return data
 
 # 使用NumPy保存数组变量到TXT文件（文本文件）
-@guan.statistics_decorator
 def save_txt_data(data, filename):
     import numpy as np
     np.savetxt(filename+'.txt', data)
 
 # 使用NumPy从TXT文件恢复数据到数组变量（文本文件）
-@guan.statistics_decorator
 def load_txt_data(filename):
     import numpy as np
     data = np.loadtxt(filename+'.txt')
     return data
 
 # 如果不存在文件夹，则新建文件夹
-@guan.statistics_decorator
 def make_directory(directory='./test'):
     import os
     if not os.path.exists(directory):
         os.makedirs(directory)
 
 # 如果不存在文件，则新建空文件
-@guan.statistics_decorator
 def make_file(file_path='./a.txt'):
     import os
     if not os.path.exists(file_path):
@@ -58,7 +49,6 @@ def make_file(file_path='./a.txt'):
             pass
 
 # 打开文件用于写入，默认为新增内容
-@guan.statistics_decorator
 def open_file(filename='a', file_format='.txt', mode='add'):
     if mode == 'add':
         f = open(filename+file_format, 'a', encoding='UTF-8')
@@ -67,7 +57,6 @@ def open_file(filename='a', file_format='.txt', mode='add'):
     return f
 
 # 读取文本文件内容，如果不存在，则新建空文件，并返回空字符串
-@guan.statistics_decorator
 def read_text_file(file_path='./a.txt'):
     import os
     if not os.path.exists(file_path):
@@ -80,7 +69,6 @@ def read_text_file(file_path='./a.txt'):
         return content
 
 # 获取目录中的所有文件名
-@guan.statistics_decorator
 def get_all_filenames_in_directory(directory='./', file_format=None):
     import os
     file_list = []
@@ -94,7 +82,6 @@ def get_all_filenames_in_directory(directory='./', file_format=None):
     return file_list
 
 # 获取目录中的所有文件名（不包括子目录）
-@guan.statistics_decorator
 def get_all_filenames_in_directory_without_subdirectory(directory='./', file_format=None):
     import os
     file_list = []
@@ -109,7 +96,6 @@ def get_all_filenames_in_directory_without_subdirectory(directory='./', file_for
     return file_list
 
 # 获取文件夹中某种文本类型的文件以及读取所有内容
-@guan.statistics_decorator
 def read_text_files_in_directory(directory='./', file_format='.md'):
     import os
     file_list = []
@@ -124,7 +110,6 @@ def read_text_files_in_directory(directory='./', file_format='.md'):
     return file_list, content_array
 
 # 在多个文本文件中查找关键词
-@guan.statistics_decorator
 def find_words_in_multiple_files(words, directory='./', file_format='.md'):
     import guan
     file_list, content_array = guan.read_text_files_in_directory(directory=directory, file_format=file_format)
@@ -136,13 +121,11 @@ def find_words_in_multiple_files(words, directory='./', file_format='.md'):
     return file_list_with_words
 
 # 复制一份文件
-@guan.statistics_decorator
 def copy_file(file1='./a.txt', file2='./b.txt'):
     import shutil
     shutil.copy(file1, file2)
 
 # 打开文件，替代某字符串
-@guan.statistics_decorator
 def open_file_and_replace_str(file_path='./a.txt', old_str='', new_str=''):
     import guan
     content = guan.read_text_file(file_path=file_path)
@@ -152,7 +135,6 @@ def open_file_and_replace_str(file_path='./a.txt', old_str='', new_str=''):
     f.close()
 
 # 复制一份文件，然后再替代某字符串
-@guan.statistics_decorator
 def copy_file_and_replace_str(old_file='./a.txt', new_file='./b.txt', old_str='', new_str=''):
     import guan
     guan.copy_file(file1=old_file, file2=new_file)
@@ -163,7 +145,6 @@ def copy_file_and_replace_str(old_file='./a.txt', new_file='./b.txt', old_str=''
     f.close()
 
 # 拼接两个PDF文件
-@guan.statistics_decorator
 def combine_two_pdf_files(input_file_1='a.pdf', input_file_2='b.pdf', output_file='combined_file.pdf'):
     import PyPDF2
     output_pdf = PyPDF2.PdfWriter()
@@ -179,7 +160,6 @@ def combine_two_pdf_files(input_file_1='a.pdf', input_file_2='b.pdf', output_fil
         output_pdf.write(combined_file)
 
 # 读取文件中的一维数据（一行一组x和y）
-@guan.statistics_decorator
 def read_one_dimensional_data(filename='a', file_format='.txt'): 
     import numpy as np
     f = open(filename+file_format, 'r')
@@ -203,7 +183,6 @@ def read_one_dimensional_data(filename='a', file_format='.txt'):
     return x_array, y_array
 
 # 读取文件中的一维数据（一行一组x和y）（支持复数形式）
-@guan.statistics_decorator
 def read_one_dimensional_complex_data(filename='a', file_format='.txt'): 
     import numpy as np
     f = open(filename+file_format, 'r')
@@ -227,7 +206,6 @@ def read_one_dimensional_complex_data(filename='a', file_format='.txt'):
     return x_array, y_array
 
 # 读取文件中的二维数据（第一行和第一列分别为横纵坐标）
-@guan.statistics_decorator
 def read_two_dimensional_data(filename='a', file_format='.txt'): 
     import numpy as np
     f = open(filename+file_format, 'r')
@@ -257,7 +235,6 @@ def read_two_dimensional_data(filename='a', file_format='.txt'):
     return x_array, y_array, matrix
 
 # 读取文件中的二维数据（第一行和第一列分别为横纵坐标）（支持复数形式）
-@guan.statistics_decorator
 def read_two_dimensional_complex_data(filename='a', file_format='.txt'): 
     import numpy as np
     f = open(filename+file_format, 'r')
@@ -287,21 +264,18 @@ def read_two_dimensional_complex_data(filename='a', file_format='.txt'):
     return x_array, y_array, matrix
 
 # 读取文件中的二维数据（不包括x和y）
-@guan.statistics_decorator
 def read_two_dimensional_data_without_xy_array(filename='a', file_format='.txt'):
     import numpy as np
     matrix = np.loadtxt(filename+file_format)
     return matrix
 
 # 在文件中写入一维数据（一行一组x和y）
-@guan.statistics_decorator
 def write_one_dimensional_data(x_array, y_array, filename='a', file_format='.txt'):
     import guan
     with open(filename+file_format, 'w', encoding='UTF-8') as f:
         guan.write_one_dimensional_data_without_opening_file(x_array, y_array, f)
 
 # 在文件中写入一维数据（一行一组x和y）（需要输入已打开的文件）
-@guan.statistics_decorator
 def write_one_dimensional_data_without_opening_file(x_array, y_array, f):
     import numpy as np
     x_array = np.array(x_array)
@@ -318,14 +292,12 @@ def write_one_dimensional_data_without_opening_file(x_array, y_array, f):
         i0 += 1
 
 # 在文件中写入二维数据（第一行和第一列分别为横纵坐标）
-@guan.statistics_decorator
 def write_two_dimensional_data(x_array, y_array, matrix, filename='a', file_format='.txt'):
     import guan
     with open(filename+file_format, 'w', encoding='UTF-8') as f:
         guan.write_two_dimensional_data_without_opening_file(x_array, y_array, matrix, f)
 
 # 在文件中写入二维数据（第一行和第一列分别为横纵坐标）（需要输入已打开的文件）
-@guan.statistics_decorator
 def write_two_dimensional_data_without_opening_file(x_array, y_array, matrix, f):
     import numpy as np
     x_array = np.array(x_array)
@@ -346,14 +318,12 @@ def write_two_dimensional_data_without_opening_file(x_array, y_array, matrix, f)
         i0 += 1
 
 # 在文件中写入二维数据（不包括x和y）
-@guan.statistics_decorator
 def write_two_dimensional_data_without_xy_array(matrix, filename='a', file_format='.txt'):
     import guan
     with open(filename+file_format, 'w', encoding='UTF-8') as f:
         guan.write_two_dimensional_data_without_xy_array_and_without_opening_file(matrix, f)
 
 # 在文件中写入二维数据（不包括x和y）（需要输入已打开的文件）
-@guan.statistics_decorator
 def write_two_dimensional_data_without_xy_array_and_without_opening_file(matrix, f):
     for row in matrix:
         for element in row:
