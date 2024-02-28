@@ -89,7 +89,7 @@ def get_all_filenames_in_directory(directory='./', file_format=None, show_root_p
         if include_subdirectory != 1:
             break
     if sort == 1:
-        sorted(file_list)
+        file_list = sorted(file_list)
     return file_list
 
 # 获取文件夹中某种文本类型的文件以及读取所有内容
