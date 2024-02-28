@@ -56,12 +56,13 @@ def open_file(filename='a', file_format='.txt', mode='add'):
         f = open(filename+file_format, 'w', encoding='UTF-8')
     return f
 
-# 读取文本文件内容，如果不存在，则新建空文件，并返回空字符串
-def read_text_file(file_path='./a.txt'):
+# 读取文本文件内容。如果文件不存在，返回空字符串
+def read_text_file(file_path='./a.txt', make_file=None):
     import os
     if not os.path.exists(file_path):
-        with open(file_path, 'w') as f:
-            pass
+        if make_file != None:
+            with open(file_path, 'w') as f:
+                pass
         return ''
     else:
         with open(file_path, 'r') as f:
@@ -69,29 +70,41 @@ def read_text_file(file_path='./a.txt'):
         return content
 
 # 获取目录中的所有文件名
-def get_all_filenames_in_directory(directory='./', file_format=None):
+def get_all_filenames_in_directory(directory='./', file_format=None, show_root_path=None):
     import os
     file_list = []
     for root, dirs, files in os.walk(directory):
         for i0 in range(len(files)):
             if file_format == None:
-                file_list.append(files[i0])
+                if show_root_path == None:
+                    file_list.append(files[i0])
+                else:
+                    file_list.append(root+'/'+files[i0])
             else:
                 if file_format in files[i0]:
-                    file_list.append(files[i0])
+                    if show_root_path == None:
+                        file_list.append(files[i0])
+                    else:
+                        file_list.append(root+'/'+files[i0])
     return file_list
 
 # 获取目录中的所有文件名（不包括子目录）
-def get_all_filenames_in_directory_without_subdirectory(directory='./', file_format=None):
+def get_all_filenames_in_directory_without_subdirectory(directory='./', file_format=None, show_root_path=None):
     import os
     file_list = []
     for root, dirs, files in os.walk(directory):
         for i0 in range(len(files)):
             if file_format == None:
-                file_list.append(files[i0])
+                if show_root_path == None:
+                    file_list.append(files[i0])
+                else:
+                    file_list.append(root+'/'+files[i0])
             else:
                 if file_format in files[i0]:
-                    file_list.append(files[i0])
+                    if show_root_path == None:
+                        file_list.append(files[i0])
+                    else:
+                        file_list.append(root+'/'+files[i0])
         break
     return file_list
 
