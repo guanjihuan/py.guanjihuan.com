@@ -70,42 +70,26 @@ def read_text_file(file_path='./a.txt', make_file=None):
         return content
 
 # 获取目录中的所有文件名
-def get_all_filenames_in_directory(directory='./', file_format=None, show_root_path=None):
+def get_all_filenames_in_directory(directory='./', file_format=None, show_root_path=0, sort=1, include_subdirectory=1):
     import os
     file_list = []
     for root, dirs, files in os.walk(directory):
         for i0 in range(len(files)):
             if file_format == None:
-                if show_root_path == None:
+                if show_root_path == 0:
                     file_list.append(files[i0])
                 else:
                     file_list.append(root+'/'+files[i0])
             else:
                 if file_format in files[i0]:
-                    if show_root_path == None:
+                    if show_root_path == 0:
                         file_list.append(files[i0])
                     else:
                         file_list.append(root+'/'+files[i0])
-    return file_list
-
-# 获取目录中的所有文件名（不包括子目录）
-def get_all_filenames_in_directory_without_subdirectory(directory='./', file_format=None, show_root_path=None):
-    import os
-    file_list = []
-    for root, dirs, files in os.walk(directory):
-        for i0 in range(len(files)):
-            if file_format == None:
-                if show_root_path == None:
-                    file_list.append(files[i0])
-                else:
-                    file_list.append(root+'/'+files[i0])
-            else:
-                if file_format in files[i0]:
-                    if show_root_path == None:
-                        file_list.append(files[i0])
-                    else:
-                        file_list.append(root+'/'+files[i0])
-        break
+        if include_subdirectory != 1:
+            break
+    if sort == 1:
+        sorted(file_list)
     return file_list
 
 # 获取文件夹中某种文本类型的文件以及读取所有内容
