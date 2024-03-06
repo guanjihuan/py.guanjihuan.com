@@ -357,12 +357,17 @@ def history_data_of_one_stock(symbol='000002', period='daily', start_date="19000
     return title, stock_data
 
 # 绘制股票图
-def plot_stock_line(date_array, opening_array, closing_array, high_array, low_array, lw_open_close=6, lw_high_low=2, xlabel='date', ylabel='price', title='', fontsize=20, labelsize=20, adjust_bottom=0.2, adjust_left=0.2):
+def plot_stock_line(date_array, opening_array, closing_array, high_array, low_array, lw_open_close=6, lw_high_low=2, xlabel='date', ylabel='price', title='', fontsize=20, labelsize=20, adjust_bottom=0.2, adjust_left=0.2, fontfamily='Times New Roman'):
     import guan
     plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize)
-    ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
-    ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman') 
-    ax.set_ylabel(ylabel, fontsize=fontsize, fontfamily='Times New Roman') 
+    if fontfamily=='Times New Roman':
+        ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
+        ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman') 
+        ax.set_ylabel(ylabel, fontsize=fontsize, fontfamily='Times New Roman')
+    else:
+        ax.set_title(title, fontsize=fontsize)
+        ax.set_xlabel(xlabel, fontsize=fontsize)
+        ax.set_ylabel(ylabel, fontsize=fontsize)
     for i0 in range(len(date_array)):
         if opening_array[i0] <= closing_array[i0]:
             ax.vlines(date_array[i0], opening_array[i0], closing_array[i0], linestyle='-', color='red', lw=lw_open_close)
