@@ -359,7 +359,7 @@ def history_data_of_one_stock(symbol='000002', period='daily', start_date="19000
 # 绘制股票图
 def plot_stock_line(date_array, opening_array, closing_array, high_array, low_array, lw_open_close=6, lw_high_low=2, xlabel='date', ylabel='price', title='', fontsize=20, labelsize=20, adjust_bottom=0.2, adjust_left=0.2, fontfamily='Times New Roman'):
     import guan
-    plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize)
+    plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=adjust_bottom, adjust_left=adjust_left, labelsize=labelsize, fontfamily=fontfamily)
     if fontfamily=='Times New Roman':
         ax.set_title(title, fontsize=fontsize, fontfamily='Times New Roman')
         ax.set_xlabel(xlabel, fontsize=fontsize, fontfamily='Times New Roman') 
