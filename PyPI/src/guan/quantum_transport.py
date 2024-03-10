@@ -91,12 +91,12 @@ def calculate_conductance_with_disorder_array(fermi_energy, h00, h01, disorder_a
     import guan
     right_self_energy, left_self_energy, gamma_right, gamma_left = guan.self_energy_of_lead(fermi_energy, h00, h01)
     dim = np.array(h00).shape[0]
+    i0 = 0
     for ix in range(length+2):
         if ix == 0:
             green_nn_n = guan.green_function(fermi_energy, h00, broadening=0, self_energy=left_self_energy)
             green_0n_n = copy.deepcopy(green_nn_n)
         elif ix != length+1:
-            i0 = 0
             disorder = np.diag(disorder_array[i0*dim:(i0+1)*dim])
             i0 += 1
             green_nn_n = guan.green_function_nn_n(fermi_energy, h00+disorder, h01, green_nn_n, broadening=0)
