@@ -751,24 +751,25 @@ def pdf_to_txt_for_a_specific_page(pdf_path, page_num=1):
 def get_links_from_pdf(pdf_path, link_starting_form=''):
     import PyPDF2
     import re
-    pdfReader = PyPDF2.PdfFileReader(pdf_path)
-    pages = pdfReader.getNumPages()
+    reader = PyPDF2.PdfReader(pdf_path)
+    pages = len(reader.pages)
     i0 = 0
     links = []
     for page in range(pages):
-        pageSliced = pdfReader.getPage(page)
-        pageObject = pageSliced.getObject()
+        pageSliced = reader.pages[page]
+        pageObject = pageSliced.get_object() 
         if '/Annots' in pageObject.keys():
             ann = pageObject['/Annots']
             old = ''
             for a in ann:
-                u = a.getObject()
+                u = a.get_object() 
                 if '/A' in u.keys():
-                    if re.search(re.compile('^'+link_starting_form), u['/A']['/URI']):
-                        if u['/A']['/URI'] != old:
-                            links.append(u['/A']['/URI']) 
-                            i0 += 1
-                            old = u['/A']['/URI']
+                    if '/URI' in u['/A']: 
+                        if re.search(re.compile('^'+link_starting_form), u['/A']['/URI']):
+                            if u['/A']['/URI'] != old:
+                                links.append(u['/A']['/URI']) 
+                                i0 += 1
+                                old = u['/A']['/URI']
     return links
 
 # 通过Sci-Hub网站下载文献
