@@ -33,6 +33,19 @@ def generate_random_int_number_for_a_specific_seed(seed=0, x_min=0, x_max=10):
     rand_num = np.random.randint(x_min, x_max) # 左闭右开[x_min, x_max)
     return rand_num
 
+# 获取两个模式之间的字符串
+def get_string_between_two_patterns(original_string, start, end, include_start_and_end=0):
+    import re
+    pattern = f'{start}(.*?){end}'
+    result = re.search(pattern, original_string)
+    if result:
+        if include_start_and_end == 0:
+            return result.group(1)
+        else:
+            return start+result.group(1)+end
+    else:
+        return ''
+
 # 以显示编号的样式，打印数组
 def print_array_with_index(array, show_index=1, index_type=0):
     if show_index==0:
