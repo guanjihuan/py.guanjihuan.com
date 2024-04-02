@@ -192,3 +192,20 @@ def load_train_data(x_train, y_train, batch_size=32):
     train_dataset = TensorDataset(x_train, y_train)
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
     return train_loader
+
+# 数据的主成分分析PCA
+def pca_of_data(data, n_components=None, standard=1):
+    from sklearn.decomposition import PCA
+    if standard==1:
+        from sklearn.preprocessing import StandardScaler
+        scaler = StandardScaler()
+        data_scaled = scaler.fit_transform(data)
+    else:
+        data_scaled = data
+    if n_components==None:
+        pca = PCA()
+    else:
+        pca = PCA(n_components=n_components)
+    data_transformed = pca.fit_transform(data_scaled)
+    explained_variance_ratio = pca.explained_variance_ratio_
+    return data_transformed, explained_variance_ratio
