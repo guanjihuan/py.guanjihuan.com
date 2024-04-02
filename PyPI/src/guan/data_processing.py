@@ -1,15 +1,15 @@
 # Module: data_processing
 
 # 并行计算前的预处理，把参数分成多份
-def preprocess_for_parallel_calculations(parameter_array_all, cpus=1, task_index=0):
+def preprocess_for_parallel_calculations(parameter_array_all, task_num=1, task_index=0):
     import numpy as np
     num_all = np.array(parameter_array_all).shape[0]
-    if num_all%cpus == 0:
-        num_parameter = int(num_all/cpus) 
+    if num_all%task_num == 0:
+        num_parameter = int(num_all/task_num) 
         parameter_array = parameter_array_all[task_index*num_parameter:(task_index+1)*num_parameter]
     else:
-        num_parameter = int(num_all/(cpus-1))
-        if task_index != cpus-1:
+        num_parameter = int(num_all/(task_num-1))
+        if task_index != task_num-1:
             parameter_array = parameter_array_all[task_index*num_parameter:(task_index+1)*num_parameter]
         else:
             parameter_array = parameter_array_all[task_index*num_parameter:num_all]
