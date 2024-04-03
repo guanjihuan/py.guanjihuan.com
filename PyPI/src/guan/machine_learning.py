@@ -113,6 +113,34 @@ def fully_connected_neural_network_with_three_hidden_layers(input_size=1, hidden
     model = model_class_of_fully_connected_neural_network_with_three_hidden_layers()
     return model
 
+# 卷积神经网络模型（包含两个卷积层和两个全连接层）（模型的类定义成全局的）
+def convolutional_neural_network_with_two_convolutional_layers_and_two_fully_connected_layers(in_channels=1, out_channels_1=10, out_channels_2=10, kernel_size_1=3, kernel_size_2=3, stride_1=1, stride_2=1, padding_1=0, padding_2=0, pooling=1, pooling_kernel_size=2, pooling_stride=2, input_size=1, hidden_size_1=10, hidden_size_2=10, output_size=1):
+    import torch
+    global model_class_of_convolutional_neural_network_with_two_convolutional_layers_and_two_fully_connected_layers
+    class model_class_of_convolutional_neural_network_with_two_convolutional_layers_and_two_fully_connected_layers(torch.nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.convolutional_layer_1 = torch.nn.Conv2d(in_channels=in_channels, out_channels=out_channels_1, kernel_size=kernel_size_1, stride=stride_1, padding=padding_1)
+            self.convolutional_layer_2 = torch.nn.Conv2d(in_channels=out_channels_1, out_channels=out_channels_2, kernel_size=kernel_size_2, stride=stride_2, padding=padding_2)
+            self.pooling_layer = torch.nn.MaxPool2d(kernel_size=pooling_kernel_size, stride=pooling_stride)
+            self.hidden_layer_1 = torch.nn.Linear(input_size, hidden_size_1)
+            self.hidden_layer_2 = torch.nn.Linear(hidden_size_1, hidden_size_2)
+            self.output_layer = torch.nn.Linear(hidden_size_2, output_size)
+        def forward(self, x):
+            if pooling == 1:
+                channel_output_1 = torch.nn.functional.relu(self.pooling_layer(self.convolutional_layer_1(x))) 
+                channel_output_2 = torch.nn.functional.relu(self.pooling_layer(self.convolutional_layer_2(channel_output_1)))
+            else:
+                channel_output_1 = torch.nn.functional.relu(self.convolutional_layer_1(x)) 
+                channel_output_2 = torch.nn.functional.relu(self.convolutional_layer_2(channel_output_1))
+            channel_output_2 = torch.flatten(channel_output_2, 1)
+            hidden_output_1 = torch.nn.functional.relu(self.hidden_layer_1(channel_output_2))
+            hidden_output_2 = torch.nn.functional.relu(self.hidden_layer_2(hidden_output_1))
+            output = self.output_layer(hidden_output_2)
+            return output
+    model = model_class_of_convolutional_neural_network_with_two_convolutional_layers_and_two_fully_connected_layers()
+    return model
+
 # 使用优化器训练模型
 def train_model(model, x_data, y_data, optimizer='Adam', learning_rate=0.001, criterion='MSELoss', num_epochs=1000, print_show=1):
     import torch
