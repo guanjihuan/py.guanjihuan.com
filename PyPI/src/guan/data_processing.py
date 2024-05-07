@@ -15,6 +15,12 @@ def preprocess_for_parallel_calculations(parameter_array_all, task_num=1, task_i
             parameter_array = parameter_array_all[task_index*num_parameter:num_all]
     return parameter_array
 
+# 判断一个数是否接近于整数
+def close_to_integer(value, abs_tol=1e-3):
+    import math
+    result = math.isclose(value, round(value), abs_tol=abs_tol)
+    return result
+
 # 根据子数组的第index个元素对子数组进行排序（index从0开始）
 def sort_array_by_index_element(original_array, index):
     sorted_array = sorted(original_array, key=lambda x: x[index])

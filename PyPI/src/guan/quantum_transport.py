@@ -16,7 +16,11 @@ def calculate_conductance(fermi_energy, h00, h01, length=100):
         else:
             green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n, broadening=0, self_energy=right_self_energy)
             green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
-    conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
+    dim = np.array(h00).shape[0]
+    if dim == 1:
+        conductance = np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj())
+    else:
+        conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
     return conductance
 
 # 计算不同费米能下的电导
@@ -53,7 +57,10 @@ def calculate_conductance_with_barrier(fermi_energy, h00, h01, length=100, barri
         else:
             green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n, broadening=0, self_energy=right_self_energy)
             green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
-    conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
+    if dim == 1:
+        conductance = np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj())
+    else:
+        conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
     return conductance
 
 # 计算在无序散射下的电导
@@ -79,7 +86,10 @@ def calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensi
             else:
                 green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n, broadening=0, self_energy=right_self_energy)
                 green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
-        conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
+        if dim == 1:
+            conductance = np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj())
+        else:
+            conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
         conductance_averaged += conductance
     conductance_averaged = conductance_averaged/calculation_times
     return conductance_averaged
@@ -104,7 +114,10 @@ def calculate_conductance_with_disorder_array(fermi_energy, h00, h01, disorder_a
         else:
             green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n, broadening=0, self_energy=right_self_energy)
             green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
-    conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
+    if dim == 1:
+        conductance = np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj())
+    else:
+        conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
     return conductance
 
 # 计算在无序垂直切片的散射下的电导
@@ -127,7 +140,10 @@ def calculate_conductance_with_slice_disorder(fermi_energy, h00, h01, disorder_i
         else:
             green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n, broadening=0, self_energy=right_self_energy)
             green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
-    conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
+    if dim == 1:
+        conductance = np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj())
+    else:
+        conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
     return conductance
 
 # 计算在无序水平切片的散射下的电导
@@ -151,7 +167,10 @@ def calculate_conductance_with_disorder_inside_unit_cell_which_keeps_translation
         else:
             green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n, broadening=0, self_energy=right_self_energy)
             green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
-    conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
+    if dim == 1:
+        conductance = np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj())
+    else:
+        conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
     return conductance
 
 # 计算在随机空位的散射下的电导
@@ -175,7 +194,10 @@ def calculate_conductance_with_random_vacancy(fermi_energy, h00, h01, vacancy_co
         else:
             green_nn_n = guan.green_function_nn_n(fermi_energy, h00, h01, green_nn_n, broadening=0, self_energy=right_self_energy)
             green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
-    conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
+    if dim == 1:
+        conductance = np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj())
+    else:
+        conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
     return conductance
 
 # 计算在不同无序散射强度下的电导

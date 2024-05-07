@@ -49,8 +49,12 @@ def transfer_matrix(fermi_energy, h00, h01):
     else:
         dim = np.array(h00).shape[0]
     transfer = np.zeros((2*dim, 2*dim), dtype=complex)
-    transfer[0:dim, 0:dim] = np.dot(np.linalg.inv(h01), fermi_energy*np.identity(dim)-h00)
-    transfer[0:dim, dim:2*dim] = np.dot(-1*np.linalg.inv(h01), h01.transpose().conj())
+    if dim == 1:
+        transfer[0:dim, 0:dim] = np.dot(1/h01, fermi_energy*np.identity(dim)-h00)
+        transfer[0:dim, dim:2*dim] = np.dot(-1/h01, h01.transpose().conj())
+    else:
+        transfer[0:dim, 0:dim] = np.dot(np.linalg.inv(h01), fermi_energy*np.identity(dim)-h00)
+        transfer[0:dim, dim:2*dim] = np.dot(-1*np.linalg.inv(h01), h01.transpose().conj())
     transfer[dim:2*dim, 0:dim] = np.identity(dim)
     transfer[dim:2*dim, dim:2*dim] = 0
     return transfer
