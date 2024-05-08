@@ -19,6 +19,10 @@ def calculate_conductance(fermi_energy, h00, h01, length=100):
     dim = np.array(h00).shape[0]
     if dim == 1:
         conductance = np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj())
+        if conductance.shape == ():
+            pass
+        else:
+            conductance = conductance[0][0]
     else:
         conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
     return conductance
@@ -59,6 +63,10 @@ def calculate_conductance_with_barrier(fermi_energy, h00, h01, length=100, barri
             green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
     if dim == 1:
         conductance = np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj())
+        if conductance.shape == ():
+            pass
+        else:
+            conductance = conductance[0][0]
     else:
         conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
     return conductance
@@ -88,6 +96,10 @@ def calculate_conductance_with_disorder(fermi_energy, h00, h01, disorder_intensi
                 green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
         if dim == 1:
             conductance = np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj())
+            if conductance.shape == ():
+                pass
+            else:
+                conductance = conductance[0][0]
         else:
             conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
         conductance_averaged += conductance
@@ -116,6 +128,10 @@ def calculate_conductance_with_disorder_array(fermi_energy, h00, h01, disorder_a
             green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
     if dim == 1:
         conductance = np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj())
+        if conductance.shape == ():
+            pass
+        else:
+            conductance = conductance[0][0]
     else:
         conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
     return conductance
@@ -142,6 +158,10 @@ def calculate_conductance_with_slice_disorder(fermi_energy, h00, h01, disorder_i
             green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
     if dim == 1:
         conductance = np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj())
+        if conductance.shape == ():
+            pass
+        else:
+            conductance = conductance[0][0]
     else:
         conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
     return conductance
@@ -169,6 +189,10 @@ def calculate_conductance_with_disorder_inside_unit_cell_which_keeps_translation
             green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
     if dim == 1:
         conductance = np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj())
+        if conductance.shape == ():
+            pass
+        else:
+            conductance = conductance[0][0]
     else:
         conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
     return conductance
@@ -196,6 +220,10 @@ def calculate_conductance_with_random_vacancy(fermi_energy, h00, h01, vacancy_co
             green_0n_n = guan.green_function_in_n(green_0n_n, h01, green_nn_n)
     if dim == 1:
         conductance = np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj())
+        if conductance.shape == ():
+            pass
+        else:
+            conductance = conductance[0][0]
     else:
         conductance = np.trace(np.dot(np.dot(np.dot(gamma_left, green_0n_n), gamma_right), green_0n_n.transpose().conj()))
     return conductance
