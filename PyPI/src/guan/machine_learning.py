@@ -18,6 +18,10 @@ def fully_connected_neural_network_with_one_hidden_layer(input_size=1, hidden_si
                 hidden_output = torch.nn.functional.sigmoid(self.hidden_layer(x))
             elif activation == 'tanh':
                 hidden_output = torch.nn.functional.tanh(self.hidden_layer(x))
+            elif activation == 'gelu':
+                hidden_output = torch.nn.functional.gelu(self.hidden_layer(x))
+            elif activation == 'silu':
+                hidden_output = torch.nn.functional.silu(self.hidden_layer(x))
             else:
                 hidden_output = self.hidden_layer(x)
             output = self.output_layer(hidden_output)
@@ -44,6 +48,10 @@ def fully_connected_neural_network_with_two_hidden_layers(input_size=1, hidden_s
                 hidden_output_1 = torch.nn.functional.sigmoid(self.hidden_layer_1(x))
             elif activation_1 == 'tanh':
                 hidden_output_1 = torch.nn.functional.tanh(self.hidden_layer_1(x))
+            elif activation_1 == 'gelu':
+                hidden_output_1 = torch.nn.functional.gelu(self.hidden_layer_1(x))
+            elif activation_1 == 'silu':
+                hidden_output_1 = torch.nn.functional.silu(self.hidden_layer_1(x))
             else:
                 hidden_output_1 = self.hidden_layer_1(x)
             
@@ -55,6 +63,10 @@ def fully_connected_neural_network_with_two_hidden_layers(input_size=1, hidden_s
                 hidden_output_2 = torch.nn.functional.sigmoid(self.hidden_layer_2(hidden_output_1))
             elif activation_2 == 'tanh':
                 hidden_output_2 = torch.nn.functional.tanh(self.hidden_layer_2(hidden_output_1))
+            elif activation_2 == 'gelu':
+                hidden_output_2 = torch.nn.functional.gelu(self.hidden_layer_2(hidden_output_1))
+            elif activation_2 == 'silu':
+                hidden_output_2 = torch.nn.functional.silu(self.hidden_layer_2(hidden_output_1))
             else:
                 hidden_output_2 = self.hidden_layer_2(hidden_output_1)
             
@@ -83,6 +95,10 @@ def fully_connected_neural_network_with_three_hidden_layers(input_size=1, hidden
                 hidden_output_1 = torch.nn.functional.sigmoid(self.hidden_layer_1(x))
             elif activation_1 == 'tanh':
                 hidden_output_1 = torch.nn.functional.tanh(self.hidden_layer_1(x))
+            elif activation_1 == 'gelu':
+                hidden_output_1 = torch.nn.functional.gelu(self.hidden_layer_1(x))
+            elif activation_1 == 'silu':
+                hidden_output_1 = torch.nn.functional.silu(self.hidden_layer_1(x))
             else:
                 hidden_output_1 = self.hidden_layer_1(x)
             
@@ -94,6 +110,10 @@ def fully_connected_neural_network_with_three_hidden_layers(input_size=1, hidden
                 hidden_output_2 = torch.nn.functional.sigmoid(self.hidden_layer_2(hidden_output_1))
             elif activation_2 == 'tanh':
                 hidden_output_2 = torch.nn.functional.tanh(self.hidden_layer_2(hidden_output_1))
+            elif activation_2 == 'gelu':
+                hidden_output_2 = torch.nn.functional.gelu(self.hidden_layer_2(hidden_output_1))
+            elif activation_2 == 'silu':
+                hidden_output_2 = torch.nn.functional.silu(self.hidden_layer_2(hidden_output_1))
             else:
                 hidden_output_2 = self.hidden_layer_2(hidden_output_1)
 
@@ -105,6 +125,10 @@ def fully_connected_neural_network_with_three_hidden_layers(input_size=1, hidden
                 hidden_output_3 = torch.nn.functional.sigmoid(self.hidden_layer_3(hidden_output_2))
             elif activation_3 == 'tanh':
                 hidden_output_3 = torch.nn.functional.tanh(self.hidden_layer_3(hidden_output_2))
+            elif activation_3 == 'gelu':
+                hidden_output_3 = torch.nn.functional.gelu(self.hidden_layer_3(hidden_output_2))
+            elif activation_3 == 'silu':
+                hidden_output_3 = torch.nn.functional.silu(self.hidden_layer_3(hidden_output_2))
             else:
                 hidden_output_3 = self.hidden_layer_3(hidden_output_2)
             
