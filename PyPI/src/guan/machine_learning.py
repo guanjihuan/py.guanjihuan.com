@@ -245,7 +245,7 @@ def load_train_data(x_train, y_train, batch_size=32):
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
     return train_loader
 
-# 从pickle文件中读取输入数据和输出数据，用于训练或预测
+# 从pickle文件（多个小文件）中读取输入数据和输出数据，用于训练或预测
 def load_input_data_and_output_data_as_torch_tensors_with_pickle(index_range=[1, 2, 3], directory='./', input_filename='input_index=', output_filename='output_index=', type=None):
     import guan
     import numpy as np
@@ -258,6 +258,23 @@ def load_input_data_and_output_data_as_torch_tensors_with_pickle(index_range=[1,
     for index in index_range:
         output = guan.load_data(filename=directory+output_filename+str(index))
         output_data.append(output)
+    if type == None:
+        input_data = np.array(input_data)
+        output_data= np.array(output_data)
+    else:
+        input_data = np.array(input_data).astype(type)
+        output_data= np.array(output_data).astype(type)
+    input_data = torch.from_numpy(input_data)
+    output_data = torch.from_numpy(output_data)
+    return input_data, output_data
+
+# 从pickle文件（一个数组文件）中读取输入数据和输出数据，用于训练或预测
+def load_input_data_and_output_data_as_torch_tensors_with_pickle_from_array_file(input_filename='input_file', output_filename='output_file', type=None):
+    import guan
+    import numpy as np
+    import torch
+    input_data = guan.load_data(filename=input_filename)
+    output_data = guan.load_data(filename=output_filename)
     if type == None:
         input_data = np.array(input_data)
         output_data= np.array(output_data)
