@@ -33,6 +33,31 @@ def timer_decorator_hours(func):
         return result
     return wrapper
 
+# 函数的装饰器，用于获取计算时间（秒，分，时），可将运行的时间写入文件
+def timer_decorator_with_parameters(unit='second', print_show=1, write_file=0, filename='timer'):
+    def timer_decorator(func):
+        import time
+        def wrapper(*args, **kwargs):
+            start = time.time()
+            result = func(*args, **kwargs)
+            end = time.time()
+            if unit == 'second':
+                timer_text = f"Running time of {func.__name__}: {end - start} seconds"
+            elif unit == 'minute':
+                timer_text = f"Running time of {func.__name__}: {(end - start)/60} minutes"
+            elif unit == 'hour':
+                timer_text = f"Running time of {func.__name__}: {(end - start)/3600} hours"
+            else:
+                timer_text = f"Running time of {func.__name__}: {end - start} seconds"
+            if print_show == 1:
+                print(timer_text)
+            if write_file == 1:
+                with open(filename+'.txt', 'a') as f:
+                    f.write(timer_text+'\n')
+            return result
+        return wrapper
+    return timer_decorator
+
 # 函数的装饰器，用于GUAN软件包函数的使用统计
 def statistics_decorator(func):
     def wrapper(*args, **kwargs):
