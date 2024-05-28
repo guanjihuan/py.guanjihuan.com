@@ -2,14 +2,10 @@
 
 # 模型对话
 def chat(prompt='你好', model=1, stream=0, top_p=0.8, temperature=0.85):
-    '''
-    model=1: 'qwen1.5-0.5b-chat'
-    model=2: 'qwen-1.8b-chat'
-    '''
     import socket
     import json
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
-        client_socket.settimeout(15)
+        client_socket.settimeout(30)
         client_socket.connect(('socket.guanjihuan.com', 12345))
         message = {
             'server': "chat.guanjihuan.com",
@@ -25,10 +21,10 @@ def chat(prompt='你好', model=1, stream=0, top_p=0.8, temperature=0.85):
         while True:
             try:
                 data = client_socket.recv(1024)
-                stream_response = data.decode()
-                response_dict = json.loads(stream_response)
-                stream_response = response_dict['response']
-                response = response_dict['all_response']
+                response_data = data.decode()
+                response_dict = json.loads(response_data)
+                stream_response = response_dict['stream_response']
+                response = response_dict['response']
                 end_message = response_dict['end_message']
                 if end_message == 1:
                     break
