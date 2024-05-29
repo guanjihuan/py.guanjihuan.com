@@ -18,6 +18,7 @@ def chat(prompt='你好', model=1, stream=0, top_p=0.8, temperature=0.85):
         client_socket.send(send_message.encode())
         if stream == 1:
             print('\n--- Begin Stream Message ---\n')
+        response = ''
         while True:
             try:
                 data = client_socket.recv(1024)
