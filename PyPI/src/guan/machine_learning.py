@@ -165,8 +165,21 @@ def convolutional_neural_network_with_two_convolutional_layers_and_two_fully_con
     model = model_class_of_convolutional_neural_network_with_two_convolutional_layers_and_two_fully_connected_layers()
     return model
 
+# 从损失函数的变化情况中获取是否停止训练的信号
+def get_break_signal_from_loss_array(loss_array, patience=100, min_delta=0.001):
+    break_signal = 0
+    counter = 0
+    num = len(loss_array)
+    for i0 in range(num):
+        if i0 != 0:
+            if abs(loss_array[i0]-loss_array[i0-1])<min_delta:
+                counter += 1
+    if counter >= patience:
+        break_signal = 1
+    return break_signal
+
 # 使用优化器训练模型
-def train_model(model, x_data, y_data, optimizer='Adam', learning_rate=0.001, criterion='MSELoss', num_epochs=1000, print_show=1):
+def train_model(model, x_data, y_data, optimizer='Adam', learning_rate=0.001, criterion='MSELoss', num_epochs=1000, print_show=1, early_stop=0, patience=100, min_delta=0.001):
     import torch
     if optimizer == 'Adam':
         optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
@@ -177,21 +190,26 @@ def train_model(model, x_data, y_data, optimizer='Adam', learning_rate=0.001, cr
         criterion = torch.nn.MSELoss()
     elif criterion == 'CrossEntropyLoss':
         criterion = torch.nn.CrossEntropyLoss()
-    losses = []
+    loss_array = []
     for epoch in range(num_epochs):
         output = model.forward(x_data)
         loss = criterion(output, y_data)
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-        losses.append(loss.item())
+        loss_array.append(loss.item())
         if print_show == 1:
             if (epoch + 1) % 100 == 0:
                 print(epoch, loss.item())
-    return model, losses
+        if early_stop == 1:
+            import guan
+            break_signal = guan.get_break_signal_from_loss_array(loss_array, patience=patience, min_delta=min_delta)
+            if break_signal:
+                break
+    return model, loss_array
 
 # 使用优化器批量训练模型
-def batch_train_model(model, train_loader, optimizer='Adam', learning_rate=0.001, criterion='MSELoss', num_epochs=1000, print_show=1):
+def batch_train_model(model, train_loader, optimizer='Adam', learning_rate=0.001, criterion='MSELoss', num_epochs=1000, print_show=1, more_loss_data=0, early_stop=0, patience=100, min_delta=0.001):
     import torch
     if optimizer == 'Adam':
         optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
@@ -202,6 +220,7 @@ def batch_train_model(model, train_loader, optimizer='Adam', learning_rate=0.001
         criterion = torch.nn.MSELoss()
     elif criterion == 'CrossEntropyLoss':
         criterion = torch.nn.CrossEntropyLoss()
+    loss_array = []
     losses = []
     for epoch in range(num_epochs):
         for batch_x, batch_y in train_loader:
@@ -211,10 +230,19 @@ def batch_train_model(model, train_loader, optimizer='Adam', learning_rate=0.001
             loss.backward()
             optimizer.step()
             losses.append(loss.item())
+        loss_array.append(loss.item())
         if print_show == 1:
             if (epoch + 1) % 100 == 0:
                 print(epoch, loss.item())
-    return model, losses
+        if early_stop == 1:
+            import guan
+            break_signal = guan.get_break_signal_from_loss_array(loss_array, patience=patience, min_delta=min_delta)
+            if break_signal:
+                break
+    if more_loss_data == 0:
+        return model, loss_array
+    else:
+        return model, losses
 
 # 保存模型参数到文件
 def save_model_parameters(model, filename='./model_parameters.pth'):
