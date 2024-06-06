@@ -22,16 +22,17 @@ def chat(prompt='你好', model=1, stream=0, top_p=0.8, temperature=0.85):
         while True:
             try:
                 data = client_socket.recv(1024)
-                response_data = data.decode()
-                response_dict = json.loads(response_data)
-                stream_response = response_dict['stream_response']
-                response = response_dict['response']
-                end_message = response_dict['end_message']
-                if end_message == 1:
-                    break
-                else:
-                    if stream == 1:
-                        print(stream_response)
+                if data != b'':
+                    response_data = data.decode()
+                    response_dict = json.loads(response_data)
+                    stream_response = response_dict['stream_response']
+                    response += stream_response
+                    end_message = response_dict['end_message']
+                    if end_message == 1:
+                        break
+                    else:
+                        if stream == 1:
+                            print(stream_response)
             except:
                 break
         client_socket.close()
