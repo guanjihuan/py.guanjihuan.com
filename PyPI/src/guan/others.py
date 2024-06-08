@@ -40,6 +40,12 @@ def chat(prompt='你好', model=1, stream=0, top_p=0.8, temperature=0.85):
             print('\n--- End Stream Message ---\n')
     return response
 
+# 获取函数或类的源码（返回字符串）
+def get_source(name):
+    import inspect
+    source = inspect.getsource(name)
+    return source
+
 # 获取当前日期字符串
 def get_date(bar=True):
     import datetime
@@ -463,12 +469,6 @@ def get_PID(name):
     ps_ef = re.split(r'\s+', ps_ef)
     id_running = ps_ef[1]
     return id_running
-
-# 获取函数的源码
-def get_function_source(function_name):
-    import inspect
-    function_source = inspect.getsource(function_name)
-    return function_source
 
 # 查找文件名相同的文件
 def find_repeated_file_with_same_filename(directory='./', ignored_directory_with_words=[], ignored_file_with_words=[], num=1000):
