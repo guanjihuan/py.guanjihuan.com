@@ -254,6 +254,12 @@ def save_model(model, filename='./model.pth'):
     import torch
     torch.save(model, filename)
 
+# 使用TorchScript形式保存模型到文件（TorchScript允许模型在不依赖Python解释器的情况下运行，适合在生产环境中部署）
+def save_model_with_torch_jit_script(model, filename='model_scripted_with_torch_jit.pth'):
+    import torch
+    scripted_model = torch.jit.script(model)
+    scripted_model.save(filename)
+
 # 以字典的形式保存模型的所有信息到文件（保存时需要模型的类可访问，此外还要输入模型的实例化函数）
 def save_model_with_all_information(model, model_class, model_instantiation, note='', filename='./model_with_all_information.pth'):
     import torch
@@ -280,6 +286,12 @@ def load_model(filename='./model.pth'):
     import torch
     model = torch.load(filename)
     return model
+
+# 加载TorchScript形式的模型
+def load_model_with_torch_jit_script(filename='model_scripted_with_torch_jit.pth'):
+    import torch
+    scripted_model = torch.jit.load(filename)
+    return scripted_model
 
 # 加载包含所有信息的模型（包含了模型的类和实例化函数等，返回的是模型对象）
 def load_model_with_all_information(filename='./model_with_all_information.pth', note_print=0):
