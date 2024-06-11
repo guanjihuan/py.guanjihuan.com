@@ -5,28 +5,29 @@ def fully_connected_neural_network_with_one_hidden_layer(input_size=1, hidden_si
     import torch
     global model_class_of_fully_connected_neural_network_with_one_hidden_layer
     class model_class_of_fully_connected_neural_network_with_one_hidden_layer(torch.nn.Module):
-        def __init__(self):
+        def __init__(self, input_size, hidden_size, output_size, activation):
             super().__init__()
             self.hidden_layer = torch.nn.Linear(input_size, hidden_size)
             self.output_layer = torch.nn.Linear(hidden_size, output_size)
+            self.activation = activation
         def forward(self, x):
-            if activation == 'relu':
+            if self.activation == 'relu':
                 hidden_output = torch.nn.functional.relu(self.hidden_layer(x))
-            elif activation == 'leaky_relu':
+            elif self.activation == 'leaky_relu':
                 hidden_output = torch.nn.functional.leaky_relu(self.hidden_layer(x))
-            elif activation == 'sigmoid':
+            elif self.activation == 'sigmoid':
                 hidden_output = torch.nn.functional.sigmoid(self.hidden_layer(x))
-            elif activation == 'tanh':
+            elif self.activation == 'tanh':
                 hidden_output = torch.nn.functional.tanh(self.hidden_layer(x))
-            elif activation == 'gelu':
+            elif self.activation == 'gelu':
                 hidden_output = torch.nn.functional.gelu(self.hidden_layer(x))
-            elif activation == 'silu':
+            elif self.activation == 'silu':
                 hidden_output = torch.nn.functional.silu(self.hidden_layer(x))
             else:
                 hidden_output = self.hidden_layer(x)
             output = self.output_layer(hidden_output)
             return output
-    model = model_class_of_fully_connected_neural_network_with_one_hidden_layer()
+    model = model_class_of_fully_connected_neural_network_with_one_hidden_layer(input_size, hidden_size, output_size, activation)
     return model
 
 # 全连接神经网络模型（包含两个隐藏层）（模型的类定义成全局的）
@@ -34,45 +35,47 @@ def fully_connected_neural_network_with_two_hidden_layers(input_size=1, hidden_s
     import torch
     global model_class_of_fully_connected_neural_network_with_two_hidden_layers
     class model_class_of_fully_connected_neural_network_with_two_hidden_layers(torch.nn.Module):
-        def __init__(self):
+        def __init__(self, input_size, hidden_size_1, hidden_size_2, output_size, activation_1, activation_2):
             super().__init__()
             self.hidden_layer_1 = torch.nn.Linear(input_size, hidden_size_1)
             self.hidden_layer_2 = torch.nn.Linear(hidden_size_1, hidden_size_2)
             self.output_layer = torch.nn.Linear(hidden_size_2, output_size)
+            self.activation_1 = activation_1
+            self.activation_2 = activation_2
         def forward(self, x):
-            if activation_1 == 'relu':
+            if self.activation_1 == 'relu':
                 hidden_output_1 = torch.nn.functional.relu(self.hidden_layer_1(x))
-            elif activation_1 == 'leaky_relu':
+            elif self.activation_1 == 'leaky_relu':
                 hidden_output_1 = torch.nn.functional.leaky_relu(self.hidden_layer_1(x))
-            elif activation_1 == 'sigmoid':
+            elif self.activation_1 == 'sigmoid':
                 hidden_output_1 = torch.nn.functional.sigmoid(self.hidden_layer_1(x))
-            elif activation_1 == 'tanh':
+            elif self.activation_1 == 'tanh':
                 hidden_output_1 = torch.nn.functional.tanh(self.hidden_layer_1(x))
-            elif activation_1 == 'gelu':
+            elif self.activation_1 == 'gelu':
                 hidden_output_1 = torch.nn.functional.gelu(self.hidden_layer_1(x))
-            elif activation_1 == 'silu':
+            elif self.activation_1 == 'silu':
                 hidden_output_1 = torch.nn.functional.silu(self.hidden_layer_1(x))
             else:
                 hidden_output_1 = self.hidden_layer_1(x)
             
-            if activation_2 == 'relu':
+            if self.activation_2 == 'relu':
                 hidden_output_2 = torch.nn.functional.relu(self.hidden_layer_2(hidden_output_1))
-            elif activation_2 == 'leaky_relu':
+            elif self.activation_2 == 'leaky_relu':
                 hidden_output_2 = torch.nn.functional.leaky_relu(self.hidden_layer_2(hidden_output_1))
-            elif activation_2 == 'sigmoid':
+            elif self.activation_2 == 'sigmoid':
                 hidden_output_2 = torch.nn.functional.sigmoid(self.hidden_layer_2(hidden_output_1))
-            elif activation_2 == 'tanh':
+            elif self.activation_2 == 'tanh':
                 hidden_output_2 = torch.nn.functional.tanh(self.hidden_layer_2(hidden_output_1))
-            elif activation_2 == 'gelu':
+            elif self.activation_2 == 'gelu':
                 hidden_output_2 = torch.nn.functional.gelu(self.hidden_layer_2(hidden_output_1))
-            elif activation_2 == 'silu':
+            elif self.activation_2 == 'silu':
                 hidden_output_2 = torch.nn.functional.silu(self.hidden_layer_2(hidden_output_1))
             else:
                 hidden_output_2 = self.hidden_layer_2(hidden_output_1)
             
             output = self.output_layer(hidden_output_2)
             return output
-    model = model_class_of_fully_connected_neural_network_with_two_hidden_layers()
+    model = model_class_of_fully_connected_neural_network_with_two_hidden_layers(input_size, hidden_size_1, hidden_size_2, output_size, activation_1, activation_2)
     return model
 
 # 全连接神经网络模型（包含三个隐藏层）（模型的类定义成全局的）
@@ -80,61 +83,64 @@ def fully_connected_neural_network_with_three_hidden_layers(input_size=1, hidden
     import torch
     global model_class_of_fully_connected_neural_network_with_three_hidden_layers
     class model_class_of_fully_connected_neural_network_with_three_hidden_layers(torch.nn.Module):
-        def __init__(self):
+        def __init__(self, input_size, hidden_size_1, hidden_size_2, hidden_size_3, output_size, activation_1, activation_2, activation_3):
             super().__init__()
             self.hidden_layer_1 = torch.nn.Linear(input_size, hidden_size_1)
             self.hidden_layer_2 = torch.nn.Linear(hidden_size_1, hidden_size_2)
             self.hidden_layer_3 = torch.nn.Linear(hidden_size_2, hidden_size_3)
             self.output_layer = torch.nn.Linear(hidden_size_3, output_size)
+            self.activation_1 = activation_1
+            self.activation_2 = activation_2
+            self.activation_3 = activation_3
         def forward(self, x):
-            if activation_1 == 'relu':
+            if self.activation_1 == 'relu':
                 hidden_output_1 = torch.nn.functional.relu(self.hidden_layer_1(x))
-            elif activation_1 == 'leaky_relu':
+            elif self.activation_1 == 'leaky_relu':
                 hidden_output_1 = torch.nn.functional.leaky_relu(self.hidden_layer_1(x))
-            elif activation_1 == 'sigmoid':
+            elif self.activation_1 == 'sigmoid':
                 hidden_output_1 = torch.nn.functional.sigmoid(self.hidden_layer_1(x))
-            elif activation_1 == 'tanh':
+            elif self.activation_1 == 'tanh':
                 hidden_output_1 = torch.nn.functional.tanh(self.hidden_layer_1(x))
-            elif activation_1 == 'gelu':
+            elif self.activation_1 == 'gelu':
                 hidden_output_1 = torch.nn.functional.gelu(self.hidden_layer_1(x))
-            elif activation_1 == 'silu':
+            elif self.activation_1 == 'silu':
                 hidden_output_1 = torch.nn.functional.silu(self.hidden_layer_1(x))
             else:
                 hidden_output_1 = self.hidden_layer_1(x)
             
-            if activation_2 == 'relu':
+            if self.activation_2 == 'relu':
                 hidden_output_2 = torch.nn.functional.relu(self.hidden_layer_2(hidden_output_1))
-            elif activation_2 == 'leaky_relu':
+            elif self.activation_2 == 'leaky_relu':
                 hidden_output_2 = torch.nn.functional.leaky_relu(self.hidden_layer_2(hidden_output_1))
-            elif activation_2 == 'sigmoid':
+            elif self.activation_2 == 'sigmoid':
                 hidden_output_2 = torch.nn.functional.sigmoid(self.hidden_layer_2(hidden_output_1))
-            elif activation_2 == 'tanh':
+            elif self.activation_2 == 'tanh':
                 hidden_output_2 = torch.nn.functional.tanh(self.hidden_layer_2(hidden_output_1))
-            elif activation_2 == 'gelu':
+            elif self.activation_2 == 'gelu':
                 hidden_output_2 = torch.nn.functional.gelu(self.hidden_layer_2(hidden_output_1))
-            elif activation_2 == 'silu':
+            elif self.activation_2 == 'silu':
                 hidden_output_2 = torch.nn.functional.silu(self.hidden_layer_2(hidden_output_1))
             else:
                 hidden_output_2 = self.hidden_layer_2(hidden_output_1)
 
-            if activation_3 == 'relu':
+            if self.activation_3 == 'relu':
                 hidden_output_3 = torch.nn.functional.relu(self.hidden_layer_3(hidden_output_2))
-            elif activation_3 == 'leaky_relu':
+            elif self.activation_3 == 'leaky_relu':
                 hidden_output_3 = torch.nn.functional.leaky_relu(self.hidden_layer_3(hidden_output_2))
-            elif activation_3 == 'sigmoid':
+            elif self.activation_3 == 'sigmoid':
                 hidden_output_3 = torch.nn.functional.sigmoid(self.hidden_layer_3(hidden_output_2))
-            elif activation_3 == 'tanh':
+            elif self.activation_3 == 'tanh':
                 hidden_output_3 = torch.nn.functional.tanh(self.hidden_layer_3(hidden_output_2))
-            elif activation_3 == 'gelu':
+            elif self.activation_3 == 'gelu':
                 hidden_output_3 = torch.nn.functional.gelu(self.hidden_layer_3(hidden_output_2))
-            elif activation_3 == 'silu':
+            elif self.activation_3 == 'silu':
                 hidden_output_3 = torch.nn.functional.silu(self.hidden_layer_3(hidden_output_2))
             else:
                 hidden_output_3 = self.hidden_layer_3(hidden_output_2)
             
             output = self.output_layer(hidden_output_3)
             return output
-    model = model_class_of_fully_connected_neural_network_with_three_hidden_layers()
+    model = model_class_of_fully_connected_neural_network_with_three_hidden_layers(input_size, hidden_size_1, hidden_size_2, hidden_size_3, output_size, activation_1, activation_2, activation_3)
     return model
 
 # 卷积神经网络模型（包含两个卷积层和两个全连接层）（模型的类定义成全局的）
@@ -142,7 +148,7 @@ def convolutional_neural_network_with_two_convolutional_layers_and_two_fully_con
     import torch
     global model_class_of_convolutional_neural_network_with_two_convolutional_layers_and_two_fully_connected_layers
     class model_class_of_convolutional_neural_network_with_two_convolutional_layers_and_two_fully_connected_layers(torch.nn.Module):
-        def __init__(self):
+        def __init__(self, in_channels, out_channels_1, out_channels_2, kernel_size_1, kernel_size_2, stride_1, stride_2, padding_1, padding_2, pooling, pooling_kernel_size, pooling_stride, input_size, hidden_size_1, hidden_size_2, output_size):
             super().__init__()
             self.convolutional_layer_1 = torch.nn.Conv2d(in_channels=in_channels, out_channels=out_channels_1, kernel_size=kernel_size_1, stride=stride_1, padding=padding_1)
             self.convolutional_layer_2 = torch.nn.Conv2d(in_channels=out_channels_1, out_channels=out_channels_2, kernel_size=kernel_size_2, stride=stride_2, padding=padding_2)
@@ -150,8 +156,9 @@ def convolutional_neural_network_with_two_convolutional_layers_and_two_fully_con
             self.hidden_layer_1 = torch.nn.Linear(input_size, hidden_size_1)
             self.hidden_layer_2 = torch.nn.Linear(hidden_size_1, hidden_size_2)
             self.output_layer = torch.nn.Linear(hidden_size_2, output_size)
+            self.pooling = pooling
         def forward(self, x):
-            if pooling == 1:
+            if self.pooling == 1:
                 channel_output_1 = torch.nn.functional.relu(self.pooling_layer(self.convolutional_layer_1(x))) 
                 channel_output_2 = torch.nn.functional.relu(self.pooling_layer(self.convolutional_layer_2(channel_output_1)))
             else:
@@ -162,7 +169,7 @@ def convolutional_neural_network_with_two_convolutional_layers_and_two_fully_con
             hidden_output_2 = torch.nn.functional.relu(self.hidden_layer_2(hidden_output_1))
             output = self.output_layer(hidden_output_2)
             return output
-    model = model_class_of_convolutional_neural_network_with_two_convolutional_layers_and_two_fully_connected_layers()
+    model = model_class_of_convolutional_neural_network_with_two_convolutional_layers_and_two_fully_connected_layers(in_channels, out_channels_1, out_channels_2, kernel_size_1, kernel_size_2, stride_1, stride_2, padding_1, padding_2, pooling, pooling_kernel_size, pooling_stride, input_size, hidden_size_1, hidden_size_2, output_size)
     return model
 
 # 从损失函数的变化情况中获取是否停止训练的信号
@@ -260,7 +267,7 @@ def save_model_with_torch_jit_script(model, filename='model_scripted_with_torch_
     scripted_model = torch.jit.script(model)
     scripted_model.save(filename)
 
-# 以字典的形式保存模型的所有信息到文件（保存时需要模型的类可访问，此外还要输入模型的实例化函数）
+# 以字典的形式保存模型的所有信息到文件（保存时需要模型的类可访问，此外还要输入模型的实例化函数。需要注意的是：该方法要求类和实例化函数都是独立可直接运行的模块）
 def save_model_with_all_information(model, model_class, model_instantiation, note='', filename='./model_with_all_information.pth'):
     import torch
     import guan
@@ -293,7 +300,7 @@ def load_model_with_torch_jit_script(filename='model_scripted_with_torch_jit.pth
     scripted_model = torch.jit.load(filename)
     return scripted_model
 
-# 加载包含所有信息的模型（包含了模型的类和实例化函数等，返回的是模型对象）
+# 加载包含所有信息的模型（包含了模型的类和实例化函数等，返回的是模型对象。需要注意的是：该方法要求类和实例化函数都是独立可直接运行的模块）
 def load_model_with_all_information(filename='./model_with_all_information.pth', note_print=0):
     import torch
     checkpoint = torch.load(filename)
