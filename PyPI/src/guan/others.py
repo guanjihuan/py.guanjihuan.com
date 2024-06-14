@@ -1,51 +1,5 @@
 # Module: others
 
-# 模型对话
-def chat(prompt='你好', model=1, stream=0, top_p=0.8, temperature=0.85):
-    import socket
-    import json
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
-        client_socket.settimeout(30)
-        client_socket.connect(('socket.guanjihuan.com', 12345))
-        message = {
-            'server': "chat.guanjihuan.com",
-            'prompt': prompt,
-            'model': model,
-            'top_p': top_p,
-            'temperature': temperature,
-        }
-        send_message = json.dumps(message)
-        client_socket.send(send_message.encode())
-        if stream == 1:
-            print('\n--- Begin Stream Message ---\n')
-        response = ''
-        while True:
-            try:
-                data = client_socket.recv(1024)
-                if data != b'':
-                    response_data = data.decode()
-                    response_dict = json.loads(response_data)
-                    stream_response = response_dict['stream_response']
-                    response += stream_response
-                    end_message = response_dict['end_message']
-                    if end_message == 1:
-                        break
-                    else:
-                        if stream == 1:
-                            print(stream_response)
-            except:
-                break
-        client_socket.close()
-        if stream == 1:
-            print('\n--- End Stream Message ---\n')
-    return response
-
-# 获取函数或类的源码（返回字符串）
-def get_source(name):
-    import inspect
-    source = inspect.getsource(name)
-    return source
-
 # 获取当前日期字符串
 def get_date(bar=True):
     import datetime
@@ -61,25 +15,6 @@ def get_time(colon=True):
     if colon==False:
         datetime_time = datetime_time.replace(':', '')
     return datetime_time
-
-# 自动先后运行程序
-def run_programs_sequentially(program_files=['./a.py', './b.py'], execute='python ', show_time=0):
-    import os
-    import time
-    if show_time == 1:
-        start = time.time()
-    i0 = 0
-    for program_file in program_files:
-        i0 += 1
-        if show_time == 1:
-            start_0 = time.time()
-        os.system(execute+program_file)
-        if show_time == 1:
-            end_0 = time.time()
-            print('Running time of program_'+str(i0)+' = '+str((end_0-start_0)/60)+' min')
-    if show_time == 1:
-        end = time.time()
-        print('Total running time = '+str((end-start)/60)+' min')
 
 # 获取CPU使用率
 def get_cpu_usage(interval=1):
@@ -546,16 +481,6 @@ def count_file_in_sub_directory(directory='./', sort=0, reverse=1, print_show=1,
                         print(count_file_array[i0])
                         print()
     return sub_directory, num_in_sub_directory
-
-# 改变当前的目录位置
-def change_directory_by_replacement(current_key_word='code', new_key_word='data'):
-    import os
-    code_path = os.getcwd()
-    data_path = code_path.replace('\\', '/') 
-    data_path = data_path.replace(current_key_word, new_key_word) 
-    if os.path.exists(data_path) == False:
-        os.makedirs(data_path)
-    os.chdir(data_path)
 
 # 在多个子文件夹中产生必要的文件，例如 readme.md
 def creat_necessary_file(directory, filename='readme', file_format='.md', content='', overwrite=None, ignored_directory_with_words=[]):

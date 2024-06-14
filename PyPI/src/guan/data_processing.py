@@ -1,5 +1,45 @@
 # Module: data_processing
 
+# 模型对话
+def chat(prompt='你好', model=1, stream=0, top_p=0.8, temperature=0.85):
+    import socket
+    import json
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
+        client_socket.settimeout(30)
+        client_socket.connect(('socket.guanjihuan.com', 12345))
+        message = {
+            'server': "chat.guanjihuan.com",
+            'prompt': prompt,
+            'model': model,
+            'top_p': top_p,
+            'temperature': temperature,
+        }
+        send_message = json.dumps(message)
+        client_socket.send(send_message.encode())
+        if stream == 1:
+            print('\n--- Begin Stream Message ---\n')
+        response = ''
+        while True:
+            try:
+                data = client_socket.recv(1024)
+                if data != b'':
+                    response_data = data.decode()
+                    response_dict = json.loads(response_data)
+                    stream_response = response_dict['stream_response']
+                    response += stream_response
+                    end_message = response_dict['end_message']
+                    if end_message == 1:
+                        break
+                    else:
+                        if stream == 1:
+                            print(stream_response)
+            except:
+                break
+        client_socket.close()
+        if stream == 1:
+            print('\n--- End Stream Message ---\n')
+    return response
+
 # 并行计算前的预处理，把参数分成多份
 def preprocess_for_parallel_calculations(parameter_array_all, task_num=1, task_index=0):
     import numpy as np
@@ -14,6 +54,80 @@ def preprocess_for_parallel_calculations(parameter_array_all, task_num=1, task_i
         else:
             parameter_array = parameter_array_all[task_index*num_parameter:num_all]
     return parameter_array
+
+# 创建一个sh文件用于提交任务
+def make_sh_file(sh_filename='a', command_line='python a.py', cpu_num=1, task_name='task', cd_dir=0):
+    sh_content = \
+        '#!/bin/sh\n' \
+        +'#PBS -N '+task_name+'\n' \
+        +'#PBS -l nodes=1:ppn='+str(cpu_num)+'\n'
+    if cd_dir==1:
+        sh_content += 'cd $PBS_O_WORKDIR\n'
+    sh_content += command_line
+    with open(sh_filename+'.sh', 'w') as f:
+        f.write(sh_content)
+
+# 复制.py和.sh文件，然后提交任务，实现半手动并行
+def copy_py_sh_file_and_qsub_task(parameter_array, py_filename='a', old_str_in_py='parameter=0', new_str_in_py='parameter=', sh_filename='a', qsub_task_name='task'):
+    import os
+    parameter_str_array = []
+    for i0 in parameter_array:
+        parameter_str_array.append(str(i0))
+    index = 0
+    for parameter_str in parameter_str_array:
+        index += 1
+        # copy python file
+        old_file = py_filename+'.py'
+        new_file = py_filename+'_'+str(index)+'.py'
+        os.system('cp '+old_file+' '+new_file)
+        with open(new_file, 'r') as f:
+            content  = f.read()
+        old_str = old_str_in_py
+        new_str = new_str_in_py+parameter_str
+        content = content.replace(old_str, new_str)
+        with open(py_filename+'_'+str(index)+'.py', 'w') as f:
+            f.write(content)
+        # copy sh file
+        old_file = sh_filename+'.sh'
+        new_file = sh_filename+'_'+str(index)+'.sh'
+        os.system('cp '+old_file+' '+new_file)
+        with open(new_file, 'r') as f:
+            content  = f.read()
+        old_str = 'python '+py_filename+'.py'
+        new_str = 'python '+py_filename+'_'+str(index)+'.py'
+        content = content.replace(old_str, new_str)
+        old_str = qsub_task_name
+        new_str = qsub_task_name+'_'+str(index)
+        content = content.replace(old_str, new_str)
+        with open(sh_filename+'_'+str(index)+'.sh', 'w') as f: 
+            f.write(content)
+        # qsub task
+        os.system('qsub '+new_file)
+
+# 自动先后运行程序
+def run_programs_sequentially(program_files=['./a.py', './b.py'], execute='python ', show_time=0):
+    import os
+    import time
+    if show_time == 1:
+        start = time.time()
+    i0 = 0
+    for program_file in program_files:
+        i0 += 1
+        if show_time == 1:
+            start_0 = time.time()
+        os.system(execute+program_file)
+        if show_time == 1:
+            end_0 = time.time()
+            print('Running time of program_'+str(i0)+' = '+str((end_0-start_0)/60)+' min')
+    if show_time == 1:
+        end = time.time()
+        print('Total running time = '+str((end-start)/60)+' min')
+
+# 获取函数或类的源码（返回字符串）
+def get_source(name):
+    import inspect
+    source = inspect.getsource(name)
+    return source
 
 # 判断一个数是否接近于整数
 def close_to_integer(value, abs_tol=1e-3):

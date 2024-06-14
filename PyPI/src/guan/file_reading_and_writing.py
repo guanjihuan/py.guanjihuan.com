@@ -326,3 +326,13 @@ def write_two_dimensional_data_without_xy_array_and_without_opening_file(matrix,
         for element in row:
             f.write(str(element)+'   ')
         f.write('\n')
+
+# 改变当前的目录位置
+def change_directory_by_replacement(current_key_word='code', new_key_word='data'):
+    import os
+    code_path = os.getcwd()
+    data_path = code_path.replace('\\', '/') 
+    data_path = data_path.replace(current_key_word, new_key_word) 
+    if os.path.exists(data_path) == False:
+        os.makedirs(data_path)
+    os.chdir(data_path)
