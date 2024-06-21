@@ -102,7 +102,7 @@ def read_text_files_in_directory(directory='./', file_format='.md'):
                 file_list.append(root+'/'+files[i0])
     content_array = []
     for file in file_list:
-        with open(file, 'r') as f:
+        with open(file, 'r', encoding='UTF-8') as f:
             content_array.append(f.read())
     return file_list, content_array
 
@@ -118,9 +118,9 @@ def find_words_in_multiple_files(words, directory='./', file_format='.md'):
     return file_list_with_words
 
 # 复制一份文件
-def copy_file(file1='./a.txt', file2='./b.txt'):
+def copy_file(old_file='./a.txt', new_file='./b.txt'):
     import shutil
-    shutil.copy(file1, file2)
+    shutil.copy(old_file, new_file)
 
 # 打开文件，替代某字符串
 def open_file_and_replace_str(file_path='./a.txt', old_str='', new_str=''):
@@ -134,7 +134,7 @@ def open_file_and_replace_str(file_path='./a.txt', old_str='', new_str=''):
 # 复制一份文件，然后再替代某字符串
 def copy_file_and_replace_str(old_file='./a.txt', new_file='./b.txt', old_str='', new_str=''):
     import guan
-    guan.copy_file(file1=old_file, file2=new_file)
+    guan.copy_file(old_file=old_file, new_file=new_file)
     content = guan.read_text_file(file_path=new_file)
     content = content.replace(old_str, new_str)
     f = guan.open_file(filename=new_file, file_format='', mode='overwrite')
@@ -202,6 +202,24 @@ def read_one_dimensional_complex_data(filename='a', file_format='.txt'):
                 y_array = np.append(y_array, [y_row], axis=0)
     return x_array, y_array
 
+# 读取文件中的XYZ数据（一行一组x, y, z）
+def read_xyz_data(filename='a', file_format='.txt'): 
+    import numpy as np
+    f = open(filename+file_format, 'r')
+    text = f.read()
+    f.close()
+    row_list = np.array(text.split('\n')) 
+    x_array = np.array([])
+    y_array = np.array([])
+    z_array = np.array([])
+    for row in row_list:
+        column = np.array(row.split()) 
+        if column.shape[0] != 0:  
+            x_array = np.append(x_array, [float(column[0])], axis=0)
+            y_array = np.append(y_array, [float(column[1])], axis=0)
+            z_array = np.append(z_array, [float(column[2])], axis=0)
+    return x_array, y_array, z_array
+
 # 读取文件中的二维数据（第一行和第一列分别为横纵坐标）
 def read_two_dimensional_data(filename='a', file_format='.txt'): 
     import numpy as np
@@ -260,7 +278,7 @@ def read_two_dimensional_complex_data(filename='a', file_format='.txt'):
                 matrix = np.append(matrix, [matrix_row], axis=0)
     return x_array, y_array, matrix
 
-# 读取文件中的二维数据（不包括x和y）
+# 读取文件中的二维数据（不包括横纵坐标）
 def read_two_dimensional_data_without_xy_array(filename='a', file_format='.txt'):
     import numpy as np
     matrix = np.loadtxt(filename+file_format)
@@ -286,6 +304,25 @@ def write_one_dimensional_data_without_opening_file(x_array, y_array, f):
             for j0 in range(y_array.shape[1]):
                 f.write(str(y_array[i0, j0])+'   ')
             f.write('\n')
+        i0 += 1
+
+# 在文件中写入XYZ数据（一行一组x, y, z）
+def write_one_dimensional_data(x_array, y_array, z_array, filename='a', file_format='.txt'):
+    import guan
+    with open(filename+file_format, 'w', encoding='UTF-8') as f:
+        write_xyz_data_without_opening_file(x_array, y_array, z_array, f)
+
+# 在文件中写入XYZ数据（一行一组x, y, z）（需要输入已打开的文件）
+def write_xyz_data_without_opening_file(x_array, y_array, z_array, f):
+    import numpy as np
+    x_array = np.array(x_array)
+    y_array = np.array(y_array)
+    z_array = np.array(z_array)
+    i0 = 0
+    for x0 in x_array:
+        f.write(str(x0)+'   ')
+        f.write(str(y_array[i0])+'   ')
+        f.write(str(z_array[i0])+'\n')
         i0 += 1
 
 # 在文件中写入二维数据（第一行和第一列分别为横纵坐标）
@@ -314,13 +351,13 @@ def write_two_dimensional_data_without_opening_file(x_array, y_array, matrix, f)
         f.write('\n')
         i0 += 1
 
-# 在文件中写入二维数据（不包括x和y）
+# 在文件中写入二维数据（不包括横纵坐标）
 def write_two_dimensional_data_without_xy_array(matrix, filename='a', file_format='.txt'):
     import guan
     with open(filename+file_format, 'w', encoding='UTF-8') as f:
         guan.write_two_dimensional_data_without_xy_array_and_without_opening_file(matrix, f)
 
-# 在文件中写入二维数据（不包括x和y）（需要输入已打开的文件）
+# 在文件中写入二维数据（不包括横纵坐标）（需要输入已打开的文件）
 def write_two_dimensional_data_without_xy_array_and_without_opening_file(matrix, f):
     for row in matrix:
         for element in row:

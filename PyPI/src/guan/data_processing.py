@@ -123,6 +123,62 @@ def run_programs_sequentially(program_files=['./a.py', './b.py'], execute='pytho
         end = time.time()
         print('Total running time = '+str((end-start)/60)+' min')
 
+# 将XYZ数据转成矩阵数据（说明：x_array/y_array的输入和输出不一样。要求z_array数据中y对应的数据为小循环，x对应的数据为大循环）
+def convert_xyz_data_into_matrix_data(x_array, y_array, z_array):
+    import numpy as np
+    x_array_input = np.array(x_array)
+    y_array_input = np.array(y_array)
+    x_array = np.array(list(set(x_array_input)))
+    y_array = np.array(list(set(y_array_input)))
+    z_array = np.array(z_array)
+    len_x = len(x_array)
+    len_y = len(y_array)
+    matrix = np.zeros((len_x, len_y))
+    for ix in range(len_x):
+        for iy in range(len_y):
+            matrix[ix, iy] = z_array[ix*len_y+iy]
+    return x_array, y_array, matrix
+
+# 将矩阵数据转成XYZ数据（说明：x_array/y_array的输入和输出不一样。生成的z_array数据中y对应的数据为小循环，x对应的数据为大循环）
+def convert_matrix_data_into_xyz_data(x_array, y_array, matrix):
+    import numpy as np
+    x_array_input = np.array(x_array)
+    y_array_input = np.array(y_array)
+    matrix = np.array(matrix)
+    len_x = len(x_array_input)
+    len_y = len(y_array_input)
+    x_array = np.zeros((len_x*len_y))
+    y_array = np.zeros((len_x*len_y))
+    z_array = np.zeros((len_x*len_y))
+    for ix in range(len_x):
+        for iy in range(len_y):
+            x_array[ix*len_y+iy] = x_array_input[ix]
+            y_array[ix*len_y+iy] = y_array_input[iy]
+            z_array[ix*len_y+iy] = matrix[ix, iy]
+    return x_array, y_array, z_array
+
+# 通过定义计算R^2（基于实际值和预测值）
+def calculate_R2_with_definition(y_true_array, y_pred_array):
+    import numpy as np
+    y_mean = np.mean(y_true_array)
+    SS_tot = np.sum((y_true_array - y_mean) ** 2)
+    SS_res = np.sum((y_true_array - y_pred_array) ** 2)
+    R2 = 1 - (SS_res / SS_tot)
+    return R2
+
+# 通过sklearn计算R^2，和定义的计算结果一致
+def calculate_R2_with_sklearn(y_true_array, y_pred_array):
+    from sklearn.metrics import r2_score
+    R2 = r2_score(y_true_array, y_pred_array)
+    return R2
+
+# 通过scipy计算线性回归后的R^2（基于线性回归模型）
+def calculate_R2_after_linear_regression_with_scipy(y_true_array, y_pred_array):
+    from scipy import stats
+    slope, intercept, r_value, p_value, std_err = stats.linregress(y_true_array, y_pred_array)
+    R2 = r_value**2
+    return R2
+
 # 获取函数或类的源码（返回字符串）
 def get_source(name):
     import inspect
