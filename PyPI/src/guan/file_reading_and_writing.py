@@ -307,7 +307,7 @@ def write_one_dimensional_data_without_opening_file(x_array, y_array, f):
         i0 += 1
 
 # 在文件中写入XYZ数据（一行一组x, y, z）
-def write_one_dimensional_data(x_array, y_array, z_array, filename='a', file_format='.txt'):
+def write_xyz_data(x_array, y_array, z_array, filename='a', file_format='.txt'):
     import guan
     with open(filename+file_format, 'w', encoding='UTF-8') as f:
         write_xyz_data_without_opening_file(x_array, y_array, z_array, f)

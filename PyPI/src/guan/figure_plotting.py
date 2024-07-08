@@ -302,10 +302,10 @@ def draw_dots_and_lines(coordinate_array, draw_dots=1, draw_lines=1, max_distanc
     import numpy as np
     import matplotlib.pyplot as plt
     coordinate_array = np.array(coordinate_array)
-    print(coordinate_array.shape)
     x_range = max(coordinate_array[:, 0])-min(coordinate_array[:, 0])
     y_range = max(coordinate_array[:, 1])-min(coordinate_array[:, 1])
     fig, ax = plt.subplots(figsize=(6*x_range/y_range,6))
+    ax.set_aspect('equal') # important code ensuring that the x and y axes have the same scale.
     plt.subplots_adjust(left=0, bottom=0, right=1, top=1)
     plt.axis('off')
     if draw_lines==1:
