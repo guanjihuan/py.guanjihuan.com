@@ -300,6 +300,7 @@ def plot_pcolor(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', font
 # 基于plt, fig, ax，通过坐标画点和线
 def draw_dots_and_lines_without_starting_fig(plt, fig, ax, coordinate_array, draw_dots=1, draw_lines=1, max_distance=1, line_style='-k', linewidth=1, dot_style='ro', markersize=3):
     import numpy as np
+    coordinate_array = np.array(coordinate_array)
     if draw_lines==1:
         for i1 in range(coordinate_array.shape[0]):
             for i2 in range(coordinate_array.shape[0]):
