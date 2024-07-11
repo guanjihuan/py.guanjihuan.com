@@ -297,8 +297,21 @@ def plot_pcolor(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', font
         plt.show()
     plt.close('all')
 
+# 基于plt, fig, ax，通过坐标画点和线
+def draw_dots_and_lines_without_starting_fig(plt, fig, ax, coordinate_array, draw_dots=1, draw_lines=1, max_distance=1, line_style='-k', linewidth=1, dot_style='ro', markersize=3):
+    import numpy as np
+    if draw_lines==1:
+        for i1 in range(coordinate_array.shape[0]):
+            for i2 in range(coordinate_array.shape[0]):
+                if np.sqrt((coordinate_array[i1, 0] - coordinate_array[i2, 0])**2+(coordinate_array[i1, 1] - coordinate_array[i2, 1])**2) <= max_distance:
+                    ax.plot([coordinate_array[i1, 0], coordinate_array[i2, 0]], [coordinate_array[i1, 1], coordinate_array[i2, 1]], line_style, linewidth=linewidth)
+    if draw_dots==1:
+        for i in range(coordinate_array.shape[0]):
+            ax.plot(coordinate_array[i, 0], coordinate_array[i, 1], dot_style, markersize=markersize)
+
+
 # 通过坐标画点和线
-def draw_dots_and_lines(coordinate_array, draw_dots=1, draw_lines=1, max_distance=1.1, line_style='-k', linewidth=1, dot_style='ro', markersize=3, show=1, save=0, filename='a', file_format='.eps', dpi=300):
+def draw_dots_and_lines(coordinate_array, draw_dots=1, draw_lines=1, max_distance=1, line_style='-k', linewidth=1, dot_style='ro', markersize=3, show=1, save=0, filename='a', file_format='.eps', dpi=300):
     import numpy as np
     import matplotlib.pyplot as plt
     coordinate_array = np.array(coordinate_array)
@@ -311,7 +324,7 @@ def draw_dots_and_lines(coordinate_array, draw_dots=1, draw_lines=1, max_distanc
     if draw_lines==1:
         for i1 in range(coordinate_array.shape[0]):
             for i2 in range(coordinate_array.shape[0]):
-                if np.sqrt((coordinate_array[i1, 0] - coordinate_array[i2, 0])**2+(coordinate_array[i1, 1] - coordinate_array[i2, 1])**2) < max_distance:
+                if np.sqrt((coordinate_array[i1, 0] - coordinate_array[i2, 0])**2+(coordinate_array[i1, 1] - coordinate_array[i2, 1])**2) <= max_distance:
                     ax.plot([coordinate_array[i1, 0], coordinate_array[i2, 0]], [coordinate_array[i1, 1], coordinate_array[i2, 1]], line_style, linewidth=linewidth)
     if draw_dots==1:
         for i in range(coordinate_array.shape[0]):
