@@ -32,6 +32,31 @@ def get_memory_info():
     used_memory_percent = memory_info.percent
     return total_memory, used_memory, available_memory, used_memory_percent
 
+# 每日git commit次数的统计
+def statistics_of_git_commits(print_show=0, str_or_datetime='str'):
+    import subprocess
+    import collections
+    since_date = '100 year ago'
+    result = subprocess.run(
+        ['git', 'log', f'--since={since_date}', '--pretty=format:%ad', '--date=short'],
+        stdout=subprocess.PIPE,
+        text=True)
+    commits = result.stdout.strip().split('\n')
+    counter = collections.Counter(commits)
+    daily_commit_counts = dict(sorted(counter.items()))
+    date_array = []
+    commit_count_array = []
+    for date, count in daily_commit_counts.items():
+        if print_show == 1:
+            print(f"{date}: {count} commits")
+        if str_or_datetime=='datetime':
+            import datetime
+            date_array.append(datetime.datetime.strptime(date, "%Y-%m-%d"))
+        elif str_or_datetime=='str':
+            date_array.append(date)
+        commit_count_array.append(count)
+    return date_array, commit_count_array
+
 # 将WordPress导出的XML格式文件转换成多个MarkDown格式的文件
 def convert_wordpress_xml_to_markdown(xml_file='./a.xml', convert_content=1, replace_more=[]):
     import xml.etree.ElementTree as ET
@@ -94,7 +119,7 @@ def count_number_of_import_statements(filename, file_format='.py', num=1000):
     return import_statement_counter
 
 # 获取本月的所有日期
-def get_days_of_the_current_month(str_or_datetime='str'):
+def get_date_array_of_the_current_month(str_or_datetime='str'):
     import datetime
     today = datetime.date.today()
     first_day_of_month = today.replace(day=1)
@@ -103,14 +128,25 @@ def get_days_of_the_current_month(str_or_datetime='str'):
     else:
         next_month = first_day_of_month.replace(month=first_day_of_month.month + 1)
     current_date = first_day_of_month
-    day_array = []
+    date_array = []
     while current_date < next_month:
         if str_or_datetime=='str':
-            day_array.append(str(current_date))
+            date_array.append(str(current_date))
         elif str_or_datetime=='datetime':
-            day_array.append(current_date)
+            date_array.append(current_date)
         current_date += datetime.timedelta(days=1)
-    return day_array
+    return date_array
+
+# 根据新的日期，填充数组中缺少的数据为零
+def fill_zero_data_for_new_dates(old_dates, new_dates, old_data_array):
+    new_data_array = []
+    for date in new_dates:
+        if str(date) not in old_dates:
+            new_data_array.append(0)
+        else:
+            index = old_dates.index(date)
+            new_data_array.append(old_data_array[index])
+    return new_data_array
 
 # 获取上个月份
 def get_last_month():
@@ -142,7 +178,7 @@ def get_the_month_before_last():
     return year_of_the_month_before_last, the_month_before_last
 
 # 获取上个月的所有日期
-def get_days_of_the_last_month(str_or_datetime='str'):
+def get_date_array_of_the_last_month(str_or_datetime='str'):
     import datetime
     import guan
     today = datetime.date.today()
@@ -153,17 +189,17 @@ def get_days_of_the_last_month(str_or_datetime='str'):
     else:
         next_month = first_day_of_month.replace(month=first_day_of_month.month + 1)
     current_date = first_day_of_month
-    day_array = []
+    date_array = []
     while current_date < next_month:
         if str_or_datetime=='str':
-            day_array.append(str(current_date))
+            date_array.append(str(current_date))
         elif str_or_datetime=='datetime':
-            day_array.append(current_date)
+            date_array.append(current_date)
         current_date += datetime.timedelta(days=1)
-    return day_array
+    return date_array
 
 # 获取上上个月的所有日期
-def get_days_of_the_month_before_last(str_or_datetime='str'):
+def get_date_array_of_the_month_before_last(str_or_datetime='str'):
     import datetime
     import guan
     today = datetime.date.today()
@@ -174,14 +210,14 @@ def get_days_of_the_month_before_last(str_or_datetime='str'):
     else:
         next_month = first_day_of_month.replace(month=first_day_of_month.month + 1)
     current_date = first_day_of_month
-    day_array = []
+    date_array = []
     while current_date < next_month:
         if str_or_datetime=='str':
-            day_array.append(str(current_date))
+            date_array.append(str(current_date))
         elif str_or_datetime=='datetime':
-            day_array.append(current_date)
+            date_array.append(current_date)
         current_date += datetime.timedelta(days=1)
-    return day_array
+    return date_array
 
 # 获取所有股票
 def all_stocks():

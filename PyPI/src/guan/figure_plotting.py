@@ -13,7 +13,7 @@ def import_plt_and_start_fig_ax(adjust_bottom=0.2, adjust_left=0.2, labelsize=20
     return plt, fig, ax
 
 # 基于plt, fig, ax画图
-def plot_without_starting_fig(plt, fig, ax, x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, style='', y_min=None, y_max=None, linewidth=None, markersize=None, color=None, fontfamily='Times New Roman'): 
+def plot_without_starting_fig_ax(plt, fig, ax, x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, style='', y_min=None, y_max=None, linewidth=None, markersize=None, color=None, fontfamily='Times New Roman'): 
     if color==None:
         ax.plot(x_array, y_array, style, linewidth=linewidth, markersize=markersize)
     else:
@@ -298,7 +298,7 @@ def plot_pcolor(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', font
     plt.close('all')
 
 # 基于plt, fig, ax，通过坐标画点和线
-def draw_dots_and_lines_without_starting_fig(plt, fig, ax, coordinate_array, draw_dots=1, draw_lines=1, max_distance=1, line_style='-k', linewidth=1, dot_style='ro', markersize=3):
+def draw_dots_and_lines_without_starting_fig_ax(plt, fig, ax, coordinate_array, draw_dots=1, draw_lines=1, max_distance=1, line_style='-k', linewidth=1, dot_style='ro', markersize=3):
     import numpy as np
     coordinate_array = np.array(coordinate_array)
     if draw_lines==1:

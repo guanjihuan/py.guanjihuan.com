@@ -11,6 +11,7 @@ src/guan/basic_functions.py
 src/guan/data_processing.py
 src/guan/decorators.py
 src/guan/density_of_states.py
+src/guan/deprecated.py
 src/guan/figure_plotting.py
 src/guan/file_reading_and_writing.py
 src/guan/machine_learning.py
