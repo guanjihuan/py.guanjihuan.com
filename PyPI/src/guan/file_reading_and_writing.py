@@ -56,6 +56,12 @@ def open_file(filename='a', file_format='.txt', mode='add'):
         f = open(filename+file_format, 'w', encoding='UTF-8')
     return f
 
+# 打印到TXT文件
+def print_to_file(content, filename='print_result', file_format='.txt'):
+    f = open(filename+file_format, 'a', encoding='UTF-8')
+    f.write(content+'\n')
+    f.close()
+
 # 读取文本文件内容。如果文件不存在，返回空字符串
 def read_text_file(file_path='./a.txt', make_file=None):
     import os
