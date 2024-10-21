@@ -55,8 +55,8 @@ def preprocess_for_parallel_calculations(parameter_array_all, task_num=1, task_i
             parameter_array = parameter_array_all[task_index*num_parameter:num_all]
     return parameter_array
 
-# 创建一个sh文件用于提交任务
-def make_sh_file(sh_filename='a', command_line='python a.py', cpu_num=1, task_name='task', cd_dir=0):
+# 创建一个sh文件用于提交任务（PBS）
+def make_sh_file_for_qsub(sh_filename='a', command_line='python a.py', cpu_num=1, task_name='task', cd_dir=0):
     sh_content = \
         '#!/bin/sh\n' \
         +'#PBS -N '+task_name+'\n' \
@@ -67,7 +67,20 @@ def make_sh_file(sh_filename='a', command_line='python a.py', cpu_num=1, task_na
     with open(sh_filename+'.sh', 'w') as f:
         f.write(sh_content)
 
-# 复制.py和.sh文件，然后提交任务，实现半手动并行
+# 创建一个sh文件用于提交任务（LSF）
+def make_sh_file_for_bsub(sh_filename='a', command_line='python a.py', cpu_num=1, task_name='task', queue_name='score', cd_dir=0):
+    sh_content = \
+        '#!/bin/sh\n' \
+        +'#BSUB -J '+task_name+'\n' \
+        +'#BSUB -q '+queue_name+'\n' \
+        +'#BSUB -n '+str(cpu_num)+'\n'
+    if cd_dir==1:
+        sh_content += 'cd $PBS_O_WORKDIR\n'
+    sh_content += command_line
+    with open(sh_filename+'.sh', 'w') as f:
+        f.write(sh_content)
+
+# 复制.py和.sh文件，然后提交任务，实现半手动并行（PBS）
 def copy_py_sh_file_and_qsub_task(parameter_array, py_filename='a', old_str_in_py='parameter=0', new_str_in_py='parameter=', sh_filename='a', qsub_task_name='task'):
     import os
     parameter_str_array = []
@@ -103,6 +116,43 @@ def copy_py_sh_file_and_qsub_task(parameter_array, py_filename='a', old_str_in_p
             f.write(content)
         # qsub task
         os.system('qsub '+new_file)
+
+# 复制.py和.sh文件，然后提交任务，实现半手动并行（LSF）
+def copy_py_sh_file_and_bsub_task(parameter_array, py_filename='a', old_str_in_py='parameter=0', new_str_in_py='parameter=', sh_filename='a', bsub_task_name='task'):
+    import os
+    parameter_str_array = []
+    for i0 in parameter_array:
+        parameter_str_array.append(str(i0))
+    index = 0
+    for parameter_str in parameter_str_array:
+        index += 1
+        # copy python file
+        old_file = py_filename+'.py'
+        new_file = py_filename+'_'+str(index)+'.py'
+        os.system('cp '+old_file+' '+new_file)
+        with open(new_file, 'r') as f:
+            content  = f.read()
+        old_str = old_str_in_py
+        new_str = new_str_in_py+parameter_str
+        content = content.replace(old_str, new_str)
+        with open(py_filename+'_'+str(index)+'.py', 'w') as f:
+            f.write(content)
+        # copy sh file
+        old_file = sh_filename+'.sh'
+        new_file = sh_filename+'_'+str(index)+'.sh'
+        os.system('cp '+old_file+' '+new_file)
+        with open(new_file, 'r') as f:
+            content  = f.read()
+        old_str = 'python '+py_filename+'.py'
+        new_str = 'python '+py_filename+'_'+str(index)+'.py'
+        content = content.replace(old_str, new_str)
+        old_str = bsub_task_name
+        new_str = bsub_task_name+'_'+str(index)
+        content = content.replace(old_str, new_str)
+        with open(sh_filename+'_'+str(index)+'.sh', 'w') as f: 
+            f.write(content)
+        # bsub task
+        os.system('bsub < '+new_file)
 
 # 自动先后运行程序
 def run_programs_sequentially(program_files=['./a.py', './b.py'], execute='python ', show_time=0):

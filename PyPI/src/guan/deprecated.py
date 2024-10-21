@@ -1,5 +1,10 @@
 # Module: deprecated
 
+def make_sh_file(sh_filename='a', command_line='python a.py', cpu_num=1, task_name='task', cd_dir=0):
+    import guan
+    print('Warning: The current function name has been deprecated, which will be deleted in the future version. Please change it into guan.make_sh_file_for_qsub().')
+    guan.make_sh_file_for_qsub(sh_filename=sh_filename, command_line=command_line, cpu_num=cpu_num, task_name=task_name, cd_dir=cd_dir)
+
 def plot_without_starting_fig(plt, fig, ax, x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, style='', y_min=None, y_max=None, linewidth=None, markersize=None, color=None, fontfamily='Times New Roman'):
     import guan
     print('Warning: The current function name has been deprecated, which will be deleted in the future version. Please change it into guan.plot_without_starting_fig_ax().')
