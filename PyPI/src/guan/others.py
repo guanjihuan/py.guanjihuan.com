@@ -430,16 +430,20 @@ def get_all_functions_in_one_package(package_name='guan', print_show=1):
     return all_function_names
 
 # 获取包含某个字符的进程PID值
-def get_PID(name):
+def get_PID_array(name):
     import subprocess
     command = "ps -ef | grep "+name
     result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     if result.returncode == 0:
         ps_ef = result.stdout
     import re
-    ps_ef = re.split(r'\s+', ps_ef)
-    id_running = ps_ef[1]
-    return id_running
+    ps_ef_1 = re.split(r'\n', ps_ef)
+    id_running_array = []
+    for ps_ef_item in ps_ef_1:
+        if ps_ef_item != '':
+            ps_ef_2 = re.split(r'\s+', ps_ef_item)
+            id_running_array.append(ps_ef_2[1])
+    return id_running_array
 
 # 查找文件名相同的文件
 def find_repeated_file_with_same_filename(directory='./', ignored_directory_with_words=[], ignored_file_with_words=[], num=1000):
