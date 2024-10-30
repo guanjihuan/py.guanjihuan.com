@@ -694,6 +694,60 @@ def get_html_from_tags(link, tags=['title', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 
             content = content + '\n\n' + text
     return content
 
+# 从HTML中获取所有的链接
+def get_links_from_html(html_link, links_with_text=0):
+    from bs4 import BeautifulSoup
+    import urllib.request
+    import ssl
+    ssl._create_default_https_context = ssl._create_unverified_context
+    html = urllib.request.urlopen(html_link).read().decode('utf-8')
+    soup = BeautifulSoup(html, features="lxml")
+    a_tags = soup.find_all('a')
+    if links_with_text == 0:
+        link_array = [tag.get('href') for tag in a_tags if tag.get('href')]
+        return link_array
+    else:
+        link_array_with_text = [(tag.get('href'), tag.text) for tag in a_tags if tag.get('href')]
+        return link_array_with_text
+
+# 检查链接的有效性
+def check_link(url, timeout=3, allow_redirects=True):
+    import requests
+    try:
+        response = requests.head(url, timeout=timeout, allow_redirects=allow_redirects)
+        if response.status_code == 200:
+            return True
+        else:
+            return False
+    except requests.exceptions.RequestException:
+        return False
+
+# 检查链接数组中链接的有效性
+def check_link_array(link_array, timeout=3, allow_redirects=True, try_again=0, print_show=1):
+    import guan
+    failed_link_array0 = []
+    for link in link_array:
+        if link=='#' or guan.check_link(link, timeout=timeout, allow_redirects=allow_redirects):
+            pass
+        else:
+            failed_link_array0.append(link)
+            if print_show:
+                print(link)
+    failed_link_array = []
+    if try_again:
+        if print_show:
+            print('\nTry again:\n')
+        for link in failed_link_array0:
+            if link=='#' or guan.check_link(link, timeout=timeout, allow_redirects=allow_redirects):
+                pass
+            else:
+                failed_link_array.append(link)
+                if print_show:
+                    print(link)
+    else:
+        failed_link_array = failed_link_array0
+    return failed_link_array
+
 # 生成二维码
 def creat_qrcode(data="https://www.guanjihuan.com", filename='a', file_format='.png'):
     import qrcode
