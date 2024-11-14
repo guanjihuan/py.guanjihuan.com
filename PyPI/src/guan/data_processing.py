@@ -15,7 +15,7 @@ def chat(prompt='你好', model=1, stream=0, top_p=0.8, temperature=0.85):
             'temperature': temperature,
         }
         send_message = json.dumps(message)
-        client_socket.send(send_message.encode())
+        client_socket.send(send_message.encode('utf-8'))
         if stream == 1:
             print('\n--- Begin Stream Message ---\n')
         response = ''
@@ -207,7 +207,7 @@ def convert_matrix_data_into_xyz_data(x_array, y_array, matrix):
             z_array[ix*len_y+iy] = matrix[ix, iy]
     return x_array, y_array, z_array
 
-# 通过定义计算R^2（基于实际值和预测值）
+# 通过定义计算R^2（基于实际值和预测值，数值有可能小于0）
 def calculate_R2_with_definition(y_true_array, y_pred_array):
     import numpy as np
     y_mean = np.mean(y_true_array)
@@ -216,24 +216,18 @@ def calculate_R2_with_definition(y_true_array, y_pred_array):
     R2 = 1 - (SS_res / SS_tot)
     return R2
 
-# 通过sklearn计算R^2，和定义的计算结果一致
+# 通过sklearn计算R^2，和上面定义的计算结果一致
 def calculate_R2_with_sklearn(y_true_array, y_pred_array):
     from sklearn.metrics import r2_score
     R2 = r2_score(y_true_array, y_pred_array)
     return R2
 
-# 通过scipy计算线性回归后的R^2（基于线性回归模型）
+# 通过scipy计算线性回归后的R^2（基于线性回归模型，范围在0和1之间）
 def calculate_R2_after_linear_regression_with_scipy(y_true_array, y_pred_array):
     from scipy import stats
     slope, intercept, r_value, p_value, std_err = stats.linregress(y_true_array, y_pred_array)
     R2 = r_value**2
     return R2
-
-# 获取函数或类的源码（返回字符串）
-def get_source(name):
-    import inspect
-    source = inspect.getsource(name)
-    return source
 
 # 判断一个数是否接近于整数
 def close_to_integer(value, abs_tol=1e-3):
@@ -338,6 +332,12 @@ def count_words(text, include_space=0, show_words=0):
         print(new_words_2)
     return num_words
 
+# 获取函数或类的源码（返回字符串）
+def get_source(name):
+    import inspect
+    source = inspect.getsource(name)
+    return source
+
 # 将RGB转成HEX
 def rgb_to_hex(rgb, pound=1):
     if pound==0:
@@ -355,12 +355,357 @@ def hex_to_rgb(hex):
 def encryption_MD5(password, salt=''):
     import hashlib
     password = salt+password
-    hashed_password = hashlib.md5(password.encode()).hexdigest()
+    hashed_password = hashlib.md5(password.encode('utf-8')).hexdigest()
     return hashed_password
 
-# 使用SHA-256进行散列加密
+# 使用SHA-256进行散列加密（常用且相对比较安全）
 def encryption_SHA_256(password, salt=''):
     import hashlib
     password = salt+password
-    hashed_password = hashlib.sha256(password.encode()).hexdigest()
+    hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
     return hashed_password
+
+# 使用bcrypt生成盐并加密（常用且更加安全）
+def encryption_bcrypt(password):
+    import bcrypt
+    salt = bcrypt.gensalt()
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
+    return hashed_password
+
+# 验证bcrypt加密的密码（这里的hashed_password已经包含了生成时使用的盐，bcrypt.checkpw会自动从hashed_password中提取盐，因此在验证时无需再单独传递盐）
+def check_bcrypt_hashed_password(password_input, hashed_password):
+    import bcrypt
+    return bcrypt.checkpw(password_input.encode('utf-8'), hashed_password)
+
+# 获取当前日期字符串
+def get_date(bar=True):
+    import datetime
+    datetime_date = str(datetime.date.today())
+    if bar==False:
+        datetime_date = datetime_date.replace('-', '')
+    return datetime_date
+
+# 获取当前时间字符串
+def get_time(colon=True):
+    import datetime
+    datetime_time = datetime.datetime.now().strftime('%H:%M:%S')
+    if colon==False:
+        datetime_time = datetime_time.replace(':', '')
+    return datetime_time
+
+# 获取运行的日期和时间并写入文件
+def statistics_with_day_and_time(content='', filename='a', file_format='.txt'):
+    import datetime
+    datetime_today = str(datetime.date.today())
+    datetime_time = datetime.datetime.now().strftime('%H:%M:%S')
+    with open(filename+file_format, 'a', encoding="utf-8") as f2:
+       if content == '':
+           f2.write(datetime_today+' '+datetime_time+'\n')
+       else:
+           f2.write(datetime_today+' '+datetime_time+' '+content+'\n')
+
+# 获取本月的所有日期
+def get_date_array_of_the_current_month(str_or_datetime='str'):
+    import datetime
+    today = datetime.date.today()
+    first_day_of_month = today.replace(day=1)
+    if first_day_of_month.month == 12:
+        next_month = first_day_of_month.replace(year=first_day_of_month.year + 1, month=1)
+    else:
+        next_month = first_day_of_month.replace(month=first_day_of_month.month + 1)
+    current_date = first_day_of_month
+    date_array = []
+    while current_date < next_month:
+        if str_or_datetime=='str':
+            date_array.append(str(current_date))
+        elif str_or_datetime=='datetime':
+            date_array.append(current_date)
+        current_date += datetime.timedelta(days=1)
+    return date_array
+
+# 获取上个月份
+def get_last_month():
+    import datetime
+    today = datetime.date.today()
+    last_month = today.month - 1
+    if last_month == 0:
+        last_month = 12
+        year_of_last_month = today.year - 1
+    else:
+        year_of_last_month = today.year
+    return year_of_last_month, last_month
+
+# 获取上上个月份
+def get_the_month_before_last():
+    import datetime
+    today = datetime.date.today()
+    the_month_before_last = today.month - 2
+    if the_month_before_last == 0:
+        the_month_before_last = 12 
+        year_of_the_month_before_last = today.year - 1
+    else:
+        year_of_the_month_before_last = today.year
+    if the_month_before_last == -1:
+        the_month_before_last = 11
+        year_of_the_month_before_last = today.year - 1
+    else:
+        year_of_the_month_before_last = today.year
+    return year_of_the_month_before_last, the_month_before_last
+
+# 获取上个月的所有日期
+def get_date_array_of_the_last_month(str_or_datetime='str'):
+    import datetime
+    import guan
+    today = datetime.date.today()
+    year_of_last_month, last_month = guan.get_last_month()
+    first_day_of_month = today.replace(year=year_of_last_month, month=last_month, day=1)
+    if first_day_of_month.month == 12:
+        next_month = first_day_of_month.replace(year=first_day_of_month.year + 1, month=1)
+    else:
+        next_month = first_day_of_month.replace(month=first_day_of_month.month + 1)
+    current_date = first_day_of_month
+    date_array = []
+    while current_date < next_month:
+        if str_or_datetime=='str':
+            date_array.append(str(current_date))
+        elif str_or_datetime=='datetime':
+            date_array.append(current_date)
+        current_date += datetime.timedelta(days=1)
+    return date_array
+
+# 获取上上个月的所有日期
+def get_date_array_of_the_month_before_last(str_or_datetime='str'):
+    import datetime
+    import guan
+    today = datetime.date.today()
+    year_of_last_last_month, last_last_month = guan.get_the_month_before_last()
+    first_day_of_month = today.replace(year=year_of_last_last_month, month=last_last_month, day=1)
+    if first_day_of_month.month == 12:
+        next_month = first_day_of_month.replace(year=first_day_of_month.year + 1, month=1)
+    else:
+        next_month = first_day_of_month.replace(month=first_day_of_month.month + 1)
+    current_date = first_day_of_month
+    date_array = []
+    while current_date < next_month:
+        if str_or_datetime=='str':
+            date_array.append(str(current_date))
+        elif str_or_datetime=='datetime':
+            date_array.append(current_date)
+        current_date += datetime.timedelta(days=1)
+    return date_array
+
+# 根据新的日期，填充数组中缺少的数据为零
+def fill_zero_data_for_new_dates(old_dates, new_dates, old_data_array):
+    new_data_array = []
+    for date in new_dates:
+        if str(date) not in old_dates:
+            new_data_array.append(0)
+        else:
+            index = old_dates.index(date)
+            new_data_array.append(old_data_array[index])
+    return new_data_array
+
+# 获取CPU使用率
+def get_cpu_usage(interval=1):
+    import psutil
+    cpu_usage = psutil.cpu_percent(interval=interval)
+    return cpu_usage
+
+# 获取内存信息
+def get_memory_info():
+    import psutil
+    memory_info = psutil.virtual_memory()
+    total_memory = memory_info.total/(1024**2)
+    used_memory = memory_info.used/(1024**2)
+    available_memory = memory_info.available/(1024**2)
+    used_memory_percent = memory_info.percent
+    return total_memory, used_memory, available_memory, used_memory_percent
+
+# 获取MAC地址
+def get_mac_address():
+    import uuid
+    mac_address = uuid.UUID(int=uuid.getnode()).hex[-12:].upper()
+    mac_address = '-'.join([mac_address[i:i+2] for i in range(0, 11, 2)])
+    return mac_address
+
+# 获取软件包中的所有模块名
+def get_all_modules_in_one_package(package_name='guan'):
+    import pkgutil
+    package = __import__(package_name)
+    module_names = [name for _, name, _ in pkgutil.iter_modules(package.__path__)]
+    return module_names
+
+# 获取软件包中一个模块的所有函数名
+def get_all_functions_in_one_module(module_name, package_name='guan'):
+    import inspect
+    function_names = []
+    module = __import__(f"{package_name}.{module_name}", fromlist=[""])
+    for name, obj in inspect.getmembers(module):
+        if inspect.isfunction(obj):
+            function_names.append(name)
+    return function_names
+
+# 获取软件包中的所有函数名
+def get_all_functions_in_one_package(package_name='guan', print_show=1):
+    import guan
+    module_names = guan.get_all_modules_in_one_package(package_name=package_name)
+    all_function_names = []
+    for module_name in module_names:
+        function_names = guan.get_all_functions_in_one_module(module_name, package_name='guan')
+        if print_show == 1:
+            print('Module:', module_name)
+        for name in function_names:
+            all_function_names.append(name)
+            if print_show == 1:
+                print('function:', name)
+        if print_show == 1:
+            print()
+    return all_function_names
+
+# 获取调用本函数的函数名
+def get_calling_function_name(layer=1):
+    import inspect
+    caller = inspect.stack()[layer]
+    calling_function_name = caller.function
+    return calling_function_name
+
+# 统计Python文件中import的数量并排序
+def count_number_of_import_statements(filename, file_format='.py', num=1000):
+    with open(filename+file_format, 'r') as file:
+        lines = file.readlines()
+    import_array = []
+    for line in lines:
+        if 'import ' in line:
+            line = line.strip()
+            import_array.append(line)
+    from collections import Counter
+    import_statement_counter = Counter(import_array).most_common(num)
+    return import_statement_counter
+
+# 查找文件名相同的文件
+def find_repeated_file_with_same_filename(directory='./', ignored_directory_with_words=[], ignored_file_with_words=[], num=1000):
+    import os
+    from collections import Counter
+    file_list = []
+    for root, dirs, files in os.walk(directory):
+        for i0 in range(len(files)):
+            file_list.append(files[i0])
+            for word in ignored_directory_with_words:
+                if word in root:
+                    file_list.remove(files[i0])       
+            for word in ignored_file_with_words:
+                if word in files[i0]:
+                    try:
+                        file_list.remove(files[i0])   
+                    except:
+                        pass 
+    count_file = Counter(file_list).most_common(num)
+    repeated_file = []
+    for item in count_file:
+        if item[1]>1:
+            repeated_file.append(item)
+    return repeated_file
+
+# 统计各个子文件夹中的文件数量
+def count_file_in_sub_directory(directory='./', sort=0, reverse=1, print_show=1, smaller_than_num=None):
+    import os
+    import numpy as np
+    dirs_list = []
+    for root, dirs, files in os.walk(directory):
+        if dirs != []:
+            for i0 in range(len(dirs)):
+                dirs_list.append(root+'/'+dirs[i0])
+    count_file_array = []
+    for sub_dir in dirs_list:
+        file_list = []
+        for root, dirs, files in os.walk(sub_dir):
+            for i0 in range(len(files)):
+                file_list.append(files[i0])
+        count_file = len(file_list)
+        count_file_array.append(count_file)
+        if sort == 0:
+            if print_show == 1:
+                if smaller_than_num == None:
+                    print(sub_dir)
+                    print(count_file)
+                    print()
+                else:
+                    if count_file<smaller_than_num:
+                        print(sub_dir)
+                        print(count_file)
+                        print()
+    if sort == 0:
+        sub_directory = dirs_list
+        num_in_sub_directory = count_file_array
+    if sort == 1:
+        sub_directory = []
+        num_in_sub_directory = []
+        if reverse == 1:
+            index_array = np.argsort(count_file_array)[::-1]
+        else:
+            index_array = np.argsort(count_file_array)
+        for i0 in index_array:
+            sub_directory.append(dirs_list[i0])
+            num_in_sub_directory.append(count_file_array[i0])
+            if print_show == 1:
+                if smaller_than_num == None:
+                    print(dirs_list[i0])
+                    print(count_file_array[i0])
+                    print()
+                else:
+                    if count_file_array[i0]<smaller_than_num:
+                        print(dirs_list[i0])
+                        print(count_file_array[i0])
+                        print()
+    return sub_directory, num_in_sub_directory
+
+# 在多个子文件夹中产生必要的文件，例如 readme.md
+def creat_necessary_file(directory, filename='readme', file_format='.md', content='', overwrite=None, ignored_directory_with_words=[]):
+    import os
+    directory_with_file = []
+    ignored_directory = []
+    for root, dirs, files in os.walk(directory):
+        for i0 in range(len(files)):
+            if root not in directory_with_file:
+                directory_with_file.append(root)
+            if files[i0] == filename+file_format:
+                if root not in ignored_directory:
+                    ignored_directory.append(root)
+    if overwrite == None:
+        for root in ignored_directory:
+            directory_with_file.remove(root)
+    ignored_directory_more =[]
+    for root in directory_with_file: 
+        for word in ignored_directory_with_words:
+            if word in root:
+                if root not in ignored_directory_more:
+                    ignored_directory_more.append(root)
+    for root in ignored_directory_more:
+        directory_with_file.remove(root) 
+    for root in directory_with_file:
+        os.chdir(root)
+        f = open(filename+file_format, 'w', encoding="utf-8")
+        f.write(content)
+        f.close()
+
+# 删除特定文件名的文件（谨慎使用）
+def delete_file_with_specific_name(directory, filename='readme', file_format='.md'):
+    import os
+    for root, dirs, files in os.walk(directory):
+        for i0 in range(len(files)):
+            if files[i0] == filename+file_format:
+                os.remove(root+'/'+files[i0])
+
+# 将所有文件移到根目录（谨慎使用）
+def move_all_files_to_root_directory(directory):
+    import os
+    import shutil
+    for root, dirs, files in os.walk(directory):
+        for i0 in range(len(files)):
+            shutil.move(root+'/'+files[i0], directory+'/'+files[i0])
+    for i0 in range(100):
+        for root, dirs, files in os.walk(directory):
+            try:
+                os.rmdir(root) 
+            except:
+                pass
