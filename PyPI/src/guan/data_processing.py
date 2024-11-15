@@ -568,14 +568,12 @@ def get_cpu_information_for_times(interval=1, sleep_interval=9, times=6):
     return cpu_information_array
 
 # 将得到的CPU的使用率信息写入文件。默认为半分钟收集一次，(interval+sleep_interval)*times 为收集的时间范围，范围默认为60分钟，即1小时写入文件一次，总共得到120组数据。其中，数字第一列和第二列分别是平均值和最大值。
-def write_cpu_information_to_file(filename_pre='./cpu_usage', interval=1, sleep_interval=29, times=120):
+def write_cpu_information_to_file(filename='./cpu_usage', interval=1, sleep_interval=29, times=120):
     import guan
+    guan.make_file(filename+'.txt')
     while True:
-        datetime_date = guan.get_date()
-        filename = filename_pre+'_'+datetime_date
-        guan.make_file(filename+'.txt')
         f = guan.open_file(filename)
-        cpu_information_array = get_cpu_information_for_times(interval=interval, sleep_interval=sleep_interval, times=times)
+        cpu_information_array = guan.get_cpu_information_for_times(interval=interval, sleep_interval=sleep_interval, times=times)
         for cpu_information in cpu_information_array:
             i0 = 0
             for information in cpu_information: 
@@ -585,6 +583,74 @@ def write_cpu_information_to_file(filename_pre='./cpu_usage', interval=1, sleep_
                     f.write(f'{information:.1f} ')
                 i0 += 1
             f.write('\n')
+        f.close()
+
+# 画CPU的使用率图。默认为画最近的120个数据，以及不画CPU核心的最大使用率。
+def plot_cpu_information(filename='./cpu_usage', recent_num=120, max_cpu=0):
+    import guan
+    from datetime import datetime
+    with open(filename+".txt", "r") as file:
+        lines = file.readlines()
+        lines = lines[::-1]
+        timestamps_array = []
+        averaged_cpu_usage_array = []
+        max_cpu_usage_array = []
+        i0 = 0
+        for line in lines:
+            i0 += 1
+            if i0 >= recent_num:
+                break
+            cpu_information = line.strip()
+            information = cpu_information.split()
+            time_str = information[0]+' '+information[1]
+            time_format = "%Y-%m-%d %H:%M:%S"
+            timestamps_array.append(datetime.strptime(time_str, time_format))
+            averaged_cpu_usage_array.append(float(information[2]))
+            max_cpu_usage_array.append(float(information[3]))
+    plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=0.3, adjust_left=0.15, labelsize=16, fontfamily='Times New Roman')
+    plt.xticks(rotation=90) 
+    guan.plot_without_starting_fig_ax(plt, fig, ax, timestamps_array, averaged_cpu_usage_array, style='o-')
+    legend_array = ['Averaged']
+    if max_cpu == 1:
+        guan.plot_without_starting_fig_ax(plt, fig, ax, timestamps_array, max_cpu_usage_array, style='o-')
+        legend_array.append('Max')
+    guan.plot_without_starting_fig_ax(plt, fig, ax, [], [], xlabel='Time', ylabel='CPU usage', fontsize=20)
+    plt.legend(legend_array)
+    plt.show()
+
+# 画详细的CPU的使用率图，分CPU核心画图。
+def plot_detailed_cpu_information(filename='./cpu_usage', recent_num=120):
+    import guan
+    from datetime import datetime
+    with open(filename+".txt", "r") as file:
+        lines = file.readlines()
+        lines = lines[::-1]
+        timestamps_array = []
+        i0 = 0
+        core_num = len(lines[0].strip().split())-4
+        detailed_cpu_usage_array = []
+        for line in lines:
+            i0 += 1
+            if i0 > recent_num:
+                break
+            cpu_information = line.strip()
+            information = cpu_information.split()
+            time_str = information[0]+' '+information[1]
+            time_format = "%Y-%m-%d %H:%M:%S"
+            timestamps_array.append(datetime.strptime(time_str, time_format))
+            detailed_cpu_usage = []
+            for core in range(core_num):
+                detailed_cpu_usage.append(float(information[4+core]))
+            detailed_cpu_usage_array.append(detailed_cpu_usage)
+    for core in range(core_num):
+        plt, fig, ax = guan.import_plt_and_start_fig_ax(adjust_bottom=0.3, adjust_left=0.15, labelsize=16, fontfamily='Times New Roman')
+        plt.xticks(rotation=90) 
+        guan.plot_without_starting_fig_ax(plt, fig, ax, timestamps_array, [row[core] for row in detailed_cpu_usage_array], style='o-')
+        legend_array = []
+        legend_array.append(f'CPU {core+1}')
+        guan.plot_without_starting_fig_ax(plt, fig, ax, [], [], xlabel='Time', ylabel='CPU usage', fontsize=20)
+        plt.legend(legend_array)
+        plt.show()
 
 # 获取MAC地址
 def get_mac_address():
