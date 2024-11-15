@@ -657,18 +657,6 @@ def plot_stock_line(date_array, opening_array, closing_array, high_array, low_ar
     plt.show()
     plt.close('all')
 
-# Guan软件包升级检查和提示（如果无法连接或者版本为最新，那么均没有提示）
-def notification_of_upgrade(timeout=5):
-    try:
-        import guan
-        latest_version = guan.get_latest_version(package_name='guan', timeout=timeout)
-        current_version = guan.get_current_version('guan')
-        if latest_version != None and current_version != None:
-            if latest_version != current_version:
-                print('升级提示：您当前使用的版本是 guan-'+current_version+'，目前已经有最新版本 guan-'+latest_version+'。您可以通过以下命令对软件包进行升级：pip install --upgrade guan -i https://pypi.python.org/simple 或 pip install --upgrade guan')
-    except:
-        pass
-
 # Guan软件包的使用统计（仅仅统计装机数和import次数）
 def statistics_of_guan_package(function_name=None):
     import guan
@@ -704,3 +692,15 @@ def statistics_of_guan_package(function_name=None):
         client_socket.close()
     except:
         pass
+
+# # Guan软件包升级检查和提示（如果无法连接或者版本为最新，那么均没有提示）
+# def notification_of_upgrade(timeout=5):
+#     try:
+#         import guan
+#         latest_version = guan.get_latest_version(package_name='guan', timeout=timeout)
+#         current_version = guan.get_current_version('guan')
+#         if latest_version != None and current_version != None:
+#             if latest_version != current_version:
+#                 print('升级提示：您当前使用的版本是 guan-'+current_version+'，目前已经有最新版本 guan-'+latest_version+'。您可以通过以下命令对软件包进行升级：pip install --upgrade guan -i https://pypi.python.org/simple 或 pip install --upgrade guan')
+#     except:
+#         pass

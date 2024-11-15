@@ -40,6 +40,11 @@ def chat(prompt='你好', model=1, stream=0, top_p=0.8, temperature=0.85):
             print('\n--- End Stream Message ---\n')
     return response
 
+# 从列表中删除某个匹配的元素
+def remove_item_in_one_array(array, item):
+    new_array = [x for x in array if x != item]
+    return new_array 
+
 # 并行计算前的预处理，把参数分成多份
 def preprocess_for_parallel_calculations(parameter_array_all, task_num=1, task_index=0):
     import numpy as np
@@ -505,12 +510,6 @@ def fill_zero_data_for_new_dates(old_dates, new_dates, old_data_array):
             new_data_array.append(old_data_array[index])
     return new_data_array
 
-# 获取CPU使用率
-def get_cpu_usage(interval=1):
-    import psutil
-    cpu_usage = psutil.cpu_percent(interval=interval)
-    return cpu_usage
-
 # 获取内存信息
 def get_memory_info():
     import psutil
@@ -520,6 +519,72 @@ def get_memory_info():
     available_memory = memory_info.available/(1024**2)
     used_memory_percent = memory_info.percent
     return total_memory, used_memory, available_memory, used_memory_percent
+
+# 获取CPU的平均使用率
+def get_cpu_usage(interval=1):
+    import psutil
+    cpu_usage = psutil.cpu_percent(interval=interval)
+    return cpu_usage
+
+# 获取每个CPU核心的使用率，返回列表
+def get_cpu_usage_array_per_core(interval=1):
+    import psutil
+    cpu_usage_array_per_core = psutil.cpu_percent(interval=interval, percpu=True)
+    return cpu_usage_array_per_core
+
+# 获取使用率最高的CPU核心的使用率
+def get_cpu_max_usage_for_all_cores(interval=1):
+    import guan
+    cpu_usage_array_per_core = guan.get_cpu_usage_array_per_core(interval=interval)
+    max_cpu_usage = max(cpu_usage_array_per_core)
+    return max_cpu_usage
+
+# 获取非零使用率的CPU核心的平均使用率
+def get_cpu_averaged_usage_for_non_zero_cores(interval=1):
+    import guan
+    cpu_usage_array_per_core = guan.get_cpu_usage_array_per_core(interval=interval)
+    cpu_usage_array_per_core_new = guan.remove_item_in_one_array(cpu_usage_array_per_core, 0.0)
+    averaged_cpu_usage = sum(cpu_usage_array_per_core_new)/len(cpu_usage_array_per_core_new)
+    return averaged_cpu_usage
+
+# 在一定数量周期内得到CPU的使用率信息。默认为10秒钟收集一次，(interval+sleep_interval)*times 为收集的时间范围，范围默认为60秒，即1分钟后返回列表，总共得到6组数据。其中，数字第一列和第二列分别是平均值和最大值。
+def get_cpu_information_for_times(interval=1, sleep_interval=9, times=6):
+    import guan
+    import time
+    cpu_information_array = []
+    for _ in range(times):
+        cpu_information = []
+        datetime_date = guan.get_date()
+        datetime_time = guan.get_time()
+        cpu_information.append(datetime_date)
+        cpu_information.append(datetime_time)
+        cpu_usage_array_per_core = guan.get_cpu_usage_array_per_core(interval=interval)
+        cpu_information.append(sum(cpu_usage_array_per_core)/len(cpu_usage_array_per_core))
+        cpu_information.append(max(cpu_usage_array_per_core))
+        for cpu_usage in cpu_usage_array_per_core:
+            cpu_information.append(cpu_usage)
+        cpu_information_array.append(cpu_information)
+        time.sleep(sleep_interval)
+    return cpu_information_array
+
+# 将得到的CPU的使用率信息写入文件。默认为半分钟收集一次，(interval+sleep_interval)*times 为收集的时间范围，范围默认为60分钟，即1小时写入文件一次，总共得到120组数据。其中，数字第一列和第二列分别是平均值和最大值。
+def write_cpu_information_to_file(filename_pre='./cpu_usage', interval=1, sleep_interval=29, times=120):
+    import guan
+    while True:
+        datetime_date = guan.get_date()
+        filename = filename_pre+'_'+datetime_date
+        guan.make_file(filename+'.txt')
+        f = guan.open_file(filename)
+        cpu_information_array = get_cpu_information_for_times(interval=interval, sleep_interval=sleep_interval, times=times)
+        for cpu_information in cpu_information_array:
+            i0 = 0
+            for information in cpu_information: 
+                if i0 < 2:
+                    f.write(str(information)+' ')
+                else:
+                    f.write(f'{information:.1f} ')
+                i0 += 1
+            f.write('\n')
 
 # 获取MAC地址
 def get_mac_address():
