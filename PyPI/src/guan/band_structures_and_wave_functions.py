@@ -65,11 +65,46 @@ def calculate_eigenvalue_with_two_parameters(x_array, y_array, hamiltonian_funct
             i0 += 1
     return eigenvalue_array
 
-# 计算哈密顿量的本征矢
+# 计算哈密顿量的本征矢（厄密矩阵）
 def calculate_eigenvector(hamiltonian):
     import numpy as np
     eigenvalue, eigenvector = np.linalg.eigh(hamiltonian)
     return eigenvector
+
+# 施密特正交化
+def schmidt_orthogonalization(eigenvector):
+    import numpy as np
+    num = eigenvector.shape[1]
+    for i in range(num):
+        for i0 in range(i):
+            eigenvector[:, i] = eigenvector[:, i] - eigenvector[:, i0]*np.dot(eigenvector[:, i].transpose().conj(), eigenvector[:, i0])/(np.dot(eigenvector[:, i0].transpose().conj(),eigenvector[:, i0]))
+        eigenvector[:, i] = eigenvector[:, i]/np.linalg.norm(eigenvector[:, i])
+    return eigenvector
+
+# 通过QR分解正交化
+def orthogonalization_with_qr(eigenvector):
+    import numpy as np
+    Q, R = np.linalg.qr(eigenvector)
+    return Q
+
+# 通过SVD正交化
+def orthogonalization_with_svd(eigenvector):
+    import numpy as np
+    U, sigma, VT = np.linalg.svd(eigenvector)
+    return U
+
+# 通过scipy.linalg.orth正交化
+def orthogonalization_with_scipy_linalg_orth(eigenvector):
+    import scipy
+    Q = scipy.linalg.orth(eigenvector)
+    return Q
+
+# 验证是否正交
+def verify_orthogonality(eigenvector):
+    import numpy as np
+    identity = np.eye(eigenvector.shape[1])
+    product = np.dot(eigenvector.transpose().conj(), eigenvector)
+    return np.allclose(product, identity)
 
 # 通过二分查找的方法获取和相邻波函数一样规范的波函数
 def find_vector_with_the_same_gauge_with_binary_search(vector_target, vector_ref, show_error=1, show_times=0, show_phase=0, n_test=1000, precision=1e-6):

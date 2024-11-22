@@ -481,6 +481,11 @@ def convert_wordpress_xml_to_markdown(xml_file='./a.xml', convert_content=1, rep
         with open(cleaned_filename, 'w', encoding='utf-8') as md_file:
             md_file.write(markdown_content)
 
+# 凯利公式
+def kelly_formula(p, b, a=1):
+    f=(p/a)-((1-p)/b)
+    return f
+
 # 获取所有股票
 def all_stocks():
     import numpy as np
