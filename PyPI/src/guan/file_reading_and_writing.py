@@ -35,138 +35,6 @@ def load_txt_data(filename):
     data = np.loadtxt(filename+'.txt')
     return data
 
-# 如果不存在文件夹，则新建文件夹
-def make_directory(directory='./test'):
-    import os
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-
-# 如果不存在文件，则新建空文件
-def make_file(file_path='./a.txt'):
-    import os
-    if not os.path.exists(file_path):
-        with open(file_path, 'w') as f:
-            pass
-
-# 打开文件用于写入，默认为新增内容
-def open_file(filename='a', file_format='.txt', mode='add'):
-    if mode == 'add':
-        f = open(filename+file_format, 'a', encoding='UTF-8')
-    elif mode == 'overwrite':
-        f = open(filename+file_format, 'w', encoding='UTF-8')
-    return f
-
-def print_to_file(*args, filename='print_result', file_format='.txt', print_on=True):
-    if print_on==True:
-        for arg in args:
-            print(arg, end=' ')
-        print()
-    f = open(filename+file_format, 'a', encoding='UTF-8')
-    for arg in args:
-        f.write(str(arg)+' ')
-    f.write('\n')
-    f.close()
-
-# 读取文本文件内容。如果文件不存在，返回空字符串
-def read_text_file(file_path='./a.txt', make_file=None):
-    import os
-    if not os.path.exists(file_path):
-        if make_file != None:
-            with open(file_path, 'w') as f:
-                pass
-        return ''
-    else:
-        with open(file_path, 'r') as f:
-            content = f.read()
-        return content
-
-# 获取目录中的所有文件名
-def get_all_filenames_in_directory(directory='./', file_format=None, show_root_path=0, sort=1, include_subdirectory=1):
-    import os
-    file_list = []
-    for root, dirs, files in os.walk(directory):
-        for i0 in range(len(files)):
-            if file_format == None:
-                if show_root_path == 0:
-                    file_list.append(files[i0])
-                else:
-                    file_list.append(root+'/'+files[i0])
-            else:
-                if file_format in files[i0]:
-                    if show_root_path == 0:
-                        file_list.append(files[i0])
-                    else:
-                        file_list.append(root+'/'+files[i0])
-        if include_subdirectory != 1:
-            break
-    if sort == 1:
-        file_list = sorted(file_list)
-    return file_list
-
-# 获取文件夹中某种文本类型的文件以及读取所有内容
-def read_text_files_in_directory(directory='./', file_format='.md'):
-    import os
-    file_list = []
-    for root, dirs, files in os.walk(directory):
-        for i0 in range(len(files)):
-            if file_format in files[i0]:
-                file_list.append(root+'/'+files[i0])
-    content_array = []
-    for file in file_list:
-        with open(file, 'r', encoding='UTF-8') as f:
-            content_array.append(f.read())
-    return file_list, content_array
-
-# 在多个文本文件中查找关键词
-def find_words_in_multiple_files(words, directory='./', file_format='.md'):
-    import guan
-    file_list, content_array = guan.read_text_files_in_directory(directory=directory, file_format=file_format)
-    num_files = len(file_list)
-    file_list_with_words = []
-    for i0 in range(num_files):
-        if words in content_array[i0]:
-            file_list_with_words.append(file_list[i0])
-    return file_list_with_words
-
-# 复制一份文件
-def copy_file(old_file='./a.txt', new_file='./b.txt'):
-    import shutil
-    shutil.copy(old_file, new_file)
-
-# 打开文件，替代某字符串
-def open_file_and_replace_str(file_path='./a.txt', old_str='', new_str=''):
-    import guan
-    content = guan.read_text_file(file_path=file_path)
-    content = content.replace(old_str, new_str)
-    f = guan.open_file(filename=file_path, file_format='', mode='overwrite')
-    f.write(content)
-    f.close()
-
-# 复制一份文件，然后再替代某字符串
-def copy_file_and_replace_str(old_file='./a.txt', new_file='./b.txt', old_str='', new_str=''):
-    import guan
-    guan.copy_file(old_file=old_file, new_file=new_file)
-    content = guan.read_text_file(file_path=new_file)
-    content = content.replace(old_str, new_str)
-    f = guan.open_file(filename=new_file, file_format='', mode='overwrite')
-    f.write(content)
-    f.close()
-
-# 拼接两个PDF文件
-def combine_two_pdf_files(input_file_1='a.pdf', input_file_2='b.pdf', output_file='combined_file.pdf'):
-    import PyPDF2
-    output_pdf = PyPDF2.PdfWriter()
-    with open(input_file_1, 'rb') as file1:
-        pdf1 = PyPDF2.PdfReader(file1)
-        for page in range(len(pdf1.pages)):
-            output_pdf.add_page(pdf1.pages[page])
-    with open(input_file_2, 'rb') as file2:
-        pdf2 = PyPDF2.PdfReader(file2)
-        for page in range(len(pdf2.pages)):
-            output_pdf.add_page(pdf2.pages[page])
-    with open(output_file, 'wb') as combined_file:
-        output_pdf.write(combined_file)
-
 # 读取文件中的一维数据（一行一组x和y）
 def read_one_dimensional_data(filename='a', file_format='.txt'): 
     import numpy as np
@@ -375,6 +243,124 @@ def write_two_dimensional_data_without_xy_array_and_without_opening_file(matrix,
             f.write(str(element)+'   ')
         f.write('\n')
 
+# 如果不存在文件夹，则新建文件夹
+def make_directory(directory='./test'):
+    import os
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+# 如果不存在文件，则新建空文件
+def make_file(file_path='./a.txt'):
+    import os
+    if not os.path.exists(file_path):
+        with open(file_path, 'w') as f:
+            pass
+
+# 打开文件用于写入，默认为新增内容
+def open_file(filename='a', file_format='.txt', mode='add'):
+    if mode == 'add':
+        f = open(filename+file_format, 'a', encoding='UTF-8')
+    elif mode == 'overwrite':
+        f = open(filename+file_format, 'w', encoding='UTF-8')
+    return f
+
+# 打印到TXT文件
+def print_to_file(*args, filename='print_result', file_format='.txt', print_on=True):
+    if print_on==True:
+        for arg in args:
+            print(arg, end=' ')
+        print()
+    f = open(filename+file_format, 'a', encoding='UTF-8')
+    for arg in args:
+        f.write(str(arg)+' ')
+    f.write('\n')
+    f.close()
+
+# 读取文本文件内容。如果文件不存在，返回空字符串
+def read_text_file(file_path='./a.txt', make_file=None):
+    import os
+    if not os.path.exists(file_path):
+        if make_file != None:
+            with open(file_path, 'w') as f:
+                pass
+        return ''
+    else:
+        with open(file_path, 'r') as f:
+            content = f.read()
+        return content
+
+# 获取目录中的所有文件名
+def get_all_filenames_in_directory(directory='./', file_format=None, show_root_path=0, sort=1, include_subdirectory=1):
+    import os
+    file_list = []
+    for root, dirs, files in os.walk(directory):
+        for i0 in range(len(files)):
+            if file_format == None:
+                if show_root_path == 0:
+                    file_list.append(files[i0])
+                else:
+                    file_list.append(root+'/'+files[i0])
+            else:
+                if file_format in files[i0]:
+                    if show_root_path == 0:
+                        file_list.append(files[i0])
+                    else:
+                        file_list.append(root+'/'+files[i0])
+        if include_subdirectory != 1:
+            break
+    if sort == 1:
+        file_list = sorted(file_list)
+    return file_list
+
+# 获取文件夹中某种文本类型的文件以及读取所有内容
+def read_text_files_in_directory(directory='./', file_format='.md'):
+    import os
+    file_list = []
+    for root, dirs, files in os.walk(directory):
+        for i0 in range(len(files)):
+            if file_format in files[i0]:
+                file_list.append(root+'/'+files[i0])
+    content_array = []
+    for file in file_list:
+        with open(file, 'r', encoding='UTF-8') as f:
+            content_array.append(f.read())
+    return file_list, content_array
+
+# 在多个文本文件中查找关键词
+def find_words_in_multiple_files(words, directory='./', file_format='.md'):
+    import guan
+    file_list, content_array = guan.read_text_files_in_directory(directory=directory, file_format=file_format)
+    num_files = len(file_list)
+    file_list_with_words = []
+    for i0 in range(num_files):
+        if words in content_array[i0]:
+            file_list_with_words.append(file_list[i0])
+    return file_list_with_words
+
+# 复制一份文件
+def copy_file(old_file='./a.txt', new_file='./b.txt'):
+    import shutil
+    shutil.copy(old_file, new_file)
+
+# 打开文件，替代某字符串
+def open_file_and_replace_str(file_path='./a.txt', old_str='', new_str=''):
+    import guan
+    content = guan.read_text_file(file_path=file_path)
+    content = content.replace(old_str, new_str)
+    f = guan.open_file(filename=file_path, file_format='', mode='overwrite')
+    f.write(content)
+    f.close()
+
+# 复制一份文件，然后再替代某字符串
+def copy_file_and_replace_str(old_file='./a.txt', new_file='./b.txt', old_str='', new_str=''):
+    import guan
+    guan.copy_file(old_file=old_file, new_file=new_file)
+    content = guan.read_text_file(file_path=new_file)
+    content = content.replace(old_str, new_str)
+    f = guan.open_file(filename=new_file, file_format='', mode='overwrite')
+    f.write(content)
+    f.close()
+
 # 改变当前的目录位置
 def change_directory_by_replacement(current_key_word='code', new_key_word='data'):
     import os
@@ -384,3 +370,131 @@ def change_directory_by_replacement(current_key_word='code', new_key_word='data'
     if os.path.exists(data_path) == False:
         os.makedirs(data_path)
     os.chdir(data_path)
+
+# 查找文件名相同的文件
+def find_repeated_file_with_same_filename(directory='./', ignored_directory_with_words=[], ignored_file_with_words=[], num=1000):
+    import os
+    from collections import Counter
+    file_list = []
+    for root, dirs, files in os.walk(directory):
+        for i0 in range(len(files)):
+            file_list.append(files[i0])
+            for word in ignored_directory_with_words:
+                if word in root:
+                    file_list.remove(files[i0])       
+            for word in ignored_file_with_words:
+                if word in files[i0]:
+                    try:
+                        file_list.remove(files[i0])   
+                    except:
+                        pass 
+    count_file = Counter(file_list).most_common(num)
+    repeated_file = []
+    for item in count_file:
+        if item[1]>1:
+            repeated_file.append(item)
+    return repeated_file
+
+# 统计各个子文件夹中的文件数量
+def count_file_in_sub_directory(directory='./', sort=0, reverse=1, print_show=1, smaller_than_num=None):
+    import os
+    import numpy as np
+    dirs_list = []
+    for root, dirs, files in os.walk(directory):
+        if dirs != []:
+            for i0 in range(len(dirs)):
+                dirs_list.append(root+'/'+dirs[i0])
+    count_file_array = []
+    for sub_dir in dirs_list:
+        file_list = []
+        for root, dirs, files in os.walk(sub_dir):
+            for i0 in range(len(files)):
+                file_list.append(files[i0])
+        count_file = len(file_list)
+        count_file_array.append(count_file)
+        if sort == 0:
+            if print_show == 1:
+                if smaller_than_num == None:
+                    print(sub_dir)
+                    print(count_file)
+                    print()
+                else:
+                    if count_file<smaller_than_num:
+                        print(sub_dir)
+                        print(count_file)
+                        print()
+    if sort == 0:
+        sub_directory = dirs_list
+        num_in_sub_directory = count_file_array
+    if sort == 1:
+        sub_directory = []
+        num_in_sub_directory = []
+        if reverse == 1:
+            index_array = np.argsort(count_file_array)[::-1]
+        else:
+            index_array = np.argsort(count_file_array)
+        for i0 in index_array:
+            sub_directory.append(dirs_list[i0])
+            num_in_sub_directory.append(count_file_array[i0])
+            if print_show == 1:
+                if smaller_than_num == None:
+                    print(dirs_list[i0])
+                    print(count_file_array[i0])
+                    print()
+                else:
+                    if count_file_array[i0]<smaller_than_num:
+                        print(dirs_list[i0])
+                        print(count_file_array[i0])
+                        print()
+    return sub_directory, num_in_sub_directory
+
+# 在多个子文件夹中产生必要的文件，例如 readme.md
+def creat_necessary_file(directory, filename='readme', file_format='.md', content='', overwrite=None, ignored_directory_with_words=[]):
+    import os
+    directory_with_file = []
+    ignored_directory = []
+    for root, dirs, files in os.walk(directory):
+        for i0 in range(len(files)):
+            if root not in directory_with_file:
+                directory_with_file.append(root)
+            if files[i0] == filename+file_format:
+                if root not in ignored_directory:
+                    ignored_directory.append(root)
+    if overwrite == None:
+        for root in ignored_directory:
+            directory_with_file.remove(root)
+    ignored_directory_more =[]
+    for root in directory_with_file: 
+        for word in ignored_directory_with_words:
+            if word in root:
+                if root not in ignored_directory_more:
+                    ignored_directory_more.append(root)
+    for root in ignored_directory_more:
+        directory_with_file.remove(root) 
+    for root in directory_with_file:
+        os.chdir(root)
+        f = open(filename+file_format, 'w', encoding="utf-8")
+        f.write(content)
+        f.close()
+
+# 删除特定文件名的文件（谨慎使用）
+def delete_file_with_specific_name(directory, filename='readme', file_format='.md'):
+    import os
+    for root, dirs, files in os.walk(directory):
+        for i0 in range(len(files)):
+            if files[i0] == filename+file_format:
+                os.remove(root+'/'+files[i0])
+
+# 将所有文件移到根目录（谨慎使用）
+def move_all_files_to_root_directory(directory):
+    import os
+    import shutil
+    for root, dirs, files in os.walk(directory):
+        for i0 in range(len(files)):
+            shutil.move(root+'/'+files[i0], directory+'/'+files[i0])
+    for i0 in range(100):
+        for root, dirs, files in os.walk(directory):
+            try:
+                os.rmdir(root) 
+            except:
+                pass

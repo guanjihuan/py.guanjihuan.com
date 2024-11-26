@@ -382,3 +382,25 @@ def pca_of_data(data, n_components=None, standard=1):
     data_transformed = pca.fit_transform(data_scaled)
     explained_variance_ratio = pca.explained_variance_ratio_
     return data_transformed, explained_variance_ratio
+
+# 通过定义计算R^2（基于实际值和预测值，数值有可能小于0）
+def calculate_R2_with_definition(y_true_array, y_pred_array):
+    import numpy as np
+    y_mean = np.mean(y_true_array)
+    SS_tot = np.sum((y_true_array - y_mean) ** 2)
+    SS_res = np.sum((y_true_array - y_pred_array) ** 2)
+    R2 = 1 - (SS_res / SS_tot)
+    return R2
+
+# 通过sklearn计算R^2，和上面定义的计算结果一致
+def calculate_R2_with_sklearn(y_true_array, y_pred_array):
+    from sklearn.metrics import r2_score
+    R2 = r2_score(y_true_array, y_pred_array)
+    return R2
+
+# 通过scipy计算线性回归后的R^2（基于线性回归模型，范围在0和1之间）
+def calculate_R2_after_linear_regression_with_scipy(y_true_array, y_pred_array):
+    from scipy import stats
+    slope, intercept, r_value, p_value, std_err = stats.linregress(y_true_array, y_pred_array)
+    R2 = r_value**2
+    return R2
