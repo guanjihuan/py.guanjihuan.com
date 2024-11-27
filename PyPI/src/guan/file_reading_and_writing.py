@@ -3,13 +3,13 @@
 # 使用pickle将变量保存到文件（支持几乎所有对象类型）
 def dump_data(data, filename, file_format='.txt'):
     import pickle
-    with open(filename+file_format, 'wb') as f:
+    with open(filename+file_format, 'wb', encoding='UTF-8') as f:
         pickle.dump(data, f)
 
 # 使用pickle从文件中恢复数据到变量（支持几乎所有对象类型）
 def load_data(filename, file_format='.txt'):
     import pickle
-    with open(filename+file_format, 'rb') as f:
+    with open(filename+file_format, 'rb', encoding='UTF-8') as f:
         data = pickle.load(f)
     return data
 
@@ -38,7 +38,7 @@ def load_txt_data(filename):
 # 读取文件中的一维数据（一行一组x和y）
 def read_one_dimensional_data(filename='a', file_format='.txt'): 
     import numpy as np
-    f = open(filename+file_format, 'r')
+    f = open(filename+file_format, 'r', encoding='UTF-8')
     text = f.read()
     f.close()
     row_list = np.array(text.split('\n')) 
@@ -61,7 +61,7 @@ def read_one_dimensional_data(filename='a', file_format='.txt'):
 # 读取文件中的一维数据（一行一组x和y）（支持复数形式）
 def read_one_dimensional_complex_data(filename='a', file_format='.txt'): 
     import numpy as np
-    f = open(filename+file_format, 'r')
+    f = open(filename+file_format, 'r', encoding='UTF-8')
     text = f.read()
     f.close()
     row_list = np.array(text.split('\n')) 
@@ -84,7 +84,7 @@ def read_one_dimensional_complex_data(filename='a', file_format='.txt'):
 # 读取文件中的XYZ数据（一行一组x, y, z）
 def read_xyz_data(filename='a', file_format='.txt'): 
     import numpy as np
-    f = open(filename+file_format, 'r')
+    f = open(filename+file_format, 'r', encoding='UTF-8')
     text = f.read()
     f.close()
     row_list = np.array(text.split('\n')) 
@@ -102,7 +102,7 @@ def read_xyz_data(filename='a', file_format='.txt'):
 # 读取文件中的二维数据（第一行和第一列分别为横纵坐标）
 def read_two_dimensional_data(filename='a', file_format='.txt'): 
     import numpy as np
-    f = open(filename+file_format, 'r')
+    f = open(filename+file_format, 'r', encoding='UTF-8')
     text = f.read()
     f.close()
     row_list = np.array(text.split('\n')) 
@@ -131,7 +131,7 @@ def read_two_dimensional_data(filename='a', file_format='.txt'):
 # 读取文件中的二维数据（第一行和第一列分别为横纵坐标）（支持复数形式）
 def read_two_dimensional_complex_data(filename='a', file_format='.txt'): 
     import numpy as np
-    f = open(filename+file_format, 'r')
+    f = open(filename+file_format, 'r', encoding='UTF-8')
     text = f.read()
     f.close()
     row_list = np.array(text.split('\n')) 
@@ -253,7 +253,7 @@ def make_directory(directory='./test'):
 def make_file(file_path='./a.txt'):
     import os
     if not os.path.exists(file_path):
-        with open(file_path, 'w') as f:
+        with open(file_path, 'w', encoding='UTF-8') as f:
             pass
 
 # 打开文件用于写入，默认为新增内容
@@ -281,11 +281,11 @@ def read_text_file(file_path='./a.txt', make_file=None):
     import os
     if not os.path.exists(file_path):
         if make_file != None:
-            with open(file_path, 'w') as f:
+            with open(file_path, 'w', encoding='UTF-8') as f:
                 pass
         return ''
     else:
-        with open(file_path, 'r') as f:
+        with open(file_path, 'r', encoding='UTF-8') as f:
             content = f.read()
         return content
 
