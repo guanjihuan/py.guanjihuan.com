@@ -26,7 +26,6 @@ import guan
 + file reading and writing
 + figure plotting
 + data processing
-+ others
 + decorators
 
 ## About this package
