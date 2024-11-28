@@ -40,6 +40,43 @@ def chat(prompt='你好', model=1, stream=0, top_p=0.8, temperature=0.85):
             print('\n--- End Stream Message ---\n')
     return response
 
+# 在云端服务器上运行函数（需要函数是独立可运行的代码）
+def run(function_name, *args, **kwargs):
+    import socket
+    import json
+    import guan
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
+        client_socket.connect(('socket.guanjihuan.com', 12345))
+        function_source = guan.get_source(function_name)
+        message = {
+            'server': "run",
+            'function_name': function_name.__name__,
+            'function_source': function_source,
+            'args': str(args),
+            'kwargs': str(kwargs)
+        }
+        send_message = json.dumps(message)
+        client_socket.send(send_message.encode())
+        return_data = None
+        while True:
+            try:
+                data = client_socket.recv(1024)
+                return_text = data.decode()
+                return_dict = json.loads(return_text)
+                return_data = return_dict['return_data']
+                print_data = return_dict['print_data']
+                end_message = return_dict['end_message']
+                if print_data != '':
+                    print('--- Start Print ---\n')
+                    print(print_data)
+                    print('--- End Print ---\n')
+                if end_message == 1 or return_text == '':
+                    break
+            except:
+                break
+        client_socket.close()
+    return return_data
+
 # 将XYZ数据转成矩阵数据（说明：x_array/y_array的输入和输出不一样。要求z_array数据中y对应的数据为小循环，x对应的数据为大循环）
 def convert_xyz_data_into_matrix_data(x_array, y_array, z_array):
     import numpy as np
