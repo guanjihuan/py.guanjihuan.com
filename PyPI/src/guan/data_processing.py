@@ -1,7 +1,7 @@
 # Module: data_processing
 
 # 模型对话
-def chat(prompt='你好', model=1, stream=0, top_p=0.8, temperature=0.85):
+def chat(prompt='你好', stream=1, model=1, top_p=0.8, temperature=0.85):
     import socket
     import json
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
@@ -32,12 +32,12 @@ def chat(prompt='你好', model=1, stream=0, top_p=0.8, temperature=0.85):
                         break
                     else:
                         if stream == 1:
-                            print(stream_response)
+                            print(stream_response, end='')
             except:
                 break
         client_socket.close()
         if stream == 1:
-            print('\n--- End Stream Message ---\n')
+            print('\n\n--- End Stream Message ---\n')
     return response
 
 # 在云端服务器上运行函数（需要函数是独立可运行的代码）
