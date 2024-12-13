@@ -1,6 +1,6 @@
 # Module: data_processing
 
-# 模型对话
+# AI模型对话
 def chat(prompt='你好', stream=1, model=1, top_p=0.8, temperature=0.85):
     import socket
     import json
