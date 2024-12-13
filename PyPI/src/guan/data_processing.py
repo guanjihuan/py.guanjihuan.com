@@ -1,6 +1,6 @@
 # Module: data_processing
 
-# AI模型对话
+# AI模型对话（输入长度不能太长，且回答速度有一定限制）
 def chat(prompt='你好', stream=1, model=1, top_p=0.8, temperature=0.85):
     import socket
     import json
@@ -20,6 +20,8 @@ def chat(prompt='你好', stream=1, model=1, top_p=0.8, temperature=0.85):
             print('\n--- Begin Stream Message ---\n')
         response = ''
         while True:
+            if prompt == '':
+                break
             try:
                 data = client_socket.recv(1024)
                 if data != b'':
