@@ -1,21 +1,43 @@
 # Module: data_processing
 
-# AI模型对话（输入长度不能太长，且回答速度有一定限制）
+# AI模型对话
 def chat(prompt='你好', stream=1, model=1, top_p=0.8, temperature=0.85):
     import socket
     import json
+    import time
+    import guan
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
         client_socket.settimeout(30)
         client_socket.connect(('socket.guanjihuan.com', 12345))
-        message = {
-            'server': "chat.guanjihuan.com",
-            'prompt': prompt,
-            'model': model,
-            'top_p': top_p,
-            'temperature': temperature,
-        }
-        send_message = json.dumps(message)
-        client_socket.send(send_message.encode('utf-8'))
+        split_text_list = guan.split_text(prompt, wrap_width=100)
+        message_times = len(split_text_list)
+        if message_times == 1 or message_times == 0:
+            message = {
+                'server': "chat.guanjihuan.com",
+                'prompt': prompt,
+                'model': model,
+                'top_p': top_p,
+                'temperature': temperature,
+            }
+            send_message = json.dumps(message)
+            client_socket.send(send_message.encode('utf-8'))
+        else:
+            end_message = 0
+            for i0 in range(message_times):
+                if i0 == message_times-1:
+                    end_message = 1
+                prompt_0 = split_text_list[i0]
+                message = {
+                    'server': "chat.guanjihuan.com",
+                    'prompt': prompt_0,
+                    'model': model,
+                    'top_p': top_p,
+                    'temperature': temperature,
+                    'end_message': end_message,
+                }
+                send_message = json.dumps(message)
+                client_socket.send(send_message.encode('utf-8'))
+                time.sleep(0.15)
         if stream == 1:
             print('\n--- Begin Stream Message ---\n')
         response = ''
