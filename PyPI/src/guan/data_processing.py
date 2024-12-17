@@ -68,6 +68,8 @@ def chat(prompt='你好', stream=1, model=1, top_p=0.8, temperature=0.85):
 def run(function_name, *args, **kwargs):
     import socket
     import json
+    import pickle
+    import base64
     import time
     import guan
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
@@ -102,23 +104,25 @@ def run(function_name, *args, **kwargs):
                 send_message = json.dumps(message)
                 client_socket.send(send_message.encode())
                 time.sleep(0.15)
-        return_data = None
+        return_data = ''
+        print_data = ''
         while True:
             try:
                 data = client_socket.recv(1024)
                 return_text = data.decode()
                 return_dict = json.loads(return_text)
-                return_data = return_dict['return_data']
-                print_data = return_dict['print_data']
+                return_data += return_dict['return_data']
+                print_data += return_dict['print_data']
                 end_message = return_dict['end_message']
-                if print_data != '':
-                    print('--- Start Print ---\n')
-                    print(print_data)
-                    print('--- End Print ---\n')
-                if end_message == 1 or return_text == '':
+                if end_message == 1:
                     break
             except:
                 break
+        if print_data != '':
+            print('--- Start Print ---\n')
+            print(print_data)
+            print('--- End Print ---\n')
+        return_data = pickle.loads(base64.b64decode(return_data))
         client_socket.close()
     return return_data
 
