@@ -9,7 +9,7 @@ def chat(prompt='你好', stream=1, model=1, top_p=0.8, temperature=0.85):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
         client_socket.settimeout(30)
         client_socket.connect(('socket.guanjihuan.com', 12345))
-        split_text_list = guan.split_text(prompt, wrap_width=100)
+        split_text_list = guan.split_text(prompt, width=100)
         message_times = len(split_text_list)
         if message_times == 1 or message_times == 0:
             message = {
@@ -68,19 +68,40 @@ def chat(prompt='你好', stream=1, model=1, top_p=0.8, temperature=0.85):
 def run(function_name, *args, **kwargs):
     import socket
     import json
+    import time
     import guan
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
         client_socket.connect(('socket.guanjihuan.com', 12345))
         function_source = guan.get_source(function_name)
-        message = {
-            'server': "run",
-            'function_name': function_name.__name__,
-            'function_source': function_source,
-            'args': str(args),
-            'kwargs': str(kwargs)
-        }
-        send_message = json.dumps(message)
-        client_socket.send(send_message.encode())
+        split_text_list = guan.split_text(function_source, width=100)
+        message_times = len(split_text_list)
+        if message_times == 1 or message_times == 0:
+            message = {
+                'server': "run",
+                'function_name': function_name.__name__,
+                'function_source': function_source,
+                'args': str(args),
+                'kwargs': str(kwargs)
+            }
+            send_message = json.dumps(message)
+            client_socket.send(send_message.encode())
+        else:
+            end_message = 0
+            for i0 in range(message_times):
+                if i0 == message_times-1:
+                    end_message = 1
+                source_0 = split_text_list[i0]
+                message = {
+                    'server': "run",
+                    'function_name': function_name.__name__,
+                    'function_source': source_0,
+                    'args': str(args),
+                    'kwargs': str(kwargs),
+                    'end_message': end_message,
+                }
+                send_message = json.dumps(message)
+                client_socket.send(send_message.encode())
+                time.sleep(0.15)
         return_data = None
         while True:
             try:
@@ -327,17 +348,22 @@ def print_array_with_index(array, show_index=1, index_type=0):
                 index += 1
                 print(index, i0)
 
+# 根据一定的字符长度来分割文本
+def split_text(text, width=100):  
+    split_text_list = [text[i:i+width] for i in range(0, len(text), width)]
+    return split_text_list
+
+# 使用textwrap根据一定的字符长度来分割文本（会自动微小调节宽度，但存在换行符和空格丢失的问题）
+def split_text_with_textwrap(text, width=100):  
+    import textwrap
+    split_text_list = textwrap.wrap(text, width)
+    return split_text_list
+
 # 使用jieba软件包进行分词
 def divide_text_into_words(text):
     import jieba
     words = jieba.lcut(text)
     return words
-
-# 根据一定的字符长度来分割文本
-def split_text(text, wrap_width=3000):  
-    import textwrap  
-    split_text_list = textwrap.wrap(text, wrap_width)
-    return split_text_list
 
 # 判断某个字符是中文还是英文或其他
 def check_Chinese_or_English(a):  
