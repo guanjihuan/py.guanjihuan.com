@@ -73,13 +73,13 @@ def run(function_name, *args, **kwargs):
     import time
     import guan
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
-        client_socket.connect(('socket.guanjihuan.com', 12345))
+        client_socket.connect(('run.guanjihuan.com', 12345))
         function_source = guan.get_source(function_name)
         split_text_list = guan.split_text(function_source, width=100)
         message_times = len(split_text_list)
         if message_times == 1 or message_times == 0:
             message = {
-                'server': "run",
+                'server': "run.guanjihuan.com",
                 'function_name': function_name.__name__,
                 'function_source': function_source,
                 'args': str(args),
@@ -104,6 +104,7 @@ def run(function_name, *args, **kwargs):
                 send_message = json.dumps(message)
                 client_socket.send(send_message.encode())
                 time.sleep(0.15)
+        print('\nguan.run: 云端服务器正在计算，请等待返回结果。\n')
         return_data = ''
         print_data = ''
         while True:
@@ -122,6 +123,9 @@ def run(function_name, *args, **kwargs):
             print('--- Start Print ---\n')
             print(print_data)
             print('--- End Print ---\n')
+            print('guan.run: 云端服务器计算结束，以上是打印结果。\n')
+        else:
+            print('guan.run: 云端服务器计算结束。\n')
         return_data = pickle.loads(base64.b64decode(return_data))
         client_socket.close()
     return return_data
