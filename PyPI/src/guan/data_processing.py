@@ -1255,25 +1255,28 @@ def convert_wordpress_xml_to_markdown(xml_file='./a.xml', convert_content=1, rep
         title = item.find('title').text
         content = item.find('.//content:encoded', namespaces={'content': 'http://purl.org/rss/1.0/modules/content/'}).text
         if convert_content == 1:
-            content = re.sub(r'<!--.*?-->', '', content)
-            content = content.replace('<p>', '')
-            content = content.replace('</p>', '')
-            content = content.replace('<ol>', '')
-            content = content.replace('</ol>', '')
-            content = content.replace('<ul>', '')
-            content = content.replace('</ul>', '')
-            content = content.replace('<strong>', '')
-            content = content.replace('</strong>', '')
-            content = content.replace('</li>', '')
-            content = content.replace('<li>', '+ ')
-            content = content.replace('</h3>', '')
-            content = re.sub(r'<h2.*?>', '## ', content)
-            content = re.sub(r'<h3.*?>', '### ', content)
-            content = re.sub(r'<h4.*?>', '#### ', content)
-            for replace_item in replace_more:
-                content = content.replace(replace_item, '')
-            for _ in range(100):
-                content = content.replace('\n\n\n', '\n\n')
+            try:
+                content = re.sub(r'<!--.*?-->', '', content)
+                content = content.replace('<p>', '')
+                content = content.replace('</p>', '')
+                content = content.replace('<ol>', '')
+                content = content.replace('</ol>', '')
+                content = content.replace('<ul>', '')
+                content = content.replace('</ul>', '')
+                content = content.replace('<strong>', '')
+                content = content.replace('</strong>', '')
+                content = content.replace('</li>', '')
+                content = content.replace('<li>', '+ ')
+                content = content.replace('</h3>', '')
+                content = re.sub(r'<h2.*?>', '## ', content)
+                content = re.sub(r'<h3.*?>', '### ', content)
+                content = re.sub(r'<h4.*?>', '#### ', content)
+                for replace_item in replace_more:
+                    content = content.replace(replace_item, '')
+                for _ in range(100):
+                    content = content.replace('\n\n\n', '\n\n')
+            except:
+                print(f'提示：字符串替换出现问题！出现问题的内容为：{content}')
         else:
             pass
         markdown_content = f"# {title}\n{content}"
