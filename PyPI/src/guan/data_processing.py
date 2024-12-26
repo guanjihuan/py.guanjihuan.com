@@ -1,6 +1,6 @@
 # Module: data_processing
 
-# AI模型对话
+# AI 对话
 def chat(prompt='你好', stream=1, model=1, top_p=0.8, temperature=0.85):
     import socket
     import json
@@ -37,9 +37,9 @@ def chat(prompt='你好', stream=1, model=1, top_p=0.8, temperature=0.85):
                 }
                 send_message = json.dumps(message)
                 client_socket.send(send_message.encode('utf-8'))
-                time.sleep(0.15)
+                time.sleep(0.2)
         if stream == 1:
-            print('\n--- Begin Stream Message ---\n')
+            print('\n--- Begin Chat Stream Message ---\n')
         response = ''
         while True:
             if prompt == '':
@@ -61,8 +61,40 @@ def chat(prompt='你好', stream=1, model=1, top_p=0.8, temperature=0.85):
                 break
         client_socket.close()
         if stream == 1:
-            print('\n\n--- End Stream Message ---\n')
+            print('\n\n--- End Chat Stream Message ---\n')
     return response
+
+# 加上函数代码的 AI 对话
+def chat_with_function_code(function_name, prompt='', stream=1, model=1, top_p=0.8, temperature=0.85):
+    import guan
+    function_source = guan.get_source(function_name)
+    if prompt == '':
+        response = guan.chat(prompt=function_source, stream=stream, model=model, top_p=top_p, temperature=temperature)
+    else:
+        response = guan.chat(prompt=function_source+'\n\n'+prompt, stream=stream, model=model, top_p=top_p, temperature=temperature)
+    return response
+
+# 机器人自动对话
+def auto_chat(prompt='你好', round=2):
+    import guan
+    response0 = prompt
+    for i0 in range(round):
+        print(f'【对话第 {i0+1} 轮】\n')
+        print('机器人 1: ')
+        response1 = guan.chat(prompt=response0, stream=1)
+        print('机器人 2: ')
+        response0 = guan.chat(prompt=response1, stream=1)
+
+# 机器人自动对话（引导对话）
+def auto_chat_with_guide(prompt='你好', guide_message='（回答字数少于30个字，最后反问我一个问题）', round=5):
+    import guan
+    response0 = prompt
+    for i0 in range(round):
+        print(f'【对话第 {i0+1} 轮】\n')
+        print('机器人 1: ')
+        response1 = guan.chat(prompt=response0+guide_message, stream=1)
+        print('机器人 2: ')
+        response0 = guan.chat(prompt=response1+guide_message, stream=1)
 
 # 在云端服务器上运行函数（需要函数是独立可运行的代码）
 def run(function_name, *args, **kwargs):
@@ -103,7 +135,7 @@ def run(function_name, *args, **kwargs):
                 }
                 send_message = json.dumps(message)
                 client_socket.send(send_message.encode())
-                time.sleep(0.15)
+                time.sleep(0.2)
         print('\nguan.run: 云端服务器正在计算，请等待返回结果。\n')
         return_data = ''
         print_data = ''
