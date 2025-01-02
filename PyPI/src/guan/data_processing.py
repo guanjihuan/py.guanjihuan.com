@@ -39,7 +39,7 @@ def chat(prompt='你好', stream=1, model=1, top_p=0.8, temperature=0.85):
                 client_socket.send(send_message.encode('utf-8'))
                 time.sleep(0.2)
         if stream == 1:
-            print('\n--- Begin Chat Stream Message ---\n')
+            print('\n--- Start Chat Stream Message ---\n')
         response = ''
         while True:
             if prompt == '':
