@@ -744,8 +744,8 @@ def get_cpu_averaged_usage_for_non_zero_cores(interval=1):
     averaged_cpu_usage = sum(cpu_usage_array_per_core_new)/len(cpu_usage_array_per_core_new)
     return averaged_cpu_usage
 
-# 在一定数量周期内得到CPU的使用率信息。默认为10秒钟收集一次，(interval+sleep_interval)*times 为收集的时间范围，范围默认为60秒，即1分钟后返回列表，总共得到6组数据。其中，数字第一列和第二列分别是平均值和最大值。
-def get_cpu_information_for_times(interval=1, sleep_interval=9, times=6):
+# 在一定数量周期内得到CPU的使用率信息。默认为1秒钟收集一次，(interval+sleep_interval)*times 为收集的时间范围，范围默认为60秒，即1分钟后返回列表，总共得到60组数据。其中，数字第一列和第二列分别是平均值和最大值。
+def get_cpu_information_for_times(interval=1, sleep_interval=0, times=60):
     import guan
     import time
     cpu_information_array = []
@@ -764,8 +764,8 @@ def get_cpu_information_for_times(interval=1, sleep_interval=9, times=6):
         time.sleep(sleep_interval)
     return cpu_information_array
 
-# 将得到的CPU的使用率信息写入文件。默认为半分钟收集一次，(interval+sleep_interval)*times 为收集的时间范围，范围默认为60分钟，即1小时写入文件一次，总共得到120组数据。其中，数字第一列和第二列分别是平均值和最大值。
-def write_cpu_information_to_file(filename='./cpu_usage', interval=1, sleep_interval=29, times=120):
+# 将得到的CPU的使用率信息写入文件。默认为1分钟收集一次，(interval+sleep_interval)*times 为收集的时间范围，范围默认为60分钟，即1小时写入文件一次，总共得到60组数据。其中，数字第一列和第二列分别是平均值和最大值。
+def write_cpu_information_to_file(filename='./cpu_usage', interval=1, sleep_interval=59, times=60):
     import guan
     guan.make_file(filename+'.txt')
     while True:
@@ -782,8 +782,8 @@ def write_cpu_information_to_file(filename='./cpu_usage', interval=1, sleep_inte
             f.write('\n')
         f.close()
 
-# 画CPU的使用率图。默认为画最近的120个数据，以及不画CPU核心的最大使用率。
-def plot_cpu_information(filename='./cpu_usage', recent_num=120, max_cpu=0):
+# 画CPU的使用率图。默认为画最近的60个数据，以及不画CPU核心的最大使用率。
+def plot_cpu_information(filename='./cpu_usage', recent_num=60, max_cpu=0):
     import guan
     from datetime import datetime
     with open(filename+".txt", "r") as file:
@@ -816,7 +816,7 @@ def plot_cpu_information(filename='./cpu_usage', recent_num=120, max_cpu=0):
     plt.show()
 
 # 画详细的CPU的使用率图，分CPU核心画图。
-def plot_detailed_cpu_information(filename='./cpu_usage', recent_num=120):
+def plot_detailed_cpu_information(filename='./cpu_usage', recent_num=60):
     import guan
     from datetime import datetime
     with open(filename+".txt", "r") as file:
