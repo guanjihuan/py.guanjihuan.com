@@ -289,6 +289,12 @@ def read_text_file(file_path='./a.txt', make_file=None):
             content = f.read()
         return content
 
+def get_all_directories_in_current_directory(current_directory='./'):
+    import os
+    all_items = os.listdir(current_directory)
+    directories = [item for item in all_items if os.path.isdir(os.path.join(current_directory, item))]
+    return directories
+
 # 获取目录中的所有文件名
 def get_all_filenames_in_directory(directory='./', file_format=None, show_root_path=0, sort=1, include_subdirectory=1):
     import os

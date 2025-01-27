@@ -59,7 +59,7 @@ def chat(prompt='你好', stream=1, model=1, top_p=0.8, temperature=0.85):
                             print(stream_response, end='', flush=True)
             except:
                 break
-        client_socket.close()
+        # client_socket.close()
         if stream == 1:
             print('\n\n--- End Chat Stream Message ---\n')
     return response
@@ -159,7 +159,7 @@ def run(function_name, *args, **kwargs):
         else:
             print('guan.run: 云端服务器计算结束。\n')
         return_data = pickle.loads(base64.b64decode(return_data))
-        client_socket.close()
+        # client_socket.close()
     return return_data
 
 # 将XYZ数据转成矩阵数据（说明：x_array/y_array的输入和输出不一样。要求z_array数据中y对应的数据为小循环，x对应的数据为大循环）
