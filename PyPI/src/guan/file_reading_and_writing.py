@@ -289,6 +289,7 @@ def read_text_file(file_path='./a.txt', make_file=None):
             content = f.read()
         return content
 
+# 获取当前文件夹中的所有子文件夹名
 def get_all_directories_in_current_directory(current_directory='./'):
     import os
     all_items = os.listdir(current_directory)
