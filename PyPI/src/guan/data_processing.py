@@ -371,6 +371,15 @@ def get_string_between_two_patterns(original_string, start, end, include_start_a
     else:
         return ''
 
+# 打印数组
+def print_array(array, line_break=0):
+    if line_break == 0:
+        for i0 in array:
+            print(i0)
+    else:
+        for i0 in array:
+            print(i0+'\n')
+
 # 以显示编号的样式，打印数组
 def print_array_with_index(array, show_index=1, index_type=0):
     if show_index==0:
@@ -949,6 +958,35 @@ def get_PID_array(name):
             ps_ef_2 = re.split(r'\s+', ps_ef_item)
             id_running_array.append(ps_ef_2[1])
     return id_running_array
+
+# 寻找所有的git仓库 
+def find_git_repositories(base_path='./', ignored_directory_with_words=[]):
+    import os
+    git_repository_array = []
+    for root, dirs, files in os.walk(base_path):
+        if '.git' in dirs:
+            ignore_signal = 0
+            for word in  ignored_directory_with_words:
+                if word in root:
+                    ignore_signal = 1
+                    break
+            if ignore_signal == 0:
+                git_repository_array.append(root)
+    return git_repository_array
+
+# 在git仓库列表中找到有修改待commit的
+def get_git_repositories_to_commit(git_repository_array):
+    import os
+    import subprocess
+    git_repository_array_to_commit = []
+    for repository in git_repository_array:
+        os.chdir(repository)
+        status = subprocess.check_output(['git', 'status']).decode('utf-8') 
+        if 'nothing to commit, working tree clean' in status:
+            pass
+        else:
+            git_repository_array_to_commit.append(repository)
+    return git_repository_array_to_commit
 
 # 每日git commit次数的统计
 def statistics_of_git_commits(print_show=0, str_or_datetime='str'):
