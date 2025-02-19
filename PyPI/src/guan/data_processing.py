@@ -1,23 +1,21 @@
 # Module: data_processing
 
 # AI 对话
-def chat(prompt='你好', stream=1, model=1, top_p=0.8, temperature=0.85):
+def chat(prompt='你好', stream=1, model=1):
     import socket
     import json
     import time
     import guan
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
         client_socket.settimeout(30)
-        client_socket.connect(('socket.guanjihuan.com', 12345))
+        client_socket.connect(('ollama.guanjihuan.com', 12301))
         split_text_list = guan.split_text(prompt, width=100)
         message_times = len(split_text_list)
         if message_times == 1 or message_times == 0:
             message = {
-                'server': "chat.guanjihuan.com",
+                'server': "ollama.guanjihuan.com",
                 'prompt': prompt,
                 'model': model,
-                'top_p': top_p,
-                'temperature': temperature,
             }
             send_message = json.dumps(message)
             client_socket.send(send_message.encode('utf-8'))
@@ -28,11 +26,9 @@ def chat(prompt='你好', stream=1, model=1, top_p=0.8, temperature=0.85):
                     end_message = 1
                 prompt_0 = split_text_list[i0]
                 message = {
-                    'server': "chat.guanjihuan.com",
+                    'server': "ollama.guanjihuan.com",
                     'prompt': prompt_0,
                     'model': model,
-                    'top_p': top_p,
-                    'temperature': temperature,
                     'end_message': end_message,
                 }
                 send_message = json.dumps(message)
@@ -105,7 +101,7 @@ def run(function_name, *args, **kwargs):
     import time
     import guan
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
-        client_socket.connect(('run.guanjihuan.com', 12345))
+        client_socket.connect(('run.guanjihuan.com', 12302))
         function_source = guan.get_source(function_name)
         split_text_list = guan.split_text(function_source, width=100)
         message_times = len(split_text_list)
