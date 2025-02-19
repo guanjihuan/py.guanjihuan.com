@@ -61,13 +61,13 @@ def chat(prompt='你好', stream=1, model=1):
     return response
 
 # 加上函数代码的 AI 对话
-def chat_with_function_code(function_name, prompt='', stream=1, model=1, top_p=0.8, temperature=0.85):
+def chat_with_function_code(function_name, prompt='', stream=1, model=1):
     import guan
     function_source = guan.get_source(function_name)
     if prompt == '':
-        response = guan.chat(prompt=function_source, stream=stream, model=model, top_p=top_p, temperature=temperature)
+        response = guan.chat(prompt=function_source, stream=stream, model=model)
     else:
-        response = guan.chat(prompt=function_source+'\n\n'+prompt, stream=stream, model=model, top_p=top_p, temperature=temperature)
+        response = guan.chat(prompt=function_source+'\n\n'+prompt, stream=stream, model=model)
     return response
 
 # 机器人自动对话
