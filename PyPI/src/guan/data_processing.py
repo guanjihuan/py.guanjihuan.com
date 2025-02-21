@@ -1,73 +1,37 @@
 # Module: data_processing
 
 # AI 对话
-def chat(prompt='你好', stream=1, model=1):
-    import socket
-    import json
-    import time
-    import guan
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
-        client_socket.settimeout(30)
-        client_socket.connect(('ollama.guanjihuan.com', 12301))
-        split_text_list = guan.split_text(prompt, width=100)
-        message_times = len(split_text_list)
-        if message_times == 1 or message_times == 0:
-            message = {
-                'server': "ollama.guanjihuan.com",
-                'prompt': prompt,
-                'model': model,
-            }
-            send_message = json.dumps(message)
-            client_socket.send(send_message.encode('utf-8'))
-        else:
-            end_message = 0
-            for i0 in range(message_times):
-                if i0 == message_times-1:
-                    end_message = 1
-                prompt_0 = split_text_list[i0]
-                message = {
-                    'server': "ollama.guanjihuan.com",
-                    'prompt': prompt_0,
-                    'model': model,
-                    'end_message': end_message,
-                }
-                send_message = json.dumps(message)
-                client_socket.send(send_message.encode('utf-8'))
-                time.sleep(0.2)
-        if stream == 1:
-            print('\n--- Start Chat Stream Message ---\n')
-        response = ''
-        while True:
-            if prompt == '':
-                break
-            try:
-                data = client_socket.recv(1024)
-                if data != b'':
-                    response_data = data.decode()
-                    response_dict = json.loads(response_data)
-                    stream_response = response_dict['stream_response']
-                    response += stream_response
-                    end_message = response_dict['end_message']
-                    if end_message == 1:
-                        break
-                    else:
-                        if stream == 1:
-                            print(stream_response, end='', flush=True)
-            except:
-                break
-        # client_socket.close()
-        if stream == 1:
-            print('\n\n--- End Chat Stream Message ---\n')
+def chat(prompt='你好', model=1, stream=1):
+    import requests
+    url = "http://api.guanjihuan.com/chat"
+    data = {
+        "prompt": prompt, 
+        "model": model,
+    }
+    if stream == 1:
+        print('\n--- Start Chat Stream Message ---\n')
+    requests_response = requests.post(url, json=data, stream=True)
+    response = ''
+    if requests_response.status_code == 200: 
+        for line in requests_response.iter_lines():
+            if line:
+                if stream == 1:
+                    print(line.decode('utf-8'), end='', flush=True)
+                response += line.decode('utf-8')
+    else:
+        pass
+    if stream == 1:
+        print('\n\n--- End Chat Stream Message ---\n')
     return response
 
 # 加上函数代码的 AI 对话
-def chat_with_function_code(function_name, prompt='', stream=1, model=1):
+def chat_with_function_code(function_name, prompt='', model=1, stream=1):
     import guan
     function_source = guan.get_source(function_name)
     if prompt == '':
-        response = guan.chat(prompt=function_source, stream=stream, model=model)
+        response = guan.chat(prompt=function_source, model=model, stream=stream)
     else:
-        response = guan.chat(prompt=function_source+'\n\n'+prompt, stream=stream, model=model)
+        response = guan.chat(prompt=function_source+'\n\n'+prompt, model=model, stream=stream)
     return response
 
 # 机器人自动对话
