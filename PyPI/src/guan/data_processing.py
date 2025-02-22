@@ -1,7 +1,7 @@
 # Module: data_processing
 
 # AI 对话
-def chat(prompt='你好', model=1, stream=1):
+def chat(prompt='你好', model=1, stream=1, stream_label=0):
     import requests
     url = "http://api.guanjihuan.com/chat"
     data = {
@@ -9,7 +9,8 @@ def chat(prompt='你好', model=1, stream=1):
         "model": model,
     }
     if stream == 1:
-        print('\n--- Start Chat Stream Message ---\n')
+        if stream_label == 1:
+            print('\n--- Start Chat Stream Message ---\n')
     requests_response = requests.post(url, json=data, stream=True)
     response = ''
     if requests_response.status_code == 200: 
@@ -18,10 +19,12 @@ def chat(prompt='你好', model=1, stream=1):
                 if stream == 1:
                     print(line.decode('utf-8'), end='', flush=True)
                 response += line.decode('utf-8')
+        print()
     else:
         pass
     if stream == 1:
-        print('\n\n--- End Chat Stream Message ---\n')
+        if stream_label == 1:
+            print('\n\n--- End Chat Stream Message ---\n')
     return response
 
 # 加上函数代码的 AI 对话
