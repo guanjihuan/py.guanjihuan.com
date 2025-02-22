@@ -24,7 +24,7 @@ def chat(prompt='你好', model=1, stream=1, stream_label=0):
         pass
     if stream == 1:
         if stream_label == 1:
-            print('\n\n--- End Chat Stream Message ---\n')
+            print('\n--- End Chat Stream Message ---\n')
     return response
 
 # 加上函数代码的 AI 对话
@@ -61,68 +61,29 @@ def auto_chat_with_guide(prompt='你好', guide_message='（回答字数少于30
 
 # 在云端服务器上运行函数（需要函数是独立可运行的代码）
 def run(function_name, *args, **kwargs):
-    import socket
-    import json
-    import pickle
-    import base64
-    import time
+    import requests
     import guan
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
-        client_socket.connect(('run.guanjihuan.com', 12302))
-        function_source = guan.get_source(function_name)
-        split_text_list = guan.split_text(function_source, width=100)
-        message_times = len(split_text_list)
-        if message_times == 1 or message_times == 0:
-            message = {
-                'server': "run.guanjihuan.com",
-                'function_name': function_name.__name__,
-                'function_source': function_source,
-                'args': str(args),
-                'kwargs': str(kwargs)
-            }
-            send_message = json.dumps(message)
-            client_socket.send(send_message.encode())
-        else:
-            end_message = 0
-            for i0 in range(message_times):
-                if i0 == message_times-1:
-                    end_message = 1
-                source_0 = split_text_list[i0]
-                message = {
-                    'server': "run",
-                    'function_name': function_name.__name__,
-                    'function_source': source_0,
-                    'args': str(args),
-                    'kwargs': str(kwargs),
-                    'end_message': end_message,
-                }
-                send_message = json.dumps(message)
-                client_socket.send(send_message.encode())
-                time.sleep(0.2)
-        print('\nguan.run: 云端服务器正在计算，请等待返回结果。\n')
-        return_data = ''
-        print_data = ''
-        while True:
-            try:
-                data = client_socket.recv(1024)
-                return_text = data.decode()
-                return_dict = json.loads(return_text)
-                return_data += return_dict['return_data']
-                print_data += return_dict['print_data']
-                end_message = return_dict['end_message']
-                if end_message == 1:
-                    break
-            except:
-                break
-        if print_data != '':
-            print('--- Start Print ---\n')
-            print(print_data)
-            print('--- End Print ---\n')
-            print('guan.run: 云端服务器计算结束，以上是打印结果。\n')
-        else:
-            print('guan.run: 云端服务器计算结束。\n')
-        return_data = pickle.loads(base64.b64decode(return_data))
-        # client_socket.close()
+    url = "http://run.guanjihuan.com/run_function"
+    function_source = guan.get_source(function_name)
+    data = {
+        "function_name": function_name.__name__,
+        "function_source": function_source,
+        'args': str(args),
+        'kwargs': str(kwargs),
+    }
+    return_data = None
+    try:
+        response = requests.post(url, json=data)
+        if response.status_code == 200:
+            result = response.json()
+            print_data = result['print_data']
+            print(print_data, end='')
+            encoded_return_data = result['encoded_return_data']
+            import base64
+            import pickle
+            return_data = pickle.loads(base64.b64decode(encoded_return_data))
+    except:
+        pass
     return return_data
 
 # 将XYZ数据转成矩阵数据（说明：x_array/y_array的输入和输出不一样。要求z_array数据中y对应的数据为小循环，x对应的数据为大循环）
