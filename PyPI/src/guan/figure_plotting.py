@@ -311,7 +311,7 @@ def draw_dots_and_lines_without_starting_fig_ax(plt, fig, ax, coordinate_array, 
             ax.plot(coordinate_array[i, 0], coordinate_array[i, 1], dot_style, markersize=markersize)
 
 # 通过坐标画点和线
-def draw_dots_and_lines(coordinate_array, draw_dots=1, draw_lines=1, max_distance=1, line_style='-k', linewidth=1, dot_style='ro', markersize=3, axis_off=1, show=1, save=0, filename='a', file_format='.eps', dpi=300):
+def draw_dots_and_lines(coordinate_array, draw_dots=1, draw_lines=1, max_distance=1.0001, line_style='-k', linewidth=1, dot_style='ro', markersize=3, axis_off=1, show=1, save=0, filename='a', file_format='.eps', dpi=300):
     import numpy as np
     import matplotlib.pyplot as plt
     coordinate_array = np.array(coordinate_array)
