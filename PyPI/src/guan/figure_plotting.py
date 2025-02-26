@@ -298,7 +298,7 @@ def plot_pcolor(x_array, y_array, matrix, xlabel='x', ylabel='y', title='', font
     plt.close('all')
 
 # 基于plt, fig, ax，通过坐标画点和线
-def draw_dots_and_lines_without_starting_fig_ax(plt, fig, ax, coordinate_array, draw_dots=1, draw_lines=1, max_distance=1, line_style='-k', linewidth=1, dot_style='ro', markersize=3):
+def draw_dots_and_lines_without_starting_fig_ax(plt, fig, ax, coordinate_array, draw_dots=1, draw_lines=1, max_distance=1.0001, line_style='-k', linewidth=1, dot_style='ro', markersize=3):
     import numpy as np
     coordinate_array = np.array(coordinate_array)
     if draw_lines==1:
@@ -310,9 +310,8 @@ def draw_dots_and_lines_without_starting_fig_ax(plt, fig, ax, coordinate_array, 
         for i in range(coordinate_array.shape[0]):
             ax.plot(coordinate_array[i, 0], coordinate_array[i, 1], dot_style, markersize=markersize)
 
-
 # 通过坐标画点和线
-def draw_dots_and_lines(coordinate_array, draw_dots=1, draw_lines=1, max_distance=1, line_style='-k', linewidth=1, dot_style='ro', markersize=3, show=1, save=0, filename='a', file_format='.eps', dpi=300):
+def draw_dots_and_lines(coordinate_array, draw_dots=1, draw_lines=1, max_distance=1, line_style='-k', linewidth=1, dot_style='ro', markersize=3, axis_off=1, show=1, save=0, filename='a', file_format='.eps', dpi=300):
     import numpy as np
     import matplotlib.pyplot as plt
     coordinate_array = np.array(coordinate_array)
@@ -320,8 +319,9 @@ def draw_dots_and_lines(coordinate_array, draw_dots=1, draw_lines=1, max_distanc
     y_range = max(coordinate_array[:, 1])-min(coordinate_array[:, 1])
     fig, ax = plt.subplots(figsize=(6*x_range/y_range,6))
     ax.set_aspect('equal') # important code ensuring that the x and y axes have the same scale.
-    plt.subplots_adjust(left=0, bottom=0, right=1, top=1)
-    plt.axis('off')
+    if axis_off==1:
+        plt.subplots_adjust(left=0, bottom=0, right=1, top=1)
+        plt.axis('off')
     if draw_lines==1:
         for i1 in range(coordinate_array.shape[0]):
             for i2 in range(coordinate_array.shape[0]):
