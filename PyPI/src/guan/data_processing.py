@@ -86,6 +86,16 @@ def run(function_name, *args, **kwargs):
         pass
     return return_data
 
+# 获取矩阵的维度（考虑单一数值的矩阵维度为1）
+def dimension_of_array(array):
+    import numpy as np
+    array = np.array(array)
+    if array.shape==():
+        dim = 1
+    else:
+        dim = array.shape[0]
+    return dim
+
 # 将XYZ数据转成矩阵数据（说明：x_array/y_array的输入和输出不一样。要求z_array数据中y对应的数据为小循环，x对应的数据为大循环）
 def convert_xyz_data_into_matrix_data(x_array, y_array, z_array):
     import numpy as np
