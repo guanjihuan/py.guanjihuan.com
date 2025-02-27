@@ -12,6 +12,38 @@ def import_plt_and_start_fig_ax(adjust_bottom=0.2, adjust_left=0.2, labelsize=20
         [label.set_fontname('Times New Roman') for label in labels]
     return plt, fig, ax
 
+# 导入plt, fig, ax（不显示坐标）
+def import_plt_and_start_fig_ax_without_axis():
+    import matplotlib.pyplot as plt
+    fig, ax = plt.subplots()
+    plt.subplots_adjust(left=0, bottom=0, right=1, top=1)
+    plt.axis('off')
+    return plt, fig, ax
+
+# 保存图片为所有常见的格式
+def savefig_with_all_formats(plt, filename, more_dpi=1, tiff=0):
+    plt.savefig(filename+'.eps')
+    plt.savefig(filename+'.svg')
+    plt.savefig(filename+'.pdf')
+    plt.savefig(filename+'.jpg')
+    plt.savefig(filename+'.png')
+    if tiff:
+        plt.savefig(filename+'.tiff')
+    if more_dpi:
+        try:
+            plt.savefig(filename+'_dpi=300.jpg', dpi=300)
+            plt.savefig(filename+'_dpi=600.jpg', dpi=600)
+            plt.savefig(filename+'_dpi=1000.jpg', dpi=1000)
+            plt.savefig(filename+'_dpi=300.png', dpi=300)
+            plt.savefig(filename+'_dpi=600.png', dpi=600)
+            plt.savefig(filename+'_dpi=1000.png', dpi=1000)
+            if tiff:
+                plt.savefig(filename+'_dpi=300.tiff', dpi=300)
+                plt.savefig(filename+'_dpi=600.tiff', dpi=600)
+                plt.savefig(filename+'_dpi=1000.tiff', dpi=1000)
+        except:
+            pass
+
 # 基于plt, fig, ax画图
 def plot_without_starting_fig_ax(plt, fig, ax, x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, style='', y_min=None, y_max=None, linewidth=None, markersize=None, color=None, fontfamily='Times New Roman'): 
     if color==None:

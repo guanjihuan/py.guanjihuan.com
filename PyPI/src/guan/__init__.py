@@ -13,5 +13,7 @@ from .file_reading_and_writing import *
 from .figure_plotting import *
 from .data_processing import *
 from .decorators import *
+from .custom_classes import *
+from .functions_using_objects_of_custom_classes import *
 from .deprecated import *
 statistics_of_guan_package()
