@@ -42,7 +42,7 @@ def auto_chat(prompt='你好', round=2, model=1, stream=1):
     import guan
     response0 = prompt
     for i0 in range(round):
-        print(f'【对话第 {i0+1} 轮】\n')
+        print(f'\n【对话第 {i0+1} 轮】\n')
         print('机器人 1: ')
         response1 = guan.chat(prompt=response0, model=model, stream=stream)
         print('机器人 2: ')
@@ -53,7 +53,7 @@ def auto_chat_with_guide(prompt='你好', guide_message='（回答字数少于30
     import guan
     response0 = prompt
     for i0 in range(round):
-        print(f'【对话第 {i0+1} 轮】\n')
+        print(f'\n【对话第 {i0+1} 轮】\n')
         print('机器人 1: ')
         response1 = guan.chat(prompt=response0+guide_message, model=model, stream=stream)
         print('机器人 2: ')
@@ -317,6 +317,14 @@ def get_string_between_two_patterns(original_string, start, end, include_start_a
             return start+result.group(1)+end
     else:
         return ''
+    
+# 删除某个字符串中两个模式之间的内容，返回新字符串
+def remove_substrings(original_string, start, end):
+    import re
+    escaped_start = re.escape(start)
+    escaped_end = re.escape(end)
+    pattern = f'{escaped_start}.*?{escaped_end}'
+    return re.sub(pattern, '', original_string, flags=re.DOTALL)
 
 # 打印数组
 def print_array(array, line_break=0):
