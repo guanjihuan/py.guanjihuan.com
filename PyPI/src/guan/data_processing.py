@@ -38,26 +38,26 @@ def chat_with_function_code(function_name, prompt='', model=1, stream=1):
     return response
 
 # 机器人自动对话
-def auto_chat(prompt='你好', round=2):
+def auto_chat(prompt='你好', round=2, model=1, stream=1):
     import guan
     response0 = prompt
     for i0 in range(round):
         print(f'【对话第 {i0+1} 轮】\n')
         print('机器人 1: ')
-        response1 = guan.chat(prompt=response0, stream=1)
+        response1 = guan.chat(prompt=response0, model=model, stream=stream)
         print('机器人 2: ')
-        response0 = guan.chat(prompt=response1, stream=1)
+        response0 = guan.chat(prompt=response1, model=model, stream=stream)
 
 # 机器人自动对话（引导对话）
-def auto_chat_with_guide(prompt='你好', guide_message='（回答字数少于30个字，最后反问我一个问题）', round=5):
+def auto_chat_with_guide(prompt='你好', guide_message='（回答字数少于30个字，最后反问我一个问题）', round=5, model=1, stream=1):
     import guan
     response0 = prompt
     for i0 in range(round):
         print(f'【对话第 {i0+1} 轮】\n')
         print('机器人 1: ')
-        response1 = guan.chat(prompt=response0+guide_message, stream=1)
+        response1 = guan.chat(prompt=response0+guide_message, model=model, stream=stream)
         print('机器人 2: ')
-        response0 = guan.chat(prompt=response1+guide_message, stream=1)
+        response0 = guan.chat(prompt=response1+guide_message, model=model, stream=stream)
 
 # 在云端服务器上运行函数（需要函数是独立可运行的代码）
 def run(function_name, *args, **kwargs):
