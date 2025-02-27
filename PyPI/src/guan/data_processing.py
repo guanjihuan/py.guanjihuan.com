@@ -96,6 +96,23 @@ def dimension_of_array(array):
         dim = array.shape[0]
     return dim
 
+# 获取旋转矩阵（输入为角度）
+def get_rotation_matrix(angle_deg):
+    import numpy as np
+    angle_rad = np.radians(angle_deg)
+    matrix = np.array([
+        [np.cos(angle_rad), -np.sin(angle_rad)],
+        [np.sin(angle_rad),  np.cos(angle_rad)]
+        ])
+    return matrix
+
+# 旋转某个点，返回新的点的坐标
+def rotate_point(x, y, angle_deg):
+    import numpy as np
+    rotation_matrix = get_rotation_matrix(angle_deg)
+    x, y = np.dot(rotation_matrix, np.array([x, y]))
+    return x, y
+
 # CPU性能测试（十亿次循环的浮点加法运算的时间，约30秒左右）
 def cpu_test_with_addition(print_show=1):
     import time
