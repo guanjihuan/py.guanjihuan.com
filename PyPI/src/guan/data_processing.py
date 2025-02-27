@@ -96,6 +96,19 @@ def dimension_of_array(array):
         dim = array.shape[0]
     return dim
 
+# CPU性能测试（十亿次循环的浮点加法运算的时间，约30秒左右）
+def cpu_test_with_addition(print_show=1):
+    import time
+    result = 0.0
+    start_time = time.time()
+    for _ in range(int(1e9)):
+        result += 1e-9
+    end_time = time.time()
+    run_time = end_time - start_time
+    if print_show:
+        print(run_time)
+    return run_time
+
 # 将XYZ数据转成矩阵数据（说明：x_array/y_array的输入和输出不一样。要求z_array数据中y对应的数据为小循环，x对应的数据为大循环）
 def convert_xyz_data_into_matrix_data(x_array, y_array, z_array):
     import numpy as np
