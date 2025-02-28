@@ -336,16 +336,22 @@ def draw_dots_and_lines_without_starting_fig_ax(plt, fig, ax, coordinate_array, 
     if draw_lines==1:
         for i1 in range(coordinate_array.shape[0]):
             for i2 in range(coordinate_array.shape[0]):
-                if np.sqrt((coordinate_array[i1, 0] - coordinate_array[i2, 0])**2+(coordinate_array[i1, 1] - coordinate_array[i2, 1])**2) <= max_distance:
-                    ax.plot([coordinate_array[i1, 0], coordinate_array[i2, 0]], [coordinate_array[i1, 1], coordinate_array[i2, 1]], line_style, linewidth=linewidth)
+                if i1<i2:
+                    x1 = coordinate_array[i1, 0]
+                    x2 = coordinate_array[i2, 0]
+                    y1 = coordinate_array[i1, 1]
+                    y2 = coordinate_array[i2, 1]
+                    if abs(x1-x2)<=max_distance and abs(y1-y2)<=max_distance:
+                        if np.sqrt((x1 - x2)**2+(y1 - y2)**2) <= max_distance:
+                            ax.plot([x1, x2], [y1, y2], line_style, linewidth=linewidth)
     if draw_dots==1:
-        for i in range(coordinate_array.shape[0]):
-            ax.plot(coordinate_array[i, 0], coordinate_array[i, 1], dot_style, markersize=markersize)
+        ax.plot(coordinate_array[:, 0], coordinate_array[:, 1], dot_style, markersize=markersize)
 
 # 通过坐标画点和线
 def draw_dots_and_lines(coordinate_array, draw_dots=1, draw_lines=1, max_distance=1.0001, line_style='-k', linewidth=1, dot_style='ro', markersize=3, axis_off=1, show=1, save=0, filename='a', file_format='.eps', dpi=300):
     import numpy as np
     import matplotlib.pyplot as plt
+    import guan
     coordinate_array = np.array(coordinate_array)
     x_range = max(coordinate_array[:, 0])-min(coordinate_array[:, 0])
     y_range = max(coordinate_array[:, 1])-min(coordinate_array[:, 1])
@@ -354,14 +360,7 @@ def draw_dots_and_lines(coordinate_array, draw_dots=1, draw_lines=1, max_distanc
     if axis_off==1:
         plt.subplots_adjust(left=0, bottom=0, right=1, top=1)
         plt.axis('off')
-    if draw_lines==1:
-        for i1 in range(coordinate_array.shape[0]):
-            for i2 in range(coordinate_array.shape[0]):
-                if np.sqrt((coordinate_array[i1, 0] - coordinate_array[i2, 0])**2+(coordinate_array[i1, 1] - coordinate_array[i2, 1])**2) <= max_distance:
-                    ax.plot([coordinate_array[i1, 0], coordinate_array[i2, 0]], [coordinate_array[i1, 1], coordinate_array[i2, 1]], line_style, linewidth=linewidth)
-    if draw_dots==1:
-        for i in range(coordinate_array.shape[0]):
-            ax.plot(coordinate_array[i, 0], coordinate_array[i, 1], dot_style, markersize=markersize)
+    guan.draw_dots_and_lines_without_starting_fig_ax(plt, fig, ax, coordinate_array, draw_dots=draw_dots, draw_lines=draw_lines, max_distance=max_distance, line_style=line_style, linewidth=linewidth, dot_style=dot_style, markersize=markersize)
     if show==1:
         plt.show()
     if save==1:
