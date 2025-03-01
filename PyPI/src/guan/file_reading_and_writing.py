@@ -1,15 +1,15 @@
 # Module: file_reading_and_writing
 
 # 使用pickle将变量保存到文件（支持几乎所有对象类型）
-def dump_data(data, filename, file_format='.txt'):
+def dump_data(data, filename, file_format='.pkl'):
     import pickle
-    with open(filename+file_format, 'wb', encoding='UTF-8') as f:
+    with open(filename+file_format, 'wb') as f:
         pickle.dump(data, f)
 
 # 使用pickle从文件中恢复数据到变量（支持几乎所有对象类型）
-def load_data(filename, file_format='.txt'):
+def load_data(filename, file_format='.pkl'):
     import pickle
-    with open(filename+file_format, 'rb', encoding='UTF-8') as f:
+    with open(filename+file_format, 'rb') as f:
         data = pickle.load(f)
     return data
 
