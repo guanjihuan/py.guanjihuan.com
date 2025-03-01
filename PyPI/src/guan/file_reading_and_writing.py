@@ -243,6 +243,40 @@ def write_two_dimensional_data_without_xy_array_and_without_opening_file(matrix,
             f.write(str(element)+'   ')
         f.write('\n')
 
+# 把矩阵写入.md文件（Markdown表格形式）
+def write_matrix_in_markdown_format(matrix, filename='a'):
+    import numpy as np
+    matrix = np.array(matrix)
+    dim_0 = matrix.shape[0]
+    dim_1 = matrix.shape[1]
+    with open(filename+'.md', 'w', encoding='UTF-8') as f:
+        for i1 in range(dim_1):
+            f.write(f'| column {i1+1} ')
+        f.write('|\n')
+        for i1 in range(dim_1):
+            f.write('| :---: ')
+        f.write('|\n')
+        for i0 in range(dim_0):
+            for i1 in range(dim_1):
+                f.write(f'| {matrix[i0, i1]} ')
+            f.write('|\n')
+
+# 把矩阵写入.md文件（Latex形式）
+def write_matrix_in_latex_format(matrix, filename='a', format='bmatrix'):
+    import numpy as np
+    matrix = np.array(matrix)
+    dim_0 = matrix.shape[0]
+    dim_1 = matrix.shape[1]
+    with open(filename+'.md', 'w', encoding='UTF-8') as f:
+        f.write(f'$$\\begin{{{format}}}\n')
+        for i0 in range(dim_0):
+            for i1 in range(dim_1):
+                if i1 != dim_1-1:
+                    f.write(f'{matrix[i0, i1]} & ')
+                else:
+                    f.write(f'{matrix[i0, i1]} \\\\\n')
+        f.write(f'\\end{{{format}}}$$')
+
 # 如果不存在文件夹，则新建文件夹
 def make_directory(directory='./test'):
     import os
