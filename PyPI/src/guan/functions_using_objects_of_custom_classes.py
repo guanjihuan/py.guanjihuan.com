@@ -9,6 +9,22 @@ def get_coordinate_array_from_atom_object_list(atom_object_list):
         coordinate_array.append([x, y])
     return coordinate_array
 
+# 从原子对象列表中获取 x 和 y 的最大值和最小值
+def get_max_min_x_y_from_atom_object_list(atom_object_list):
+    import guan
+    coordinate_array = guan.get_coordinate_array_from_atom_object_list(atom_object_list)
+    x_array = []
+    for coordinate in coordinate_array:
+        x_array.append(coordinate[0])
+    y_array = []
+    for coordinate in coordinate_array:
+        y_array.append(coordinate[1])
+    max_x = max(x_array)
+    min_x = min(x_array)
+    max_y = max(y_array)
+    min_y = min(y_array)
+    return max_x, min_x, max_y, min_y
+
 # 根据原子对象列表来初始化哈密顿量
 def initialize_hamiltonian_from_atom_object_list(atom_object_list):
     import numpy as np
