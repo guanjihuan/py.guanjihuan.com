@@ -32,3 +32,9 @@ def get_days_of_the_month_before_last(str_or_datetime='str'):
     print('Warning: The current function name has been deprecated, which will be deleted in the future version. Please change it into guan.get_date_array_of_the_month_before_last().')
     date_array = guan.get_date_array_of_the_month_before_last(str_or_datetime=str_or_datetime)
     return date_array
+
+def pdf_to_text(pdf_path):
+    import guan
+    print('Warning: The current function name has been deprecated, which will be deleted in the future version. Please change it into guan.pdf_to_text_with_pdfminer3k().')
+    content = guan.pdf_to_text_with_pdfminer3k(pdf_path)
+    return content

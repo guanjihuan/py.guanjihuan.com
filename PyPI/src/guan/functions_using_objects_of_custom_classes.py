@@ -25,6 +25,16 @@ def get_max_min_x_y_from_atom_object_list(atom_object_list):
     min_y = min(y_array)
     return max_x, min_x, max_y, min_y
 
+# 从原子对象列表中获取满足坐标条件的索引
+def get_index_via_coordinate_from_atom_object_list(atom_object_list, x=0, y=0, z=0, eta=1e-3):
+    for atom in atom_object_list:
+        x_i = atom.x
+        y_i = atom.y
+        z_i = atom.z
+        index = atom.index
+        if abs(x-x_i)<eta and abs(y-y_i)<eta and abs(z-z_i)<eta:
+            return index
+
 # 根据原子对象列表来初始化哈密顿量
 def initialize_hamiltonian_from_atom_object_list(atom_object_list):
     import numpy as np

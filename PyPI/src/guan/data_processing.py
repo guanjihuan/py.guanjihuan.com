@@ -86,6 +86,116 @@ def run(function_name, *args, **kwargs):
         pass
     return return_data
 
+# 获取运行的日期和时间并写入文件
+def statistics_with_day_and_time(content='', filename='time_logging', file_format='.txt'):
+    import datetime
+    datetime_today = str(datetime.date.today())
+    datetime_time = datetime.datetime.now().strftime('%H:%M:%S')
+    with open(filename+file_format, 'a', encoding="utf-8") as f2:
+       if content == '':
+           f2.write(datetime_today+' '+datetime_time+'\n')
+       else:
+           f2.write(datetime_today+' '+datetime_time+' '+content+'\n')
+
+# 创建一个sh文件用于提交任务（PBS）
+def make_sh_file_for_qsub(sh_filename='a', command_line='python a.py', cpu_num=1, task_name='task', cd_dir=0):
+    sh_content = \
+        '#!/bin/sh\n' \
+        +'#PBS -N '+task_name+'\n' \
+        +'#PBS -l nodes=1:ppn='+str(cpu_num)+'\n'
+    if cd_dir==1:
+        sh_content += 'cd $PBS_O_WORKDIR\n'
+    sh_content += command_line
+    with open(sh_filename+'.sh', 'w') as f:
+        f.write(sh_content)
+
+# 创建一个sh文件用于提交任务（LSF）
+def make_sh_file_for_bsub(sh_filename='a', command_line='python a.py', cpu_num=1, task_name='task', queue_name='score', cd_dir=0):
+    sh_content = \
+        '#!/bin/sh\n' \
+        +'#BSUB -J '+task_name+'\n' \
+        +'#BSUB -q '+queue_name+'\n' \
+        +'#BSUB -n '+str(cpu_num)+'\n'
+    if cd_dir==1:
+        sh_content += 'cd $PBS_O_WORKDIR\n'
+    sh_content += command_line
+    with open(sh_filename+'.sh', 'w') as f:
+        f.write(sh_content)
+
+# 复制.py和.sh文件，然后提交任务，实现半手动并行（PBS）
+def copy_py_sh_file_and_qsub_task(parameter_array, py_filename='a', old_str_in_py='parameter = 0', new_str_in_py='parameter = ', sh_filename='a', qsub_task_name='task'):
+    import os
+    parameter_str_array = []
+    for i0 in parameter_array:
+        parameter_str_array.append(str(i0))
+    index = 0
+    for parameter_str in parameter_str_array:
+        index += 1
+        # copy python file
+        old_file = py_filename+'.py'
+        new_file = py_filename+'_'+str(index)+'.py'
+        os.system('cp '+old_file+' '+new_file)
+        with open(new_file, 'r') as f:
+            content  = f.read()
+        old_str = old_str_in_py
+        new_str = new_str_in_py+parameter_str
+        content = content.replace(old_str, new_str)
+        with open(py_filename+'_'+str(index)+'.py', 'w') as f:
+            f.write(content)
+        # copy sh file
+        old_file = sh_filename+'.sh'
+        new_file = sh_filename+'_'+str(index)+'.sh'
+        os.system('cp '+old_file+' '+new_file)
+        with open(new_file, 'r') as f:
+            content  = f.read()
+        old_str = 'python '+py_filename+'.py'
+        new_str = 'python '+py_filename+'_'+str(index)+'.py'
+        content = content.replace(old_str, new_str)
+        old_str = '#PBS -N '+qsub_task_name
+        new_str = '#PBS -N '+qsub_task_name+'_'+str(index)
+        content = content.replace(old_str, new_str)
+        with open(sh_filename+'_'+str(index)+'.sh', 'w') as f: 
+            f.write(content)
+        # qsub task
+        os.system('qsub '+new_file)
+
+# 复制.py和.sh文件，然后提交任务，实现半手动并行（LSF）
+def copy_py_sh_file_and_bsub_task(parameter_array, py_filename='a', old_str_in_py='parameter = 0', new_str_in_py='parameter = ', sh_filename='a', bsub_task_name='task'):
+    import os
+    parameter_str_array = []
+    for i0 in parameter_array:
+        parameter_str_array.append(str(i0))
+    index = 0
+    for parameter_str in parameter_str_array:
+        index += 1
+        # copy python file
+        old_file = py_filename+'.py'
+        new_file = py_filename+'_'+str(index)+'.py'
+        os.system('cp '+old_file+' '+new_file)
+        with open(new_file, 'r') as f:
+            content  = f.read()
+        old_str = old_str_in_py
+        new_str = new_str_in_py+parameter_str
+        content = content.replace(old_str, new_str)
+        with open(py_filename+'_'+str(index)+'.py', 'w') as f:
+            f.write(content)
+        # copy sh file
+        old_file = sh_filename+'.sh'
+        new_file = sh_filename+'_'+str(index)+'.sh'
+        os.system('cp '+old_file+' '+new_file)
+        with open(new_file, 'r') as f:
+            content  = f.read()
+        old_str = 'python '+py_filename+'.py'
+        new_str = 'python '+py_filename+'_'+str(index)+'.py'
+        content = content.replace(old_str, new_str)
+        old_str = '#BSUB -J '+bsub_task_name
+        new_str = '#BSUB -J '+bsub_task_name+'_'+str(index)
+        content = content.replace(old_str, new_str)
+        with open(sh_filename+'_'+str(index)+'.sh', 'w') as f: 
+            f.write(content)
+        # bsub task
+        os.system('bsub < '+new_file)
+
 # 获取矩阵的维度（考虑单一数值的矩阵维度为1）
 def dimension_of_array(array):
     import numpy as np
@@ -179,105 +289,6 @@ def preprocess_for_parallel_calculations(parameter_array_all, task_num=1, task_i
         else:
             parameter_array = parameter_array_all[task_index*num_parameter:num_all]
     return parameter_array
-
-# 创建一个sh文件用于提交任务（PBS）
-def make_sh_file_for_qsub(sh_filename='a', command_line='python a.py', cpu_num=1, task_name='task', cd_dir=0):
-    sh_content = \
-        '#!/bin/sh\n' \
-        +'#PBS -N '+task_name+'\n' \
-        +'#PBS -l nodes=1:ppn='+str(cpu_num)+'\n'
-    if cd_dir==1:
-        sh_content += 'cd $PBS_O_WORKDIR\n'
-    sh_content += command_line
-    with open(sh_filename+'.sh', 'w') as f:
-        f.write(sh_content)
-
-# 创建一个sh文件用于提交任务（LSF）
-def make_sh_file_for_bsub(sh_filename='a', command_line='python a.py', cpu_num=1, task_name='task', queue_name='score', cd_dir=0):
-    sh_content = \
-        '#!/bin/sh\n' \
-        +'#BSUB -J '+task_name+'\n' \
-        +'#BSUB -q '+queue_name+'\n' \
-        +'#BSUB -n '+str(cpu_num)+'\n'
-    if cd_dir==1:
-        sh_content += 'cd $PBS_O_WORKDIR\n'
-    sh_content += command_line
-    with open(sh_filename+'.sh', 'w') as f:
-        f.write(sh_content)
-
-# 复制.py和.sh文件，然后提交任务，实现半手动并行（PBS）
-def copy_py_sh_file_and_qsub_task(parameter_array, py_filename='a', old_str_in_py='parameter=0', new_str_in_py='parameter=', sh_filename='a', qsub_task_name='task'):
-    import os
-    parameter_str_array = []
-    for i0 in parameter_array:
-        parameter_str_array.append(str(i0))
-    index = 0
-    for parameter_str in parameter_str_array:
-        index += 1
-        # copy python file
-        old_file = py_filename+'.py'
-        new_file = py_filename+'_'+str(index)+'.py'
-        os.system('cp '+old_file+' '+new_file)
-        with open(new_file, 'r') as f:
-            content  = f.read()
-        old_str = old_str_in_py
-        new_str = new_str_in_py+parameter_str
-        content = content.replace(old_str, new_str)
-        with open(py_filename+'_'+str(index)+'.py', 'w') as f:
-            f.write(content)
-        # copy sh file
-        old_file = sh_filename+'.sh'
-        new_file = sh_filename+'_'+str(index)+'.sh'
-        os.system('cp '+old_file+' '+new_file)
-        with open(new_file, 'r') as f:
-            content  = f.read()
-        old_str = 'python '+py_filename+'.py'
-        new_str = 'python '+py_filename+'_'+str(index)+'.py'
-        content = content.replace(old_str, new_str)
-        old_str = qsub_task_name
-        new_str = qsub_task_name+'_'+str(index)
-        content = content.replace(old_str, new_str)
-        with open(sh_filename+'_'+str(index)+'.sh', 'w') as f: 
-            f.write(content)
-        # qsub task
-        os.system('qsub '+new_file)
-
-# 复制.py和.sh文件，然后提交任务，实现半手动并行（LSF）
-def copy_py_sh_file_and_bsub_task(parameter_array, py_filename='a', old_str_in_py='parameter=0', new_str_in_py='parameter=', sh_filename='a', bsub_task_name='task'):
-    import os
-    parameter_str_array = []
-    for i0 in parameter_array:
-        parameter_str_array.append(str(i0))
-    index = 0
-    for parameter_str in parameter_str_array:
-        index += 1
-        # copy python file
-        old_file = py_filename+'.py'
-        new_file = py_filename+'_'+str(index)+'.py'
-        os.system('cp '+old_file+' '+new_file)
-        with open(new_file, 'r') as f:
-            content  = f.read()
-        old_str = old_str_in_py
-        new_str = new_str_in_py+parameter_str
-        content = content.replace(old_str, new_str)
-        with open(py_filename+'_'+str(index)+'.py', 'w') as f:
-            f.write(content)
-        # copy sh file
-        old_file = sh_filename+'.sh'
-        new_file = sh_filename+'_'+str(index)+'.sh'
-        os.system('cp '+old_file+' '+new_file)
-        with open(new_file, 'r') as f:
-            content  = f.read()
-        old_str = 'python '+py_filename+'.py'
-        new_str = 'python '+py_filename+'_'+str(index)+'.py'
-        content = content.replace(old_str, new_str)
-        old_str = bsub_task_name
-        new_str = bsub_task_name+'_'+str(index)
-        content = content.replace(old_str, new_str)
-        with open(sh_filename+'_'+str(index)+'.sh', 'w') as f: 
-            f.write(content)
-        # bsub task
-        os.system('bsub < '+new_file)
 
 # 自动先后运行程序
 def run_programs_sequentially(program_files=['./a.py', './b.py'], execute='python ', show_time=0):
@@ -457,8 +468,8 @@ def combine_two_pdf_files(input_file_1='a.pdf', input_file_2='b.pdf', output_fil
     with open(output_file, 'wb') as combined_file:
         output_pdf.write(combined_file)
 
-# 将PDF文件转成文本
-def pdf_to_text(pdf_path):
+# 使用pdfminer3k将PDF文件转成文本
+def pdf_to_text_with_pdfminer3k(pdf_path):
     from pdfminer.pdfparser import PDFParser, PDFDocument
     from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
     from pdfminer.converter import PDFPageAggregator
@@ -486,6 +497,16 @@ def pdf_to_text(pdf_path):
             for x in layout:
                 if isinstance(x, LTTextBox):
                     content  = content + x.get_text().strip()
+    return content
+
+# 使用PyPDF2将PDF文件转成文本
+def pdf_to_text_with_PyPDF2_for_all_pages(pdf_path):
+    import guan
+    num_pages = guan.get_pdf_page_number(pdf_path)
+    content = ''
+    for i0 in range(num_pages):
+        page_text = guan.pdf_to_txt_for_a_specific_page(pdf_path, page_num=i0+1)
+        content += page_text + '\n\n'
     return content
 
 # 获取PDF文件页数
@@ -575,17 +596,6 @@ def get_time(colon=True):
     if colon==False:
         datetime_time = datetime_time.replace(':', '')
     return datetime_time
-
-# 获取运行的日期和时间并写入文件
-def statistics_with_day_and_time(content='', filename='a', file_format='.txt'):
-    import datetime
-    datetime_today = str(datetime.date.today())
-    datetime_time = datetime.datetime.now().strftime('%H:%M:%S')
-    with open(filename+file_format, 'a', encoding="utf-8") as f2:
-       if content == '':
-           f2.write(datetime_today+' '+datetime_time+'\n')
-       else:
-           f2.write(datetime_today+' '+datetime_time+' '+content+'\n')
 
 # 获取本月的所有日期
 def get_date_array_of_the_current_month(str_or_datetime='str'):
