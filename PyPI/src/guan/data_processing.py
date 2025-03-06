@@ -13,7 +13,7 @@ def chat(prompt='你好', model=1, stream=1, stream_label=0):
             print('\n--- Start Chat Stream Message ---\n')
     requests_response = requests.post(url, json=data, stream=True)
     response = ''
-    if requests_response.status_code == 200: 
+    if requests_response.status_code == 200:
         for line in requests_response.iter_lines():
             if line:
                 if stream == 1:
@@ -361,7 +361,8 @@ def print_array(array, line_break=0):
             print(i0)
     else:
         for i0 in array:
-            print(i0+'\n')
+            print(i0)
+            print()
 
 # 以显示编号的样式，打印数组
 def print_array_with_index(array, show_index=1, index_type=0):
