@@ -123,7 +123,7 @@ def make_sh_file_for_bsub(sh_filename='a', command_line='python a.py', cpu_num=1
         f.write(sh_content)
 
 # 复制.py和.sh文件，然后提交任务，实现半手动并行（PBS）
-def copy_py_sh_file_and_qsub_task(parameter_array, py_filename='a', old_str_in_py='parameter = 0', new_str_in_py='parameter = ', sh_filename='a', qsub_task_name='task'):
+def copy_py_sh_file_and_qsub_task(parameter_array, py_filename='a', old_str_in_py='parameter = 0', new_str_in_py='parameter = ', sh_filename='a', task_name='task'):
     import os
     parameter_str_array = []
     for i0 in parameter_array:
@@ -151,8 +151,8 @@ def copy_py_sh_file_and_qsub_task(parameter_array, py_filename='a', old_str_in_p
         old_str = 'python '+py_filename+'.py'
         new_str = 'python '+py_filename+'_'+str(index)+'.py'
         content = content.replace(old_str, new_str)
-        old_str = '#PBS -N '+qsub_task_name
-        new_str = '#PBS -N '+qsub_task_name+'_'+str(index)
+        old_str = '#PBS -N '+task_name
+        new_str = '#PBS -N '+task_name+'_'+str(index)
         content = content.replace(old_str, new_str)
         with open(sh_filename+'_'+str(index)+'.sh', 'w') as f: 
             f.write(content)
@@ -160,7 +160,7 @@ def copy_py_sh_file_and_qsub_task(parameter_array, py_filename='a', old_str_in_p
         os.system('qsub '+new_file)
 
 # 复制.py和.sh文件，然后提交任务，实现半手动并行（LSF）
-def copy_py_sh_file_and_bsub_task(parameter_array, py_filename='a', old_str_in_py='parameter = 0', new_str_in_py='parameter = ', sh_filename='a', bsub_task_name='task'):
+def copy_py_sh_file_and_bsub_task(parameter_array, py_filename='a', old_str_in_py='parameter = 0', new_str_in_py='parameter = ', sh_filename='a', task_name='task'):
     import os
     parameter_str_array = []
     for i0 in parameter_array:
@@ -188,8 +188,8 @@ def copy_py_sh_file_and_bsub_task(parameter_array, py_filename='a', old_str_in_p
         old_str = 'python '+py_filename+'.py'
         new_str = 'python '+py_filename+'_'+str(index)+'.py'
         content = content.replace(old_str, new_str)
-        old_str = '#BSUB -J '+bsub_task_name
-        new_str = '#BSUB -J '+bsub_task_name+'_'+str(index)
+        old_str = '#BSUB -J '+task_name
+        new_str = '#BSUB -J '+task_name+'_'+str(index)
         content = content.replace(old_str, new_str)
         with open(sh_filename+'_'+str(index)+'.sh', 'w') as f: 
             f.write(content)
