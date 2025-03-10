@@ -1,5 +1,20 @@
 # functions_using_objects_of_custom_classes
 
+# 将原子对象列表转出原子字典列表
+def convert_atom_object_list_to_atom_dict_list(atom_object_list):
+    atom_dict_list = []
+    for atom_object in atom_object_list:
+        atom_dict = {
+            'name': atom_object.name,
+            'index': atom_object.index, 
+            'x': atom_object.x,
+            'y': atom_object.y,
+            'z': atom_object.z,
+            'energy': atom_object.energy,
+        }
+        atom_dict_list.append(atom_dict)
+    return atom_dict_list
+
 # 从原子对象列表中获取 (x, y) 坐标数组
 def get_coordinate_array_from_atom_object_list(atom_object_list):
     coordinate_array = []
