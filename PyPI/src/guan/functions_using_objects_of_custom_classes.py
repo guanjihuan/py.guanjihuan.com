@@ -1,6 +1,6 @@
 # functions_using_objects_of_custom_classes
 
-# 将原子对象列表转出原子字典列表
+# 将原子对象列表转成原子字典列表
 def convert_atom_object_list_to_atom_dict_list(atom_object_list):
     atom_dict_list = []
     for atom_object in atom_object_list:
