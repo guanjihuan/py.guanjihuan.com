@@ -86,6 +86,15 @@ def run(function_name, *args, **kwargs):
         pass
     return return_data
 
+# 使用该函数获取函数计算时间（秒）
+def timer(function_name, *args, **kwargs):
+    import time
+    start = time.time()
+    result = function_name(*args, **kwargs)
+    end = time.time()
+    print(f"Running time of {function_name.__name__}: {end - start} seconds")
+    return result
+
 # 使用该函数实现 try except 结构
 def try_except(function_name, *args, **kwargs):
     try:
