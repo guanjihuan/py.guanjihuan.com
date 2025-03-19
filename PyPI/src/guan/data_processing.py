@@ -129,6 +129,16 @@ def make_sh_file_for_bsub(sh_filename='a', command_line='python a.py', cpu_num=1
     with open(sh_filename+'.sh', 'w') as f:
         f.write(sh_content)
 
+# qsub 提交任务（PBS）
+def qsub_task(filename='a', file_format='.sh'):
+    import os
+    os.system('qsub '+filename+file_format)
+
+# bsub 提交任务（LSF）
+def bsub_task(filename='a', file_format='.sh'):
+    import os
+    os.system('bsub < '+filename+file_format)
+
 # 复制.py和.sh文件，然后提交任务，实现半手动并行（PBS）
 def copy_py_sh_file_and_qsub_task(parameter_array, py_filename='a', old_str_in_py='parameter = 0', new_str_in_py='parameter = ', sh_filename='a', task_name='task'):
     import os
