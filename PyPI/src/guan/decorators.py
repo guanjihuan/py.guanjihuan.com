@@ -58,6 +58,15 @@ def timer_decorator_with_parameters(unit='second', print_show=1, write_file=0, f
         return wrapper
     return timer_decorator
 
+# 函数的装饰器，用于实现 try except 结构
+def try_decorator(func):
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except:
+            pass
+    return wrapper
+
 # # 函数的装饰器，用于GUAN软件包函数的使用统计
 # def statistics_decorator(func):
 #     def wrapper(*args, **kwargs):

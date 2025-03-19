@@ -86,6 +86,13 @@ def run(function_name, *args, **kwargs):
         pass
     return return_data
 
+# 使用该函数实现 try except 结构
+def try_except(function_name, *args, **kwargs):
+    try:
+        return function_name(*args, **kwargs)
+    except:
+        pass
+
 # 获取运行的日期和时间并写入文件
 def statistics_with_day_and_time(content='', filename='time_logging', file_format='.txt'):
     import datetime

@@ -1,6 +1,6 @@
-Metadata-Version: 2.2
+Metadata-Version: 2.4
 Name: guan
-Version: 0.1.164
+Version: 0.1.165
 Summary: An open source python package
 Home-page: https://py.guanjihuan.com
 Author: guanjihuan
@@ -12,5 +12,6 @@ Classifier: Operating System :: OS Independent
 Requires-Python: >=3.6
 Description-Content-Type: text/markdown
 License-File: LICENSE
+Dynamic: license-file
 
 Guan is an open-source python package developed and maintained by https://www.guanjihuan.com/about (Ji-Huan Guan, 关济寰). The primary location of this package is on website https://py.guanjihuan.com. The GitHub location of this package is on https://github.com/guanjihuan/py.guanjihuan.com.
