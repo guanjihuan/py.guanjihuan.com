@@ -26,9 +26,10 @@ import guan
 + file reading and writing
 + figure plotting
 + data processing
++ decorators
++ others
 + custom classes
 + functions using objects of custom classes
-+ decorators
 
 ## About this package
 

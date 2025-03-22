@@ -243,6 +243,170 @@ def write_two_dimensional_data_without_xy_array_and_without_opening_file(matrix,
             f.write(str(element)+'   ')
         f.write('\n')
 
+# 创建一个sh文件用于提交任务（PBS）
+def make_sh_file_for_qsub(sh_filename='a', command_line='python a.py', cpu_num=1, task_name='task', cd_dir=0):
+    sh_content = \
+        '#!/bin/sh\n' \
+        +'#PBS -N '+task_name+'\n' \
+        +'#PBS -l nodes=1:ppn='+str(cpu_num)+'\n'
+    if cd_dir==1:
+        sh_content += 'cd $PBS_O_WORKDIR\n'
+    sh_content += command_line
+    with open(sh_filename+'.sh', 'w') as f:
+        f.write(sh_content)
+
+# 创建一个sh文件用于提交任务（Slurm）
+def make_sh_file_for_sbatch(sh_filename='a', command_line='python a.py', cpu_num=1, task_name='task', cd_dir=0):
+    sh_content = \
+        '#!/bin/sh\n' \
+        +'#SBATCH --job-name='+task_name+'\n' \
+        +'#SBATCH --cpus-per-task='+str(cpu_num)+'\n'
+    if cd_dir==1:
+        sh_content += 'cd $PBS_O_WORKDIR\n'
+    sh_content += command_line
+    with open(sh_filename+'.sh', 'w') as f:
+        f.write(sh_content)
+
+# 创建一个sh文件用于提交任务（LSF）
+def make_sh_file_for_bsub(sh_filename='a', command_line='python a.py', cpu_num=1, task_name='task', cd_dir=0, bsub_q=0, queue_name='score'):
+    sh_content = \
+        '#!/bin/sh\n' \
+        +'#BSUB -J '+task_name+'\n' \
+        +'#BSUB -n '+str(cpu_num)+'\n'
+    if bsub_q==1:
+        sh_content += '#BSUB -q '+queue_name+'\n'
+    if cd_dir==1:
+        sh_content += 'cd $PBS_O_WORKDIR\n'
+    sh_content += command_line
+    with open(sh_filename+'.sh', 'w') as f:
+        f.write(sh_content)
+
+# qsub 提交任务（PBS）
+def qsub_task(filename='a', file_format='.sh'):
+    import os
+    os.system('qsub '+filename+file_format)
+
+# sbatch 提交任务（Slurm）
+def sbatch_task(filename='a', file_format='.sh'):
+    import os
+    os.system('sbatch '+filename+file_format)
+
+# bsub 提交任务（LSF）
+def bsub_task(filename='a', file_format='.sh'):
+    import os
+    os.system('bsub < '+filename+file_format)
+
+# 复制.py和.sh文件，然后提交任务，实现半手动并行（PBS）
+def copy_py_sh_file_and_qsub_task(parameter_array, py_filename='a', old_str_in_py='parameter = 0', new_str_in_py='parameter = ', sh_filename='a', task_name='task'):
+    import os
+    parameter_str_array = []
+    for i0 in parameter_array:
+        parameter_str_array.append(str(i0))
+    index = 0
+    for parameter_str in parameter_str_array:
+        index += 1
+        # copy python file
+        old_file = py_filename+'.py'
+        new_file = py_filename+'_'+str(index)+'.py'
+        os.system('cp '+old_file+' '+new_file)
+        with open(new_file, 'r') as f:
+            content  = f.read()
+        old_str = old_str_in_py
+        new_str = new_str_in_py+parameter_str
+        content = content.replace(old_str, new_str)
+        with open(py_filename+'_'+str(index)+'.py', 'w') as f:
+            f.write(content)
+        # copy sh file
+        old_file = sh_filename+'.sh'
+        new_file = sh_filename+'_'+str(index)+'.sh'
+        os.system('cp '+old_file+' '+new_file)
+        with open(new_file, 'r') as f:
+            content  = f.read()
+        old_str = 'python '+py_filename+'.py'
+        new_str = 'python '+py_filename+'_'+str(index)+'.py'
+        content = content.replace(old_str, new_str)
+        old_str = '#PBS -N '+task_name
+        new_str = '#PBS -N '+task_name+'_'+str(index)
+        content = content.replace(old_str, new_str)
+        with open(sh_filename+'_'+str(index)+'.sh', 'w') as f: 
+            f.write(content)
+        # qsub task
+        os.system('qsub '+new_file)
+
+# 复制.py和.sh文件，然后提交任务，实现半手动并行（Slurm）
+def copy_py_sh_file_and_sbatch_task(parameter_array, py_filename='a', old_str_in_py='parameter = 0', new_str_in_py='parameter = ', sh_filename='a', task_name='task'):
+    import os
+    parameter_str_array = []
+    for i0 in parameter_array:
+        parameter_str_array.append(str(i0))
+    index = 0
+    for parameter_str in parameter_str_array:
+        index += 1
+        # copy python file
+        old_file = py_filename+'.py'
+        new_file = py_filename+'_'+str(index)+'.py'
+        os.system('cp '+old_file+' '+new_file)
+        with open(new_file, 'r') as f:
+            content  = f.read()
+        old_str = old_str_in_py
+        new_str = new_str_in_py+parameter_str
+        content = content.replace(old_str, new_str)
+        with open(py_filename+'_'+str(index)+'.py', 'w') as f:
+            f.write(content)
+        # copy sh file
+        old_file = sh_filename+'.sh'
+        new_file = sh_filename+'_'+str(index)+'.sh'
+        os.system('cp '+old_file+' '+new_file)
+        with open(new_file, 'r') as f:
+            content  = f.read()
+        old_str = 'python '+py_filename+'.py'
+        new_str = 'python '+py_filename+'_'+str(index)+'.py'
+        content = content.replace(old_str, new_str)
+        old_str = '#SBATCH --job-name='+task_name
+        new_str = '#SBATCH --job-name='+task_name+'_'+str(index)
+        content = content.replace(old_str, new_str)
+        with open(sh_filename+'_'+str(index)+'.sh', 'w') as f: 
+            f.write(content)
+        # sbatch task
+        os.system('sbatch '+new_file)
+
+# 复制.py和.sh文件，然后提交任务，实现半手动并行（LSF）
+def copy_py_sh_file_and_bsub_task(parameter_array, py_filename='a', old_str_in_py='parameter = 0', new_str_in_py='parameter = ', sh_filename='a', task_name='task'):
+    import os
+    parameter_str_array = []
+    for i0 in parameter_array:
+        parameter_str_array.append(str(i0))
+    index = 0
+    for parameter_str in parameter_str_array:
+        index += 1
+        # copy python file
+        old_file = py_filename+'.py'
+        new_file = py_filename+'_'+str(index)+'.py'
+        os.system('cp '+old_file+' '+new_file)
+        with open(new_file, 'r') as f:
+            content  = f.read()
+        old_str = old_str_in_py
+        new_str = new_str_in_py+parameter_str
+        content = content.replace(old_str, new_str)
+        with open(py_filename+'_'+str(index)+'.py', 'w') as f:
+            f.write(content)
+        # copy sh file
+        old_file = sh_filename+'.sh'
+        new_file = sh_filename+'_'+str(index)+'.sh'
+        os.system('cp '+old_file+' '+new_file)
+        with open(new_file, 'r') as f:
+            content  = f.read()
+        old_str = 'python '+py_filename+'.py'
+        new_str = 'python '+py_filename+'_'+str(index)+'.py'
+        content = content.replace(old_str, new_str)
+        old_str = '#BSUB -J '+task_name
+        new_str = '#BSUB -J '+task_name+'_'+str(index)
+        content = content.replace(old_str, new_str)
+        with open(sh_filename+'_'+str(index)+'.sh', 'w') as f: 
+            f.write(content)
+        # bsub task
+        os.system('bsub < '+new_file)
+
 # 把矩阵写入.md文件（Markdown表格形式）
 def write_matrix_in_markdown_format(matrix, filename='a'):
     import numpy as np

@@ -17,6 +17,7 @@ src/guan/figure_plotting.py
 src/guan/file_reading_and_writing.py
 src/guan/functions_using_objects_of_custom_classes.py
 src/guan/machine_learning.py
+src/guan/others.py
 src/guan/quantum_transport.py
 src/guan/topological_invariant.py
 src/guan.egg-info/PKG-INFO
