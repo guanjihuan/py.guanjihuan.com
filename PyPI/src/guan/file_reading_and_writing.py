@@ -244,11 +244,16 @@ def write_two_dimensional_data_without_xy_array_and_without_opening_file(matrix,
         f.write('\n')
 
 # 创建一个sh文件用于提交任务（PBS）
-def make_sh_file_for_qsub(sh_filename='a', command_line='python a.py', cpu_num=1, task_name='task', cd_dir=0):
+def make_sh_file_for_qsub(sh_filename='a', command_line='python a.py', cpu_num=1, task_name='task', cd_dir=0, pbs_q=0, queue_name='bigmem', specific_node=0, node_name='node50.cluster'):
     sh_content = \
         '#!/bin/sh\n' \
-        +'#PBS -N '+task_name+'\n' \
-        +'#PBS -l nodes=1:ppn='+str(cpu_num)+'\n'
+        +f'#PBS -N {task_name}\n'
+    if pbs_q==1:
+        sh_content += f'#PBS -q {queue_name}\n'
+    if specific_node==0:
+        sh_content += f'#PBS -l nodes=1:ppn={cpu_num}\n'
+    else:
+        sh_content += f'#PBS -l nodes={node_name}:ppn={cpu_num}\n'
     if cd_dir==1:
         sh_content += 'cd $PBS_O_WORKDIR\n'
     sh_content += command_line
@@ -256,11 +261,13 @@ def make_sh_file_for_qsub(sh_filename='a', command_line='python a.py', cpu_num=1
         f.write(sh_content)
 
 # 创建一个sh文件用于提交任务（Slurm）
-def make_sh_file_for_sbatch(sh_filename='a', command_line='python a.py', cpu_num=1, task_name='task', cd_dir=0):
+def make_sh_file_for_sbatch(sh_filename='a', command_line='python a.py', cpu_num=1, task_name='task', cd_dir=0, sbatch_partition=0, partition_name='cpu48'):
     sh_content = \
         '#!/bin/sh\n' \
-        +'#SBATCH --job-name='+task_name+'\n' \
-        +'#SBATCH --cpus-per-task='+str(cpu_num)+'\n'
+        +f'#SBATCH --job-name={task_name}\n'
+    if sbatch_partition==1:
+        sh_content += f'#SBATCH --partition={partition_name}'
+    sh_content += f'#SBATCH --cpus-per-task={cpu_num}\n'
     if cd_dir==1:
         sh_content += 'cd $PBS_O_WORKDIR\n'
     sh_content += command_line
@@ -271,10 +278,10 @@ def make_sh_file_for_sbatch(sh_filename='a', command_line='python a.py', cpu_num
 def make_sh_file_for_bsub(sh_filename='a', command_line='python a.py', cpu_num=1, task_name='task', cd_dir=0, bsub_q=0, queue_name='score'):
     sh_content = \
         '#!/bin/sh\n' \
-        +'#BSUB -J '+task_name+'\n' \
-        +'#BSUB -n '+str(cpu_num)+'\n'
+        +f'#BSUB -J {task_name}\n'
     if bsub_q==1:
-        sh_content += '#BSUB -q '+queue_name+'\n'
+        sh_content += f'#BSUB -q {queue_name}\n'
+    sh_content += f'#BSUB -n {cpu_num}\n'
     if cd_dir==1:
         sh_content += 'cd $PBS_O_WORKDIR\n'
     sh_content += command_line
