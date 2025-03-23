@@ -1,4 +1,21 @@
-# functions_using_objects_of_custom_classes
+# Module: functions_using_objects_of_custom_classes
+
+# 将原子对象列表转成多个独立列表
+def convert_atom_object_list_to_multiple_lists(atom_object_list):
+    name_list = []
+    index_list = []
+    x_list = []
+    y_list = []
+    z_list = []
+    energy_list = []
+    for atom_object in atom_object_list:
+        name_list.append(atom_object.name)
+        index_list.append(atom_object.index)
+        x_list.append(atom_object.x)
+        y_list.append(atom_object.y)
+        z_list.append(atom_object.z)
+        energy_list.append(atom_object.energy)
+    return name_list, index_list, x_list, y_list, z_list, energy_list
 
 # 将原子对象列表转成原子字典列表
 def convert_atom_object_list_to_atom_dict_list(atom_object_list):
