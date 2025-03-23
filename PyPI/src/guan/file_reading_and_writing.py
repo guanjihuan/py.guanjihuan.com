@@ -266,7 +266,7 @@ def make_sh_file_for_sbatch(sh_filename='a', command_line='python a.py', cpu_num
         '#!/bin/sh\n' \
         +f'#SBATCH --job-name={task_name}\n'
     if sbatch_partition==1:
-        sh_content += f'#SBATCH --partition={partition_name}'
+        sh_content += f'#SBATCH --partition={partition_name}\n'
     sh_content += f'#SBATCH --cpus-per-task={cpu_num}\n'
     if cd_dir==1:
         sh_content += 'cd $PBS_O_WORKDIR\n'
