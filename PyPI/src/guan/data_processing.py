@@ -67,6 +67,7 @@ def dimension_of_array(array):
 # 检查矩阵是否为厄米矩阵（相对误差为1e-5)
 def is_hermitian(matrix):
     import numpy as np
+    matrix = np.array(matrix)
     if matrix.shape[0] != matrix.shape[1]:
         return False
     return np.allclose(matrix, np.conj(matrix.T))
