@@ -27,6 +27,33 @@ def try_except(function_name, *args, **kwargs):
     except:
         pass
 
+# 打印数组
+def print_array(array, line_break=0):
+    if line_break == 0:
+        for i0 in array:
+            print(i0)
+    else:
+        for i0 in array:
+            print(i0)
+            print()
+
+# 以显示编号的样式，打印数组
+def print_array_with_index(array, show_index=1, index_type=0):
+    if show_index==0:
+        for i0 in array:
+            print(i0)
+    else:
+        if index_type==0:
+            index = 0
+            for i0 in array:
+                print(index, i0)
+                index += 1
+        else:
+            index = 0
+            for i0 in array:
+                index += 1
+                print(index, i0)
+
 # 获取矩阵的维度（考虑单一数值的矩阵维度为1）
 def dimension_of_array(array):
     import numpy as np
@@ -36,6 +63,63 @@ def dimension_of_array(array):
     else:
         dim = array.shape[0]
     return dim
+
+# 检查矩阵是否为厄米矩阵（相对误差为1e-5)
+def is_hermitian(matrix):
+    import numpy as np
+    if matrix.shape[0] != matrix.shape[1]:
+        return False
+    return np.allclose(matrix, np.conj(matrix.T))
+
+# 判断一个数是否接近于整数
+def close_to_integer(value, abs_tol=1e-3):
+    import math
+    result = math.isclose(value, round(value), abs_tol=abs_tol)
+    return result
+
+# 从列表中删除某个匹配的元素
+def remove_item_in_one_array(array, item):
+    new_array = [x for x in array if x != item]
+    return new_array 
+
+# 根据子数组的第index个元素对子数组进行排序（index从0开始）
+def sort_array_by_index_element(original_array, index):
+    sorted_array = sorted(original_array, key=lambda x: x[index])
+    return sorted_array
+
+# 随机获得一个整数，左闭右闭
+def get_random_number(start=0, end=1):
+    import random
+    rand_number = random.randint(start, end)   # 左闭右闭 [start, end]
+    return rand_number
+
+# 选取一个种子生成固定的随机整数，左闭右开
+def generate_random_int_number_for_a_specific_seed(seed=0, x_min=0, x_max=10):
+    import numpy as np
+    np.random.seed(seed)
+    rand_num = np.random.randint(x_min, x_max) # 左闭右开[x_min, x_max)
+    return rand_num
+
+# 获取两个模式之间的字符串
+def get_string_between_two_patterns(original_string, start, end, include_start_and_end=0):
+    import re
+    pattern = f'{start}(.*?){end}'
+    result = re.search(pattern, original_string)
+    if result:
+        if include_start_and_end == 0:
+            return result.group(1)
+        else:
+            return start+result.group(1)+end
+    else:
+        return ''
+    
+# 删除某个字符串中两个模式之间的内容，返回新字符串
+def remove_substrings(original_string, start, end):
+    import re
+    escaped_start = re.escape(start)
+    escaped_end = re.escape(end)
+    pattern = f'{escaped_start}.*?{escaped_end}'
+    return re.sub(pattern, '', original_string, flags=re.DOTALL)
 
 # 获取旋转矩阵（输入为角度）
 def get_rotation_matrix(angle_deg):
@@ -88,11 +172,6 @@ def convert_matrix_data_into_xyz_data(x_array, y_array, matrix):
             z_array[ix*len_y+iy] = matrix[ix, iy]
     return x_array, y_array, z_array
 
-# 从列表中删除某个匹配的元素
-def remove_item_in_one_array(array, item):
-    new_array = [x for x in array if x != item]
-    return new_array 
-
 # 并行计算前的预处理，把参数分成多份
 def preprocess_for_parallel_calculations(parameter_array_all, task_num=1, task_index=0):
     import numpy as np
@@ -126,78 +205,6 @@ def run_programs_sequentially(program_files=['./a.py', './b.py'], execute='pytho
     if show_time == 1:
         end = time.time()
         print('Total running time = '+str((end-start)/60)+' min')
-
-# 判断一个数是否接近于整数
-def close_to_integer(value, abs_tol=1e-3):
-    import math
-    result = math.isclose(value, round(value), abs_tol=abs_tol)
-    return result
-
-# 根据子数组的第index个元素对子数组进行排序（index从0开始）
-def sort_array_by_index_element(original_array, index):
-    sorted_array = sorted(original_array, key=lambda x: x[index])
-    return sorted_array
-
-# 随机获得一个整数，左闭右闭
-def get_random_number(start=0, end=1):
-    import random
-    rand_number = random.randint(start, end)   # 左闭右闭 [start, end]
-    return rand_number
-
-# 选取一个种子生成固定的随机整数，左闭右开
-def generate_random_int_number_for_a_specific_seed(seed=0, x_min=0, x_max=10):
-    import numpy as np
-    np.random.seed(seed)
-    rand_num = np.random.randint(x_min, x_max) # 左闭右开[x_min, x_max)
-    return rand_num
-
-# 获取两个模式之间的字符串
-def get_string_between_two_patterns(original_string, start, end, include_start_and_end=0):
-    import re
-    pattern = f'{start}(.*?){end}'
-    result = re.search(pattern, original_string)
-    if result:
-        if include_start_and_end == 0:
-            return result.group(1)
-        else:
-            return start+result.group(1)+end
-    else:
-        return ''
-    
-# 删除某个字符串中两个模式之间的内容，返回新字符串
-def remove_substrings(original_string, start, end):
-    import re
-    escaped_start = re.escape(start)
-    escaped_end = re.escape(end)
-    pattern = f'{escaped_start}.*?{escaped_end}'
-    return re.sub(pattern, '', original_string, flags=re.DOTALL)
-
-# 打印数组
-def print_array(array, line_break=0):
-    if line_break == 0:
-        for i0 in array:
-            print(i0)
-    else:
-        for i0 in array:
-            print(i0)
-            print()
-
-# 以显示编号的样式，打印数组
-def print_array_with_index(array, show_index=1, index_type=0):
-    if show_index==0:
-        for i0 in array:
-            print(i0)
-    else:
-        if index_type==0:
-            index = 0
-            for i0 in array:
-                print(index, i0)
-                index += 1
-        else:
-            index = 0
-            for i0 in array:
-                index += 1
-                print(index, i0)
 
 # 根据一定的字符长度来分割文本
 def split_text(text, width=100):  
