@@ -1,7 +1,7 @@
 # Module: data_processing
 
 # 获取运行的日期和时间并写入文件
-def statistics_with_day_and_time(content='', filename='time_logging', file_format='.txt'):
+def logging_with_day_and_time(content='', filename='time_logging', file_format='.txt'):
     import datetime
     datetime_today = str(datetime.date.today())
     datetime_time = datetime.datetime.now().strftime('%H:%M:%S')

@@ -38,3 +38,8 @@ def pdf_to_text(pdf_path):
     print('Warning: The current function name has been deprecated, which will be deleted in the future version. Please change it into guan.pdf_to_text_with_pdfminer3k().')
     content = guan.pdf_to_text_with_pdfminer3k(pdf_path)
     return content
+
+def statistics_with_day_and_time(content='', filename='time_logging', file_format='.txt'):
+    import guan
+    print('Warning: The current function name has been deprecated, which will be deleted in the future version. Please change it into guan.logging_with_day_and_time().')
+    guan.logging_with_day_and_time(content=content, filename=filename, file_format=file_format)
