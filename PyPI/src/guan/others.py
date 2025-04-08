@@ -59,33 +59,6 @@ def auto_chat_with_guide(prompt='你好', guide_message='（回答字数少于30
         print('机器人 2: ')
         response0 = guan.chat(prompt=response1+guide_message, model=model, stream=stream)
 
-# 在云端服务器上运行函数（需要函数是独立可运行的代码）
-def run(function_name, *args, **kwargs):
-    import requests
-    import guan
-    url = "http://run.guanjihuan.com/run_function"
-    function_source = guan.get_source(function_name)
-    data = {
-        "function_name": function_name.__name__,
-        "function_source": function_source,
-        'args': str(args),
-        'kwargs': str(kwargs),
-    }
-    return_data = None
-    try:
-        response = requests.post(url, json=data)
-        if response.status_code == 200:
-            result = response.json()
-            print_data = result['print_data']
-            print(print_data, end='')
-            encoded_return_data = result['encoded_return_data']
-            import base64
-            import pickle
-            return_data = pickle.loads(base64.b64decode(encoded_return_data))
-    except:
-        pass
-    return return_data
-
 # CPU性能测试（十亿次循环的浮点加法运算的时间，约30秒左右）
 def cpu_test_with_addition(print_show=1):
     import time
