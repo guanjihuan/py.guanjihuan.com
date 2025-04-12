@@ -1,12 +1,15 @@
 # Module: band_structures_and_wave_functions
 
 # 计算哈密顿量的本征值
-def calculate_eigenvalue(hamiltonian):
+def calculate_eigenvalue(hamiltonian, hermitian=True):
     import numpy as np
     if np.array(hamiltonian).shape==():
         eigenvalue = np.real(hamiltonian)
     else:
-        eigenvalue, eigenvector = np.linalg.eigh(hamiltonian)
+        if hermitian:
+            eigenvalue, eigenvector = np.linalg.eigh(hamiltonian)
+        else:
+            eigenvalue, eigenvector = np.linalg.eig(hamiltonian)
     return eigenvalue
 
 # 输入哈密顿量函数（带一组参数），计算一组参数下的本征值，返回本征值向量组
@@ -65,10 +68,13 @@ def calculate_eigenvalue_with_two_parameters(x_array, y_array, hamiltonian_funct
             i0 += 1
     return eigenvalue_array
 
-# 计算哈密顿量的本征矢（厄密矩阵）
-def calculate_eigenvector(hamiltonian):
+# 计算哈密顿量的本征矢
+def calculate_eigenvector(hamiltonian, hermitian=True):
     import numpy as np
-    eigenvalue, eigenvector = np.linalg.eigh(hamiltonian)
+    if hermitian:
+        eigenvalue, eigenvector = np.linalg.eigh(hamiltonian)
+    else:
+        eigenvalue, eigenvector = np.linalg.eig(hamiltonian)
     return eigenvector
 
 # 施密特正交化

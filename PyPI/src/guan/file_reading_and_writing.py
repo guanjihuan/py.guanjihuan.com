@@ -1,7 +1,7 @@
 # Module: file_reading_and_writing
 
 # 使用pickle将变量保存到文件（支持几乎所有对象类型）
-def dump_data(data, filename, file_format='.pkl'):
+def dump_data(data, filename='a', file_format='.pkl'):
     import pickle
     with open(filename+file_format, 'wb') as f:
         pickle.dump(data, f)
@@ -14,7 +14,7 @@ def load_data(filename, file_format='.pkl'):
     return data
 
 # 使用NumPy保存数组变量到npy文件（二进制文件）
-def save_npy_data(data, filename):
+def save_npy_data(data, filename='a'):
     import numpy as np
     np.save(filename+'.npy', data)
 
@@ -25,7 +25,7 @@ def load_npy_data(filename):
     return data
 
 # 使用NumPy保存数组变量到TXT文件（文本文件）
-def save_txt_data(data, filename):
+def save_txt_data(data, filename='a'):
     import numpy as np
     np.savetxt(filename+'.txt', data)
 
@@ -421,13 +421,15 @@ def write_matrix_in_markdown_format(matrix, filename='a'):
     dim_0 = matrix.shape[0]
     dim_1 = matrix.shape[1]
     with open(filename+'.md', 'w', encoding='UTF-8') as f:
+        f.write(f'| Row\Column ')
         for i1 in range(dim_1):
             f.write(f'| column {i1+1} ')
         f.write('|\n')
-        for i1 in range(dim_1):
+        for i1 in range(dim_1+1):
             f.write('| :---: ')
         f.write('|\n')
         for i0 in range(dim_0):
+            f.write(f'| row {i0+1} ')
             for i1 in range(dim_1):
                 f.write(f'| {matrix[i0, i1]} ')
             f.write('|\n')
