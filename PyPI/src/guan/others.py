@@ -979,7 +979,8 @@ def stock_symbols_classification():
     for stock_symbol in stock_symbols:
         find_300 = re.findall(r'^300', stock_symbol)
         find_301 = re.findall(r'^301', stock_symbol)
-        if find_300 != [] or find_301 != []:
+        find_302 = re.findall(r'^302', stock_symbol)
+        if find_300 != [] or find_301 != [] or find_302 != []:
             stock_symbols_30.append(stock_symbol)
     # 科创板
     stock_symbols_68 = []
@@ -988,24 +989,23 @@ def stock_symbols_classification():
         find_689 = re.findall(r'^689', stock_symbol)
         if find_688 != [] or find_689 != []:
             stock_symbols_68.append(stock_symbol)
-    # 新三板
-    stock_symbols_8_4 = []
+    # 北交所和新三板
+    stock_symbols_8_4_9 = []
     for stock_symbol in stock_symbols:
-        find_82 = re.findall(r'^82', stock_symbol)
         find_83 = re.findall(r'^83', stock_symbol)
         find_87 = re.findall(r'^87', stock_symbol)
-        find_88 = re.findall(r'^88', stock_symbol)
         find_430 = re.findall(r'^430', stock_symbol)
         find_420 = re.findall(r'^420', stock_symbol)
         find_400 = re.findall(r'^400', stock_symbol)
-        if find_82 != [] or find_83 != [] or find_87 != [] or find_88 != [] or find_430 != [] or find_420 != [] or find_400 != []:
-            stock_symbols_8_4.append(stock_symbol)
+        find_920 = re.findall(r'^920', stock_symbol)
+        if find_83 != [] or find_87 != [] or find_430 != [] or find_420 != [] or find_400 != [] or find_920 != []:
+            stock_symbols_8_4_9.append(stock_symbol)
     # 检查遗漏的股票代码
     stock_symbols_others = []
     for stock_symbol in stock_symbols:
-        if stock_symbol not in stock_symbols_60 and stock_symbol not in stock_symbols_00 and stock_symbol not in stock_symbols_30 and stock_symbol not in stock_symbols_68 and stock_symbol not in stock_symbols_8_4:
-            stock_symbols_others.others.append(stock_symbol) 
-    return stock_symbols_60, stock_symbols_00, stock_symbols_30, stock_symbols_68, stock_symbols_8_4, stock_symbols_others
+        if stock_symbol not in stock_symbols_60 and stock_symbol not in stock_symbols_00 and stock_symbol not in stock_symbols_30 and stock_symbol not in stock_symbols_68 and stock_symbol not in stock_symbols_8_4_9:
+            stock_symbols_others.append(stock_symbol) 
+    return stock_symbols_60, stock_symbols_00, stock_symbols_30, stock_symbols_68, stock_symbols_8_4_9, stock_symbols_others
 
 # 股票代码各个分类的数量
 def statistics_of_stock_symbols_classification():
