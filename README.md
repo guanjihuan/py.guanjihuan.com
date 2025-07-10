@@ -28,8 +28,6 @@ import guan
 + data processing
 + decorators
 + others
-+ custom classes
-+ functions using objects of custom classes
 
 ## About this package
 

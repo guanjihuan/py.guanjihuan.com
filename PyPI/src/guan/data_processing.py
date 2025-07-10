@@ -11,7 +11,7 @@ def logging_with_day_and_time(content='', filename='time_logging', file_format='
        else:
            f2.write(datetime_today+' '+datetime_time+' '+content+'\n')
 
-# 使用该函数获取函数计算时间（秒）
+# 使用该函数运行某个函数并获取函数计算时间（秒）
 def timer(function_name, *args, **kwargs):
     import time
     start = time.time()
@@ -20,12 +20,53 @@ def timer(function_name, *args, **kwargs):
     print(f"Running time of {function_name.__name__}: {end - start} seconds")
     return result
 
-# 使用该函数实现 try except 结构
+# 使用该函数运行某个函数并实现 try-except-pass 结构
 def try_except(function_name, *args, **kwargs):
     try:
         return function_name(*args, **kwargs)
     except:
         pass
+
+# 循环一个参数计算某个函数，并返回计算结果的数组
+def loop_calculation_with_one_parameter(function_name, parameter_array):
+    import numpy as np
+    result_array = []
+    for parameter in parameter_array:
+        result = function_name(parameter)
+        result_array.append(result)
+    result_array = np.array(result_array)
+    return result_array
+
+# 循环两个参数计算某个函数，并返回计算结果的数组
+def loop_calculation_with_two_parameters(function_name, parameter_array_1, parameter_array_2):
+    import numpy as np
+    result_array = np.zeros((len(parameter_array_2), len(parameter_array_1)))
+    i1 = 0
+    for parameter_1 in parameter_array_1:
+        i2 = 0
+        for parameter_2 in parameter_array_2:
+            result = function_name(parameter_1, parameter_2)
+            result_array[i2, i1] = result
+            i2 += 1
+        i1 += 1
+    return result_array
+
+# 循环三个参数计算某个函数，并返回计算结果的数组
+def loop_calculation_with_three_parameters(function_name, parameter_array_1, parameter_array_2, parameter_array_3):
+    import numpy as np
+    result_array = np.zeros((len(parameter_array_3), len(parameter_array_2), len(parameter_array_1)))
+    i1 = 0
+    for parameter_1 in parameter_array_1:
+        i2 = 0
+        for parameter_2 in parameter_array_2:
+            i3 = 0
+            for parameter_3 in parameter_array_3:
+                result = function_name(parameter_1, parameter_2, parameter_3)
+                result_array[i3, i2, i1] = result
+                i3 += 1
+            i2 += 1
+        i1 += 1
+    return result_array
 
 # 打印数组
 def print_array(array, line_break=0):

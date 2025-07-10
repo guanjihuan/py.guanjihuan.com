@@ -1147,7 +1147,7 @@ def statistics_of_guan_package(function_name=None):
     except:
         pass
 
-# Guan软件包升级检查和提示（如果无法连接或者版本为最新，那么均没有提示）
+# Guan软件包升级检查和提示（对于无法连接或者版本为最新的情况，检查结果都没有提示）
 def notification_of_upgrade(timeout=5):
     try:
         import guan
@@ -1158,3 +1158,139 @@ def notification_of_upgrade(timeout=5):
                 print('升级提示：您当前使用的版本是 guan-'+current_version+'，目前已经有最新版本 guan-'+latest_version+'。您可以通过以下命令对软件包进行升级：pip install --upgrade guan -i https://pypi.python.org/simple 或 pip install --upgrade guan')
     except:
         pass
+
+# --- 自定义类和使用自定义类的函数 custom classes and functions using objects of custom classes ---
+
+# 原子类
+class Atom:
+    def __init__(self, name='atom', index=0, x=0, y=0, z=0, energy=0):
+        self.name = name
+        self.index = index
+        self.x = x
+        self.y = y
+        self.z = z
+        self.energy = energy
+
+# 将原子对象列表转成多个独立列表
+def convert_atom_object_list_to_multiple_lists(atom_object_list):
+    name_list = []
+    index_list = []
+    x_list = []
+    y_list = []
+    z_list = []
+    energy_list = []
+    for atom_object in atom_object_list:
+        name_list.append(atom_object.name)
+        index_list.append(atom_object.index)
+        x_list.append(atom_object.x)
+        y_list.append(atom_object.y)
+        z_list.append(atom_object.z)
+        energy_list.append(atom_object.energy)
+    return name_list, index_list, x_list, y_list, z_list, energy_list
+
+# 将原子对象列表转成原子字典列表
+def convert_atom_object_list_to_atom_dict_list(atom_object_list):
+    atom_dict_list = []
+    for atom_object in atom_object_list:
+        atom_dict = {
+            'name': atom_object.name,
+            'index': atom_object.index, 
+            'x': atom_object.x,
+            'y': atom_object.y,
+            'z': atom_object.z,
+            'energy': atom_object.energy,
+        }
+        atom_dict_list.append(atom_dict)
+    return atom_dict_list
+
+# 从原子对象列表中获取 (x, y) 坐标数组
+def get_coordinate_array_from_atom_object_list(atom_object_list):
+    coordinate_array = []
+    for atom in atom_object_list:
+        x = atom.x
+        y = atom.y
+        coordinate_array.append([x, y])
+    return coordinate_array
+
+# 从原子对象列表中获取 x 和 y 的最大值和最小值
+def get_max_min_x_y_from_atom_object_list(atom_object_list):
+    import guan
+    coordinate_array = guan.get_coordinate_array_from_atom_object_list(atom_object_list)
+    x_array = []
+    for coordinate in coordinate_array:
+        x_array.append(coordinate[0])
+    y_array = []
+    for coordinate in coordinate_array:
+        y_array.append(coordinate[1])
+    max_x = max(x_array)
+    min_x = min(x_array)
+    max_y = max(y_array)
+    min_y = min(y_array)
+    return max_x, min_x, max_y, min_y
+
+# 从原子对象列表中获取满足坐标条件的索引
+def get_index_via_coordinate_from_atom_object_list(atom_object_list, x=0, y=0, z=0, eta=1e-3):
+    for atom in atom_object_list:
+        x_i = atom.x
+        y_i = atom.y
+        z_i = atom.z
+        index = atom.index
+        if abs(x-x_i)<eta and abs(y-y_i)<eta and abs(z-z_i)<eta:
+            return index
+
+# 根据原子对象列表来初始化哈密顿量
+def initialize_hamiltonian_from_atom_object_list(atom_object_list):
+    import numpy as np
+    import guan
+    dim = guan.dimension_of_array(atom_object_list[0].energy)
+    num = len(atom_object_list)
+    hamiltonian = np.zeros((dim*num, dim*num))
+    for i0 in range(num):
+        hamiltonian[i0*dim+0:i0*dim+dim, i0*dim+0:i0*dim+dim] = atom_object_list[i0].energy
+    return hamiltonian
+
+# --- 废弃函数/版本兼容（不推荐使用，并可能在未来的版本中被移除）deprecated ---
+
+def make_sh_file(sh_filename='a', command_line='python a.py', cpu_num=1, task_name='task', cd_dir=0):
+    import guan
+    print('Warning: The current function name has been deprecated, which will be deleted in the future version. Please change it into guan.make_sh_file_for_qsub().')
+    guan.make_sh_file_for_qsub(sh_filename=sh_filename, command_line=command_line, cpu_num=cpu_num, task_name=task_name, cd_dir=cd_dir)
+
+def plot_without_starting_fig(plt, fig, ax, x_array, y_array, xlabel='x', ylabel='y', title='', fontsize=20, style='', y_min=None, y_max=None, linewidth=None, markersize=None, color=None, fontfamily='Times New Roman'):
+    import guan
+    print('Warning: The current function name has been deprecated, which will be deleted in the future version. Please change it into guan.plot_without_starting_fig_ax().')
+    guan.plot_without_starting_fig_ax(plt, fig, ax, x_array, y_array, xlabel=xlabel, ylabel=ylabel, title=title, fontsize=fontsize, style=style, y_min=y_min, y_max=y_max, linewidth=linewidth, markersize=markersize, color=color, fontfamily=fontfamily)
+
+def draw_dots_and_lines_without_starting_fig(plt, fig, ax, coordinate_array, draw_dots=1, draw_lines=1, max_distance=1, line_style='-k', linewidth=1, dot_style='ro', markersize=3):
+    import guan
+    print('Warning: The current function name has been deprecated, which will be deleted in the future version. Please change it into guan.draw_dots_and_lines_without_starting_fig_ax().')
+    guan.draw_dots_and_lines_without_starting_fig_ax(plt, fig, ax, coordinate_array, draw_dots=draw_dots, draw_lines=draw_lines, max_distance=max_distance, line_style=line_style, linewidth=linewidth, dot_style=dot_style, markersize=markersize)
+
+def get_days_of_the_current_month(str_or_datetime='str'):
+    import guan
+    print('Warning: The current function name has been deprecated, which will be deleted in the future version. Please change it into guan.get_date_array_of_the_current_month().')
+    date_array = guan.get_date_array_of_the_current_month(str_or_datetime=str_or_datetime)
+    return date_array
+
+def get_days_of_the_last_month(str_or_datetime='str'):
+    import guan
+    print('Warning: The current function name has been deprecated, which will be deleted in the future version. Please change it into guan.get_date_array_of_the_last_month().')
+    date_array = guan.get_date_array_of_the_last_month(str_or_datetime=str_or_datetime)
+    return date_array
+
+def get_days_of_the_month_before_last(str_or_datetime='str'):
+    import guan
+    print('Warning: The current function name has been deprecated, which will be deleted in the future version. Please change it into guan.get_date_array_of_the_month_before_last().')
+    date_array = guan.get_date_array_of_the_month_before_last(str_or_datetime=str_or_datetime)
+    return date_array
+
+def pdf_to_text(pdf_path):
+    import guan
+    print('Warning: The current function name has been deprecated, which will be deleted in the future version. Please change it into guan.pdf_to_text_with_pdfminer3k().')
+    content = guan.pdf_to_text_with_pdfminer3k(pdf_path)
+    return content
+
+def statistics_with_day_and_time(content='', filename='time_logging', file_format='.txt'):
+    import guan
+    print('Warning: The current function name has been deprecated, which will be deleted in the future version. Please change it into guan.logging_with_day_and_time().')
+    guan.logging_with_day_and_time(content=content, filename=filename, file_format=file_format)
