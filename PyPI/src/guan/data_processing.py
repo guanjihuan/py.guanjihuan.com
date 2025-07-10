@@ -101,6 +101,20 @@ def generate_random_int_number_for_a_specific_seed(seed=0, x_min=0, x_max=10):
     rand_num = np.random.randint(x_min, x_max) # 左闭右开[x_min, x_max)
     return rand_num
 
+# ​使用Numpy库计算​总体标准差
+def standard_deviation(data_array):
+    import numpy as np
+    std_result = np.std(data_array)
+    return std_result
+
+# ​​使用公式计算总体标准差
+def standard_deviation_with_formula(data_array):
+    import numpy as np
+    averaged_data = sum(data_array)/len(data_array)
+    averaged_squared_data = sum(np.array(data_array)**2)/len(data_array)
+    std_result = np.sqrt(averaged_squared_data-averaged_data**2)
+    return std_result
+
 # 获取两个模式之间的字符串
 def get_string_between_two_patterns(original_string, start, end, include_start_and_end=0):
     import re
