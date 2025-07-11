@@ -301,26 +301,86 @@ def get_memory_info():
     used_memory_percent = memory_info.percent
     return total_memory, used_memory, available_memory, used_memory_percent
 
-# 获取CPU的平均使用率
+# 获取CPU使用率（基于性能计数器，适用于Windows系统）
+def get_cpu_usage_for_windows(interval=1.0):
+    import time
+    import ctypes
+    from ctypes import wintypes
+    class FILETIME(ctypes.Structure):
+        _fields_ = [
+            ('dwLowDateTime', wintypes.DWORD),
+            ('dwHighDateTime', wintypes.DWORD)
+        ]
+    kernel32 = ctypes.WinDLL('kernel32', use_last_error=True)
+    # 第一次采样
+    idle1 = FILETIME()
+    kernel1 = FILETIME()
+    user1 = FILETIME()
+    kernel32.GetSystemTimes(ctypes.byref(idle1), ctypes.byref(kernel1), ctypes.byref(user1))
+    time.sleep(interval)
+    # 第二次采样
+    idle2 = FILETIME()
+    kernel2 = FILETIME()
+    user2 = FILETIME()
+    kernel32.GetSystemTimes(ctypes.byref(idle2), ctypes.byref(kernel2), ctypes.byref(user2))
+    # 计算时间差
+    def filetime_to_int(ft):
+        return (ft.dwHighDateTime << 32) + ft.dwLowDateTime
+    idle = filetime_to_int(idle2) - filetime_to_int(idle1)
+    kernel = filetime_to_int(kernel2) - filetime_to_int(kernel1)
+    user = filetime_to_int(user2) - filetime_to_int(user1)
+    total = kernel + user
+    if total == 0:
+        return 0.0
+    return 100.0 * (total - idle) / total
+
+# 获取CPU使用率（基于/proc/stat，适用于Linux系统）
+def get_cpu_usage_for_linux(interval=1.0):
+    import time
+    def read_cpu_stats():
+        with open('/proc/stat') as f:
+            for line in f:
+                if line.startswith('cpu '):
+                    parts = line.split()
+                    return list(map(int, parts[1:]))
+        return None
+    stats1 = read_cpu_stats()
+    if not stats1:
+        return 0.0
+    time.sleep(interval)
+    stats2 = read_cpu_stats()
+    if not stats2:
+        return 0.0
+    idle1 = stats1[3] + stats1[4]
+    total1 = sum(stats1)
+    idle2 = stats2[3] + stats2[4]
+    total2 = sum(stats2)
+    total_delta = total2 - total1
+    idle_delta = idle2 - idle1
+    if total_delta == 0:
+        return 0.0
+    return 100.0 * (total_delta - idle_delta) / total_delta
+
+# 使用psutil获取CPU的平均使用率
 def get_cpu_usage(interval=1):
     import psutil
     cpu_usage = psutil.cpu_percent(interval=interval)
     return cpu_usage
 
-# 获取每个CPU核心的使用率，返回列表
+# 使用psutil获取每个CPU核心的使用率，返回列表
 def get_cpu_usage_array_per_core(interval=1):
     import psutil
     cpu_usage_array_per_core = psutil.cpu_percent(interval=interval, percpu=True)
     return cpu_usage_array_per_core
 
-# 获取使用率最高的CPU核心的使用率
+# 使用psutil获取使用率最高的CPU核心的使用率
 def get_cpu_max_usage_for_all_cores(interval=1):
     import guan
     cpu_usage_array_per_core = guan.get_cpu_usage_array_per_core(interval=interval)
     max_cpu_usage = max(cpu_usage_array_per_core)
     return max_cpu_usage
 
-# 获取非零使用率的CPU核心的平均使用率
+# 使用psutil获取非零使用率的CPU核心的平均使用率
 def get_cpu_averaged_usage_for_non_zero_cores(interval=1):
     import guan
     cpu_usage_array_per_core = guan.get_cpu_usage_array_per_core(interval=interval)
@@ -328,7 +388,7 @@ def get_cpu_averaged_usage_for_non_zero_cores(interval=1):
     averaged_cpu_usage = sum(cpu_usage_array_per_core_new)/len(cpu_usage_array_per_core_new)
     return averaged_cpu_usage
 
-# 在一定数量周期内得到CPU的使用率信息。默认为1秒钟收集一次，(interval+sleep_interval)*times 为收集的时间范围，范围默认为60秒，即1分钟后返回列表，总共得到60组数据。其中，数字第一列和第二列分别是平均值和最大值。
+# 使用psutil在一定数量周期内得到CPU的使用率信息。默认为1秒钟收集一次，(interval+sleep_interval)*times 为收集的时间范围，范围默认为60秒，即1分钟后返回列表，总共得到60组数据。其中，数字第一列和第二列分别是平均值和最大值。
 def get_cpu_information_for_times(interval=1, sleep_interval=0, times=60):
     import guan
     import time
@@ -348,7 +408,7 @@ def get_cpu_information_for_times(interval=1, sleep_interval=0, times=60):
         time.sleep(sleep_interval)
     return cpu_information_array
 
-# 将得到的CPU的使用率信息写入文件。默认为1分钟收集一次，(interval+sleep_interval)*times 为收集的时间范围，范围默认为60分钟，即1小时写入文件一次，总共得到60组数据。其中，数字第一列和第二列分别是平均值和最大值。
+# 使用psutil获取CPU的使用率，将得到的CPU的使用率信息写入文件。默认为1分钟收集一次，(interval+sleep_interval)*times 为收集的时间范围，范围默认为60分钟，即1小时写入文件一次，总共得到60组数据。其中，数字第一列和第二列分别是平均值和最大值。
 def write_cpu_information_to_file(filename='./cpu_usage', interval=1, sleep_interval=59, times=60):
     import guan
     guan.make_file(filename+'.txt')
@@ -366,7 +426,7 @@ def write_cpu_information_to_file(filename='./cpu_usage', interval=1, sleep_inte
             f.write('\n')
         f.close()
 
-# 画CPU的使用率图。默认为画最近的60个数据，以及不画CPU核心的最大使用率。
+# 使用psutil获取CPU的使用率，画CPU的使用率图。默认为画最近的60个数据，以及不画CPU核心的最大使用率。
 def plot_cpu_information(filename='./cpu_usage', recent_num=60, max_cpu=0):
     import guan
     from datetime import datetime
@@ -399,7 +459,7 @@ def plot_cpu_information(filename='./cpu_usage', recent_num=60, max_cpu=0):
     plt.legend(legend_array)
     plt.show()
 
-# 画详细的CPU的使用率图，分CPU核心画图。
+# 使用psutil获取CPU的使用率，画详细的CPU的使用率图，分CPU核心画图。
 def plot_detailed_cpu_information(filename='./cpu_usage', recent_num=60):
     import guan
     from datetime import datetime
