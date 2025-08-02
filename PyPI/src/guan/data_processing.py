@@ -9,7 +9,7 @@ def logging_with_day_and_time(content='', filename='time_logging', file_format='
        if content == '':
            f2.write(datetime_today+' '+datetime_time+'\n')
        else:
-           f2.write(datetime_today+' '+datetime_time+' '+content+'\n')
+           f2.write(datetime_today+' '+datetime_time+' '+str(content)+'\n')
 
 # 使用该函数运行某个函数并获取函数计算时间（秒）
 def timer(function_name, *args, **kwargs):
