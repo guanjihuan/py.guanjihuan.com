@@ -27,6 +27,19 @@ def try_except(function_name, *args, **kwargs):
     except:
         pass
 
+# 使用 multiprocessing.Pool 实现自动分配任务并行
+def parallel_calculation_with_multiprocessing_Pool(func, args_list=[1, 2, 3], show_time=0):
+    if __name__ == '__main__':
+        import multiprocessing
+        import time
+        start_time = time.time()
+        with multiprocessing.Pool() as pool:
+            result_array = pool.map(func, args_list)
+        end_time = time.time()
+        if show_time:
+            print(end_time - start_time)
+        return result_array
+
 # 循环一个参数计算某个函数，并返回计算结果的数组
 def loop_calculation_with_one_parameter(function_name, parameter_array):
     import numpy as np
