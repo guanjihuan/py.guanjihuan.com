@@ -60,12 +60,19 @@ def auto_chat_with_guide(prompt='你好', guide_message='（回答字数少于30
         response0 = guan.chat(prompt=response1+guide_message, model=model, stream=stream)
 
 # 使用 LangChain 无记忆对话（需要 API Key)
-def langchain_chat_without_memory(prompt="你好", temperature=0.7, system_message=None, print_show=1):
+def langchain_chat_without_memory(prompt="你好", temperature=0.7, system_message=None, print_show=1, load_env=1):
     from langchain_openai import ChatOpenAI
     from langchain_core.prompts import ChatPromptTemplate
-    import dotenv
     import os
-    dotenv.load_dotenv()
+    if load_env:
+        import dotenv
+        from pathlib import Path
+        import inspect
+        caller_frame = inspect.stack()[1]
+        caller_dir = Path(caller_frame.filename).parent
+        env_path = caller_dir / ".env"
+        if env_path.exists():
+            dotenv.load_dotenv(env_path)
     llm = ChatOpenAI(
         api_key=os.getenv("OPENAI_API_KEY"),
         base_url=os.getenv("DASHSCOPE_BASE_URL"),
@@ -93,14 +100,21 @@ def langchain_chat_without_memory(prompt="你好", temperature=0.7, system_messa
     return response
 
 # 使用 LangChain 有记忆对话（记忆临时保存在函数的属性上，需要 API Key)
-def langchain_chat_with_memory(prompt="你好", temperature=0.7, system_message=None, session_id="default", print_show=1):
+def langchain_chat_with_memory(prompt="你好", temperature=0.7, system_message=None, session_id="default", print_show=1, load_env=1):
     from langchain_openai import ChatOpenAI
     from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
     from langchain_core.runnables.history import RunnableWithMessageHistory
     from langchain_community.chat_message_histories import ChatMessageHistory
-    from dotenv import load_dotenv
     import os
-    load_dotenv()
+    if load_env:
+        import dotenv
+        from pathlib import Path
+        import inspect
+        caller_frame = inspect.stack()[1]
+        caller_dir = Path(caller_frame.filename).parent
+        env_path = caller_dir / ".env"
+        if env_path.exists():
+            dotenv.load_dotenv(env_path)
     llm = ChatOpenAI(
         api_key=os.getenv("OPENAI_API_KEY"),
         base_url=os.getenv("DASHSCOPE_BASE_URL"),
@@ -175,7 +189,9 @@ def load_modelscope_model(model_name="D:/models/Qwen/Qwen3-0.6B"):
     return model, tokenizer
 
 # 使用 ModelScope 本地模型聊天
-def modelscope_chat(model, tokenizer, prompt='你好 /no_think', history=[], temperature=0.7, top_p=0.8):
+def modelscope_chat(model, tokenizer, prompt='你好 /no_think', history=[], temperature=0.7, top_p=0.8, print_show=1):
+    from threading import Thread
+    from transformers import TextIteratorStreamer
     messages = history + [{"role": "user", "content": prompt}]
     text = tokenizer.apply_chat_template(
         messages,
@@ -183,8 +199,25 @@ def modelscope_chat(model, tokenizer, prompt='你好 /no_think', history=[], tem
         add_generation_prompt=True
     )
     inputs = tokenizer(text, return_tensors="pt")
-    response_ids = model.generate(**inputs, max_new_tokens=32768, temperature=temperature, top_p=top_p, do_sample=True)[0][len(inputs.input_ids[0]):].tolist()
-    response = tokenizer.decode(response_ids, skip_special_tokens=True)
+    streamer = TextIteratorStreamer(tokenizer, skip_prompt=True, skip_special_tokens=True)
+    generation_kwargs = dict(
+        **inputs,
+        streamer=streamer,
+        max_new_tokens=32768,
+        temperature=temperature,
+        top_p=top_p,
+        do_sample=True,
+        repetition_penalty=1.2
+    )
+    thread = Thread(target=model.generate, kwargs=generation_kwargs)
+    thread.start()
+    response = ""
+    for new_text in streamer:
+        if print_show:
+            print(new_text, end="", flush=True)
+        response += new_text
+    if print_show:
+        print()
     new_history = history + [
         {"role": "user", "content": prompt},
         {"role": "assistant", "content": response}
@@ -204,14 +237,24 @@ def load_llama_model(model_path="D:/models/Qwen/Qwen3-0.6B-GGUF/Qwen3-0.6B-Q8_0.
     return llm
 
 # 使用 LLaMA 本地模型聊天
-def llama_chat(llm, prompt, history=[], temperature=0.7, top_p=0.8):
+def llama_chat(llm, prompt='你好 /no_think', history=[], temperature=0.7, top_p=0.8, print_show=1):
     new_history = history + [{"role": "user", "content": prompt}]
     llm_response = llm.create_chat_completion(
         messages=new_history,
         temperature=temperature,
         top_p=top_p,
         repeat_penalty=1.5,
+        stream=True,
     )
-    response = llm_response["choices"][0]["message"]["content"].strip()
+    response = ''
+    for chunk in llm_response:
+        delta = chunk['choices'][0]['delta']
+        if 'content' in delta:
+            token = delta['content']
+            response += token
+            if print_show:
+                print(token, end="", flush=True)
+    if print_show:
+        print()
     new_history.append({"role": "assistant", "content": response})
     return response, new_history
