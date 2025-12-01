@@ -2,6 +2,7 @@ LICENSE
 README.md
 pyproject.toml
 setup.cfg
+src/guan/AI_chat.py
 src/guan/Fourier_transform.py
 src/guan/Green_functions.py
 src/guan/Hamiltonian_of_examples.py

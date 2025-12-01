@@ -12,6 +12,7 @@ from .machine_learning import *
 from .file_reading_and_writing import *
 from .figure_plotting import *
 from .data_processing import *
+from .AI_chat import *
 from .decorators import *
 from .others import *
 statistics_of_guan_package()
