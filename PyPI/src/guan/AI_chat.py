@@ -1,6 +1,6 @@
 # Module: AI_chat
 
-# AI 对话
+# AI 对话（当前默认模型为 'hunyuan-lite'，无记忆）
 def chat(prompt='你好', model=1, stream=1, stream_label=0):
     import requests
     url = "http://api.guanjihuan.com/chat"
@@ -27,7 +27,7 @@ def chat(prompt='你好', model=1, stream=1, stream_label=0):
             print('\n--- End Chat Stream Message ---\n')
     return response
 
-# 加上函数代码的 AI 对话
+# 加上函数代码的 AI 对话（当前默认模型为 'hunyuan-lite'，无记忆）
 def chat_with_function_code(function_name, prompt='', model=1, stream=1):
     import guan
     function_source = guan.get_source(function_name)
@@ -37,7 +37,7 @@ def chat_with_function_code(function_name, prompt='', model=1, stream=1):
         response = guan.chat(prompt=function_source+'\n\n'+prompt, model=model, stream=stream)
     return response
 
-# 机器人自动对话
+# 机器人自动对话（当前默认模型为 'hunyuan-lite'，无记忆）
 def auto_chat(prompt='你好', round=2, model=1, stream=1):
     import guan
     response0 = prompt
@@ -48,7 +48,7 @@ def auto_chat(prompt='你好', round=2, model=1, stream=1):
         print('机器人 2: ')
         response0 = guan.chat(prompt=response1, model=model, stream=stream)
 
-# 机器人自动对话（引导对话）
+# 机器人自动对话（引导对话）（当前默认模型为 'hunyuan-lite'，无记忆）
 def auto_chat_with_guide(prompt='你好', guide_message='（回答字数少于30个字，最后反问我一个问题）', round=5, model=1, stream=1):
     import guan
     response0 = prompt
@@ -59,8 +59,8 @@ def auto_chat_with_guide(prompt='你好', guide_message='（回答字数少于30
         print('机器人 2: ')
         response0 = guan.chat(prompt=response1+guide_message, model=model, stream=stream)
 
-# 使用 LangChain 无记忆对话（需要 API Key)
-def langchain_chat_without_memory(prompt="你好", temperature=0.7, system_message=None, print_show=1, load_env=1):
+# 通过 LangChain 加载模型（需要 API Key)
+def load_langchain_model(model="qwen-plus", temperature=0.7, load_env=1):
     from langchain_openai import ChatOpenAI
     from langchain_core.prompts import ChatPromptTemplate
     import os
@@ -76,7 +76,30 @@ def langchain_chat_without_memory(prompt="你好", temperature=0.7, system_messa
     llm = ChatOpenAI(
         api_key=os.getenv("OPENAI_API_KEY"),
         base_url=os.getenv("DASHSCOPE_BASE_URL"),
-        model="qwen-plus",
+        model=model,
+        temperature=temperature,
+        streaming=True,
+    )
+    return llm
+
+# 使用 LangChain 无记忆对话（需要 API Key)
+def langchain_chat_without_memory(prompt="你好", model="qwen-plus", temperature=0.7, system_message=None, print_show=1, load_env=1):
+    from langchain_openai import ChatOpenAI
+    from langchain_core.prompts import ChatPromptTemplate
+    import os
+    if load_env:
+        import dotenv
+        from pathlib import Path
+        import inspect
+        caller_frame = inspect.stack()[1]
+        caller_dir = Path(caller_frame.filename).parent
+        env_path = caller_dir / ".env"
+        if env_path.exists():
+            dotenv.load_dotenv(env_path)
+    llm = ChatOpenAI(
+        api_key=os.getenv("OPENAI_API_KEY"),
+        base_url=os.getenv("DASHSCOPE_BASE_URL"),
+        model=model,
         temperature=temperature,
         streaming=True,
     )
@@ -100,7 +123,7 @@ def langchain_chat_without_memory(prompt="你好", temperature=0.7, system_messa
     return response
 
 # 使用 LangChain 有记忆对话（记忆临时保存在函数的属性上，需要 API Key)
-def langchain_chat_with_memory(prompt="你好", temperature=0.7, system_message=None, session_id="default", print_show=1, load_env=1):
+def langchain_chat_with_memory(prompt="你好", model="qwen-plus", temperature=0.7, system_message=None, session_id="default", print_show=1, load_env=1):
     from langchain_openai import ChatOpenAI
     from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
     from langchain_core.runnables.history import RunnableWithMessageHistory
@@ -118,7 +141,7 @@ def langchain_chat_with_memory(prompt="你好", temperature=0.7, system_message=
     llm = ChatOpenAI(
         api_key=os.getenv("OPENAI_API_KEY"),
         base_url=os.getenv("DASHSCOPE_BASE_URL"),
-        model="qwen-plus",
+        model=model,
         temperature=temperature,
         streaming=True,
     )
