@@ -59,6 +59,44 @@ def auto_chat_with_guide(prompt='你好', guide_message='（回答字数少于30
         print('机器人 2: ')
         response0 = guan.chat(prompt=response1+guide_message, model=model, stream=stream)
 
+# 使用 OpenAI 框架对话（需要 API Key)
+def openai_chat(prompt="你好", model="qwen-plus", temperature=0.7, system_message=None, history=[], print_show=1, load_env=1):
+    import os
+    from openai import OpenAI
+    if load_env:
+        import dotenv
+        from pathlib import Path
+        import inspect
+        caller_frame = inspect.stack()[1]
+        caller_dir = Path(caller_frame.filename).parent
+        env_path = caller_dir / ".env"
+        if env_path.exists():
+            dotenv.load_dotenv(env_path)
+    client = OpenAI(
+        api_key=os.getenv("OPENAI_API_KEY"),
+        base_url=os.getenv("DASHSCOPE_BASE_URL"),
+    )
+    if system_message == None:
+        messages = history+[{"role": "user", "content": prompt}]
+    else:
+        messages = [{"role": "system", "content": system_message}]+history+[{"role": "user", "content": prompt}]
+    completion = client.chat.completions.create(
+            model=model,
+            messages=messages,
+            temperature=temperature,
+            stream=True,
+        )
+    response = ''
+    for chunk in completion:
+        response += chunk.choices[0].delta.content
+        if print_show:
+            print(chunk.choices[0].delta.content, end="", flush=True)
+    if print_show:
+        print()
+    history.append({"role": "user", "content": prompt})
+    history.append({"role": "assistant", "content": response})
+    return response, history
+
 # 通过 LangChain 加载模型（需要 API Key)
 def load_langchain_model(model="qwen-plus", temperature=0.7, load_env=1):
     from langchain_openai import ChatOpenAI
@@ -204,14 +242,14 @@ def ollama_chat(prompt='你好/no_think', model="qwen3:0.6b", temperature=0.8, p
         print()
     return response
 
-# ModelScope 加载本地模型和分词器（只加载一次）
+# ModelScope 加载本地模型和分词器（只加载一次，需要有模型文件）
 def load_modelscope_model(model_name="D:/models/Qwen/Qwen3-0.6B"):
     from modelscope import AutoModelForCausalLM, AutoTokenizer
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForCausalLM.from_pretrained(model_name)
     return model, tokenizer
 
-# 使用 ModelScope 本地模型聊天
+# 使用 ModelScope 本地模型聊天（需要有模型文件）
 def modelscope_chat(model, tokenizer, prompt='你好 /no_think', history=[], temperature=0.7, top_p=0.8, print_show=1):
     from threading import Thread
     from transformers import TextIteratorStreamer
@@ -241,13 +279,13 @@ def modelscope_chat(model, tokenizer, prompt='你好 /no_think', history=[], tem
         response += new_text
     if print_show:
         print()
-    new_history = history + [
+    history += [
         {"role": "user", "content": prompt},
         {"role": "assistant", "content": response}
     ]
-    return response, new_history
+    return response, history
 
-# LLaMA 加载本地模型（只加载一次）
+# LLaMA 加载本地模型（只加载一次，需要有模型文件）
 def load_llama_model(model_path="D:/models/Qwen/Qwen3-0.6B-GGUF/Qwen3-0.6B-Q8_0.gguf"):
     from llama_cpp import Llama
     llm = Llama(
@@ -259,11 +297,11 @@ def load_llama_model(model_path="D:/models/Qwen/Qwen3-0.6B-GGUF/Qwen3-0.6B-Q8_0.
     )
     return llm
 
-# 使用 LLaMA 本地模型聊天
+# 使用 LLaMA 本地模型聊天（需要有模型文件）
 def llama_chat(llm, prompt='你好 /no_think', history=[], temperature=0.7, top_p=0.8, print_show=1):
-    new_history = history + [{"role": "user", "content": prompt}]
+    history += [{"role": "user", "content": prompt}]
     llm_response = llm.create_chat_completion(
-        messages=new_history,
+        messages=history,
         temperature=temperature,
         top_p=top_p,
         repeat_penalty=1.5,
@@ -279,5 +317,5 @@ def llama_chat(llm, prompt='你好 /no_think', history=[], temperature=0.7, top_
                 print(token, end="", flush=True)
     if print_show:
         print()
-    new_history.append({"role": "assistant", "content": response})
-    return response, new_history
+    history.append({"role": "assistant", "content": response})
+    return response, history
