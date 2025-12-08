@@ -83,24 +83,25 @@ def loop_calculation_with_three_parameters(function_name, parameter_array_1, par
 # 文本对比
 def word_diff(a, b, print_show=1):
     import difflib
-    import re
-    import guan
-    a_words = guan.divide_text_into_words(a)
-    b_words = guan.divide_text_into_words(b)
+    import jieba
+    import logging
+    jieba.setLogLevel(logging.ERROR)
+    a_words = jieba.lcut(a)
+    b_words = jieba.lcut(b)
     sm = difflib.SequenceMatcher(None, a_words, b_words)
     result = []
     for tag, i1, i2, j1, j2 in sm.get_opcodes():
         if tag == "equal":
             result.extend(a_words[i1:i2])
         elif tag == "delete":
-            result.append("\033[91m" + " ".join(a_words[i1:i2]) + "\033[0m")
+            result.append("\033[9;91m" + "".join(a_words[i1:i2]) + "\033[0m")
         elif tag == "insert":
-            result.append("\033[92m" + " ".join(b_words[j1:j2]) + "\033[0m")
+            result.append("\033[92m" + "".join(b_words[j1:j2]) + "\033[0m")
         elif tag == "replace":
-            result.append("\033[91m" + " ".join(a_words[i1:i2]) + "\033[0m")
-            result.append("\033[92m" + " ".join(b_words[j1:j2]) + "\033[0m")
-    diff_result = " ".join(result)
-    diff_result = re.sub(r' +', ' ', diff_result)
+            result.append("\033[9;91m" + "".join(a_words[i1:i2]) + "\033[0m")
+            result.append(" ")
+            result.append("\033[92m" + "".join(b_words[j1:j2]) + "\033[0m")
+    diff_result = "".join(result)
     if print_show:
         print(diff_result)
     return diff_result
@@ -109,33 +110,34 @@ def word_diff(a, b, print_show=1):
 def word_diff_to_html(a, b, filename='diff_result', write_file=1):
     import difflib
     from html import escape
-    import re
-    import guan
-    a_words = guan.divide_text_into_words(a)
-    b_words = guan.divide_text_into_words(b)
+    import jieba
+    import logging
+    jieba.setLogLevel(logging.ERROR)
+    a_words = jieba.lcut(a)
+    b_words = jieba.lcut(b)
     sm = difflib.SequenceMatcher(None, a_words, b_words)
     html_parts = []
     for tag, i1, i2, j1, j2 in sm.get_opcodes():
         if tag == "equal":
-            html_parts.append(" ".join(map(escape, a_words[i1:i2])))
+            html_parts.append("".join(map(escape, a_words[i1:i2])))
         elif tag == "delete":
-            html_parts.append(f"<span style='background:#e74c3c;color:white;padding:1px 2px;border-radius:2px'>"
-                        + " ".join(map(escape, a_words[i1:i2]))
+            html_parts.append(f"<span style='background:#e74c3c;color:white;padding:1px 2px;border-radius:2px;text-decoration:line-through;'>"
+                        + "".join(map(escape, a_words[i1:i2]))
                         + "</span>")
         elif tag == "insert":
-            html_parts.append(f"<span style='background:#2ecc71;color:white;padding:1px 2px;border-radius:2px'>"
-                        + " ".join(map(escape, b_words[j1:j2]))
+            html_parts.append(f"<span style='background:#2ecc71;color:white;padding:1px 2px;border-radius:2px;'>"
+                        + "".join(map(escape, b_words[j1:j2]))
                         + "</span>")
         elif tag == "replace":
-            html_parts.append(f"<span style='background:#e74c3c;color:white;padding:1px 2px;border-radius:2px'>"
-                        + " ".join(map(escape, a_words[i1:i2]))
+            html_parts.append(f"<span style='background:#e74c3c;color:white;padding:1px 2px;border-radius:2px;text-decoration:line-through;'>"
+                        + "".join(map(escape, a_words[i1:i2]))
                         + "</span>")
-            html_parts.append(f"<span style='background:#2ecc71;color:white;padding:1px 2px;border-radius:2px'>"
-                        + " ".join(map(escape, b_words[j1:j2]))
+            html_parts.append(" ")
+            html_parts.append(f"<span style='background:#2ecc71;color:white;padding:1px 2px;border-radius:2px;'>"
+                        + "".join(map(escape, b_words[j1:j2]))
                         + "</span>")
-    diff_result = " ".join(html_parts)
+    diff_result = "".join(html_parts)
     diff_result = diff_result.replace("\n", "<br>")
-    diff_result = re.sub(r' +', ' ', diff_result)
     if write_file:
         with open(filename+'.html', 'w', encoding='UTF-8') as f:
             f.write(diff_result)
