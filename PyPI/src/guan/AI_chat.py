@@ -218,6 +218,125 @@ def langchain_chat_with_memory(prompt="你好", model="qwen-plus", temperature=0
         print()
     return response
 
+# 使用 LangChain 调用工具对话（需要 API Key)
+def langchain_chat_with_tools(prompt="你好", model="qwen-plus", temperature=0.7, system_message=None, tools=None, print_show=1, load_env=1):
+    import guan
+    if tools==None:
+        response = guan.langchain_chat_without_memory(prompt=prompt, model=model, temperature=temperature, system_message=system_message, print_show=print_show, load_env=load_env)
+    else:
+        import os
+        from langchain_openai import ChatOpenAI
+        from langchain_core.prompts import ChatPromptTemplate
+        from langchain.agents import create_openai_tools_agent, AgentExecutor
+        if load_env:
+            import dotenv
+            from pathlib import Path
+            import inspect
+            caller_frame = inspect.stack()[1]
+            caller_dir = Path(caller_frame.filename).parent
+            env_path = caller_dir / ".env"
+            if env_path.exists():
+                dotenv.load_dotenv(env_path)
+        llm = ChatOpenAI(
+            api_key=os.getenv("OPENAI_API_KEY"),
+            base_url=os.getenv("DASHSCOPE_BASE_URL"),
+            model=model,
+            temperature=temperature,
+            streaming=False,
+        )
+        if system_message == None:
+            prompt_template = ChatPromptTemplate.from_messages([
+            ("human", "{input_message}"),
+            ("placeholder", "{agent_scratchpad}"),
+        ])
+        else:
+            prompt_template = ChatPromptTemplate.from_messages([
+                ("system", system_message),
+                ("human", "{input_message}"),
+                ("placeholder", "{agent_scratchpad}"),
+            ])
+        agent = create_openai_tools_agent(llm, tools, prompt_template)
+        agent_executor = AgentExecutor(
+            agent=agent,
+            tools=tools,
+            verbose=bool(print_show),
+            handle_parsing_errors=True,
+        )
+        response_result = agent_executor.invoke({"input_message": prompt})
+        response = response_result["output"]
+        if print_show:
+            print('\n'+response)
+    return response
+
+# 使用 LangChain 调用工具有记忆对话（记忆临时保存在函数的属性上，需要 API Key)
+def langchain_chat_with_tools_and_memory(prompt="你好", model="qwen-plus", temperature=0.7, system_message=None, tools=None, session_id="default", print_show=1, load_env=1):
+    import guan
+    if tools==None:
+        response = guan.langchain_chat_with_memory(prompt=prompt, model=model, temperature=temperature, system_message=system_message, session_id=session_id, print_show=print_show, load_env=load_env)
+    else:
+        import os
+        from langchain_openai import ChatOpenAI
+        from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+        from langchain_core.runnables.history import RunnableWithMessageHistory
+        from langchain_community.chat_message_histories import ChatMessageHistory
+        from langchain.agents import create_openai_tools_agent, AgentExecutor
+        if load_env:
+            import dotenv
+            from pathlib import Path
+            import inspect
+            caller_frame = inspect.stack()[1]
+            caller_dir = Path(caller_frame.filename).parent
+            env_path = caller_dir / ".env"
+            if env_path.exists():
+                dotenv.load_dotenv(env_path)
+        llm = ChatOpenAI(
+            api_key=os.getenv("OPENAI_API_KEY"),
+            base_url=os.getenv("DASHSCOPE_BASE_URL"),
+            model=model,
+            temperature=temperature,
+            streaming=False,
+        )
+        if system_message == None:
+            prompt_template = ChatPromptTemplate.from_messages([
+            MessagesPlaceholder("history"),
+            ("human", "{input_message}"),
+            ("placeholder", "{agent_scratchpad}"),
+        ])
+        else:
+            prompt_template = ChatPromptTemplate.from_messages([
+                ("system", system_message),
+                MessagesPlaceholder("history"),
+                ("human", "{input_message}"),
+                ("placeholder", "{agent_scratchpad}"),
+            ])
+        
+        if not hasattr(langchain_chat_with_tools_and_memory, "store"):
+            langchain_chat_with_tools_and_memory.store = {}
+        
+        def get_session_history(sid: str):
+            if sid not in langchain_chat_with_tools_and_memory.store:
+                langchain_chat_with_tools_and_memory.store[sid] = ChatMessageHistory()
+            return langchain_chat_with_tools_and_memory.store[sid]
+        
+        agent = create_openai_tools_agent(llm, tools, prompt_template)
+        agent_executor = AgentExecutor(
+            agent=agent,
+            tools=tools,
+            verbose=bool(print_show),
+            handle_parsing_errors=True,
+        )
+        agent_with_chat_history = RunnableWithMessageHistory(
+            agent_executor,
+            get_session_history,
+            input_messages_key="input_message",
+            history_messages_key="history",
+        )
+        response_result = agent_with_chat_history.invoke({"input_message": prompt}, config={"configurable": {"session_id": session_id}})
+        response = response_result["output"]
+        if print_show:
+            print('\n'+response)
+    return response
+
 # 使用 Ollama 本地模型对话（需要运行 Ollama 和下载对应的模型）
 def ollama_chat(prompt='你好/no_think', model="qwen3:0.6b", temperature=0.8, print_show=1):
     import ollama
