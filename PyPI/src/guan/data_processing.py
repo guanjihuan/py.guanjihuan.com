@@ -88,7 +88,7 @@ def word_diff(a, b, print_show=1):
     jieba.setLogLevel(logging.ERROR)
     a_words = jieba.lcut(a)
     b_words = jieba.lcut(b)
-    sm = difflib.SequenceMatcher(None, a_words, b_words)
+    sm = difflib.SequenceMatcher(None, a_words, b_words, autojunk=False)
     result = []
     for tag, i1, i2, j1, j2 in sm.get_opcodes():
         if tag == "equal":
@@ -115,7 +115,7 @@ def word_diff_to_html(a, b, filename='diff_result', write_file=1):
     jieba.setLogLevel(logging.ERROR)
     a_words = jieba.lcut(a)
     b_words = jieba.lcut(b)
-    sm = difflib.SequenceMatcher(None, a_words, b_words)
+    sm = difflib.SequenceMatcher(None, a_words, b_words, autojunk=False)
     html_parts = []
     for tag, i1, i2, j1, j2 in sm.get_opcodes():
         if tag == "equal":
