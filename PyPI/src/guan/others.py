@@ -770,7 +770,7 @@ def creat_qrcode(data="https://www.guanjihuan.com", filename='a', file_format='.
     img = qrcode.make(data)
     img.save(filename+file_format)
 
-# 通过Sci-Hub网站下载文献
+# 通过Sci-Hub网站下载文献（该方法可能失效）
 def download_with_scihub(address=None, num=1):
     from bs4 import BeautifulSoup
     import re

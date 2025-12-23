@@ -337,6 +337,14 @@ def run_programs_sequentially(program_files=['./a.py', './b.py'], execute='pytho
         end = time.time()
         print('Total running time = '+str((end-start)/60)+' min')
 
+# 根据 “.” 和 “。” 符号进行分句
+def split_text_into_sentences(text):
+    import re
+    pattern = r'(?<=[。])|(?<=\.)(?=\s|$)'
+    sentences = re.split(pattern, text)
+    sentence_array = [s.strip() for s in sentences if s.strip()]
+    return sentence_array
+
 # 根据一定的字符长度来分割文本
 def split_text(text, width=100):  
     split_text_list = [text[i:i+width] for i in range(0, len(text), width)]
