@@ -231,6 +231,42 @@ def standard_deviation_with_formula(data_array):
     std_result = np.sqrt(averaged_squared_data-averaged_data**2)
     return std_result
 
+# 使用公式计算皮尔逊相关系数
+def calculate_pearson_correlation(x_array, y_array):
+    import numpy as np
+    mean_x = np.mean(x_array)
+    mean_y = np.mean(y_array)
+    numerator = np.sum((x_array - mean_x) * (y_array - mean_y))
+    sum_sq_x = np.sum((x_array - mean_x) ** 2)
+    sum_sq_y = np.sum((y_array - mean_y) ** 2)
+    denominator = np.sqrt(sum_sq_x * sum_sq_y)
+    correlation = numerator / denominator
+    return correlation
+
+# 使用 scipy 计算皮尔逊相关系数和 p 值
+def calculate_pearson_correlation_with_scipy(x_array, y_array):
+    import scipy.stats
+    correlation, p_value = scipy.stats.pearsonr(x_array, y_array)
+    return correlation, p_value
+
+# 使用 scipy 计算多个数组的皮尔逊相关系数和 p 值的矩阵
+def calculate_correlation_matrix_for_multiple_arrays(multiple_arrays):
+    import scipy.stats
+    import numpy as np
+    num_arrays = len(multiple_arrays)
+    correlation_matrix = np.zeros((num_arrays, num_arrays))
+    p_value_matrix = np.zeros((num_arrays, num_arrays))
+    row_idx = 0
+    for array_1 in multiple_arrays:
+        col_idx = 0
+        for array_2 in multiple_arrays:
+            correlation, p_value = scipy.stats.pearsonr(array_1, array_2)
+            correlation_matrix[row_idx, col_idx] = correlation
+            p_value_matrix[row_idx, col_idx] = p_value
+            col_idx += 1
+        row_idx += 1
+    return correlation_matrix, p_value_matrix
+
 # 获取两个模式之间的字符串
 def get_string_between_two_patterns(original_string, start, end, include_start_and_end=0):
     import re
