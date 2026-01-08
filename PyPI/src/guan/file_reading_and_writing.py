@@ -471,7 +471,7 @@ def open_file(filename='a', file_format='.txt', mode='add'):
         f = open(filename+file_format, 'w', encoding='UTF-8')
     return f
 
-# 打印到TXT文件
+# 打印到TXT文件（补充内容）
 def print_to_file(*args, filename='print_result', file_format='.txt', print_on=True):
     if print_on==True:
         for arg in args:
@@ -483,7 +483,12 @@ def print_to_file(*args, filename='print_result', file_format='.txt', print_on=T
     f.write('\n')
     f.close()
 
-# 读取文本文件内容。如果文件不存在，返回空字符串
+# 写入到文本文件（覆盖内容）
+def write_text_file(content, filename='a', file_format='.txt'):
+    with open(filename+file_format, 'w', encoding='UTF-8') as f:
+        f.write(content)
+
+# 读取文本文件内容（如果文件不存在，返回空字符串）
 def read_text_file(file_path='./a.txt', make_file=None):
     import os
     if not os.path.exists(file_path):

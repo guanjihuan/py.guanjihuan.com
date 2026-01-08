@@ -28,6 +28,17 @@ def combine_two_pdf_files(input_file_1='a.pdf', input_file_2='b.pdf', output_fil
     with open(output_file, 'wb') as combined_file:
         output_pdf.write(combined_file)
 
+# 使用pdfplumber将PDF文件转成文本
+def pdf_to_text_with_pdfplumber(pdf_path):
+    import pdfplumber
+    with pdfplumber.open(pdf_path) as pdf:
+        all_text = []
+        for page in pdf.pages:
+            text = page.extract_text()
+            all_text.append(text)
+        content = "\n\n".join(all_text)
+        return content
+
 # 使用pdfminer3k将PDF文件转成文本
 def pdf_to_text_with_pdfminer3k(pdf_path):
     from pdfminer.pdfparser import PDFParser, PDFDocument
