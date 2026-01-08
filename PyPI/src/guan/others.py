@@ -39,7 +39,7 @@ def pdf_to_text_with_pdfplumber(pdf_path):
         content = "\n\n".join(all_text)
         return content
 
-# 使用pdfminer3k将PDF文件转成文本
+# 使用pdfminer3k将PDF文件转成文本（仅仅支持旧版本的 pdfminer3k）
 def pdf_to_text_with_pdfminer3k(pdf_path):
     from pdfminer.pdfparser import PDFParser, PDFDocument
     from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
