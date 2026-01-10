@@ -126,6 +126,29 @@ def get_links_from_pdf(pdf_path, link_starting_form=''):
                                 old = u['/A']['/URI']
     return links
 
+# 将某个文件夹中的某个类型的文本文件全部修改为另外一个编码，其他文件不变
+def convert_file_encoding_for_one_directory(source_directory, target_directory, file_formats=['.m'], src_encoding='utf-8', dst_encoding='gb18030'):
+    import os
+    import shutil
+    os.makedirs(target_directory, exist_ok=True)
+    for root, dirs, files in os.walk(source_directory):
+        rel_path = os.path.relpath(root, source_directory) 
+        target_subdir = os.path.join(target_directory, rel_path) if rel_path != '.' else target_directory
+        os.makedirs(target_subdir, exist_ok=True)
+        for file in files:
+            src_file = os.path.join(root, file)
+            dst_file = os.path.join(target_subdir, file)
+            if any(file.lower().endswith(ext.lower()) for ext in file_formats):
+                try:
+                    with open(src_file, 'r', encoding=src_encoding) as f:
+                        content = f.read()
+                    with open(dst_file, 'w', encoding=dst_encoding) as f:
+                        f.write(content)
+                except Exception as e:
+                    shutil.copy2(src_file, dst_file)
+            else:
+                shutil.copy2(src_file, dst_file)
+
 # 获取当前日期字符串
 def get_date(bar=True):
     import datetime

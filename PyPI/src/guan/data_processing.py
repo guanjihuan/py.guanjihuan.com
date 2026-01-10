@@ -11,6 +11,16 @@ def logging_with_day_and_time(content='', filename='time_logging', file_format='
        else:
            f2.write(datetime_today+' '+datetime_time+' '+str(content)+'\n')
 
+# 获取当前位置的 Unix 时间戳，并打印某段程序的运行时间
+def record_time_and_print_running_time(start_time=None):
+    import time
+    current_time = time.time()
+    if start_time == None:
+      print("\n--- 开始计时（第一个记录点）---\n")
+    else:
+      print(f"\n--- 自上一个记录点已运行: {current_time - start_time:.2f} 秒 ---\n")
+    return current_time
+
 # 使用该函数运行某个函数并获取函数计算时间（秒）
 def timer(function_name, *args, **kwargs):
     import time
