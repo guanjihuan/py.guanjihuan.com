@@ -85,6 +85,7 @@ def openai_chat(prompt="你好", model="qwen-plus", temperature=0.7, system_mess
             messages=messages,
             temperature=temperature,
             stream=True,
+            extra_body={"enable_thinking": False},
         )
     response = ''
     for chunk in completion:
@@ -100,7 +101,6 @@ def openai_chat(prompt="你好", model="qwen-plus", temperature=0.7, system_mess
 # 通过 LangChain 加载模型（需要 API Key)
 def load_langchain_model(model="qwen-plus", temperature=0.7, load_env=1):
     from langchain_openai import ChatOpenAI
-    from langchain_core.prompts import ChatPromptTemplate
     import os
     if load_env:
         import dotenv
