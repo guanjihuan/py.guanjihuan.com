@@ -15,4 +15,5 @@ from .data_processing import *
 from .AI_chat import *
 from .decorators import *
 from .others import *
+from .deprecated import *
 statistics_of_guan_package()

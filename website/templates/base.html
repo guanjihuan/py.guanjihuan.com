@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="{{lang}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{title}}</title>
+<meta name="description" content="{{description}}">
+<meta name="color-scheme" content="light dark">
+<link rel="alternate" hreflang="zh-CN" href="{{alt_zh}}">
+<link rel="alternate" hreflang="en" href="{{alt_en}}">
+<link rel="alternate" hreflang="x-default" href="{{alt_default}}">
+<link rel="canonical" href="{{canonical}}">
+<link rel="icon" type="image/jpeg" href="static/icon.jpg">
+<link rel="apple-touch-icon" href="static/icon.jpg">
+<link rel="stylesheet" href="static/style.css">
+<script>
+  // 恢复用户上次选的主题（尽早执行，避免刷新时闪一下白屏）
+  try {
+    var t = localStorage.getItem("guan-theme");
+    if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+  } catch (e) {}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">{{skip_link}}</a>
+<header class="site-head">
+  <div class="wrap head-inner">
+    <a class="brand" href="index.html">
+      <img class="brand-mark" src="static/icon.jpg" alt="" width="28" height="28">
+      <span class="brand-text">{{package_name}}</span>
+      <span class="brand-version">v{{version}}</span>
+    </a>
+    <nav class="site-nav" id="site-nav">
+      {{nav_items}}
+    </nav>
+    <div class="head-actions">
+      <a class="lang-switch" id="lang-switch" href="{{lang_switch}}" hreflang="{{lang_switch_hreflang}}"
+         title="{{lang_switch_title}}" aria-label="{{lang_switch_aria}}">{{lang_switch_label}}</a>
+      <button class="icon-btn theme-toggle" id="theme-toggle" type="button"
+              aria-label="{{theme_label}}" title="{{theme_label}}">
+        <span class="icon-moon" aria-hidden="true">☾</span>
+        <span class="icon-sun" aria-hidden="true">☀</span>
+      </button>
+    </div>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="{{menu_label}}">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+{{content}}
+</main>
+
+<footer class="site-foot">
+  <div class="wrap foot-inner">
+    <div>
+      <p class="foot-meta">{{foot_meta}}</p>
+    </div>
+    <nav class="foot-nav">
+      {{foot_nav_items}}
+    </nav>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" type="button" aria-label="{{to_top_label}}" title="{{to_top_label}}">↑</button>
+
+<script>window.SITE_I18N = {{site_i18n}};</script>
+<script src="static/site.js"></script>
+{{extra_js}}
+</body>
+</html>

@@ -6,11 +6,15 @@ The primary location of this package is on https://py.guanjihuan.com.
 
 ## Installation
 
+```bash
 pip install --upgrade guan
+```
 
 ## Usage
 
+```python
 import guan
+```
 
 ## Summary of API Reference
 
@@ -43,3 +47,22 @@ There is no official paper related to this package temporarily, but you can cite
 + Ji-Huan Guan, Wen-Kai Lou, and Kai Chang, Topological hidden phase transition in honeycomb bilayers with a high Chern number, Phys. Rev. B 110, 165303 (2024).
 + Ji-Huan Guan, Yan-Yang Zhang, Si-Si Wang, Yan Yu, Yang Xia and Shu-Shen Li, Barrier Tunneling and Loop Polarization in Hopf Semimetals. Phys. Rev. B 102, 064203 (2020).
 + Ji-Huan Guan, Yan-Yang Zhang, Wei-Er Lu, Yang Xia and Shu-Shen Li, Barrier tunneling of the loop-nodal semimetal in the hyperhoneycomb lattice. J. Phys.: Condens. Matter 30, 185402 (2018).
+
+## Website
+
+The website (https://py.guanjihuan.com) is generated from the source code in `PyPI/src/guan` by static parsing, so it always matches the source code. It hosts the home page, the module list, the data tables, the full API reference, the about page, the installation page and `api.json`.
+
+
+Build the distribution:
+
+```bash
+python -m build --outdir dist --no-isolation PyPI
+```
+
+Build the website:
+
+```bash
+python website/build_site.py -o dist/site
+```
+
+The build also checks the generated pages for broken links and reports source files that fail to parse. Pass `--strict` to make it exit with a non-zero status when something is wrong, which is handy in CI.
