@@ -60,6 +60,9 @@ TUTORIALS_CANDIDATES = (
     PYPI_DIR / "tutorials",
 )
 
+# 首页文件名。首页在地址栏里显示成目录（/ 与 /en/），不带 index.html
+HOME_FILENAME = "index.html"
+
 
 def e(text: object) -> str:
     """HTML 转义。"""
@@ -223,9 +226,19 @@ def lang_url(lang: str, filename: str, from_lang: str) -> str:
     """另一种语言里同一个页面的相对路径（相对于当前页面）。
 
     中文页面在根目录，英文页面在 en/ 子目录，所以两个方向要分别处理。
+    首页用目录地址表示（/ 与 /en/），不带 index.html。
     """
     target_dir = i18n.LANG_DIRS[lang]
     current_dir = i18n.LANG_DIRS[from_lang]
+    if filename == HOME_FILENAME:
+        # 首页指向目录本身，而不是 index.html
+        if target_dir == current_dir:
+            return "./"
+        if not target_dir:
+            return "../"
+        if not current_dir:
+            return target_dir + "/"
+        return "../" + target_dir + "/"
     if target_dir == current_dir:
         return filename
     if not target_dir:
@@ -241,26 +254,21 @@ def lang_dir(output: Path, lang: str) -> Path:
     return output / directory if directory else output
 
 
-def absolute_url(base: str, path: str) -> str:
-    """把站点内的相对路径拼成绝对地址。
+def absolute_page_url(base: str, lang: str, filename: str) -> str:
+    """页面的绝对地址（canonical 与 hreflang 用）。
 
-    base 是站点根地址（如 https://py.guanjihuan.com），path 是页面里的相对路径
-    （如 "api.html" 或 "../api.html"）。搜索引擎要求 hreflang 与 canonical
-    用绝对地址，所以这里把 ".." 之类的片段解析掉再拼。
-    不知道根地址时原样返回，页面至少还能用相对地址互相跳转。
+    首页用目录地址表示：/ 与 /en/，不带 index.html；
+    其余页面是 /api.html 这种带后缀的地址。
+    不知道站点根地址时退回到相对地址，页面至少还能互相跳转。
     """
+    directory = i18n.LANG_DIRS[lang]
+    if filename == HOME_FILENAME:
+        if not base:
+            return "./"
+        return base + "/" + (directory + "/" if directory else "")
     if not base:
-        return path
-    parts: list[str] = []
-    for segment in path.split("/"):
-        if segment in ("", "."):
-            continue
-        if segment == "..":
-            if parts:
-                parts.pop()
-            continue
-        parts.append(segment)
-    return base + "/" + "/".join(parts)
+        return filename
+    return base + "/" + "/".join(part for part in (directory, filename) if part)
 
 
 def site_base_url(package: dict, override: str | None = None) -> str:
@@ -287,14 +295,27 @@ def _lang_context(data: dict, lang: str, pages: list[PageSpec]) -> dict:
 
 
 def nav_html(pages: list[PageSpec], active_key: str, t) -> str:
-    """生成导航条（顶栏与页脚共用）。"""
+    """生成导航条（顶栏与页脚共用）。
+
+    首页指向当前目录（./），也就是 / 与 /en/，不带 index.html。
+    """
     items = []
     for spec in pages:
         class_attr = "is-active" if spec.key == active_key else ""
+        href = home_href() if spec.key == "index" else spec.filename
         items.append(
-            f'<a href="{spec.filename}" class="{class_attr}">{e(t(spec.label_key))}</a>'
+            f'<a href="{href}" class="{class_attr}">{e(t(spec.label_key))}</a>'
         )
     return "\n      ".join(items)
+
+
+def home_href() -> str:
+    """首页链接（相对于当前页面所在的目录）。
+
+    页面都在自己语言的目录里（中文在根目录，英文在 en/），
+    所以 "./" 正好指向该语言的首页：/ 与 /en/。
+    """
+    return "./"
 
 
 def page(
@@ -345,11 +366,12 @@ def page(
         lang_switch_aria=t("switch_to_lang", lang=i18n.LANG_NAMES_FULL[other]),
         lang_switch_hreflang=i18n.HTML_LANG[other],
         # hreflang 与 canonical 用绝对地址——搜索引擎只认绝对的
-        alt_zh=absolute_url(site_url, lang_url("zh", filename, lang)),
-        alt_en=absolute_url(site_url, lang_url("en", filename, lang)),
+        alt_zh=absolute_page_url(site_url, "zh", filename),
+        alt_en=absolute_page_url(site_url, "en", filename),
         # x-default 指向默认语言（中文）的那一份
-        alt_default=absolute_url(site_url, lang_url(i18n.DEFAULT_LANG, filename, lang)),
-        canonical=absolute_url(site_url, lang_url(lang, filename, lang)),
+        alt_default=absolute_page_url(site_url, i18n.DEFAULT_LANG, filename),
+        canonical=absolute_page_url(site_url, lang, filename),
+        home_href=home_href(),
         skip_link=t("skip"),
         theme_label=t("theme_toggle"),
         menu_label=t("menu_open"),
@@ -962,6 +984,62 @@ def _find_local_file(name: str, base_dirs: list[Path]) -> Path | None:
     return None
 
 
+REDIRECT_TEMPLATE = """<!DOCTYPE html>
+<html lang="{lang}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, follow">
+<title>{title}</title>
+<meta http-equiv="refresh" content="0; url={target}">
+<link rel="canonical" href="{canonical}">
+<script>location.replace({target_js});</script>
+</head>
+<body>
+<p>{title}：<a href="{target}">{target}</a></p>
+</body>
+</html>
+"""
+
+
+def write_redirect_stubs(output: Path, pages: list[PageSpec], site_url: str) -> list[str]:
+    """给每个页面生成一个不带 .html 的入口。
+
+    访问 /about 时，服务器会去找 /about 这个目录里的 index.html，
+    找到的就是这里生成的重定向页，它会跳到 /about.html。
+    服务器上配了重定向规则（把 /about 直接 301 到 /about.html）时走不到这一层；
+    这里生成的文件是纯静态部署时的兜底。
+    """
+    written: list[str] = []
+    for lang in i18n.LANGS:
+        directory = lang_dir(output, lang)
+        for spec in pages:
+            if spec.filename == HOME_FILENAME:
+                continue  # 首页用目录地址（/ 与 /en/），不需要重定向
+            name = Path(spec.filename).stem
+            stub_dir = directory / name
+            stub_dir.mkdir(parents=True, exist_ok=True)
+            target = "../" + spec.filename
+            title = f"正在跳转到 {target}"
+            # 不知道站点根地址时，规范地址用相对地址（相对于这个重定向页）
+            canonical = (
+                absolute_page_url(site_url, lang, spec.filename) if site_url else target
+            )
+            stub = stub_dir / "index.html"
+            stub.write_text(
+                REDIRECT_TEMPLATE.format(
+                    lang=i18n.HTML_LANG[lang],
+                    title=e(title),
+                    target=e(target),
+                    canonical=e(canonical),
+                    target_js=json.dumps(target),
+                ),
+                encoding="utf-8",
+            )
+            written.append(stub.relative_to(output).as_posix())
+    return written
+
+
 def clean_output(output: Path) -> None:
     """清空输出目录，只留下本次要生成的东西。
 
@@ -1175,6 +1253,9 @@ def generate(
         base_dirs.append(Path(tutorials_dir).parent)
     copied, missing = copy_local_assets(output, base_dirs)
 
+    # 不带 .html 的入口：/about 也能访问，会跳到 /about.html
+    stubs = write_redirect_stubs(output, pages, site_url)
+
     errors = [m for m in modules if m.error]
     problems = verify_output(output)
     if not quiet:
@@ -1205,6 +1286,8 @@ def generate(
             print(f"  （共 {len(problems)} 处链接问题）")
         if copied:
             print(f"  已复制 {len(copied)} 个本地资源：{', '.join(sorted(set(copied)))}")
+        if stubs:
+            print(f"  已生成 {len(stubs)} 个不带 .html 的入口（跳转到对应的 .html 页面）")
 
     # 供调用方判断构建是否干净
     data["problems"] = problems

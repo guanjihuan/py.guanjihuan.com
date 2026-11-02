@@ -101,6 +101,10 @@ for page in HTML_PAGES:
     rel = page.relative_to(SITE).as_posix()
     text = page.read_text(encoding="utf-8")
 
+    # 重定向页（不带 .html 的入口）只有一个跳转，不需要完整的页面结构
+    if 'http-equiv="refresh"' in text:
+        continue
+
     # doctype
     if not text.lstrip().lower().startswith("<!doctype html"):
         report("结构", rel, "缺少 <!DOCTYPE html>")

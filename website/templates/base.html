@@ -22,12 +22,23 @@
     else document.documentElement.setAttribute("data-theme", "dark");
   } catch (e) {}
 </script>
+<script>
+  // 首页统一用不带 index.html 的地址（/ 与 /en/）。
+  // 服务器配了重定向规则时用不上这里，只是没配服务器时的兜底。
+  (function () {
+    var suffix = "/index.html";
+    var path = location.pathname;
+    if (path.slice(-suffix.length) === suffix) {
+      location.replace(path.slice(0, path.length - "index.html".length));
+    }
+  })();
+</script>
 </head>
 <body>
 <a class="skip" href="#main">{{skip_link}}</a>
 <header class="site-head">
   <div class="wrap head-inner">
-    <a class="brand" href="index.html">
+    <a class="brand" href="{{home_href}}">
       <img class="brand-mark" src="static/icon.jpg" alt="" width="28" height="28">
       <span class="brand-text">{{package_name}}</span>
       <span class="brand-version">v{{version}}</span>

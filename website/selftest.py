@@ -658,12 +658,35 @@ def check_i18n(data: dict, output: Path) -> None:
     check(">Modules<" in en_index, "英文页面有对应的英文标题")
 
     print("\n语言切换")
-    check('href="en/index.html"' in zh_index, "中文页面链到英文页面")
-    check('href="../index.html"' in en_index, "英文页面链回中文页面")
+    check('href="en/"' in zh_index, "中文页面链到英文页面")
+    check('href="../"' in en_index, "英文页面链回中文页面")
     zh_api = (output / "api.html").read_text(encoding="utf-8")
     en_api = (output / "en" / "api.html").read_text(encoding="utf-8")
     check('href="en/api.html"' in zh_api, "API 页也能切到另一种语言")
     check('href="../api.html"' in en_api, "英文 API 页能切回中文")
+
+    print("\n地址里不带 index.html")
+    zh_canonical = re.search(r'canonical" href="([^"]*)"', zh_index)
+    en_canonical = re.search(r'canonical" href="([^"]*)"', en_index)
+    check(
+        bool(zh_canonical) and not zh_canonical.group(1).endswith("index.html"),
+        "中文首页的规范地址不带 index.html",
+    )
+    check(
+        bool(en_canonical) and not en_canonical.group(1).endswith("index.html"),
+        "英文首页的规范地址不带 index.html",
+    )
+    check('href="./" class="is-active"' in zh_index, "首页链接指向目录")
+    stub = output / "about" / "index.html"
+    check(stub.exists(), "生成了不带 .html 的入口（/about）")
+    if stub.exists():
+        stub_text = stub.read_text(encoding="utf-8")
+        check("../about.html" in stub_text, "入口跳到对应的 .html 页面")
+        stub_canonical = re.search(r'canonical" href="([^"]*)"', stub_text)
+        check(
+            bool(stub_canonical) and stub_canonical.group(1).endswith("about.html"),
+            "入口的规范地址指向 .html 页面",
+        )
 
     print("\n文件内容保持原样")
     # README、源码里的说明不翻译：两种语言的页面里都应当原样出现
