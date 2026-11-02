@@ -54,7 +54,7 @@
   }
 
   /* ==========================================================================
-     主题切换：默认跟随系统，用户点一次就固定下来
+     主题切换：默认暗色，用户点一次就固定下来
      ========================================================================== */
 
   (function theme() {
@@ -64,7 +64,7 @@
     function current() {
       var explicit = root.getAttribute("data-theme");
       if (explicit === "light" || explicit === "dark") return explicit;
-      return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      return "dark";
     }
 
     function apply(mode) {

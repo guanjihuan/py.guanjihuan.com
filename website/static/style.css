@@ -1,32 +1,33 @@
 /* ==========================================================================
    GUAN 软件包官网 —— 样式表
    设计要点：
-     * 浅色 / 深色两套配色，跟随系统，也可手动切换（html[data-theme]）
+     * 深色 / 浅色两套配色：默认深色，浅色需手动切换（html[data-theme="light"]）
      * 版心宽屏铺满，两侧留白随视口伸缩
      * 所有可交互元素都有明显的悬停与键盘焦点态
    ========================================================================== */
 
 :root {
-  color-scheme: light;
-  --bg: #f5f7f8;
-  --bg-grad: radial-gradient(1200px 600px at 15% -10%, #eaf2ee 0%, transparent 60%),
-             radial-gradient(900px 500px at 95% 0%, #eef1f7 0%, transparent 55%);
-  --panel: #ffffff;
-  --panel-2: #fafbfc;
-  --border: #e3e7ea;
-  --border-strong: #cfd6db;
-  --text: #16191d;
-  --text-soft: #3c434b;
-  --muted: #69727c;
-  --accent: #2f6f4f;
-  --on-accent: #ffffff;
-  --accent-hover: #265c41;
-  --accent-soft: #e7f1eb;
-  --accent-line: #bcd8c9;
-  --warn: #9a5518;
-  --warn-soft: #fdf0e2;
-  --code-bg: #f1f4f6;
-  --code-head: #e9edf0;
+  /* 默认暗色：浅色需要用户显式切换（html[data-theme="light"]） */
+  color-scheme: dark;
+  --bg: #101315;
+  --bg-grad: radial-gradient(1200px 600px at 15% -10%, #16241d 0%, transparent 60%),
+             radial-gradient(900px 500px at 95% 0%, #17202b 0%, transparent 55%);
+  --panel: #191d21;
+  --panel-2: #1e2327;
+  --border: #2a3035;
+  --border-strong: #394147;
+  --text: #e7eaec;
+  --text-soft: #c3cad0;
+  --muted: #98a1ab;
+  --accent: #7fc9a3;
+  --on-accent: #0e1a14;
+  --accent-hover: #97d8b6;
+  --accent-soft: #1c2a23;
+  --accent-line: #35543f;
+  --warn: #e0a86a;
+  --warn-soft: #2d2318;
+  --code-bg: #1d2226;
+  --code-head: #23282d;
   /* ---- 字号阶梯：全站统一，字号只从这里取值 ---- */
   --fs-2xs: .75rem;       /* 12 徽标 / 键盘提示 */
   --fs-xs: .8125rem;      /* 13 小标签 / 次要说明 */
@@ -63,64 +64,36 @@
     "SF Mono", Menlo, Consolas, "JetBrains Mono", "Sarasa Mono SC",
     "Noto Sans Mono CJK SC", "Source Code Pro", "Liberation Mono", monospace;
   --wrap-max: 1680px;
-  --shadow: 0 1px 2px rgba(16, 24, 40, .05), 0 8px 24px rgba(16, 24, 40, .06);
-  --shadow-lg: 0 2px 6px rgba(16, 24, 40, .07), 0 18px 44px rgba(16, 24, 40, .10);
-  --focus: 0 0 0 3px color-mix(in srgb, var(--accent) 30%, transparent);
-}
-
-/* 深色配色：手动切换时优先，其次跟随系统 */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    color-scheme: dark;
-    --bg: #101315;
-    --bg-grad: radial-gradient(1200px 600px at 15% -10%, #16241d 0%, transparent 60%),
-               radial-gradient(900px 500px at 95% 0%, #17202b 0%, transparent 55%);
-    --panel: #191d21;
-    --panel-2: #1e2327;
-    --border: #2a3035;
-    --border-strong: #394147;
-    --text: #e7eaec;
-    --text-soft: #c3cad0;
-    --muted: #98a1ab;
-    --accent: #7fc9a3;
-    --on-accent: #0e1a14;
-    --accent-hover: #97d8b6;
-    --accent-soft: #1c2a23;
-    --accent-line: #35543f;
-    --warn: #e0a86a;
-    --warn-soft: #2d2318;
-    --code-bg: #1d2226;
-    --code-head: #23282d;
-    --shadow: 0 1px 2px rgba(0, 0, 0, .35), 0 8px 24px rgba(0, 0, 0, .30);
-    --shadow-lg: 0 2px 8px rgba(0, 0, 0, .40), 0 18px 44px rgba(0, 0, 0, .45);
-    --focus: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent);
-  }
-}
-
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  --bg: #101315;
-  --bg-grad: radial-gradient(1200px 600px at 15% -10%, #16241d 0%, transparent 60%),
-             radial-gradient(900px 500px at 95% 0%, #17202b 0%, transparent 55%);
-  --panel: #191d21;
-  --panel-2: #1e2327;
-  --border: #2a3035;
-  --border-strong: #394147;
-  --text: #e7eaec;
-  --text-soft: #c3cad0;
-  --muted: #98a1ab;
-  --accent: #7fc9a3;
-  --on-accent: #0e1a14;
-  --accent-hover: #97d8b6;
-  --accent-soft: #1c2a23;
-  --accent-line: #35543f;
-  --warn: #e0a86a;
-  --warn-soft: #2d2318;
-  --code-bg: #1d2226;
-  --code-head: #23282d;
   --shadow: 0 1px 2px rgba(0, 0, 0, .35), 0 8px 24px rgba(0, 0, 0, .30);
   --shadow-lg: 0 2px 8px rgba(0, 0, 0, .40), 0 18px 44px rgba(0, 0, 0, .45);
   --focus: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+/* 浅色配色：只有在 html[data-theme="light"] 时才启用（默认是上面的深色） */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f5f7f8;
+  --bg-grad: radial-gradient(1200px 600px at 15% -10%, #eaf2ee 0%, transparent 60%),
+             radial-gradient(900px 500px at 95% 0%, #eef1f7 0%, transparent 55%);
+  --panel: #ffffff;
+  --panel-2: #fafbfc;
+  --border: #e3e7ea;
+  --border-strong: #cfd6db;
+  --text: #16191d;
+  --text-soft: #3c434b;
+  --muted: #69727c;
+  --accent: #2f6f4f;
+  --on-accent: #ffffff;
+  --accent-hover: #265c41;
+  --accent-soft: #e7f1eb;
+  --accent-line: #bcd8c9;
+  --warn: #9a5518;
+  --warn-soft: #fdf0e2;
+  --code-bg: #f1f4f6;
+  --code-head: #e9edf0;
+  --shadow: 0 1px 2px rgba(16, 24, 40, .05), 0 8px 24px rgba(16, 24, 40, .06);
+  --shadow-lg: 0 2px 6px rgba(16, 24, 40, .07), 0 18px 44px rgba(16, 24, 40, .10);
+  --focus: 0 0 0 3px color-mix(in srgb, var(--accent) 30%, transparent);
 }
 
 * { box-sizing: border-box; }
@@ -268,14 +241,10 @@ p { text-wrap: pretty; }
 }
 .lang-switch:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
 
-/* 主题切换：三个状态用 data-theme 属性控制，图标由 JS 切换 */
+/* 主题切换：默认深色，浅色时显示月亮图标，图标由 CSS 跟随 data-theme */
 .theme-toggle .icon-sun { display: none; }
-:root[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
-:root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .theme-toggle .icon-sun { display: block; }
-  :root:not([data-theme="light"]) .theme-toggle .icon-moon { display: none; }
-}
+:root:not([data-theme="light"]) .theme-toggle .icon-sun { display: block; }
+:root:not([data-theme="light"]) .theme-toggle .icon-moon { display: none; }
 
 /* 窄屏的菜单按钮（宽屏隐藏） */
 .nav-toggle {

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{{title}}</title>
 <meta name="description" content="{{description}}">
-<meta name="color-scheme" content="light dark">
+<meta name="color-scheme" content="dark light">
 <link rel="alternate" hreflang="zh-CN" href="{{alt_zh}}">
 <link rel="alternate" hreflang="en" href="{{alt_en}}">
 <link rel="alternate" hreflang="x-default" href="{{alt_default}}">
@@ -13,11 +13,13 @@
 <link rel="icon" type="image/jpeg" href="static/icon.jpg">
 <link rel="apple-touch-icon" href="static/icon.jpg">
 <link rel="stylesheet" href="static/style.css">
+<script async src="https://stats.guanjihuan.com/tracker/tracker.min.js" data-site-id="site_5cc8c21419a998b9"></script>
 <script>
-  // 恢复用户上次选的主题（尽早执行，避免刷新时闪一下白屏）
+  // 恢复用户上次选的主题；没选过就是默认的暗色（尽早执行，避免刷新时闪一下白屏）
   try {
     var t = localStorage.getItem("guan-theme");
     if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+    else document.documentElement.setAttribute("data-theme", "dark");
   } catch (e) {}
 </script>
 </head>
