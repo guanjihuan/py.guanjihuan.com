@@ -76,7 +76,13 @@
   </div>
 </footer>
 
-<button class="to-top" id="to-top" type="button" aria-label="{{to_top_label}}" title="{{to_top_label}}">↑</button>
+<button class="to-top" id="to-top" type="button" aria-label="{{to_top_label}}" title="{{to_top_label}}">
+  <svg class="to-top-icon" viewBox="0 0 24 24" width="20" height="20" fill="none"
+       stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M12 19V5"></path>
+    <path d="M5 12l7-7 7 7"></path>
+  </svg>
+</button>
 
 <script>window.SITE_I18N = {{site_i18n}};</script>
 <script src="static/site.js"></script>

@@ -593,12 +593,19 @@ a { color: var(--accent); }
   background: var(--panel-2); border: 1px solid var(--border);
   border-radius: var(--radius);
   display: flex; flex-wrap: wrap; gap: .35rem .5rem;
+  min-width: 0;
 }
+/* 函数名可能很长（含下划线，没有天然断行点），
+   窄屏时要能在药丸里折行，否则会顶破卡片、把整页撑出横向滚动 */
+.module-index li { min-width: 0; max-width: 100%; }
 .module-index a {
+  display: block;
   font-family: var(--mono); font-size: var(--fs-xs); text-decoration: none;
   color: var(--text-soft); background: var(--panel);
   border: 1px solid var(--border); border-radius: 999px;
   padding: .1rem .55rem; transition: color .15s, border-color .15s, background .15s;
+  max-width: 100%;
+  overflow-wrap: anywhere; word-break: break-word;
 }
 .module-index a:hover {
   color: var(--accent); border-color: var(--accent-line); background: var(--accent-soft);
@@ -741,16 +748,25 @@ a { color: var(--accent); }
 
 .to-top {
   position: fixed; right: clamp(1rem, 3vw, 2rem); bottom: clamp(1rem, 3vw, 2rem);
-  width: 2.75rem; height: 2.75rem; z-index: 25;
+  width: 3rem; height: 3rem; z-index: 25;
   display: inline-flex; align-items: center; justify-content: center;
-  background: var(--panel); color: var(--muted);
-  border: 1px solid var(--border); border-radius: 50%;
-  box-shadow: var(--shadow); cursor: pointer;
-  opacity: 0; visibility: hidden; transform: translateY(8px);
-  transition: opacity .2s, transform .2s, visibility .2s, color .15s, border-color .15s;
+  background: var(--accent); color: var(--on-accent);
+  border: 1px solid transparent; border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .25), 0 10px 26px rgba(0, 0, 0, .30);
+  cursor: pointer;
+  opacity: 0; visibility: hidden; transform: translateY(10px) scale(.85);
+  transition: opacity .22s, transform .22s, visibility .22s,
+              background .15s, box-shadow .15s;
 }
 .to-top.is-visible { opacity: 1; visibility: visible; transform: none; }
-.to-top:hover { color: var(--accent); border-color: var(--accent); }
+.to-top:hover {
+  background: var(--accent-hover);
+  transform: translateY(-3px) scale(1.06);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .28), 0 14px 32px rgba(0, 0, 0, .34);
+}
+.to-top:active { transform: translateY(-1px) scale(.98); }
+.to-top:focus-visible { outline: 2px solid var(--text); outline-offset: 3px; }
+.to-top-icon { display: block; width: 1.15rem; height: 1.15rem; }
 
 /* ---------- 响应式 ---------- */
 
@@ -830,7 +846,7 @@ a { color: var(--accent); }
   .hero-links .btn { flex: 1 1 auto; text-align: center; }
   .page-head { padding-top: 1.6rem; }
   .foot-inner { flex-direction: column; gap: 1rem; }
-  .to-top { right: 1rem; bottom: 1rem; }
+  .to-top { right: 1rem; bottom: 1rem; width: 2.75rem; height: 2.75rem; }
 }
 
 @media (max-width: 420px) {
