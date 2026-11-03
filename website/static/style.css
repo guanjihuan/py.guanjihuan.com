@@ -28,6 +28,15 @@
   --warn-soft: #2d2318;
   --code-bg: #1d2226;
   --code-head: #23282d;
+  /* 代码高亮：构建时由 highlight.py 生成 tok-* 类，配色随主题切换 */
+  --tok-com: #6f7d8c;
+  --tok-str: #9ece6a;
+  --tok-num: #ff9e64;
+  --tok-kw: #bb9af7;
+  --tok-bi: #7aa2f7;
+  --tok-fn: #7aa2f7;
+  --tok-def: #2ac3de;
+  --tok-dec: #e0af68;
   /* ---- 字号阶梯：全站统一，字号只从这里取值 ---- */
   --fs-2xs: .75rem;       /* 12 徽标 / 键盘提示 */
   --fs-xs: .8125rem;      /* 13 小标签 / 次要说明 */
@@ -91,6 +100,15 @@
   --warn-soft: #fdf0e2;
   --code-bg: #f1f4f6;
   --code-head: #e9edf0;
+  /* 浅色主题下的代码高亮配色 */
+  --tok-com: #6a737d;
+  --tok-str: #0a7d55;
+  --tok-num: #b45309;
+  --tok-kw: #8250df;
+  --tok-bi: #0969da;
+  --tok-fn: #0969da;
+  --tok-def: #0550ae;
+  --tok-dec: #9a6700;
   --shadow: 0 1px 2px rgba(16, 24, 40, .05), 0 8px 24px rgba(16, 24, 40, .06);
   --shadow-lg: 0 2px 6px rgba(16, 24, 40, .07), 0 18px 44px rgba(16, 24, 40, .10);
   --focus: 0 0 0 3px color-mix(in srgb, var(--accent) 30%, transparent);
@@ -413,6 +431,16 @@ pre.code {
   tab-size: 4;
 }
 pre.code code { font-size: inherit; }
+
+/* 代码高亮：tok-* 由构建脚本在生成 HTML 时写入 */
+.tok-com { color: var(--tok-com); font-style: italic; }
+.tok-str { color: var(--tok-str); }
+.tok-num { color: var(--tok-num); }
+.tok-kw { color: var(--tok-kw); }
+.tok-bi { color: var(--tok-bi); }
+.tok-fn { color: var(--tok-fn); }
+.tok-def { color: var(--tok-def); font-weight: 600; }
+.tok-dec { color: var(--tok-dec); }
 
 .code-copy {
   position: absolute; top: .4rem; right: .4rem;

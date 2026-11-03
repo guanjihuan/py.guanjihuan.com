@@ -29,6 +29,7 @@
 
 from __future__ import annotations
 
+import html
 import json
 import re
 import shutil
@@ -52,6 +53,15 @@ def check(condition: bool, message: str) -> None:
     else:
         print(f"  FAIL {message}")
         FAILURES.append(message)
+
+
+def visible_text(page: str) -> str:
+    """页面上的可见文字。
+
+    代码高亮会在源码里插进 <span>，所以查代码内容要看文字，
+    不能直接对 HTML 做子串匹配。
+    """
+    return html.unescape(re.sub(r"<[^>]+>", "", page))
 
 
 # --------------------------------------------------------------------------
@@ -822,12 +832,12 @@ def check_tutorials(tmp: Path) -> None:
     )
 
     check((output / "tutorials.html").exists(), "有 tutorials/ 时生成教程页")
-    html = (output / "tutorials.html").read_text(encoding="utf-8")
-    check("一、日常场景" in html, "分组标题来自 README 的章节")
-    check("打个招呼" in html, "脚本标题与说明被收进来")
-    check("np.zeros(3)" in html, "脚本源码被收进来")
+    page = (output / "tutorials.html").read_text(encoding="utf-8")
+    check("一、日常场景" in page, "分组标题来自 README 的章节")
+    check("打个招呼" in page, "脚本标题与说明被收进来")
+    check("np.zeros(3)" in visible_text(page), "脚本源码被收进来")
     check(
-        "href=\"tutorials/daily_scenarios/01_hello.py\"" in html,
+        "href=\"tutorials/daily_scenarios/01_hello.py\"" in page,
         "页面给出脚本的下载地址",
     )
     check(

@@ -38,6 +38,7 @@ from typing import Callable
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import extract  # noqa: E402
+import highlight  # noqa: E402
 import i18n  # noqa: E402
 import md_render  # noqa: E402
 import tutorials  # noqa: E402
@@ -569,14 +570,14 @@ def _function_block(
 <article class="func" id="{e(anchor_id)}">
   {section_html}
   <h3><code class="func-name">{e(shown_name)}</code>{badges_html}</h3>
-  <p class="sig"><code>{e(function['signature'])}</code></p>
+  <p class="sig"><code class="language-python">{highlight.highlight_python(function['signature'])}</code></p>
   {f'<p class="desc">{e(function["description"])}</p>' if function["description"] else ""}
   {doc_html}
   {params_html}
   {calls_html}
   <details class="source">
     <summary>{e(t("view_source"))}</summary>
-    <pre class="code"><code>{e(function['source'])}</code></pre>
+    <pre class="code"><code class="language-python">{highlight.highlight_python(function['source'])}</code></pre>
   </details>
 </article>
 """
@@ -821,7 +822,7 @@ def _tutorial_card(item: dict, t) -> str:
   {description_html}
   <details class="source">
     <summary>{e(t("view_source"))}</summary>
-    <pre class="code"><code>{e(item['code'])}</code></pre>
+    <pre class="code"><code class="language-python">{highlight.highlight_python(item['code'])}</code></pre>
   </details>
   <p class="tut-links">
     <a href="{e(item['path'])}" download="{e(Path(item['path']).name)}"

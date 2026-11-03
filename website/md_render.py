@@ -19,6 +19,12 @@ from __future__ import annotations
 
 import html
 import re
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+import highlight  # noqa: E402
 
 # --------------------------------------------------------------------------
 # 行内
@@ -440,7 +446,7 @@ def _render(
                 code.append(lines[index])
                 index += 1
             class_attr = f' class="language-{html.escape(language)}"' if language else ""
-            body = html.escape("\n".join(code))
+            body = highlight.highlight("\n".join(code), language)
             out.append(f"<pre class=\"code\"><code{class_attr}>{body}</code></pre>")
             continue
 
